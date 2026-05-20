@@ -1,0 +1,57 @@
+name: Post YouTube Short
+
+on:
+  schedule:
+    - cron: '0 9 * * *'    # 10:00 AM BST (UK time)
+    - cron: '0 12 * * *'   # 1:00 PM BST
+    - cron: '30 15 * * *'  # 4:30 PM BST
+  workflow_dispatch:        # Manual trigger button in GitHub UI
+
+jobs:
+  post-video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache Whisper model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: whisper-tiny-v1
+
+      - name: Cache gameplay clips
+        uses: actions/cache@v4
+        with:
+          path: gameplay/
+          key: gameplay-clips-v2
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python packages
+        run: |
+          pip install --quiet groq edge-tts faster-whisper \
+            google-api-python-client google-auth-oauthlib \
+            python-dotenv yt-dlp
+
+      - name: Restore credentials
+        run: |
+          echo '${{ secrets.YOUTUBE_CLIENT_SECRETS }}' > client_secrets.json
+          echo '${{ secrets.YOUTUBE_TOKEN }}' > token.json
+          echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" > .env
+
+      - name: Create required folders
+        run: mkdir -p gameplay output audio
+
+      - name: Run pipeline
+        run: python main.py --count 1
