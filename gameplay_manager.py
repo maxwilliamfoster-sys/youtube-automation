@@ -47,11 +47,16 @@ def get_clip_width(clip_path: str) -> int:
 
 
 def filter_hd_clips(clips: List[str]) -> List[str]:
-    """Return only clips that meet the minimum resolution requirement."""
+    """Return only clips that meet the minimum resolution requirement.
+    If ffprobe fails to read a clip, include it anyway (assume it's valid)."""
     hd = []
     for clip in clips:
         width = get_clip_width(clip)
-        if width >= MIN_CLIP_WIDTH:
+        if width == 0:
+            # ffprobe couldn't read it — include it rather than skip it
+            print(f"[Gameplay] Could not check resolution, including: {os.path.basename(clip)}")
+            hd.append(clip)
+        elif width >= MIN_CLIP_WIDTH:
             hd.append(clip)
         else:
             print(f"[Gameplay] Skipping low-res clip ({width}px wide): {os.path.basename(clip)}")
