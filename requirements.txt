@@ -1,0 +1,7 @@
+groq
+edge-tts
+faster-whisper
+google-api-python-client
+google-auth-oauthlib
+python-dotenv
+yt-dlp
