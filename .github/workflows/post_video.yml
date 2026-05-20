@@ -45,10 +45,17 @@ jobs:
             python-dotenv yt-dlp
 
       - name: Restore credentials
+        env:
+          YOUTUBE_CLIENT_SECRETS: ${{ secrets.YOUTUBE_CLIENT_SECRETS }}
+          YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          echo '${{ secrets.YOUTUBE_CLIENT_SECRETS }}' > client_secrets.json
-          echo '${{ secrets.YOUTUBE_TOKEN }}' > token.json
-          echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" > .env
+          python3 -c "
+import os
+open('client_secrets.json','w',encoding='utf-8').write(os.environ['YOUTUBE_CLIENT_SECRETS'].lstrip('﻿'))
+open('token.json','w',encoding='utf-8').write(os.environ['YOUTUBE_TOKEN'].lstrip('﻿'))
+"
+          echo "GROQ_API_KEY=${GROQ_API_KEY}" > .env
 
       - name: Create required folders
         run: mkdir -p gameplay output audio
