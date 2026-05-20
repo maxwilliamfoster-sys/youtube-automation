@@ -159,8 +159,11 @@ def ensure_gameplay_clips(min_clips: int = 3) -> List[str]:
     return existing
 
 
+_last_clip_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".last_clip")
+
+
 def get_random_clip() -> str:
-    """Return a random 1080p+ gameplay clip path, downloading if needed."""
+    """Return a different 1080p+ gameplay clip each time, rotating through available clips."""
     clips = ensure_gameplay_clips()
 
     # Filter to only HD clips
@@ -173,7 +176,31 @@ def get_random_clip() -> str:
             f"  {GAMEPLAY_DIR}"
         )
 
-    chosen = random.choice(hd_clips)
+    # Sort for consistent ordering, then pick a different clip from last time
+    hd_clips = sorted(hd_clips)
+
+    last_clip = None
+    if os.path.exists(_last_clip_file):
+        try:
+            with open(_last_clip_file, "r") as f:
+                last_clip = f.read().strip()
+        except Exception:
+            pass
+
+    # Filter out the last used clip so we always rotate
+    available = [c for c in hd_clips if c != last_clip]
+    if not available:
+        available = hd_clips  # Only one clip available, use it anyway
+
+    chosen = random.choice(available)
+
+    # Save the chosen clip so next run picks a different one
+    try:
+        with open(_last_clip_file, "w") as f:
+            f.write(chosen)
+    except Exception:
+        pass
+
     print(f"[Gameplay] Using: {os.path.basename(chosen)}")
     return chosen
 
