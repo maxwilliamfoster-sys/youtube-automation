@@ -100,7 +100,7 @@ def build_filter_script(caption_segments: List[Dict], scale_crop: str) -> str:
             f"fontcolor={CAPTION_FONT_COLOR}:"
             f"borderw={CAPTION_STROKE_WIDTH}:"
             f"bordercolor={CAPTION_STROKE_COLOR}:"
-            f"x=(w-text_w)/2:"
+            f"x=max(20\\,(w-text_w)/2):"
             f"y={y_pos}:"
             f"enable='between(t,{start:.3f},{end:.3f})'"
         )

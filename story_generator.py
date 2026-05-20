@@ -115,6 +115,29 @@ def generate_story() -> dict:
 
     title = title_response.choices[0].message.content.strip().strip('"').strip("'")
 
+    # Proofread and fix the story — enforce consistent POV and coherence
+    proofread_response = client.chat.completions.create(
+        model=GROQ_MODEL,
+        max_tokens=700,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a proofreader for short horror stories. "
+                    "Fix the story so it: "
+                    "1) Uses ONLY first person (I/my/me) throughout — no switching to third person or second person mid-story. "
+                    "2) Makes complete logical sense from start to finish. "
+                    "3) Has no repeated sentences or contradictions. "
+                    "4) Flows naturally. "
+                    "Keep the same word count, tone and ending. Output ONLY the fixed story, nothing else."
+                ),
+            },
+            {"role": "user", "content": story_text},
+        ]
+    )
+    story_text = proofread_response.choices[0].message.content.strip()
+    print(f"[Story] Proofread complete")
+
     # Generate relevant hashtags for this specific story
     hashtag_response = client.chat.completions.create(
         model=GROQ_MODEL,
