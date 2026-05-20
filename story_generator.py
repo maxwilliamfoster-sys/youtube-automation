@@ -61,13 +61,17 @@ STORY_SYSTEM_PROMPT = f"""You are a master horror storyteller writing scripts fo
 Rules:
 - Write EXACTLY one complete story with a beginning, middle, and terrifying end
 - You MUST write between {STORY_WORD_COUNT - 10} and {STORY_WORD_COUNT + 10} words — count carefully, this is critical
-- Alternate between first person ("I") and second person ("You") — vary it each time
+- Write in first person ("I") throughout — stay consistent
 - NO headers, NO titles, NO quotation marks around the whole story, NO markdown
 - Make each story feel UNIQUE — different setting, tone, pacing and twist every time
 - Some stories should be slow and creepy, others fast and shocking — vary the style
 - End with a gut-punch twist or horrifying realization the reader never saw coming
-- Use short sentences for pacing. Like this. It builds dread.
-- The story should feel like a Reddit r/nosleep post — personal, believable, terrifying
+- VARY your sentence openings — NEVER start two sentences in a row with "I"
+- Use sentence starters like: "The", "That", "Something", "Nothing", "There", "My", "Every", "At", "Before", "After", "Suddenly", "Behind", "Down", "Outside", "From", "When", "What" etc.
+- Example good flow: "I opened the door. The hallway was empty. Something felt wrong. My hands started shaking."
+- Example bad flow: "I opened the door. I walked in. I heard a noise. I turned around." — NEVER do this
+- Use short punchy sentences for pacing — they build dread
+- The story should feel like a viral Reddit r/nosleep post — personal, believable, terrifying
 - NEVER start with "I was" or "It was" — open with something that immediately grabs attention
 - Output ONLY the story text, nothing else"""
 
@@ -125,10 +129,10 @@ def generate_story() -> dict:
                 "content": (
                     "You are a proofreader for short horror stories. "
                     "Fix the story so it: "
-                    "1) Uses ONLY first person (I/my/me) throughout — no switching to third person or second person mid-story. "
-                    "2) Makes complete logical sense from start to finish. "
-                    "3) Has no repeated sentences or contradictions. "
-                    "4) Flows naturally. "
+                    "1) Uses ONLY first person (I/my/me) throughout — no switching to third person or second person. "
+                    "2) NEVER starts two consecutive sentences with the word 'I' — rewrite any such sentences with varied openers like 'The', 'Something', 'My', 'There', 'That', 'Every', 'Suddenly', 'Nothing', 'Before', 'After' etc. "
+                    "3) Makes complete logical sense from start to finish with no contradictions. "
+                    "4) Flows naturally and keeps the reader hooked. "
                     "Keep the same word count, tone and ending. Output ONLY the fixed story, nothing else."
                 ),
             },
