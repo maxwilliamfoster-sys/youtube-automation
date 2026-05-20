@@ -2,10 +2,10 @@ name: Post YouTube Short
 
 on:
   schedule:
-    - cron: '0 9 * * *'    # 10:00 AM BST (UK time)
-    - cron: '0 12 * * *'   # 1:00 PM BST
-    - cron: '30 15 * * *'  # 4:30 PM BST
-  workflow_dispatch:        # Manual trigger button in GitHub UI
+    - cron: '0 9 * * *'
+    - cron: '0 12 * * *'
+    - cron: '30 15 * * *'
+  workflow_dispatch:
 
 jobs:
   post-video:
@@ -50,11 +50,8 @@ jobs:
           YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_TOKEN }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          python3 -c "
-import os
-open('client_secrets.json','w',encoding='utf-8').write(os.environ['YOUTUBE_CLIENT_SECRETS'].lstrip('﻿'))
-open('token.json','w',encoding='utf-8').write(os.environ['YOUTUBE_TOKEN'].lstrip('﻿'))
-"
+          python3 -c "import os; d=os.environ['YOUTUBE_CLIENT_SECRETS']; open('client_secrets.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
+          python3 -c "import os; d=os.environ['YOUTUBE_TOKEN']; open('token.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
           echo "GROQ_API_KEY=${GROQ_API_KEY}" > .env
 
       - name: Create required folders
