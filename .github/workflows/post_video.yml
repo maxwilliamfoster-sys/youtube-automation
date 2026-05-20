@@ -49,10 +49,12 @@ jobs:
           YOUTUBE_CLIENT_SECRETS: ${{ secrets.YOUTUBE_CLIENT_SECRETS }}
           YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_TOKEN }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
         run: |
           python3 -c "import os; d=os.environ['YOUTUBE_CLIENT_SECRETS']; open('client_secrets.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
           python3 -c "import os; d=os.environ['YOUTUBE_TOKEN']; open('token.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
           echo "GROQ_API_KEY=${GROQ_API_KEY}" > .env
+          echo "PEXELS_API_KEY=${PEXELS_API_KEY}" >> .env
 
       - name: Create required folders
         run: mkdir -p gameplay output audio

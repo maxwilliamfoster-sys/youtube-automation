@@ -1,7 +1,7 @@
 """
-Gameplay Manager — downloads Minecraft / Subway Surfers gameplay clips.
-Uses yt-dlp with the local FFmpeg install so video+audio merge correctly.
-Clips are stored in the gameplay/ folder and reused across videos.
+Gameplay Manager — downloads fresh background clips for every Short.
+On cloud (GitHub Actions): uses Pexels API for a brand new clip every run.
+On local PC: uses yt-dlp to download Minecraft/Subway Surfers clips.
 """
 
 import os
@@ -9,9 +9,27 @@ import random
 import subprocess
 import shutil
 import json
+import urllib.request
 from pathlib import Path
 from typing import List
 from config import GAMEPLAY_DIR
+
+# Pexels API — free, works on cloud servers, unique clip every time
+PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "")
+
+# Search terms that give great vertical background footage on Pexels
+PEXELS_SEARCHES = [
+    "satisfying",
+    "minecraft parkour",
+    "colorful satisfying",
+    "parkour free running",
+    "satisfying sand",
+    "subway city",
+    "gaming",
+    "satisfying slime",
+    "city walk",
+    "nature satisfying",
+]
 
 # FFmpeg location for yt-dlp merging — find dynamically so it works on Windows and Linux
 import shutil as _shutil
@@ -159,14 +177,91 @@ def ensure_gameplay_clips(min_clips: int = 3) -> List[str]:
     return existing
 
 
+def download_pexels_clip(output_path: str) -> bool:
+    """
+    Download a fresh random vertical video from Pexels API.
+    Returns True if successful. Requires PEXELS_API_KEY env var.
+    """
+    if not PEXELS_API_KEY:
+        return False
+
+    try:
+        search = random.choice(PEXELS_SEARCHES)
+        print(f"[Gameplay] Fetching fresh clip from Pexels: '{search}'...")
+
+        url = f"https://api.pexels.com/videos/search?query={urllib.parse.quote(search)}&orientation=portrait&size=large&per_page=20"
+        req = urllib.request.Request(url, headers={"Authorization": PEXELS_API_KEY})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read())
+
+        videos = data.get("videos", [])
+        if not videos:
+            print(f"[Gameplay] No Pexels results for '{search}'")
+            return False
+
+        # Pick a random video from results, prefer HD
+        random.shuffle(videos)
+        for video in videos:
+            files = video.get("video_files", [])
+            # Find best vertical file (portrait, HD preferred)
+            portrait_files = [
+                f for f in files
+                if f.get("width", 0) < f.get("height", 0)  # portrait = width < height
+                and f.get("height", 0) >= 1080
+                and f.get("file_type") == "video/mp4"
+            ]
+            if not portrait_files:
+                portrait_files = [
+                    f for f in files
+                    if f.get("width", 0) < f.get("height", 0)
+                    and f.get("file_type") == "video/mp4"
+                ]
+            if not portrait_files:
+                continue
+
+            # Pick highest quality portrait file
+            best = max(portrait_files, key=lambda f: f.get("height", 0))
+            video_url = best.get("link")
+            if not video_url:
+                continue
+
+            print(f"[Gameplay] Downloading from Pexels ({best.get('height')}p)...")
+            urllib.request.urlretrieve(video_url, output_path)
+            size_mb = os.path.getsize(output_path) / (1024*1024)
+            print(f"[Gameplay] Pexels clip downloaded ({size_mb:.0f} MB)")
+            return True
+
+        print("[Gameplay] No suitable portrait files found on Pexels")
+        return False
+
+    except Exception as e:
+        print(f"[Gameplay] Pexels download error: {e}")
+        return False
+
+
+import urllib.parse
+
 _last_clip_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".last_clip")
 
 
 def get_random_clip() -> str:
-    """Return a different 1080p+ gameplay clip each time, rotating through available clips."""
-    clips = ensure_gameplay_clips()
+    """
+    Return a gameplay clip for this Short.
 
-    # Filter to only HD clips
+    Priority:
+    1. Pexels API (if PEXELS_API_KEY is set) — downloads a fresh unique clip every run, then deletes it after use.
+    2. Local/repo clips — rotates through available clips so the same one isn't reused back-to-back.
+    """
+    # --- Pexels: fresh clip every run ---
+    if PEXELS_API_KEY:
+        os.makedirs(GAMEPLAY_DIR, exist_ok=True)
+        pexels_path = os.path.join(GAMEPLAY_DIR, f"_pexels_fresh_{os.getpid()}.mp4")
+        if download_pexels_clip(pexels_path):
+            print(f"[Gameplay] Using fresh Pexels clip")
+            return pexels_path  # caller uses it; we'll clean up after compose
+
+    # --- Fallback: rotate through local clips ---
+    clips = ensure_gameplay_clips()
     hd_clips = filter_hd_clips(clips)
 
     if not hd_clips:
@@ -176,7 +271,6 @@ def get_random_clip() -> str:
             f"  {GAMEPLAY_DIR}"
         )
 
-    # Sort for consistent ordering, then pick a different clip from last time
     hd_clips = sorted(hd_clips)
 
     last_clip = None
@@ -187,14 +281,12 @@ def get_random_clip() -> str:
         except Exception:
             pass
 
-    # Filter out the last used clip so we always rotate
     available = [c for c in hd_clips if c != last_clip]
     if not available:
-        available = hd_clips  # Only one clip available, use it anyway
+        available = hd_clips
 
     chosen = random.choice(available)
 
-    # Save the chosen clip so next run picks a different one
     try:
         with open(_last_clip_file, "w") as f:
             f.write(chosen)
@@ -203,6 +295,16 @@ def get_random_clip() -> str:
 
     print(f"[Gameplay] Using: {os.path.basename(chosen)}")
     return chosen
+
+
+def cleanup_pexels_clip(clip_path: str) -> None:
+    """Delete a temporary Pexels clip after the video has been composed."""
+    if "_pexels_fresh_" in os.path.basename(clip_path):
+        try:
+            os.remove(clip_path)
+            print(f"[Gameplay] Cleaned up temporary Pexels clip")
+        except Exception:
+            pass
 
 
 def add_custom_clip(source_path: str) -> str:
