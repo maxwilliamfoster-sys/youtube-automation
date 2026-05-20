@@ -34,12 +34,12 @@ VIDEO_HEIGHT = 1920   # 9:16 for YouTube Shorts
 VIDEO_FPS    = 30
 
 # ─── Caption Settings ─────────────────────────────────────────────────────────
-CAPTION_FONT_SIZE  = 72
+CAPTION_FONT_SIZE  = 65      # Slightly smaller to prevent long words overflowing 1080px width
 CAPTION_FONT_COLOR = "white"
 CAPTION_STROKE_COLOR = "black"
 CAPTION_STROKE_WIDTH = 3
 CAPTION_POSITION   = 0.52    # 52% down — centre of screen, above YouTube Shorts UI buttons
-WORDS_PER_CAPTION  = 4       # Words shown at once
+WORDS_PER_CAPTION  = 3       # 3 words per line — safer fit, less overflow risk
 
 # ─── Gameplay Sources ─────────────────────────────────────────────────────────
 # These are free-to-use gameplay URLs (Creative Commons / no copyright)
