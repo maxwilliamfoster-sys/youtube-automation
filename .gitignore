@@ -6,7 +6,10 @@ client_secrets.json
 # Large output folders
 output/
 audio/
-gameplay/
+
+# Gameplay — exclude large files, keep the small HD clips
+gameplay/vertical_test_0.mp4
+gameplay/vertical_test_1.mp4
 
 # Python cache
 __pycache__/
