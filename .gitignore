@@ -10,6 +10,9 @@ audio/
 # Gameplay — exclude large files, keep the small HD clips
 gameplay/vertical_test_0.mp4
 gameplay/vertical_test_1.mp4
+gameplay/subway_3.mp4
+gameplay/_pexels_fresh_*.mp4
+.last_clip
 
 # Python cache
 __pycache__/

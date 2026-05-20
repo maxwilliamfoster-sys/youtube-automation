@@ -25,7 +25,7 @@ from config import AUDIO_DIR, OUTPUT_DIR
 from story_generator import generate_story
 from tts_generator import generate_tts
 from caption_generator import get_captions
-from gameplay_manager import get_random_clip
+from gameplay_manager import get_random_clip, cleanup_pexels_clip
 from video_composer import compose_video
 from youtube_uploader import upload_short
 
@@ -79,13 +79,17 @@ def run_pipeline(upload: bool = True) -> dict:
 
     # --- Step 5: Compose Video ---
     print("--- STEP 5: Composing Video ---")
-    video_path = compose_video(
-        gameplay_path=gameplay_path,
-        audio_path=tts_result["audio_path"],
-        caption_segments=captions,
-        title=story_data["title"],
-        audio_duration=tts_result["duration"],
-    )
+    try:
+        video_path = compose_video(
+            gameplay_path=gameplay_path,
+            audio_path=tts_result["audio_path"],
+            caption_segments=captions,
+            title=story_data["title"],
+            audio_duration=tts_result["duration"],
+        )
+    finally:
+        # Delete the temporary Pexels clip now that FFmpeg has finished reading it
+        cleanup_pexels_clip(gameplay_path)
     results["video_path"] = video_path
     print()
 
