@@ -1,0 +1,66 @@
+name: Preview Video (No Upload)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache AI models (Whisper + Kokoro)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: huggingface-models-v2
+
+      - name: Cache gameplay clips
+        uses: actions/cache@v4
+        with:
+          path: gameplay/
+          key: gameplay-clips-v2
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python packages
+        run: |
+          pip install --quiet groq edge-tts faster-whisper kokoro-onnx soundfile numpy \
+            google-api-python-client google-auth-oauthlib \
+            python-dotenv yt-dlp huggingface_hub
+
+      - name: Restore credentials
+        env:
+          YOUTUBE_CLIENT_SECRETS: ${{ secrets.YOUTUBE_CLIENT_SECRETS }}
+          YOUTUBE_TOKEN: ${{ secrets.YOUTUBE_TOKEN }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: |
+          python3 -c "import os; d=os.environ['YOUTUBE_CLIENT_SECRETS']; open('client_secrets.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
+          python3 -c "import os; d=os.environ['YOUTUBE_TOKEN']; open('token.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
+          echo "GROQ_API_KEY=${GROQ_API_KEY}" > .env
+          echo "PEXELS_API_KEY=${PEXELS_API_KEY}" >> .env
+
+      - name: Create required folders
+        run: mkdir -p gameplay output audio
+
+      - name: Generate preview (no upload)
+        run: python main.py --count 1 --no-upload
+
+      - name: Upload preview video as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-video
+          path: output/*.mp4
+          retention-days: 1
