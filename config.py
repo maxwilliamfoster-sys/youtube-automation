@@ -23,10 +23,12 @@ TTS_VOICE = "en-GB-RyanNeural"              # Horror pipeline voice — British,
 TTS_RATE = "-12%"                            # Slightly slower = more dread
 TTS_PITCH = "-5Hz"                           # Slightly lower = more ominous
 
-# Documentary / True Crime voice — deeper, more gravitas
-TTS_DOCUMENTARY_VOICE = "en-US-GuyNeural"   # Documentary narrator feel
-TTS_DOCUMENTARY_RATE  = "-5%"               # Slightly slower = more deliberate
-# Alternatives: "en-GB-RyanNeural" (British, authoritative), "en-IE-ConnorNeural" (Irish, atmospheric)
+# Documentary / True Crime voice — Kokoro ONNX (natural, not robotic)
+# Install: pip install kokoro-onnx soundfile
+# Models auto-downloaded to kokoro_models/ on first run
+TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
+TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)
+# Good alternatives: "am_michael" (American deep), "am_adam" (American natural)
 
 # ─── Video Settings ───────────────────────────────────────────────────────────
 VIDEO_WIDTH  = 1080
@@ -64,7 +66,11 @@ Like & Subscribe for daily scary stories!
 """
 
 # ─── Documentary / AI Image Settings ────────────────────────────────────────
-POLLINATIONS_MODEL  = "flux"   # Best free model — FLUX via Pollinations
+# Pexels: free real stock photos — get free key at pexels.com/api (takes 30s)
+PEXELS_API_KEY      = os.getenv("PEXELS_API_KEY", "")
+
+# Pollinations AI fallback (used when Pexels key not set or returns no results)
+POLLINATIONS_MODEL  = "flux"
 POLLINATIONS_DELAY  = 16.0     # Seconds between requests (anonymous: 1 req/15s)
                                # Register free at auth.pollinations.ai → set to 6.0
 NUM_SCENE_IMAGES    = 5        # Atmospheric scenes per video
