@@ -28,6 +28,8 @@ from caption_generator import get_captions
 from gameplay_manager import get_random_clip, cleanup_pexels_clip
 from video_composer import compose_video
 from youtube_uploader import upload_short
+from tiktok_uploader import upload_to_tiktok
+from notify import notify_upload_success, notify_upload_failed
 
 # FFmpeg install path (fallback if not in PATH yet)
 FFMPEG_FALLBACK_DIR = r"C:\ffmpeg\ffmpeg-8.1.1-essentials_build\bin"
@@ -40,7 +42,7 @@ def _ensure_ffmpeg_in_path():
         os.environ["PATH"] = FFMPEG_FALLBACK_DIR + os.pathsep + os.environ.get("PATH", "")
 
 
-def run_pipeline(upload: bool = True) -> dict:
+def run_pipeline(upload: bool = True, tiktok: bool = False) -> dict:
     """Run the full automation pipeline once."""
 
     print("\n" + "="*60)
@@ -96,16 +98,36 @@ def run_pipeline(upload: bool = True) -> dict:
     # --- Step 6: Upload to YouTube ---
     if upload:
         print("--- STEP 6: Uploading to YouTube ---")
-        upload_result = upload_short(
-            video_path=video_path,
-            title=story_data["title"],
-            story_hashtags=story_data.get("hashtags", ""),
-        )
-        results["upload"] = upload_result
+        try:
+            upload_result = upload_short(
+                video_path=video_path,
+                title=story_data["title"],
+                story_hashtags=story_data.get("hashtags", ""),
+            )
+            results["upload"] = upload_result
+            # ── Notify ──────────────────────────────────────────────
+            notify_upload_success(
+                title=upload_result["title"],
+                url=upload_result["url"],
+                video_id=upload_result["video_id"],
+            )
+        except Exception as upload_err:
+            notify_upload_failed(title=story_data["title"], error=str(upload_err))
+            raise
         print()
     else:
         print("--- STEP 6: Upload Skipped (--no-upload) ---")
         print(f"  Video saved to: {video_path}\n")
+
+    # --- Optional Step 7: Upload to TikTok ---
+    if tiktok:
+        print("--- STEP 7: Uploading to TikTok ---")
+        upload_to_tiktok(
+            video_path=video_path,
+            title=story_data["title"],
+            story_hashtags=story_data.get("hashtags", ""),
+        )
+        print()
 
     print("="*60)
     print("  PIPELINE COMPLETE")
@@ -158,6 +180,8 @@ def main():
                         help="Number of videos to generate (default: 1)")
     parser.add_argument("--no-upload", action="store_true",
                         help="Generate video but skip YouTube upload")
+    parser.add_argument("--tiktok", action="store_true",
+                        help="Also upload to TikTok after YouTube")
     parser.add_argument("--skip-prereq-check", action="store_true",
                         help="Skip prerequisite checking")
     args = parser.parse_args()
@@ -167,6 +191,7 @@ def main():
             sys.exit(1)
 
     upload = not args.no_upload
+    tiktok = args.tiktok
     successful = 0
     failed = 0
 
@@ -177,7 +202,7 @@ def main():
             print(f"{'='*60}")
 
         try:
-            run_pipeline(upload=upload)
+            run_pipeline(upload=upload, tiktok=tiktok)
             successful += 1
         except KeyboardInterrupt:
             print("\nInterrupted by user.")
