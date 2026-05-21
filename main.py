@@ -167,7 +167,6 @@ def main():
             sys.exit(1)
 
     upload = not args.no_upload
-    tiktok = args.tiktok
     successful = 0
     failed = 0
 
@@ -178,7 +177,7 @@ def main():
             print(f"{'='*60}")
 
         try:
-            run_pipeline(upload=upload, tiktok=tiktok)
+            run_pipeline(upload=upload)
             successful += 1
         except KeyboardInterrupt:
             print("\nInterrupted by user.")
