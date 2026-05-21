@@ -19,14 +19,14 @@ GROQ_MODEL = "llama-3.3-70b-versatile"      # Free Llama 3.3 model via Groq
 
 # ─── TTS (Text-to-Speech) Settings ───────────────────────────────────────────
 # Free Microsoft Edge neural voices — great quality, no API key needed
-TTS_VOICE = "en-US-AndrewNeural"            # Natural, clear American male voice
-TTS_RATE = "+0%"                             # Natural speed (no distortion)
-TTS_PITCH = "+0Hz"                           # Natural pitch (no distortion)
+TTS_VOICE = "en-GB-RyanNeural"              # Horror pipeline voice — British, cinematic, eerie
+TTS_RATE = "-12%"                            # Slightly slower = more dread
+TTS_PITCH = "-5Hz"                           # Slightly lower = more ominous
 
-# Other good horror voices to try:
-# "en-GB-RyanNeural"       — British male, eerie
-# "en-US-GuyNeural"        — American male, dramatic
-# "en-IE-ConnorNeural"     — Irish male, atmospheric
+# Documentary / True Crime voice — deeper, more gravitas
+TTS_DOCUMENTARY_VOICE = "en-US-GuyNeural"   # Documentary narrator feel
+TTS_DOCUMENTARY_RATE  = "-5%"               # Slightly slower = more deliberate
+# Alternatives: "en-GB-RyanNeural" (British, authoritative), "en-IE-ConnorNeural" (Irish, atmospheric)
 
 # ─── Video Settings ───────────────────────────────────────────────────────────
 VIDEO_WIDTH  = 1080
@@ -63,11 +63,23 @@ YOUTUBE_DESCRIPTION_TEMPLATE = """#Shorts #Horror #ScaryStory #CreepyStory #Horr
 Like & Subscribe for daily scary stories!
 """
 
+# ─── Documentary / AI Image Settings ────────────────────────────────────────
+POLLINATIONS_MODEL  = "flux"   # Best free model — FLUX via Pollinations
+POLLINATIONS_DELAY  = 16.0     # Seconds between requests (anonymous: 1 req/15s)
+                               # Register free at auth.pollinations.ai → set to 6.0
+NUM_SCENE_IMAGES    = 5        # Atmospheric scenes per video
+SCENE_IMAGES_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scene_images")
+
+# ─── TikTok Upload Settings ──────────────────────────────────────────────────
+TIKTOK_HASHTAGS = "#horror #scarystory #horrortok #scarytok #fyp #foryou #creepy #horrorstory"
+TIKTOK_CAPTION_TEMPLATE = "{title}\n\n{hashtags} {story_hashtags}"
+
 # ─── Paths ────────────────────────────────────────────────────────────────────
 BASE_DIR        = os.path.dirname(os.path.abspath(__file__))
 GAMEPLAY_DIR    = os.path.join(BASE_DIR, "gameplay")
 OUTPUT_DIR      = os.path.join(BASE_DIR, "output")
 AUDIO_DIR       = os.path.join(BASE_DIR, "audio")
 ASSETS_DIR      = os.path.join(BASE_DIR, "assets")
-CREDENTIALS_FILE = os.path.join(BASE_DIR, "client_secrets.json")
-TOKEN_FILE       = os.path.join(BASE_DIR, "token.json")
+CREDENTIALS_FILE    = os.path.join(BASE_DIR, "client_secrets.json")
+TOKEN_FILE          = os.path.join(BASE_DIR, "token.json")
+TIKTOK_COOKIES_FILE = os.path.join(BASE_DIR, "tiktok_cookies.json")

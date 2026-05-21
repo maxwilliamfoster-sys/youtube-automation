@@ -19,17 +19,29 @@ PEXELS_API_KEY = os.getenv("PEXELS_API_KEY", "")
 
 # Search terms that give great vertical background footage on Pexels
 PEXELS_SEARCHES = [
-    "satisfying",
-    "minecraft parkour",
-    "colorful satisfying",
-    "parkour free running",
-    "satisfying sand",
-    "subway city",
-    "gaming",
-    "satisfying slime",
-    "city walk",
-    "nature satisfying",
+    "misty forest",
+    "rain window night",
+    "dark forest walk",
+    "abandoned building",
+    "night city rain",
+    "campfire dark",
+    "storm lightning",
+    "candle flame dark",
+    "foggy road",
+    "underwater dark",
+    "fire embers",
+    "old graveyard",
+    "snow blizzard",
+    "sunset dramatic",
+    "waterfall nature",
+    "mountain fog",
+    "ocean waves night",
+    "parkour rooftop",
+    "satisfying kinetic sand",
+    "city timelapse night",
 ]
+
+_last_search_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".last_search")
 
 # FFmpeg location for yt-dlp merging — find dynamically so it works on Windows and Linux
 import shutil as _shutil
@@ -186,7 +198,21 @@ def download_pexels_clip(output_path: str) -> bool:
         return False
 
     try:
-        search = random.choice(PEXELS_SEARCHES)
+        # Rotate search terms — never use the same one twice in a row
+        last_search = None
+        if os.path.exists(_last_search_file):
+            try:
+                with open(_last_search_file, "r") as f:
+                    last_search = f.read().strip()
+            except Exception:
+                pass
+        available_searches = [s for s in PEXELS_SEARCHES if s != last_search]
+        search = random.choice(available_searches if available_searches else PEXELS_SEARCHES)
+        try:
+            with open(_last_search_file, "w") as f:
+                f.write(search)
+        except Exception:
+            pass
         print(f"[Gameplay] Fetching fresh clip from Pexels: '{search}'...")
 
         url = f"https://api.pexels.com/videos/search?query={urllib.parse.quote(search)}&orientation=portrait&size=large&per_page=20"

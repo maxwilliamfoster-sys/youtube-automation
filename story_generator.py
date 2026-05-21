@@ -11,49 +11,53 @@ from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT
 
 HORROR_PROMPTS = [
     # Supernatural / paranormal
-    "Write a horror story about a person who discovers their reflection has been acting on its own.",
-    "Write a creepy story about a ghost that only appears in the background of photos.",
-    "Write a horror story about a Ouija board that starts responding before anyone touches it.",
-    "Write a terrifying story about a person who keeps waking up in a different room with no memory.",
-    "Write a chilling story about a figure that stands at the end of the bed every night.",
-    "Write a scary story about a cursed object bought at a garage sale.",
-    "Write a horror story about a town where everyone stops aging — except one person.",
-    "Write a creepy story about a person who realises their house has a room that shouldnt exist.",
+    "Write a horror story about a woman who notices her reflection has started moving half a second too late.",
+    "Write a creepy story about a man who keeps appearing in the background of strangers photos — always watching.",
+    "Write a horror story about a teenage boy whose Ouija board begins answering questions before anyone touches the planchette.",
+    "Write a terrifying story about a nurse who finds her patient in a different room each morning with no memory of moving.",
+    "Write a chilling story about a child who tells her parents about the tall figure that stands at the foot of her bed every night.",
+    "Write a scary story about an antique music box bought at an estate sale that plays a lullaby for a dead child.",
+    "Write a horror story about a small coastal town where everyone stopped aging thirty years ago — except one woman.",
+    "Write a creepy story about a man renovating his home who discovers a sealed room that isnt on any blueprint.",
+    "Write a horror story about a couple who rent a remote cottage and slowly realise the previous tenants never left.",
 
     # Technology / modern horror
-    "Write a horror story about a person who gets a text from their own number.",
-    "Write a scary story about a smart home device that starts speaking on its own.",
-    "Write a creepy story about a deepfake video of yourself doing things you never did.",
-    "Write a horror story about a person who finds their exact daily routine posted online by a stranger.",
-    "Write a terrifying story about a security camera that shows footage from the future.",
-    "Write a chilling story about an AI chatbot that knows things it should never know.",
+    "Write a horror story about a man who receives a voicemail from his own number — recorded three hours after his death.",
+    "Write a scary story about a woman whose smart home locks her inside and speaks in her dead mothers voice.",
+    "Write a creepy story about a software engineer who finds a deepfake video of himself committing a crime he has no memory of.",
+    "Write a horror story about a teenage girl who discovers a Reddit account documenting her daily routine for two years.",
+    "Write a terrifying story about a security guard who notices CCTV footage shows events that havent happened yet.",
+    "Write a chilling story about a grief counsellor whose AI therapy app reveals things only the deceased could have known.",
 
     # Psychological / slow burn
-    "Write a horror story where the narrator slowly realises they are the monster.",
-    "Write a creepy story about a person who starts noticing small things in their home being moved.",
-    "Write a terrifying story about a person who cant tell if they are dreaming or awake.",
-    "Write a horror story about someone who has been missing for years but doesnt know it.",
-    "Write a scary story about a support group where everyone shares the same nightmare.",
+    "Write a horror story about a detective investigating a series of murders who realises all the evidence points to himself.",
+    "Write a creepy story about a woman who notices her furniture has been moved by inches each night while she slept.",
+    "Write a terrifying story about a man who cannot tell whether the last six months of his life were real or a coma dream.",
+    "Write a horror story about a hiker found alive after eleven years missing — who has not aged a single day.",
+    "Write a scary story about a grief support group where every member shares the exact same recurring nightmare.",
+    "Write a horror story about a soldier who returns home only to find his family has no memory of him ever existing.",
 
     # Wilderness / isolation
-    "Write a horror story about a hiker who finds a campsite that shouldnt exist deep in the woods.",
-    "Write a creepy story about a lighthouse keeper who starts hearing voices in the fog.",
-    "Write a terrifying story about a family road trip where the GPS leads somewhere terrifying.",
-    "Write a scary story about a cabin in the woods where the previous guests never left.",
+    "Write a horror story about a trail runner who finds a fully set campsite deep in a forest — coffee still warm, no one around.",
+    "Write a creepy story about a lighthouse keeper who begins receiving Morse code from a ship that sank in 1943.",
+    "Write a terrifying story about a family whose GPS leads them off the highway onto a road that does not exist on any map.",
+    "Write a scary story about a research team in Antarctica who begin to suspect one of their colleagues is not human.",
+    "Write a horror story about a survivalist who sets cameras around his remote cabin and reviews footage each morning.",
 
     # Everyday life turned sinister
-    "Write a horror story about a babysitter who notices the children are not who they seem.",
-    "Write a chilling story about a doctor who realises their patient died days before the appointment.",
-    "Write a scary story about a person who keeps seeing the same stranger everywhere they go.",
-    "Write a creepy story about a neighbour who seems to know everything that happens inside your house.",
-    "Write a horror story about a job interview that turns into something deeply wrong.",
-    "Write a terrifying story about an elevator that opens on a floor that doesnt exist.",
+    "Write a horror story about a babysitter who realises the children she is watching are not the same children from the family photo.",
+    "Write a chilling story about a coroner who receives a body for autopsy and recognises it as someone he spoke to that morning.",
+    "Write a scary story about a woman who sees the same stranger on her commute every day — always in exactly the right place.",
+    "Write a creepy story about a plumber who discovers a fully furnished living space hidden behind the walls of a family home.",
+    "Write a horror story about a woman who arrives for a job interview only to find the company has no record of contacting her.",
+    "Write a terrifying story about a man who steps into an elevator on the 14th floor and the doors open on a floor that should not exist.",
 
     # Body horror / identity
-    "Write a horror story about a person who wakes up and something feels wrong with their body.",
-    "Write a creepy story about a person whose shadow does not match their movements.",
-    "Write a terrifying story about a person who starts finding teeth in unexpected places around their home.",
-    "Write a scary story about a person who discovers they have been sleepwalking somewhere horrifying.",
+    "Write a horror story about a surgeon who wakes from a coma to find unexplained surgical scars covering his body.",
+    "Write a creepy story about a woman whose shadow moves independently — always one step ahead of her.",
+    "Write a terrifying story about a man who finds his own teeth sealed in jars hidden throughout his house.",
+    "Write a scary story about a sleepwalker whose husband installs cameras and is horrified by where she goes each night.",
+    "Write a horror story about identical twins where one begins to suspect the other was replaced by something else years ago.",
 ]
 
 STORY_SYSTEM_PROMPT = f"""You are a master horror storyteller writing scripts for YouTube Shorts.
@@ -61,18 +65,20 @@ STORY_SYSTEM_PROMPT = f"""You are a master horror storyteller writing scripts fo
 Rules:
 - Write EXACTLY one complete story with a beginning, middle, and terrifying end
 - You MUST write between {STORY_WORD_COUNT - 10} and {STORY_WORD_COUNT + 10} words — count carefully, this is critical
-- Write in first person ("I") throughout — stay consistent
+- Write in THIRD PERSON ("he", "she", "they") throughout — NEVER use "I" or "we"
+- Give the main character a name — use it naturally throughout the story
 - NO headers, NO titles, NO quotation marks around the whole story, NO markdown
-- Make each story feel UNIQUE — different setting, tone, pacing and twist every time
+- Make each story feel UNIQUE — different setting, character, tone, pacing and twist every time
 - Some stories should be slow and creepy, others fast and shocking — vary the style
-- End with a gut-punch twist or horrifying realization the reader never saw coming
-- VARY your sentence openings — NEVER start two sentences in a row with "I"
-- Use sentence starters like: "The", "That", "Something", "Nothing", "There", "My", "Every", "At", "Before", "After", "Suddenly", "Behind", "Down", "Outside", "From", "When", "What" etc.
-- Example good flow: "I opened the door. The hallway was empty. Something felt wrong. My hands started shaking."
-- Example bad flow: "I opened the door. I walked in. I heard a noise. I turned around." — NEVER do this
+- End with a gut-punch twist or horrifying realisation the reader never saw coming
+- VARY your sentence openings — NEVER start two sentences in a row with the same word
+- NEVER open with the words "dark", "darkness", "shadow", "shadows", "the night" — be more creative and specific
+- NEVER open with cliches like "It was a stormy night" or "The town of X had always been strange"
+- Open with something immediate and specific — a sound, an action, a discovery, a detail that hooks instantly
+- Use sentence starters like: "The", "Something", "Nothing", "Every", "At", "Before", "Suddenly", "Behind", "Outside", "When", "What", "She", "He", "They", "Her", "His", "A" etc.
+- Example good opening: "The voicemail had no timestamp. Sarah played it twice before she understood the voice was her own."
 - Use short punchy sentences for pacing — they build dread
-- The story should feel like a viral Reddit r/nosleep post — personal, believable, terrifying
-- NEVER start with "I was" or "It was" — open with something that immediately grabs attention
+- The story should feel cinematic and gripping — like a thriller short film, not a diary entry
 - Output ONLY the story text, nothing else"""
 
 
@@ -129,10 +135,11 @@ def generate_story() -> dict:
                 "content": (
                     "You are a proofreader for short horror stories. "
                     "Fix the story so it: "
-                    "1) Uses ONLY first person (I/my/me) throughout — no switching to third person or second person. "
-                    "2) NEVER starts two consecutive sentences with the word 'I' — rewrite any such sentences with varied openers like 'The', 'Something', 'My', 'There', 'That', 'Every', 'Suddenly', 'Nothing', 'Before', 'After' etc. "
-                    "3) Makes complete logical sense from start to finish with no contradictions. "
-                    "4) Flows naturally and keeps the reader hooked. "
+                    "1) Uses ONLY third person (he/she/they/his/her/their) throughout — NEVER uses 'I', 'me', 'my', or 'we'. If any first-person slips exist, rewrite them in third person. "
+                    "2) NEVER starts two consecutive sentences with the same word — rewrite with varied openers like 'The', 'Something', 'She', 'He', 'Every', 'Suddenly', 'Nothing', 'Before', 'After', 'Outside', 'Behind' etc. "
+                    "3) NEVER starts with the words dark, darkness, shadow or shadows — rewrite the opening if it does. "
+                    "4) Makes complete logical sense from start to finish with no contradictions. "
+                    "5) Flows naturally and keeps the reader hooked. "
                     "Keep the same word count, tone and ending. Output ONLY the fixed story, nothing else."
                 ),
             },
