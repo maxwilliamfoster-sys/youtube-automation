@@ -159,15 +159,19 @@ def compose_video(
     # Build filter string and pass directly as -vf (subprocess list = no shell, no comma escaping)
     vf_filter = build_filter_script(caption_segments, scale_crop)
 
-    # Eerie ambient drone generated on-the-fly — three low sine waves + reverb
-    ambient = (
+    # Eerie ambient drone — three low sine waves mixed and reverbed in filter_complex
+    # NOTE: aevalsrc must be a plain source here; echo+volume go in filter_complex
+    ambient_src = (
         "aevalsrc="
         "0.12*sin(2*PI*38*t)+"
         "0.08*sin(2*PI*55*t)+"
         "0.05*sin(2*PI*82*t):"
-        "s=44100,"
-        "aecho=0.8:0.9:80:0.4,"
-        "volume=0.35"
+        "s=44100"
+    )
+    # Mix: TTS at full volume + ambient drone at 20% with reverb underneath
+    audio_filter = (
+        "[2:a]aecho=0.8:0.9:80:0.4,volume=0.3[amb];"
+        "[1:a][amb]amix=inputs=2:duration=first:weights=1 0.2[aout]"
     )
 
     cmd = [
@@ -175,8 +179,8 @@ def compose_video(
         "-ss", str(start_time),
         "-i", abs_gameplay,
         "-i", abs_audio,
-        "-f", "lavfi", "-i", ambient,
-        "-filter_complex", "[1:a][2:a]amix=inputs=2:duration=first:weights=1 0.18[aout]",
+        "-f", "lavfi", "-i", ambient_src,
+        "-filter_complex", audio_filter,
         "-vf", vf_filter,
         "-map", "0:v:0",
         "-map", "[aout]",

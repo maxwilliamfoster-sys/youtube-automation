@@ -1,7 +1,11 @@
 groq
 edge-tts
 faster-whisper
+kokoro-onnx
+soundfile
+numpy
 google-api-python-client
 google-auth-oauthlib
 python-dotenv
 yt-dlp
+huggingface_hub

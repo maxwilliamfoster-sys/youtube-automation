@@ -65,20 +65,19 @@ STORY_SYSTEM_PROMPT = f"""You are a master horror storyteller writing scripts fo
 Rules:
 - Write EXACTLY one complete story with a beginning, middle, and terrifying end
 - You MUST write between {STORY_WORD_COUNT - 10} and {STORY_WORD_COUNT + 10} words — count carefully, this is critical
-- Write in THIRD PERSON ("he", "she", "they") throughout — NEVER use "I" or "we"
-- Give the main character a name — use it naturally throughout the story
+- Write in FIRST PERSON ("I", "my", "me") throughout — stay consistent, never switch to third person
 - NO headers, NO titles, NO quotation marks around the whole story, NO markdown
-- Make each story feel UNIQUE — different setting, character, tone, pacing and twist every time
+- Make each story feel UNIQUE — different setting, tone, pacing and twist every time
 - Some stories should be slow and creepy, others fast and shocking — vary the style
 - End with a gut-punch twist or horrifying realisation the reader never saw coming
-- VARY your sentence openings — NEVER start two sentences in a row with the same word
-- NEVER open with the words "dark", "darkness", "shadow", "shadows", "the night" — be more creative and specific
-- NEVER open with cliches like "It was a stormy night" or "The town of X had always been strange"
-- Open with something immediate and specific — a sound, an action, a discovery, a detail that hooks instantly
-- Use sentence starters like: "The", "Something", "Nothing", "Every", "At", "Before", "Suddenly", "Behind", "Outside", "When", "What", "She", "He", "They", "Her", "His", "A" etc.
-- Example good opening: "The voicemail had no timestamp. Sarah played it twice before she understood the voice was her own."
+- VARY your sentence openings — NEVER start two consecutive sentences with "I"
+- NEVER open with the words "dark", "darkness", "shadow", "shadows" — be more creative and specific
+- NEVER open with cliches like "It was a stormy night" or "I was alone"
+- Open with something immediate and gripping — a sound, an action, a discovery that hooks instantly
+- Use sentence starters like: "The", "Something", "Nothing", "Every", "At", "Before", "Suddenly", "Behind", "Outside", "When", "My", "That", "There", "A" etc.
+- Example good opening: "The voicemail had no timestamp. I played it twice before I understood the voice was my own."
 - Use short punchy sentences for pacing — they build dread
-- The story should feel cinematic and gripping — like a thriller short film, not a diary entry
+- The story should feel like a viral Reddit r/nosleep post — personal, believable, terrifying
 - Output ONLY the story text, nothing else"""
 
 
@@ -135,8 +134,8 @@ def generate_story() -> dict:
                 "content": (
                     "You are a proofreader for short horror stories. "
                     "Fix the story so it: "
-                    "1) Uses ONLY third person (he/she/they/his/her/their) throughout — NEVER uses 'I', 'me', 'my', or 'we'. If any first-person slips exist, rewrite them in third person. "
-                    "2) NEVER starts two consecutive sentences with the same word — rewrite with varied openers like 'The', 'Something', 'She', 'He', 'Every', 'Suddenly', 'Nothing', 'Before', 'After', 'Outside', 'Behind' etc. "
+                    "1) Uses ONLY first person (I/my/me) throughout — no switching to third person or second person. "
+                    "2) NEVER starts two consecutive sentences with the word 'I' — rewrite with varied openers like 'The', 'Something', 'My', 'There', 'That', 'Every', 'Suddenly', 'Nothing', 'Before', 'After' etc. "
                     "3) NEVER starts with the words dark, darkness, shadow or shadows — rewrite the opening if it does. "
                     "4) Makes complete logical sense from start to finish with no contradictions. "
                     "5) Flows naturally and keeps the reader hooked. "
