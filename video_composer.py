@@ -159,19 +159,21 @@ def compose_video(
     # Build filter string and pass directly as -vf (subprocess list = no shell, no comma escaping)
     vf_filter = build_filter_script(caption_segments, scale_crop)
 
-    # Eerie ambient drone — three low sine waves mixed and reverbed in filter_complex
+    # Eerie ambient drone — audible pulsating tones in the 110-330Hz range
+    # Each tone is amplitude-modulated by a slow LFO so it breathes/throbs eerily
     # NOTE: aevalsrc must be a plain source here; echo+volume go in filter_complex
     ambient_src = (
         "aevalsrc="
-        "0.12*sin(2*PI*38*t)+"
-        "0.08*sin(2*PI*55*t)+"
-        "0.05*sin(2*PI*82*t):"
+        "0.35*sin(2*PI*110*t)*sin(2*PI*0.25*t+0.5)+"   # A2 — deep bass, slow throb
+        "0.25*sin(2*PI*165*t)*sin(2*PI*0.18*t+1.2)+"   # E3 — fifth, slightly offset LFO
+        "0.20*sin(2*PI*220*t)*sin(2*PI*0.12*t+2.0)+"   # A3 — octave, very slow pulse
+        "0.12*sin(2*PI*330*t)*sin(2*PI*0.08*t+0.8):"   # E4 — top shimmer
         "s=44100"
     )
-    # Mix: TTS at full volume + ambient drone at 20% with reverb underneath
+    # Mix: TTS voice at full volume + ambient drone with long reverb at ~35%
     audio_filter = (
-        "[2:a]aecho=0.8:0.9:80:0.4,volume=0.3[amb];"
-        "[1:a][amb]amix=inputs=2:duration=first:weights=1 0.2[aout]"
+        "[2:a]aecho=0.85:0.92:200:0.55,volume=0.75[amb];"
+        "[1:a][amb]amix=inputs=2:duration=first:weights=1 0.38[aout]"
     )
 
     cmd = [

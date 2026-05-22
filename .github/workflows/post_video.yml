@@ -11,6 +11,8 @@ jobs:
   post-video:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    permissions:
+      issues: write
 
     steps:
       - name: Checkout code
@@ -40,9 +42,9 @@ jobs:
 
       - name: Install Python packages
         run: |
-          pip install --quiet groq edge-tts faster-whisper \
+          pip install --quiet groq edge-tts faster-whisper kokoro-onnx soundfile numpy \
             google-api-python-client google-auth-oauthlib \
-            python-dotenv yt-dlp
+            python-dotenv yt-dlp huggingface_hub
 
       - name: Restore credentials
         env:
