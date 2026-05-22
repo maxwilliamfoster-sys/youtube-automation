@@ -6,8 +6,40 @@ and true crime documentary scripts with research + fact-checking.
 import re
 import json
 import random
-from groq import Groq
+import time
+from groq import Groq, RateLimitError
 from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT
+
+# Fallback model if primary hits daily token limit
+GROQ_FALLBACK_MODEL = "llama-3.1-8b-instant"
+
+
+def _groq_call(client: Groq, max_retries: int = 3, **kwargs) -> object:
+    """
+    Wrapper around client.chat.completions.create with retry + fallback.
+    On 429 rate limit: waits up to 2 min then retries.
+    If still failing, switches to fallback model automatically.
+    """
+    model = kwargs.get("model", GROQ_MODEL)
+    for attempt in range(max_retries):
+        try:
+            return client.chat.completions.create(**kwargs)
+        except RateLimitError as e:
+            msg = str(e)
+            if attempt < max_retries - 1:
+                wait = 30 * (attempt + 1)  # 30s, 60s, 90s
+                print(f"[Groq] Rate limit hit — waiting {wait}s before retry {attempt + 2}/{max_retries}...")
+                time.sleep(wait)
+            else:
+                # All retries on primary model failed — try fallback
+                if model != GROQ_FALLBACK_MODEL:
+                    print(f"[Groq] Primary model rate limited — switching to fallback ({GROQ_FALLBACK_MODEL})")
+                    kwargs["model"] = GROQ_FALLBACK_MODEL
+                    try:
+                        return client.chat.completions.create(**kwargs)
+                    except Exception as fe:
+                        raise RuntimeError(f"Both models failed. Primary: {e}. Fallback: {fe}")
+                raise
 
 
 HORROR_PROMPTS = [
@@ -98,7 +130,8 @@ def generate_story() -> dict:
     print(f"[Story] Generating {story_type} story with Llama 3.3 (free)...")
 
     # Generate the story
-    response = client.chat.completions.create(
+    response = _groq_call(
+        client,
         model=GROQ_MODEL,
         max_tokens=600,
         messages=[
@@ -110,7 +143,8 @@ def generate_story() -> dict:
     story_text = response.choices[0].message.content.strip()
 
     # Generate a title
-    title_response = client.chat.completions.create(
+    title_response = _groq_call(
+        client,
         model=GROQ_MODEL,
         max_tokens=30,
         messages=[
@@ -127,7 +161,8 @@ def generate_story() -> dict:
     title = title_response.choices[0].message.content.strip().strip('"').strip("'")
 
     # Proofread and fix the story — enforce POV, tense, and coherence
-    proofread_response = client.chat.completions.create(
+    proofread_response = _groq_call(
+        client,
         model=GROQ_MODEL,
         max_tokens=700,
         messages=[
@@ -154,7 +189,8 @@ def generate_story() -> dict:
     print(f"[Story] Proofread complete")
 
     # Generate relevant hashtags for this specific story
-    hashtag_response = client.chat.completions.create(
+    hashtag_response = _groq_call(
+        client,
         model=GROQ_MODEL,
         max_tokens=60,
         messages=[
