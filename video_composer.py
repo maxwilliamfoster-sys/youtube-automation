@@ -5,6 +5,7 @@ Output: 1080x1920 (9:16), 30fps, high quality MP4 with burned-in captions.
 
 import os
 import random
+import glob
 import subprocess
 import json
 import shutil
@@ -14,8 +15,18 @@ from config import (
     VIDEO_WIDTH, VIDEO_HEIGHT, VIDEO_FPS,
     CAPTION_FONT_SIZE, CAPTION_FONT_COLOR,
     CAPTION_STROKE_COLOR, CAPTION_STROKE_WIDTH,
-    CAPTION_POSITION, OUTPUT_DIR
+    CAPTION_POSITION, OUTPUT_DIR, ASSETS_DIR
 )
+
+# ─── Background music ─────────────────────────────────────────────────────────
+MUSIC_DIR = os.path.join(ASSETS_DIR, "music")
+
+def get_random_music_track() -> str | None:
+    """Return a random horror ambient MP3 from assets/music/, or None if none found."""
+    if not os.path.isdir(MUSIC_DIR):
+        return None
+    tracks = glob.glob(os.path.join(MUSIC_DIR, "*.mp3"))
+    return random.choice(tracks) if tracks else None
 
 # Find FFmpeg — check PATH first, then the known install location
 def _find_ffmpeg(name: str) -> str:
@@ -159,44 +170,60 @@ def compose_video(
     # Build filter string and pass directly as -vf (subprocess list = no shell, no comma escaping)
     vf_filter = build_filter_script(caption_segments, scale_crop)
 
-    # Eerie ambient drone — audible pulsating tones in the 110-330Hz range
-    # Each tone is amplitude-modulated by a slow LFO so it breathes/throbs eerily
-    # NOTE: aevalsrc must be a plain source here; echo+volume go in filter_complex
-    ambient_src = (
-        "aevalsrc="
-        "0.35*sin(2*PI*110*t)*sin(2*PI*0.25*t+0.5)+"   # A2 — deep bass, slow throb
-        "0.25*sin(2*PI*165*t)*sin(2*PI*0.18*t+1.2)+"   # E3 — fifth, slightly offset LFO
-        "0.20*sin(2*PI*220*t)*sin(2*PI*0.12*t+2.0)+"   # A3 — octave, very slow pulse
-        "0.12*sin(2*PI*330*t)*sin(2*PI*0.08*t+0.8):"   # E4 — top shimmer
-        "s=44100"
-    )
-    # Mix: TTS voice at full volume + ambient drone with long reverb at ~35%
-    audio_filter = (
-        "[2:a]aecho=0.85:0.92:200:0.55,volume=0.75[amb];"
-        "[1:a][amb]amix=inputs=2:duration=first:weights=1 0.38[aout]"
-    )
-
-    cmd = [
-        FFMPEG, "-y",
-        "-ss", str(start_time),
-        "-i", abs_gameplay,
-        "-i", abs_audio,
-        "-f", "lavfi", "-i", ambient_src,
-        "-filter_complex", audio_filter,
-        "-vf", vf_filter,
-        "-map", "0:v:0",
-        "-map", "[aout]",
-        "-t", str(audio_duration + 0.5),
-        "-c:v", "libx264",
-        "-preset", "medium",
-        "-crf", "18",
-        "-c:a", "aac",
-        "-b:a", "192k",
-        "-r", str(VIDEO_FPS),
-        "-pix_fmt", "yuv420p",
-        "-movflags", "+faststart",
-        abs_output,
-    ]
+    # ── Background music ──────────────────────────────────────────────────────
+    music_path = get_random_music_track()
+    if music_path:
+        abs_music = absfwd(music_path)
+        music_name = os.path.basename(music_path)
+        print(f"[Video] Background music: {music_name}")
+        # Loop music so it covers the whole video, mix at low volume under narration
+        audio_filter = (
+            "[2:a]volume=0.13,afade=t=in:st=0:d=2,afade=t=out:st={fade_out}:d=3[music];"
+            "[1:a][music]amix=inputs=2:duration=first:weights=1 1[aout]"
+        ).format(fade_out=max(0, audio_duration - 3))
+        cmd = [
+            FFMPEG, "-y",
+            "-ss", str(start_time),
+            "-i", abs_gameplay,
+            "-i", abs_audio,
+            "-stream_loop", "-1", "-i", abs_music,   # loop music to fill video length
+            "-filter_complex", audio_filter,
+            "-vf", vf_filter,
+            "-map", "0:v:0",
+            "-map", "[aout]",
+            "-t", str(audio_duration + 0.5),
+            "-c:v", "libx264",
+            "-preset", "medium",
+            "-crf", "18",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            "-r", str(VIDEO_FPS),
+            "-pix_fmt", "yuv420p",
+            "-movflags", "+faststart",
+            abs_output,
+        ]
+    else:
+        # No music files found — narration only
+        print("[Video] No music files found in assets/music/ — narration only")
+        cmd = [
+            FFMPEG, "-y",
+            "-ss", str(start_time),
+            "-i", abs_gameplay,
+            "-i", abs_audio,
+            "-vf", vf_filter,
+            "-map", "0:v:0",
+            "-map", "1:a:0",
+            "-t", str(audio_duration + 0.5),
+            "-c:v", "libx264",
+            "-preset", "medium",
+            "-crf", "18",
+            "-c:a", "aac",
+            "-b:a", "192k",
+            "-r", str(VIDEO_FPS),
+            "-pix_fmt", "yuv420p",
+            "-movflags", "+faststart",
+            abs_output,
+        ]
 
     print("[Video] Running FFmpeg (high quality, may take ~60s)...")
     result = subprocess.run(cmd, capture_output=True, text=True)

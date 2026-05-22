@@ -1,9 +1,10 @@
 """
-Story Generator — uses Groq (FREE) + Llama 3.3 to generate horror stories.
-Groq gives you free API access with no credit card needed.
-Get your free key at: https://console.groq.com/
+Story Generator — uses Groq (FREE) + Llama 3.3 to generate horror stories
+and true crime documentary scripts with research + fact-checking.
 """
 
+import re
+import json
 import random
 from groq import Groq
 from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT
@@ -63,18 +64,19 @@ HORROR_PROMPTS = [
 STORY_SYSTEM_PROMPT = f"""You are a master horror storyteller writing scripts for YouTube Shorts.
 
 Rules:
-- Write EXACTLY one complete story with a beginning, middle, and terrifying end
-- You MUST write between {STORY_WORD_COUNT - 10} and {STORY_WORD_COUNT + 10} words — count carefully, this is critical
-- Write in FIRST PERSON ("I", "my", "me") throughout — stay consistent, never switch to third person
+- Write EXACTLY one complete story with a clear beginning, middle, and terrifying end
+- You MUST write between {STORY_WORD_COUNT - 10} and {STORY_WORD_COUNT + 10} words — count carefully
+- Write ENTIRELY in FIRST PERSON ("I", "my", "me", "myself") — never switch to any other POV
+- Write ENTIRELY in PAST TENSE — every action, thought and observation must be past tense ("I heard", "I saw", "it was", "I walked", "I noticed", "I felt")
+- The story MUST make complete logical sense from start to finish — events must follow causally, no plot holes, no contradictions, no unresolved loose ends
+- Each sentence must naturally follow from the one before — the reader should always know where they are and what is happening
 - NO headers, NO titles, NO quotation marks around the whole story, NO markdown
 - Make each story feel UNIQUE — different setting, tone, pacing and twist every time
-- Some stories should be slow and creepy, others fast and shocking — vary the style
 - End with a gut-punch twist or horrifying realisation the reader never saw coming
 - VARY your sentence openings — NEVER start two consecutive sentences with "I"
-- NEVER open with the words "dark", "darkness", "shadow", "shadows" — be more creative and specific
+- NEVER open with the words "dark", "darkness", "shadow", "shadows"
 - NEVER open with cliches like "It was a stormy night" or "I was alone"
-- Open with something immediate and gripping — a sound, an action, a discovery that hooks instantly
-- Use sentence starters like: "The", "Something", "Nothing", "Every", "At", "Before", "Suddenly", "Behind", "Outside", "When", "My", "That", "There", "A" etc.
+- Open with something immediate and gripping — a sound, an action, a discovery
 - Example good opening: "The voicemail had no timestamp. I played it twice before I understood the voice was my own."
 - Use short punchy sentences for pacing — they build dread
 - The story should feel like a viral Reddit r/nosleep post — personal, believable, terrifying
@@ -124,7 +126,7 @@ def generate_story() -> dict:
 
     title = title_response.choices[0].message.content.strip().strip('"').strip("'")
 
-    # Proofread and fix the story — enforce consistent POV and coherence
+    # Proofread and fix the story — enforce POV, tense, and coherence
     proofread_response = client.chat.completions.create(
         model=GROQ_MODEL,
         max_tokens=700,
@@ -132,14 +134,17 @@ def generate_story() -> dict:
             {
                 "role": "system",
                 "content": (
-                    "You are a proofreader for short horror stories. "
-                    "Fix the story so it: "
-                    "1) Uses ONLY first person (I/my/me) throughout — no switching to third person or second person. "
-                    "2) NEVER starts two consecutive sentences with the word 'I' — rewrite with varied openers like 'The', 'Something', 'My', 'There', 'That', 'Every', 'Suddenly', 'Nothing', 'Before', 'After' etc. "
-                    "3) NEVER starts with the words dark, darkness, shadow or shadows — rewrite the opening if it does. "
-                    "4) Makes complete logical sense from start to finish with no contradictions. "
-                    "5) Flows naturally and keeps the reader hooked. "
-                    "Keep the same word count, tone and ending. Output ONLY the fixed story, nothing else."
+                    "You are a strict editor for short horror stories. Rewrite the story fixing ALL of the following:\n"
+                    "1) FIRST PERSON ONLY — every sentence must use I/my/me/myself. "
+                    "Remove any 'he', 'she', 'they', 'you', 'we' that refer to the narrator.\n"
+                    "2) PAST TENSE THROUGHOUT — convert every present-tense verb to past tense. "
+                    "'I see' → 'I saw', 'it is' → 'it was', 'I hear' → 'I heard', 'I run' → 'I ran'. No exceptions.\n"
+                    "3) COHERENCE — ensure events follow a logical order, nothing contradicts, "
+                    "no unresolved threads, no sudden unexplained jumps. The reader must always know what is happening.\n"
+                    "4) VARIED SENTENCE STARTS — never two consecutive sentences starting with 'I'.\n"
+                    "5) OPENING — must NOT start with 'dark', 'darkness', 'shadow', 'shadows', "
+                    "'It was a stormy', or 'I was alone'.\n"
+                    "Keep the same word count, tone, and ending twist. Output ONLY the corrected story text, nothing else."
                 ),
             },
             {"role": "user", "content": story_text},
@@ -191,3 +196,289 @@ if __name__ == "__main__":
     print(result['story'])
     print("="*60)
     print(f"Word count: {len(result['story'].split())}")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TRUE CRIME DOCUMENTARY GENERATOR
+# ═══════════════════════════════════════════════════════════════════════════════
+
+TRUE_CRIME_SCRIPT_PROMPT = """You are the scriptwriter for @buriedcasefiles — a true crime documentary TikTok channel.
+
+Style rules:
+- Cold, authoritative, documentary narrator tone — like Netflix true crime
+- Short punchy sentences that build tension and dread
+- Start with a striking date, location, or jaw-dropping fact
+- Build to a shocking revelation or unanswered question
+- End on what is still unknown, unresolved, or haunting
+- Real names, real dates, real locations — every word must be factually accurate
+- Write exactly 190-220 words (count carefully — TikTok needs 60-90 seconds)
+- NO narrator asides, NO "In this video", NO "Subscribe", NO fluff
+- Output ONLY the script text, nothing else"""
+
+# Track used cases across the session to avoid repeats
+_USED_CASES: list = []
+
+
+def _extract_json(text: str) -> dict:
+    """Pull the first JSON object out of an LLM response."""
+    try:
+        start = text.find("{")
+        end   = text.rfind("}") + 1
+        if start >= 0 and end > start:
+            return json.loads(text[start:end])
+    except Exception:
+        pass
+    return {}
+
+
+def _research_case(client: Groq) -> dict:
+    """Ask Groq to research and propose a compelling true crime case."""
+    exclude = f"\n\nAvoid these cases (already used): {', '.join(_USED_CASES[-20:])}" if _USED_CASES else ""
+
+    resp = client.chat.completions.create(
+        model=GROQ_MODEL,
+        max_tokens=500,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a true crime researcher. Propose one real, compelling, "
+                    "verifiable case for a short documentary. Prefer lesser-known cases "
+                    "with shocking twists, unresolved mysteries, or haunting unanswered questions. "
+                    "Avoid: Jack the Ripper, Ted Bundy, Jeffrey Dahmer, BTK, Zodiac Killer "
+                    "(too overexposed). "
+                    "Reply ONLY with valid JSON — no markdown, no explanation:\n"
+                    '{"case_name":"...","location":"...","year":"...","summary":"...",'
+                    '"key_facts":["fact1","fact2","fact3","fact4","fact5"],'
+                    '"unresolved":"...","why_compelling":"..."}'
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    "Suggest one real true crime case: cold case, mysterious death, "
+                    "shocking murder, unsolved disappearance, or conspiracy. "
+                    "Must be historically documented and verifiable."
+                    + exclude
+                ),
+            },
+        ],
+    )
+    return _extract_json(resp.choices[0].message.content.strip())
+
+
+def _write_script(client: Groq, case: dict) -> str:
+    """Write a documentary script based on the researched case."""
+    facts = "\n".join(f"- {f}" for f in case.get("key_facts", []))
+    resp = client.chat.completions.create(
+        model=GROQ_MODEL,
+        max_tokens=600,
+        messages=[
+            {"role": "system", "content": TRUE_CRIME_SCRIPT_PROMPT},
+            {
+                "role": "user",
+                "content": (
+                    f"Case: {case.get('case_name','')}, {case.get('location','')}, {case.get('year','')}\n\n"
+                    f"Background: {case.get('summary','')}\n\n"
+                    f"Key facts:\n{facts}\n\n"
+                    f"Still unresolved: {case.get('unresolved','')}\n\n"
+                    "Write the 190-220 word documentary script now."
+                ),
+            },
+        ],
+    )
+    return resp.choices[0].message.content.strip()
+
+
+def _fact_check(client: Groq, case: dict, script: str) -> dict:
+    """
+    Fact-check, quality-score, and TikTok community-guidelines check.
+
+    tiktok_safe is False if the script:
+      - describes minor victims in a graphic or exploitative way
+      - glorifies or celebrates the perpetrator
+      - contains gratuitous gore or torture detail
+      - discusses self-harm or suicide methods in detail
+    """
+    resp = client.chat.completions.create(
+        model=GROQ_MODEL,
+        max_tokens=400,
+        messages=[
+            {
+                "role": "system",
+                "content": (
+                    "You are a senior fact-checker and compliance reviewer for a true crime "
+                    "documentary TikTok channel. Evaluate the script on accuracy, quality, "
+                    "AND TikTok Community Guidelines. Reply ONLY with valid JSON:\n"
+                    '{"accuracy_score":1-10,"interest_score":1-10,"makes_sense":true/false,'
+                    '"tiktok_safe":true/false,"issues":["issue1"],"approved":true/false}\n\n'
+                    "Approve ONLY if ALL of these are true:\n"
+                    "  - accuracy >= 7 (no invented names/dates/events)\n"
+                    "  - interest >= 7 (genuinely compelling)\n"
+                    "  - makes_sense = true (coherent narrative start to finish)\n"
+                    "  - tiktok_safe = true\n\n"
+                    "Set tiktok_safe = false if the script:\n"
+                    "  - describes minor victims in a graphic or exploitative manner\n"
+                    "  - glorifies, celebrates, or sensationalises the perpetrator\n"
+                    "  - contains gratuitous gore, torture, or graphic violence details\n"
+                    "  - discusses methods of self-harm or suicide in detail\n"
+                    "  - dehumanises victims or promotes hate based on identity"
+                ),
+            },
+            {
+                "role": "user",
+                "content": (
+                    f"Case being covered: {case.get('case_name','')}\n\n"
+                    f"Script:\n{script}\n\n"
+                    "Check: Are all facts accurate? Are dates/names/events real? "
+                    "Does the narrative make complete logical sense? Is it genuinely interesting? "
+                    "Is it compliant with TikTok Community Guidelines? "
+                    "Flag any invented, embellished, or policy-violating claims."
+                ),
+            },
+        ],
+    )
+    result = _extract_json(resp.choices[0].message.content.strip())
+    # Safe defaults if JSON parse fails
+    return {
+        "accuracy_score": result.get("accuracy_score", 7),
+        "interest_score":  result.get("interest_score",  7),
+        "makes_sense":     result.get("makes_sense",     True),
+        "tiktok_safe":     result.get("tiktok_safe",     True),
+        "issues":          result.get("issues",          []),
+        "approved":        result.get("approved",        True),
+    }
+
+
+def _generate_hashtags(client: Groq, case: dict) -> str:
+    """
+    Generate case-specific TikTok hashtags.
+
+    Returns a string of 7 hashtags:
+      2 evergreen base tags + location + crime type + decade + 2 case-specific
+    """
+    resp = client.chat.completions.create(
+        model=GROQ_MODEL,
+        max_tokens=80,
+        messages=[{
+            "role": "user",
+            "content": (
+                f"Generate exactly 7 TikTok hashtags for this true crime case:\n"
+                f"Case: {case.get('case_name', '')}\n"
+                f"Location: {case.get('location', '')}\n"
+                f"Year: {case.get('year', '')}\n\n"
+                "Rules (one hashtag per category, no spaces inside a tag):\n"
+                "1. #truecrime\n"
+                "2. #documentary\n"
+                "3. Location tag — city or country (e.g. #chicago #uk #australia)\n"
+                "4. Crime type (e.g. #coldcase #murder #disappearance #conspiracy #unsolved)\n"
+                "5. Decade/era (e.g. #1980s #1990s #2000s #1970s)\n"
+                "6. A specific keyword from the case name (no spaces)\n"
+                "7. One more relevant discovery/topic tag\n"
+                "Output ONLY the 7 hashtags separated by spaces, nothing else."
+            ),
+        }],
+    )
+    raw = resp.choices[0].message.content.strip()
+    words = raw.replace("\n", " ").split()
+    tags = []
+    for w in words:
+        clean = re.sub(r"[^a-zA-Z0-9]", "", w)
+        if clean:
+            tags.append(w if w.startswith("#") else f"#{clean}")
+    return " ".join(tags[:7])
+
+
+def generate_true_crime_story(max_attempts: int = 3) -> dict:
+    """
+    Research, write, and fact-check a true crime documentary script.
+
+    Multi-step pipeline:
+      1. Research: Groq picks a real, compelling case
+      2. Write:    Groq scripts it in documentary style
+      3. Check:    Groq fact-checks accuracy + interest + coherence
+      4. Approve or retry with a different case
+
+    Returns dict with: script, title, case_name, hashtags,
+                       accuracy_score, interest_score
+    """
+    client = Groq(api_key=GROQ_API_KEY)
+
+    last_result = None
+
+    for attempt in range(max_attempts):
+        print(f"\n[TrueCrime] Attempt {attempt + 1}/{max_attempts} — researching case...")
+
+        # ── Step 1: Research ──────────────────────────────────────────────────
+        case = _research_case(client)
+        case_name = case.get("case_name", f"Unknown Case {attempt}")
+        print(f"[TrueCrime] Case: {case_name} ({case.get('year','?')}, {case.get('location','?')})")
+
+        # ── Step 2: Write script ──────────────────────────────────────────────
+        print("[TrueCrime] Writing script...")
+        script = _write_script(client, case)
+        word_count = len(script.split())
+        print(f"[TrueCrime] Script: {word_count} words")
+
+        # ── Step 3: Fact-check ────────────────────────────────────────────────
+        print("[TrueCrime] Fact-checking...")
+        check = _fact_check(client, case, script)
+        acc     = check["accuracy_score"]
+        interest = check["interest_score"]
+        sense   = check["makes_sense"]
+        approved = check["approved"]
+
+        tiktok_safe = check["tiktok_safe"]
+        print(f"[TrueCrime] Accuracy: {acc}/10 | Interest: {interest}/10 | "
+              f"Coherent: {sense} | TikTok-safe: {tiktok_safe} | Approved: {approved}")
+        for issue in check.get("issues", []):
+            print(f"[TrueCrime]   ! {issue}")
+
+        # ── Step 4: Title ─────────────────────────────────────────────────────
+        title_resp = client.chat.completions.create(
+            model=GROQ_MODEL,
+            max_tokens=25,
+            messages=[{
+                "role": "user",
+                "content": (
+                    f"Write a short, gripping TikTok title for this true crime story "
+                    f"(max 7 words, no quotes, no hashtags):\n{script[:200]}"
+                ),
+            }],
+        )
+        title = title_resp.choices[0].message.content.strip().strip('"\'')
+
+        # ── Step 5: Case-specific hashtags ────────────────────────────────────
+        hashtags = _generate_hashtags(client, case)
+        print(f"[TrueCrime] Hashtags: {hashtags}")
+
+        last_result = {
+            "script":         script,
+            "title":          title,
+            "case_name":      case_name,
+            "hashtags":       hashtags,
+            "accuracy_score": acc,
+            "interest_score": interest,
+            "tiktok_safe":    tiktok_safe,
+        }
+
+        if approved and acc >= 7 and interest >= 7 and sense and tiktok_safe:
+            _USED_CASES.append(case_name)
+            print(f"[TrueCrime] APPROVED: '{title}'")
+            return last_result
+
+        reason = []
+        if not tiktok_safe:
+            reason.append("TikTok guidelines violation")
+        if acc < 7:
+            reason.append(f"accuracy {acc}/10")
+        if interest < 7:
+            reason.append(f"interest {interest}/10")
+        if not sense:
+            reason.append("incoherent")
+        print(f"[TrueCrime] Rejected ({', '.join(reason)}) — trying a different case...")
+        _USED_CASES.append(case_name)  # avoid repeating it
+
+    # Use best attempt even if it didn't hit full threshold
+    print(f"[TrueCrime] Using best result after {max_attempts} attempts.")
+    return last_result
