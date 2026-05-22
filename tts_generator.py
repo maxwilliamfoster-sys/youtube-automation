@@ -11,38 +11,121 @@ Word timing always extracted via faster-whisper for accurate caption sync.
 
 import asyncio
 import os
+import re
 import json
 import shutil
 import subprocess
 import edge_tts
-from config import TTS_VOICE, TTS_RATE, TTS_PITCH, AUDIO_DIR
+from config import TTS_VOICE, TTS_RATE, TTS_PITCH, AUDIO_DIR, KOKORO_MODEL_DIR
 
 _FFMPEG = shutil.which("ffmpeg") or r"C:\ffmpeg\ffmpeg-8.1.1-essentials_build\bin\ffmpeg.exe"
 
 # Kokoro voices: b = British, a = American, m = male, f = female
-KOKORO_VOICE  = "bm_george"   # British male — deep, natural, perfect for horror
-KOKORO_SPEED  = 0.88          # Slightly slower = more dread
+KOKORO_VOICE  = "af_nicole"   # American female — soft, breathy, naturally unsettling for horror
+KOKORO_SPEED  = 0.82          # Slower = more dread and emotional weight
+
+
+# ─── Text normalisation ───────────────────────────────────────────────────────
+
+_ONES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight",
+         "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen",
+         "sixteen", "seventeen", "eighteen", "nineteen"]
+_TENS = ["", "", "twenty", "thirty", "forty", "fifty",
+         "sixty", "seventy", "eighty", "ninety"]
+_ORDINALS = {
+    1:"first", 2:"second", 3:"third", 4:"fourth", 5:"fifth",
+    6:"sixth", 7:"seventh", 8:"eighth", 9:"ninth", 10:"tenth",
+    11:"eleventh", 12:"twelfth", 13:"thirteenth", 14:"fourteenth",
+    15:"fifteenth", 16:"sixteenth", 17:"seventeenth", 18:"eighteenth",
+    19:"nineteenth", 20:"twentieth", 21:"twenty-first", 22:"twenty-second",
+    23:"twenty-third", 24:"twenty-fourth", 25:"twenty-fifth", 26:"twenty-sixth",
+    27:"twenty-seventh", 28:"twenty-eighth", 29:"twenty-ninth", 30:"thirtieth",
+    31:"thirty-first",
+}
+
+
+def _two_digit(n: int) -> str:
+    if n < 20:
+        return _ONES[n]
+    t, o = divmod(n, 10)
+    return _TENS[t] + ("-" + _ONES[o] if o else "")
+
+
+def _year_to_words(y: int) -> str:
+    """Convert a 4-digit year to how it's spoken in English."""
+    if 1100 <= y <= 1999:
+        hi, lo = divmod(y, 100)
+        hi_w = _ONES[hi] if hi < 20 else _TENS[hi // 10] + ("-" + _ONES[hi % 10] if hi % 10 else "")
+        if lo == 0:
+            return f"{hi_w} hundred"
+        if lo < 10:
+            return f"{hi_w} oh {_ONES[lo]}"
+        return f"{hi_w} {_two_digit(lo)}"
+    if 2000 <= y <= 2009:
+        return "two thousand" + (f" and {_ONES[y % 10]}" if y % 10 else "")
+    if 2010 <= y <= 2099:
+        return f"twenty {_two_digit(y % 100)}"
+    return str(y)
+
+
+def normalize_for_tts(text: str) -> str:
+    """
+    Convert years, ordinals, times, and common abbreviations to spoken form
+    so TTS engines pronounce them correctly.
+    """
+    # Ordinals: 1st, 2nd, 3rd, 4th … 31st
+    def _ord(m):
+        n = int(m.group(1))
+        return _ORDINALS.get(n, m.group(0))
+    text = re.sub(r'\b(\d{1,2})(st|nd|rd|th)\b', _ord, text, flags=re.IGNORECASE)
+
+    # Years in date context: "April 18, 2016" or standalone 4-digit years
+    text = re.sub(r'\b(1[0-9]{3}|20[0-9]{2})\b', lambda m: _year_to_words(int(m.group(0))), text)
+
+    # Times: "4 am" / "2 pm" → "four AM" / "two PM"
+    def _time(m):
+        h = int(m.group(1))
+        period = m.group(2).upper()
+        return f"{_ONES[h] if h <= 19 else _two_digit(h)} {period}"
+    text = re.sub(r'\b(\d{1,2})\s*(am|pm)\b', _time, text, flags=re.IGNORECASE)
+
+    # "62 miles" / "74 years" — keep as-is (spoken naturally as cardinals)
+    return text
 
 
 # ─── Kokoro ONNX engine ───────────────────────────────────────────────────────
 
 def _get_kokoro_model_paths():
-    """Download Kokoro-82M from HuggingFace (cached in ~/.cache/huggingface)."""
-    from huggingface_hub import hf_hub_download
-
-    # Try both filename conventions used across different kokoro-onnx versions
+    """Return local Kokoro model paths, falling back to HuggingFace download."""
+    # Check local kokoro_models/ directory first (already downloaded)
     for model_name, voices_name in [
-        ("kokoro-v1_0.onnx", "voices-v1_0.bin"),
         ("kokoro-v1.0.onnx", "voices-v1.0.bin"),
+        ("kokoro-v1_0.onnx", "voices-v1_0.bin"),
     ]:
-        try:
-            model_path  = hf_hub_download("hexgrad/Kokoro-82M", model_name)
-            voices_path = hf_hub_download("hexgrad/Kokoro-82M", voices_name)
+        model_path  = os.path.join(KOKORO_MODEL_DIR, model_name)
+        voices_path = os.path.join(KOKORO_MODEL_DIR, voices_name)
+        if os.path.exists(model_path) and os.path.exists(voices_path):
+            print(f"[TTS] Using local Kokoro models: {KOKORO_MODEL_DIR}")
             return model_path, voices_path
-        except Exception:
-            continue
 
-    raise RuntimeError("Could not download Kokoro model files from HuggingFace")
+    # Fall back to HuggingFace download
+    print("[TTS] Local models not found — downloading from HuggingFace...")
+    try:
+        from huggingface_hub import hf_hub_download
+        for model_name, voices_name in [
+            ("kokoro-v1_0.onnx", "voices-v1_0.bin"),
+            ("kokoro-v1.0.onnx", "voices-v1.0.bin"),
+        ]:
+            try:
+                model_path  = hf_hub_download("hexgrad/Kokoro-82M", model_name)
+                voices_path = hf_hub_download("hexgrad/Kokoro-82M", voices_name)
+                return model_path, voices_path
+            except Exception:
+                continue
+    except ImportError:
+        pass
+
+    raise RuntimeError("Kokoro models not found. Run: pip install huggingface_hub")
 
 
 def _generate_audio_kokoro(text: str, output_path: str,
@@ -55,9 +138,11 @@ def _generate_audio_kokoro(text: str, output_path: str,
 
     lang = "en-gb" if voice.startswith("b") else "en-us"
 
-    print(f"[TTS] Kokoro-82M — voice: {voice}, speed: {speed} (downloading model if needed...)")
+    print(f"[TTS] Kokoro-82M — voice: {voice}, speed: {speed}")
     model_path, voices_path = _get_kokoro_model_paths()
+    print("[TTS] Loading ONNX model into memory (may take 1-3 mins first time)...")
     k = Kokoro(model_path, voices_path)
+    print("[TTS] Model loaded. Generating speech...")
 
     # Split into sentences — Kokoro quality is better on shorter chunks
     import re
@@ -134,6 +219,7 @@ def generate_tts(
     text: str,
     filename_prefix: str = "story",
     voice: str = None,
+    speed: float = None,
     rate: str = None,
     pitch: str = None,
 ) -> dict:
@@ -147,17 +233,22 @@ def generate_tts(
     audio_path   = os.path.join(AUDIO_DIR, f"{filename_prefix}.mp3")
     timings_path = os.path.join(AUDIO_DIR, f"{filename_prefix}_timings.json")
 
+    text = normalize_for_tts(text)
+
     # --- Try Kokoro first ---
     kokoro_ok = False
     try:
-        _generate_audio_kokoro(text, audio_path)
+        _kokoro_voice = voice if voice and not voice.startswith("en-") else KOKORO_VOICE
+        _kokoro_speed = speed if speed is not None else KOKORO_SPEED
+        _generate_audio_kokoro(text, audio_path, voice=_kokoro_voice, speed=_kokoro_speed)
         kokoro_ok = True
     except Exception as e:
         print(f"[TTS] Kokoro unavailable ({e}) — falling back to edge-tts")
 
     # --- edge-tts fallback ---
     if not kokoro_ok:
-        _voice = voice or TTS_VOICE
+        # Use TTS_VOICE default — never pass a Kokoro voice name to edge-tts
+        _voice = TTS_VOICE if (not voice or not voice.startswith("en-")) else voice
         _rate  = rate  or TTS_RATE
         _pitch = pitch or TTS_PITCH
         print(f"[TTS] edge-tts — voice: {_voice}")
