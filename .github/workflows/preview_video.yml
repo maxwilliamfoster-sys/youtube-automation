@@ -24,10 +24,19 @@ jobs:
           key: huggingface-models-v3
 
       - name: Cache Kokoro ONNX models
+        id: cache-kokoro
         uses: actions/cache@v4
         with:
           path: kokoro_models/
           key: kokoro-onnx-models-v1
+
+      - name: Download Kokoro ONNX models
+        if: steps.cache-kokoro.outputs.cache-hit != 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p kokoro_models
+          gh release download model-files-v1 --dir kokoro_models/
 
       - name: Cache gameplay clips
         uses: actions/cache@v4

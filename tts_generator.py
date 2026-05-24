@@ -106,18 +106,37 @@ _KOKORO_VOICES_FILE = "voices-v1.0.bin"
 
 
 def _get_kokoro_model_paths() -> tuple[str, str]:
-    """Return (model_path, voices_path), downloading from release if needed."""
+    """
+    Return (model_path, voices_path).
+    In GitHub Actions the workflow downloads files via 'gh release download'
+    before the pipeline runs.  Locally, falls back to urllib with GITHUB_TOKEN
+    if the token env var is set.
+    """
     import urllib.request
 
     os.makedirs(KOKORO_MODEL_DIR, exist_ok=True)
     model_path  = os.path.join(KOKORO_MODEL_DIR, _KOKORO_MODEL_FILE)
     voices_path = os.path.join(KOKORO_MODEL_DIR, _KOKORO_VOICES_FILE)
 
-    for fname, dest in [(_KOKORO_MODEL_FILE, model_path), (_KOKORO_VOICES_FILE, voices_path)]:
-        if not os.path.exists(dest):
+    missing = [
+        (fname, dest)
+        for fname, dest in [(_KOKORO_MODEL_FILE, model_path), (_KOKORO_VOICES_FILE, voices_path)]
+        if not os.path.exists(dest)
+    ]
+
+    if missing:
+        token = os.environ.get("GITHUB_TOKEN", "")
+        if not token:
+            raise FileNotFoundError(
+                f"Kokoro model files missing from {KOKORO_MODEL_DIR}. "
+                "Run: gh release download model-files-v1 --dir kokoro_models/"
+            )
+        for fname, dest in missing:
             url = f"{_KOKORO_RELEASE}/{fname}"
             print(f"[TTS] Downloading {fname} from release...")
-            urllib.request.urlretrieve(url, dest)
+            req = urllib.request.Request(url, headers={"Authorization": f"token {token}"})
+            with urllib.request.urlopen(req) as r, open(dest, "wb") as f:
+                f.write(r.read())
             print(f"[TTS] Saved {fname} ({os.path.getsize(dest) // 1_048_576} MB)")
 
     return model_path, voices_path
