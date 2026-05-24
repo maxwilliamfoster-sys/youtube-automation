@@ -37,12 +37,12 @@ VIDEO_HEIGHT = 1920   # 9:16 for YouTube Shorts
 VIDEO_FPS    = 30
 
 # ─── Caption Settings ─────────────────────────────────────────────────────────
-CAPTION_FONT_SIZE  = 65      # Slightly smaller to prevent long words overflowing 1080px width
+CAPTION_FONT_SIZE  = 60      # 60px — large and clear on mobile, safe for 2-word lines
 CAPTION_FONT_COLOR = "white"
 CAPTION_STROKE_COLOR = "black"
 CAPTION_STROKE_WIDTH = 3
 CAPTION_POSITION   = 0.38    # 38% down — above ALL TikTok UI (pfp, buttons, username bar)
-WORDS_PER_CAPTION  = 3       # 3 words per line — safer fit, less overflow risk
+WORDS_PER_CAPTION  = 2       # 2 words per line — max ~750px wide, never overflows 1080px
 
 # ─── Gameplay Sources ─────────────────────────────────────────────────────────
 # These are free-to-use gameplay URLs (Creative Commons / no copyright)
