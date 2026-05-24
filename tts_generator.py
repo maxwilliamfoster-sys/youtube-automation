@@ -93,39 +93,56 @@ def normalize_for_tts(text: str) -> str:
     return text
 
 
-# ─── Kokoro engine (PyTorch KPipeline — replaces old ONNX approach) ──────────
+# ─── Kokoro engine (ONNX — lightweight, no PyTorch) ──────────────────────────
+
+# ONNX model files are stored as a GitHub Release asset to avoid committing
+# 310 MB to the repo.  They are downloaded once and cached in kokoro_models/.
+_KOKORO_RELEASE = (
+    "https://github.com/maxwilliamfoster-sys/youtube-automation"
+    "/releases/download/model-files-v1"
+)
+_KOKORO_MODEL_FILE  = "kokoro-v1.0.onnx"
+_KOKORO_VOICES_FILE = "voices-v1.0.bin"
+
+
+def _get_kokoro_model_paths() -> tuple[str, str]:
+    """Return (model_path, voices_path), downloading from release if needed."""
+    import urllib.request
+
+    os.makedirs(KOKORO_MODEL_DIR, exist_ok=True)
+    model_path  = os.path.join(KOKORO_MODEL_DIR, _KOKORO_MODEL_FILE)
+    voices_path = os.path.join(KOKORO_MODEL_DIR, _KOKORO_VOICES_FILE)
+
+    for fname, dest in [(_KOKORO_MODEL_FILE, model_path), (_KOKORO_VOICES_FILE, voices_path)]:
+        if not os.path.exists(dest):
+            url = f"{_KOKORO_RELEASE}/{fname}"
+            print(f"[TTS] Downloading {fname} from release...")
+            urllib.request.urlretrieve(url, dest)
+            print(f"[TTS] Saved {fname} ({os.path.getsize(dest) // 1_048_576} MB)")
+
+    return model_path, voices_path
+
 
 def _generate_audio_kokoro(text: str, output_path: str,
                             voice: str = KOKORO_VOICE,
                             speed: float = KOKORO_SPEED) -> None:
     """
-    Generate audio with Kokoro-82M via KPipeline.
-    Models auto-download from HuggingFace on first run (~300 MB, then cached).
+    Generate audio with Kokoro-82M via kokoro-onnx (no PyTorch).
+    Model files downloaded from GitHub Release on first run (~340 MB, then cached).
     af_nicole — soft, breathy American female, naturally unsettling for horror.
     """
     import numpy as np
     import soundfile as sf
-    from kokoro import KPipeline
+    from kokoro_onnx import Kokoro
 
-    # 'a' = American English, 'b' = British English
-    lang_code = "b" if voice.startswith("b") else "a"
-    print(f"[TTS] Kokoro KPipeline — voice: {voice}, speed: {speed}, lang: {lang_code}")
+    model_path, voices_path = _get_kokoro_model_paths()
+    print(f"[TTS] Kokoro ONNX — voice: {voice}, speed: {speed}")
 
-    pipeline = KPipeline(lang_code=lang_code)
+    kokoro = Kokoro(model_path, voices_path)
+    samples, sample_rate = kokoro.create(text, voice=voice, speed=speed, lang="en-us")
 
-    all_audio = []
-    for _, _, audio in pipeline(text, voice=voice, speed=speed):
-        if audio is not None and len(audio) > 0:
-            all_audio.append(audio)
-
-    if not all_audio:
-        raise RuntimeError("Kokoro produced no audio output")
-
-    combined = np.concatenate(all_audio)
-
-    # Write WAV then encode to MP3 via FFmpeg
     wav_path = output_path.replace(".mp3", "_tmp.wav")
-    sf.write(wav_path, combined, 24000)
+    sf.write(wav_path, samples, sample_rate)
     subprocess.run(
         [_FFMPEG, "-y", "-i", wav_path, "-b:a", "192k", output_path],
         capture_output=True, check=True,

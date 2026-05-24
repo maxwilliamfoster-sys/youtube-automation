@@ -9,8 +9,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ─── API Keys ────────────────────────────────────────────────────────────────
-# Groq is 100% FREE — get your key at https://console.groq.com/
+# Groq — 100% FREE, fast — get key at https://console.groq.com/
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+
+# Google Gemini — 100% FREE fallback, 1,500 req/day & 1M tokens/min (no daily cap)
+# Get free key in 30 sec: https://aistudio.google.com/app/apikey
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
 # ─── Story Settings ───────────────────────────────────────────────────────────
 STORY_TYPES = ["horror", "creepy"]          # Types to rotate through

@@ -23,6 +23,12 @@ jobs:
           path: ~/.cache/huggingface
           key: huggingface-models-v3
 
+      - name: Cache Kokoro ONNX models
+        uses: actions/cache@v4
+        with:
+          path: kokoro_models/
+          key: kokoro-onnx-models-v1
+
       - name: Cache gameplay clips
         uses: actions/cache@v4
         with:
@@ -36,7 +42,7 @@ jobs:
 
       - name: Install Python packages
         run: |
-          pip install --quiet groq edge-tts faster-whisper kokoro soundfile numpy \
+          pip install --quiet groq edge-tts faster-whisper kokoro-onnx soundfile numpy \
             google-api-python-client google-auth-oauthlib \
             python-dotenv yt-dlp
 

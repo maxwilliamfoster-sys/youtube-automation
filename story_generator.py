@@ -8,38 +8,110 @@ import json
 import random
 import time
 from groq import Groq, RateLimitError
-from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT
+from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, GOOGLE_API_KEY
 
-# Fallback model if primary hits daily token limit
+# ── LLM backend constants ─────────────────────────────────────────────────────
 GROQ_FALLBACK_MODEL = "llama-3.1-8b-instant"
+GEMINI_MODEL        = "gemini-2.0-flash"      # free: 1,500 req/day, 1M tokens/min
+
+# Shared state — flip to Gemini the moment Groq is exhausted for the session
+_use_gemini: bool = False
+_gemini_client = None
 
 
-def _groq_call(client: Groq, max_retries: int = 3, **kwargs) -> object:
+def _get_gemini_client():
+    """Lazily initialise the Gemini client (google-genai SDK)."""
+    global _gemini_client
+    if _gemini_client is not None:
+        return _gemini_client
+    if not GOOGLE_API_KEY:
+        raise RuntimeError(
+            "Groq daily limit reached and GOOGLE_API_KEY is not set.\n"
+            "Get a free Gemini key in 30 seconds: https://aistudio.google.com/app/apikey\n"
+            "Then add it to your .env file:  GOOGLE_API_KEY=your_key_here"
+        )
+    from google import genai as _genai
+    _gemini_client = _genai.Client(api_key=GOOGLE_API_KEY)
+    print(f"[LLM] Gemini client ready (model: {GEMINI_MODEL})")
+    return _gemini_client
+
+
+class _FakeResponse:
+    """Wraps a Gemini response to look like a Groq/OpenAI response object."""
+    class _Choice:
+        def __init__(self, text):
+            class _Msg:
+                pass
+            self.message = _Msg()
+            self.message.content = text
+    def __init__(self, text):
+        self.choices = [self._Choice(text)]
+
+
+def _gemini_call(**kwargs) -> object:
+    """Call Gemini with an OpenAI-style messages dict, return a compatible response."""
+    client = _get_gemini_client()
+    messages = kwargs.get("messages", [])
+
+    # Separate system and user/assistant turns
+    system_parts = [m["content"] for m in messages if m["role"] == "system"]
+    chat_turns   = [m for m in messages if m["role"] != "system"]
+
+    # Build a single prompt string
+    system_text = "\n\n".join(system_parts)
+    user_text   = "\n\n".join(
+        f"{'User' if m['role'] == 'user' else 'Assistant'}: {m['content']}"
+        for m in chat_turns
+    )
+    full_prompt = (system_text + "\n\n" + user_text).strip() if system_text else user_text
+
+    from google.genai import types as _gtypes
+    response = client.models.generate_content(
+        model=GEMINI_MODEL,
+        contents=full_prompt,
+        config=_gtypes.GenerateContentConfig(
+            max_output_tokens=kwargs.get("max_tokens", 1024),
+            temperature=0.8,
+        ),
+    )
+    return _FakeResponse(response.text)
+
+
+def _groq_call(client: Groq, **kwargs) -> object:
     """
-    Wrapper around client.chat.completions.create with retry + fallback.
-    On 429 rate limit: waits up to 2 min then retries.
-    If still failing, switches to fallback model automatically.
+    Smart LLM router:
+      1. Uses Groq (fast, Llama 3.3) while within daily limits.
+      2. The instant Groq hits its 100k token/day cap, permanently switches
+         to Google Gemini 2.0 Flash for the rest of the session.
+         Gemini is FREE with 1,500 req/day and 1M tokens/min — no daily token cap.
+      No sleeping, no waiting — immediate failover.
     """
-    model = kwargs.get("model", GROQ_MODEL)
-    for attempt in range(max_retries):
+    global _use_gemini
+
+    if _use_gemini:
+        return _gemini_call(**kwargs)
+
+    try:
+        return client.chat.completions.create(**kwargs)
+    except RateLimitError as e:
+        msg = str(e)
+        # Check if this is the hard daily token limit (not just RPM throttle)
+        is_daily = "tokens per day" in msg.lower() or "tpd" in msg.lower()
+        if is_daily:
+            print("[LLM] Groq daily token limit reached — switching to Gemini permanently.")
+            _use_gemini = True
+            return _gemini_call(**kwargs)
+        # RPM throttle — short wait then retry once
+        m = re.search(r'try again in (?:(\d+)m\s*)?(\d+(?:\.\d+)?)s', msg)
+        wait = (float(m.group(1) or 0) * 60 + float(m.group(2)) + 3) if m else 30
+        print(f"[LLM] Groq RPM limit — waiting {wait:.0f}s...")
+        time.sleep(wait)
         try:
             return client.chat.completions.create(**kwargs)
-        except RateLimitError as e:
-            msg = str(e)
-            if attempt < max_retries - 1:
-                wait = 30 * (attempt + 1)  # 30s, 60s, 90s
-                print(f"[Groq] Rate limit hit — waiting {wait}s before retry {attempt + 2}/{max_retries}...")
-                time.sleep(wait)
-            else:
-                # All retries on primary model failed — try fallback
-                if model != GROQ_FALLBACK_MODEL:
-                    print(f"[Groq] Primary model rate limited — switching to fallback ({GROQ_FALLBACK_MODEL})")
-                    kwargs["model"] = GROQ_FALLBACK_MODEL
-                    try:
-                        return client.chat.completions.create(**kwargs)
-                    except Exception as fe:
-                        raise RuntimeError(f"Both models failed. Primary: {e}. Fallback: {fe}")
-                raise
+        except RateLimitError:
+            print("[LLM] Still rate-limited — switching to Gemini permanently.")
+            _use_gemini = True
+            return _gemini_call(**kwargs)
 
 
 HORROR_PROMPTS = [
@@ -271,7 +343,7 @@ def _research_case(client: Groq) -> dict:
     """Ask Groq to research and propose a compelling true crime case."""
     exclude = f"\n\nAvoid these cases (already used): {', '.join(_USED_CASES[-20:])}" if _USED_CASES else ""
 
-    resp = client.chat.completions.create(
+    resp = _groq_call(client,
         model=GROQ_MODEL,
         max_tokens=500,
         messages=[
@@ -306,7 +378,7 @@ def _research_case(client: Groq) -> dict:
 def _write_script(client: Groq, case: dict) -> str:
     """Write a documentary script based on the researched case."""
     facts = "\n".join(f"- {f}" for f in case.get("key_facts", []))
-    resp = client.chat.completions.create(
+    resp = _groq_call(client,
         model=GROQ_MODEL,
         max_tokens=600,
         messages=[
@@ -336,7 +408,7 @@ def _fact_check(client: Groq, case: dict, script: str) -> dict:
       - contains gratuitous gore or torture detail
       - discusses self-harm or suicide methods in detail
     """
-    resp = client.chat.completions.create(
+    resp = _groq_call(client,
         model=GROQ_MODEL,
         max_tokens=400,
         messages=[
@@ -393,7 +465,7 @@ def _generate_hashtags(client: Groq, case: dict) -> str:
     Returns a string of 7 hashtags:
       2 evergreen base tags + location + crime type + decade + 2 case-specific
     """
-    resp = client.chat.completions.create(
+    resp = _groq_call(client,
         model=GROQ_MODEL,
         max_tokens=80,
         messages=[{
@@ -471,7 +543,7 @@ def generate_true_crime_story(max_attempts: int = 3) -> dict:
             print(f"[TrueCrime]   ! {issue}")
 
         # ── Step 4: Title ─────────────────────────────────────────────────────
-        title_resp = client.chat.completions.create(
+        title_resp = _groq_call(client,
             model=GROQ_MODEL,
             max_tokens=25,
             messages=[{
