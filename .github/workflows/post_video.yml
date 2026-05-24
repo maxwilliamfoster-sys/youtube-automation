@@ -27,7 +27,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/huggingface
-          key: huggingface-models-v2
+          key: huggingface-models-v3
 
       - name: Cache gameplay clips
         uses: actions/cache@v4
@@ -42,9 +42,9 @@ jobs:
 
       - name: Install Python packages
         run: |
-          pip install --quiet groq edge-tts faster-whisper kokoro-onnx soundfile numpy \
+          pip install --quiet groq edge-tts faster-whisper kokoro soundfile numpy \
             google-api-python-client google-auth-oauthlib \
-            python-dotenv yt-dlp huggingface_hub
+            python-dotenv yt-dlp
 
       - name: Restore credentials
         env:
