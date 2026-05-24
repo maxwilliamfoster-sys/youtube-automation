@@ -9,3 +9,5 @@ google-auth-oauthlib
 python-dotenv
 yt-dlp
 huggingface_hub
+requests
+tiktok-uploader

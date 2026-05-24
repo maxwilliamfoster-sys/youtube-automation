@@ -1,23 +1,43 @@
-# Secrets — never upload these
+# ─── Secrets & credentials — NEVER upload these ───────────────────────────────
 .env
 token.json
 client_secrets.json
+tiktok_cookies.txt
+tiktok_cookies.json
 
-# Large output folders
+# ─── Generated output — large, per-video files ────────────────────────────────
 output/
 audio/
+scene_images/
 
-# Gameplay — exclude large files, keep the small HD clips
+# ─── Downloaded assets — large, auto-downloaded on first run ──────────────────
+music/
+kokoro_models/
+assets/MontserratBold.ttf
+assets/arialbd.ttf
+
+# ─── Gameplay clips — large video files ───────────────────────────────────────
 gameplay/vertical_test_0.mp4
 gameplay/vertical_test_1.mp4
 gameplay/subway_3.mp4
 gameplay/_pexels_fresh_*.mp4
 .last_clip
 
-# Python cache
+# ─── Test artefacts ───────────────────────────────────────────────────────────
+test_*.mp3
+test_*.wav
+generate_preview.py
+
+# ─── Logs (local state, not needed in repo) ───────────────────────────────────
+scheduler_log.txt
+upload_log.txt
+documentary_log.json
+
+# ─── Python cache ─────────────────────────────────────────────────────────────
 __pycache__/
 *.pyc
 *.pyo
-
-# Logs
-scheduler_log.txt
+*.pyd
+*.egg-info/
+dist/
+build/

@@ -12,8 +12,13 @@ load_dotenv()
 # Groq — 100% FREE, fast — get key at https://console.groq.com/
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 
-# Google Gemini — 100% FREE fallback, 1,500 req/day & 1M tokens/min (no daily cap)
-# Get free key in 30 sec: https://aistudio.google.com/app/apikey
+# OpenRouter — 100% FREE fallback, free models have no daily token cap
+# Sign up free (no card) in 60 sec: https://openrouter.ai/
+# Then: Dashboard → Keys → Create Key → copy it here
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
+
+# Google Gemini — kept for regions where it's available
+# Get free key: https://aistudio.google.com/app/apikey
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
 # ─── Story Settings ───────────────────────────────────────────────────────────

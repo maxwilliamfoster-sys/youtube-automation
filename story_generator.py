@@ -7,101 +7,115 @@ import re
 import json
 import random
 import time
+import requests as _requests
 from groq import Groq, RateLimitError
-from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, GOOGLE_API_KEY
+from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY
 
 # ── LLM backend constants ─────────────────────────────────────────────────────
-GROQ_FALLBACK_MODEL = "llama-3.1-8b-instant"
-GEMINI_MODEL        = "gemini-2.0-flash"      # free: 1,500 req/day, 1M tokens/min
+GROQ_FALLBACK_MODEL   = "llama-3.1-8b-instant"
+OPENROUTER_BASE_URL   = "https://openrouter.ai/api/v1/chat/completions"
 
-# Shared state — flip to Gemini the moment Groq is exhausted for the session
-_use_gemini: bool = False
-_gemini_client = None
+# OpenRouter free models tried in order — all 0 cost, no daily token cap
+# If the first is rate-limited upstream, we try the next automatically
+OPENROUTER_FREE_MODELS = [
+    "meta-llama/llama-3.3-70b-instruct:free",   # Llama 3.3 70B — best quality match
+    "nvidia/nemotron-3-super-120b-a12b:free",    # Nemotron 120B — confirmed working
+    "openai/gpt-oss-120b:free",                  # GPT OSS 120B — very capable
+    "nousresearch/hermes-3-llama-3.1-405b:free", # Hermes 405B — last resort
+]
 
-
-def _get_gemini_client():
-    """Lazily initialise the Gemini client (google-genai SDK)."""
-    global _gemini_client
-    if _gemini_client is not None:
-        return _gemini_client
-    if not GOOGLE_API_KEY:
-        raise RuntimeError(
-            "Groq daily limit reached and GOOGLE_API_KEY is not set.\n"
-            "Get a free Gemini key in 30 seconds: https://aistudio.google.com/app/apikey\n"
-            "Then add it to your .env file:  GOOGLE_API_KEY=your_key_here"
-        )
-    from google import genai as _genai
-    _gemini_client = _genai.Client(api_key=GOOGLE_API_KEY)
-    print(f"[LLM] Gemini client ready (model: {GEMINI_MODEL})")
-    return _gemini_client
+# Shared state — flip to OpenRouter the moment Groq's daily limit is hit
+_use_openrouter: bool = False
 
 
 class _FakeResponse:
-    """Wraps a Gemini response to look like a Groq/OpenAI response object."""
+    """Wraps any plain-text LLM response to look like a Groq/OpenAI response object."""
     class _Choice:
-        def __init__(self, text):
+        def __init__(self, text: str):
             class _Msg:
                 pass
             self.message = _Msg()
             self.message.content = text
-    def __init__(self, text):
+    def __init__(self, text: str):
         self.choices = [self._Choice(text)]
 
 
-def _gemini_call(**kwargs) -> object:
-    """Call Gemini with an OpenAI-style messages dict, return a compatible response."""
-    client = _get_gemini_client()
-    messages = kwargs.get("messages", [])
+def _openrouter_call(**kwargs) -> object:
+    """
+    Call OpenRouter with an OpenAI-style messages dict.
+    Tries each free model in OPENROUTER_FREE_MODELS until one succeeds.
+    Uses the requests library — no extra SDK needed.
+    Free models (`:free` suffix) have no daily token cap.
+    """
+    if not OPENROUTER_API_KEY:
+        raise RuntimeError(
+            "Groq daily token limit hit and OPENROUTER_API_KEY is not set.\n"
+            "Get a FREE key (no card needed) in 60 seconds:\n"
+            "  1. Go to https://openrouter.ai/\n"
+            "  2. Sign up with Google / GitHub / email\n"
+            "  3. Dashboard -> Keys -> Create Key\n"
+            "  4. Copy the key and add it to your .env:  OPENROUTER_API_KEY=sk-or-...\n"
+        )
 
-    # Separate system and user/assistant turns
-    system_parts = [m["content"] for m in messages if m["role"] == "system"]
-    chat_turns   = [m for m in messages if m["role"] != "system"]
+    headers = {
+        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Content-Type":  "application/json",
+        "HTTP-Referer":  "https://github.com/buriedcasefiles",
+        "X-Title":       "BuriedCaseFiles",
+    }
 
-    # Build a single prompt string
-    system_text = "\n\n".join(system_parts)
-    user_text   = "\n\n".join(
-        f"{'User' if m['role'] == 'user' else 'Assistant'}: {m['content']}"
-        for m in chat_turns
-    )
-    full_prompt = (system_text + "\n\n" + user_text).strip() if system_text else user_text
+    last_err = None
+    for model in OPENROUTER_FREE_MODELS:
+        payload = {
+            "model":       model,
+            "messages":    kwargs.get("messages", []),
+            "max_tokens":  kwargs.get("max_tokens", 1024),
+            "temperature": 0.8,
+        }
+        try:
+            resp = _requests.post(
+                OPENROUTER_BASE_URL, json=payload,
+                headers=headers, timeout=90
+            )
+            if resp.status_code == 200:
+                text = resp.json()["choices"][0]["message"]["content"]
+                print(f"[LLM] OpenRouter -> {model}")
+                return _FakeResponse(text)
+            # 429 / 402 = upstream overloaded — try next model
+            err_msg = resp.json().get("error", {}).get("message", str(resp.status_code))
+            print(f"[LLM] OpenRouter {model} unavailable ({resp.status_code}) — trying next...")
+            last_err = err_msg
+        except Exception as e:
+            print(f"[LLM] OpenRouter {model} error: {e} — trying next...")
+            last_err = str(e)
 
-    from google.genai import types as _gtypes
-    response = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=full_prompt,
-        config=_gtypes.GenerateContentConfig(
-            max_output_tokens=kwargs.get("max_tokens", 1024),
-            temperature=0.8,
-        ),
-    )
-    return _FakeResponse(response.text)
+    raise RuntimeError(f"All OpenRouter free models unavailable. Last error: {last_err}")
 
 
 def _groq_call(client: Groq, **kwargs) -> object:
     """
     Smart LLM router:
-      1. Uses Groq (fast, Llama 3.3) while within daily limits.
-      2. The instant Groq hits its 100k token/day cap, permanently switches
-         to Google Gemini 2.0 Flash for the rest of the session.
-         Gemini is FREE with 1,500 req/day and 1M tokens/min — no daily token cap.
+      1. Uses Groq (fast, Llama 3.3 70B) while within its daily 100k token limit.
+      2. The instant Groq hits its hard daily cap, permanently switches to
+         OpenRouter (free Llama 3.3 70B, no daily token cap) for the rest of the session.
       No sleeping, no waiting — immediate failover.
     """
-    global _use_gemini
+    global _use_openrouter
 
-    if _use_gemini:
-        return _gemini_call(**kwargs)
+    if _use_openrouter:
+        return _openrouter_call(**kwargs)
 
     try:
         return client.chat.completions.create(**kwargs)
     except RateLimitError as e:
         msg = str(e)
-        # Check if this is the hard daily token limit (not just RPM throttle)
+        # Hard daily token cap — switch permanently to OpenRouter (no wait)
         is_daily = "tokens per day" in msg.lower() or "tpd" in msg.lower()
         if is_daily:
-            print("[LLM] Groq daily token limit reached — switching to Gemini permanently.")
-            _use_gemini = True
-            return _gemini_call(**kwargs)
-        # RPM throttle — short wait then retry once
+            print("[LLM] Groq daily token limit reached — switching to OpenRouter (free, no cap).")
+            _use_openrouter = True
+            return _openrouter_call(**kwargs)
+        # RPM throttle — short wait, then one retry
         m = re.search(r'try again in (?:(\d+)m\s*)?(\d+(?:\.\d+)?)s', msg)
         wait = (float(m.group(1) or 0) * 60 + float(m.group(2)) + 3) if m else 30
         print(f"[LLM] Groq RPM limit — waiting {wait:.0f}s...")
@@ -109,9 +123,9 @@ def _groq_call(client: Groq, **kwargs) -> object:
         try:
             return client.chat.completions.create(**kwargs)
         except RateLimitError:
-            print("[LLM] Still rate-limited — switching to Gemini permanently.")
-            _use_gemini = True
-            return _gemini_call(**kwargs)
+            print("[LLM] Still rate-limited — switching to OpenRouter permanently.")
+            _use_openrouter = True
+            return _openrouter_call(**kwargs)
 
 
 HORROR_PROMPTS = [
