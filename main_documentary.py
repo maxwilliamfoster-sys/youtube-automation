@@ -261,10 +261,10 @@ def register_scheduler(every_hours: int = 24):
         print(f"[Scheduler] Registering '{task}' daily at {start_time} UK time...")
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode == 0:
-            print(f"[Scheduler]   ✓ '{task}' scheduled.")
+            print(f"[Scheduler]   OK '{task}' scheduled.")
             ok += 1
         else:
-            print(f"[Scheduler]   ✗ Failed: {result.stderr.strip()}")
+            print(f"[Scheduler]   FAIL: {result.stderr.strip()}")
 
     if ok == 2:
         print("\n[Scheduler] Both tasks active — 2 videos/day at 07:30 and 20:00.")
