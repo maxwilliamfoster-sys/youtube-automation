@@ -92,9 +92,19 @@ def build_filter_script(caption_segments: List[Dict], scale_crop: str) -> str:
     """
     y_pos = int(VIDEO_HEIGHT * CAPTION_POSITION)
 
-    # Arial Bold — use a relative path so there's no drive-letter colon to escape
-    # FFmpeg resolves this relative to the working directory (the project folder)
-    font_option = "fontfile=assets/arialbd.ttf:"
+    # Montserrat Bold — clean, modern, widely used on social media.
+    # Falls back to Arial Bold if the font hasn't been downloaded yet.
+    # Run:  py setup_music.py  to download MontserratBold.ttf to assets/
+    montserrat = os.path.join(ASSETS_DIR, "MontserratBold.ttf")
+    arial_bd   = os.path.join(ASSETS_DIR, "arialbd.ttf")
+    if os.path.exists(montserrat):
+        _font_file = "assets/MontserratBold.ttf"
+    elif os.path.exists(arial_bd):
+        _font_file = "assets/arialbd.ttf"
+    else:
+        _font_file = None
+
+    font_option = f"fontfile={_font_file}:" if _font_file else ""
 
     lines = [scale_crop]
 
@@ -104,6 +114,7 @@ def build_filter_script(caption_segments: List[Dict], scale_crop: str) -> str:
         end   = seg["end"]
 
         # Single-quoted text (apostrophes already stripped, safe on Windows subprocess)
+        # x centres the text; fix_bounds=1 clamps to frame if any word still runs wide
         drawtext = (
             f"drawtext={font_option}"
             f"text='{text}':"
@@ -111,8 +122,9 @@ def build_filter_script(caption_segments: List[Dict], scale_crop: str) -> str:
             f"fontcolor={CAPTION_FONT_COLOR}:"
             f"borderw={CAPTION_STROKE_WIDTH}:"
             f"bordercolor={CAPTION_STROKE_COLOR}:"
-            f"x=max(20\\,(w-text_w)/2):"
+            f"x=(w-text_w)/2:"
             f"y={y_pos}:"
+            f"fix_bounds=1:"
             f"enable='between(t,{start:.3f},{end:.3f})'"
         )
         lines.append(drawtext)
