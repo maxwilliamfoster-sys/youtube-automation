@@ -93,74 +93,39 @@ def normalize_for_tts(text: str) -> str:
     return text
 
 
-# ─── Kokoro ONNX engine ───────────────────────────────────────────────────────
-
-def _get_kokoro_model_paths():
-    """Return local Kokoro model paths, falling back to HuggingFace download."""
-    # Check local kokoro_models/ directory first (already downloaded)
-    for model_name, voices_name in [
-        ("kokoro-v1.0.onnx", "voices-v1.0.bin"),
-        ("kokoro-v1_0.onnx", "voices-v1_0.bin"),
-    ]:
-        model_path  = os.path.join(KOKORO_MODEL_DIR, model_name)
-        voices_path = os.path.join(KOKORO_MODEL_DIR, voices_name)
-        if os.path.exists(model_path) and os.path.exists(voices_path):
-            print(f"[TTS] Using local Kokoro models: {KOKORO_MODEL_DIR}")
-            return model_path, voices_path
-
-    # Fall back to HuggingFace download
-    print("[TTS] Local models not found — downloading from HuggingFace...")
-    try:
-        from huggingface_hub import hf_hub_download
-        for model_name, voices_name in [
-            ("kokoro-v1_0.onnx", "voices-v1_0.bin"),
-            ("kokoro-v1.0.onnx", "voices-v1.0.bin"),
-        ]:
-            try:
-                model_path  = hf_hub_download("hexgrad/Kokoro-82M", model_name)
-                voices_path = hf_hub_download("hexgrad/Kokoro-82M", voices_name)
-                return model_path, voices_path
-            except Exception:
-                continue
-    except ImportError:
-        pass
-
-    raise RuntimeError("Kokoro models not found. Run: pip install huggingface_hub")
-
+# ─── Kokoro engine (PyTorch KPipeline — replaces old ONNX approach) ──────────
 
 def _generate_audio_kokoro(text: str, output_path: str,
                             voice: str = KOKORO_VOICE,
                             speed: float = KOKORO_SPEED) -> None:
-    """Generate audio with Kokoro-82M ONNX — sounds human, not robotic."""
+    """
+    Generate audio with Kokoro-82M via KPipeline.
+    Models auto-download from HuggingFace on first run (~300 MB, then cached).
+    af_nicole — soft, breathy American female, naturally unsettling for horror.
+    """
     import numpy as np
     import soundfile as sf
-    from kokoro_onnx import Kokoro
+    from kokoro import KPipeline
 
-    lang = "en-gb" if voice.startswith("b") else "en-us"
+    # 'a' = American English, 'b' = British English
+    lang_code = "b" if voice.startswith("b") else "a"
+    print(f"[TTS] Kokoro KPipeline — voice: {voice}, speed: {speed}, lang: {lang_code}")
 
-    print(f"[TTS] Kokoro-82M — voice: {voice}, speed: {speed}")
-    model_path, voices_path = _get_kokoro_model_paths()
-    print("[TTS] Loading ONNX model into memory (may take 1-3 mins first time)...")
-    k = Kokoro(model_path, voices_path)
-    print("[TTS] Model loaded. Generating speech...")
+    pipeline = KPipeline(lang_code=lang_code)
 
-    # Split into sentences — Kokoro quality is better on shorter chunks
-    import re
-    sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text.strip()) if s.strip()]
+    all_audio = []
+    for _, _, audio in pipeline(text, voice=voice, speed=speed):
+        if audio is not None and len(audio) > 0:
+            all_audio.append(audio)
 
-    all_samples = []
-    sample_rate = 24000
-    for sentence in sentences:
-        samples, sample_rate = k.create(sentence, voice=voice, speed=speed, lang=lang)
-        all_samples.append(samples)
-        # Brief natural pause between sentences
-        all_samples.append(np.zeros(int(sample_rate * 0.06), dtype=samples.dtype))
+    if not all_audio:
+        raise RuntimeError("Kokoro produced no audio output")
 
-    combined = np.concatenate(all_samples)
+    combined = np.concatenate(all_audio)
 
-    # Write as WAV then convert to MP3 via FFmpeg
+    # Write WAV then encode to MP3 via FFmpeg
     wav_path = output_path.replace(".mp3", "_tmp.wav")
-    sf.write(wav_path, combined, sample_rate)
+    sf.write(wav_path, combined, 24000)
     subprocess.run(
         [_FFMPEG, "-y", "-i", wav_path, "-b:a", "192k", output_path],
         capture_output=True, check=True,
