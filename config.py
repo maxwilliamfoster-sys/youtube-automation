@@ -108,6 +108,10 @@ POSTING_TIMES   = ["07:30", "20:00"]   # 2 posts/day — optimal for new channel
 TIKTOK_HASHTAGS = "#horror #scarystory #horrortok #scarytok #fyp #foryou #creepy #horrorstory"
 TIKTOK_CAPTION_TEMPLATE = "{title}\n\n{hashtags} {story_hashtags}"
 
+# ─── Notifications ───────────────────────────────────────────────────────────
+# Free push notifications via ntfy.sh — set in .env: NTFY_TOPIC=your-topic
+NTFY_TOPIC = os.getenv("NTFY_TOPIC", "")
+
 # ─── Paths ────────────────────────────────────────────────────────────────────
 BASE_DIR        = os.path.dirname(os.path.abspath(__file__))
 GAMEPLAY_DIR    = os.path.join(BASE_DIR, "gameplay")

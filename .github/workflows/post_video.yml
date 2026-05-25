@@ -68,12 +68,14 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
           python3 -c "import os; d=os.environ['YOUTUBE_CLIENT_SECRETS']; open('client_secrets.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
           python3 -c "import os; d=os.environ['YOUTUBE_TOKEN']; open('token.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
           echo "GROQ_API_KEY=${GROQ_API_KEY}" > .env
           echo "PEXELS_API_KEY=${PEXELS_API_KEY}" >> .env
           echo "OPENROUTER_API_KEY=${OPENROUTER_API_KEY}" >> .env
+          echo "NTFY_TOPIC=${NTFY_TOPIC}" >> .env
 
       - name: Create required folders
         run: mkdir -p gameplay output audio

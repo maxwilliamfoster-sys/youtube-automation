@@ -12,11 +12,13 @@ from googleapiclient.http import MediaFileUpload
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from google.auth.exceptions import RefreshError
 
 from config import (
     YOUTUBE_CATEGORY_ID, YOUTUBE_PRIVACY, YOUTUBE_TAGS,
     YOUTUBE_DESCRIPTION_TEMPLATE, CREDENTIALS_FILE, TOKEN_FILE
 )
+from notifier import send_ntfy
 
 # YouTube API scopes needed
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
@@ -38,7 +40,23 @@ def get_authenticated_service():
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             print("[YouTube] Refreshing access token...")
-            creds.refresh(Request())
+            try:
+                creds.refresh(Request())
+            except RefreshError:
+                send_ntfy(
+                    title="YouTube Token Expired — Action Required",
+                    message=(
+                        "Your YouTube OAuth token has expired and cannot be refreshed.\n\n"
+                        "To fix:\n"
+                        "1. Run locally: python youtube_uploader.py\n"
+                        "2. Log in when the browser opens\n"
+                        "3. Copy token.json contents\n"
+                        "4. Update YOUTUBE_TOKEN in GitHub Secrets"
+                    ),
+                    priority="urgent",
+                    tags="rotating_light,youtube",
+                )
+                raise
         else:
             if not os.path.exists(CREDENTIALS_FILE):
                 raise FileNotFoundError(
