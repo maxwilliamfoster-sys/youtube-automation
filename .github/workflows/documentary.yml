@@ -1,10 +1,10 @@
 name: BuriedCasefiles — Daily Documentary
 
 on:
-  schedule:
-    - cron: '30 6 * * *'   # 07:30 BST (summer) / 06:30 GMT (winter) — morning slot
-    - cron: '0 19 * * *'   # 20:00 BST (summer) / 19:00 GMT (winter) — evening slot
-  workflow_dispatch:        # allows manual trigger from GitHub Actions UI
+  # Cron DISABLED — TikTok upload requires a real browser/IP (cloud IPs are blocked).
+  # Primary automation: Windows Task Scheduler with Wake-on-Timer (wakes PC from sleep).
+  # Use workflow_dispatch below to manually test video generation from GitHub.
+  workflow_dispatch:        # click "Run workflow" in the GitHub Actions UI to test
 
 jobs:
   generate-and-post:
