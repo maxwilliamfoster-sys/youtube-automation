@@ -4,10 +4,12 @@ faster-whisper
 kokoro-onnx
 soundfile
 numpy
+Pillow
 google-api-python-client
 google-auth-oauthlib
 python-dotenv
 yt-dlp
 huggingface_hub
 requests
+playwright
 tiktok-uploader
