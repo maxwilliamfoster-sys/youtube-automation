@@ -235,30 +235,47 @@ def _do_upload(video_path: str, caption: str, cookies_path: str):
         print("[TikTok] Clicking Post...")
         time.sleep(2)   # ensure caption is committed before clicking
 
-        # Log all buttons on page to help debug
+        # Scroll to bottom of page so the Post button is in view
+        page.keyboard.press("End")
+        time.sleep(1)
+
+        # Log all buttons to help debug (up to 20)
         buttons = page.locator("button").all()
-        print(f"[TikTok] Buttons on page: {[b.inner_text() for b in buttons[:10]]}")
+        print(f"[TikTok] All buttons: {[b.inner_text() for b in buttons[:20]]}")
 
         posted = False
-        for selector in [
-            "button:has-text('Post')",
-            "button:has-text('Publish')",
-            "[data-e2e='post-btn']",
-            "button[class*='post']",
+        # Use exact text matching to avoid hitting sidebar "Posts" nav link
+        for locator in [
+            page.get_by_role("button", name="Post", exact=True),
+            page.get_by_role("button", name="Publish", exact=True),
+            page.locator("[data-e2e='post-btn']"),
         ]:
             try:
-                btn = page.locator(selector).first
-                btn.wait_for(state="visible", timeout=8_000)
-                btn.scroll_into_view_if_needed()
+                locator.wait_for(state="visible", timeout=8_000)
+                locator.scroll_into_view_if_needed()
                 time.sleep(0.5)
-                # Use JS click to bypass any overlay issues
-                btn.dispatch_event("click")
+                locator.click()
                 posted = True
-                print(f"[TikTok] Clicked with selector: {selector}")
+                print(f"[TikTok] Post button clicked successfully")
                 break
             except Exception as e:
-                print(f"[TikTok] Selector '{selector}' failed: {e}")
+                print(f"[TikTok] Locator failed: {e}")
                 continue
+
+        if not posted:
+            # Last-ditch: try all buttons and find one with exact text "Post"
+            for btn in page.locator("button").all():
+                try:
+                    txt = btn.inner_text().strip()
+                    if txt == "Post":
+                        btn.scroll_into_view_if_needed()
+                        time.sleep(0.3)
+                        btn.click()
+                        posted = True
+                        print("[TikTok] Post button found by text scan and clicked")
+                        break
+                except Exception:
+                    continue
 
         if not posted:
             page.screenshot(path=os.path.join(debug_dir, "post_btn_missing.png"))
