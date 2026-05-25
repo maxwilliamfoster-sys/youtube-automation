@@ -172,7 +172,7 @@ def run_once() -> str:
     # ── 7. Upload to TikTok ───────────────────────────────────────────────────
     print("\n--- STEP 7: Uploading to TikTok ---")
     try:
-        from tiktok_uploader import upload_to_tiktok
+        from tiktok_poster import upload_to_tiktok
         upload_to_tiktok(
             video_path=video_path,
             title=story["title"],
