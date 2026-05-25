@@ -180,6 +180,18 @@ def run_once() -> str:
         )
     except Exception as e:
         print(f"[TikTok] Upload step error: {e}")
+        # Notify via Telegram so you know when to refresh cookies
+        try:
+            from notify import send_alert
+            send_alert(
+                "⚠️ <b>BuriedCasefiles — TikTok upload failed</b>\n\n"
+                f"<b>Video:</b> {story['title']}\n"
+                f"<b>Error:</b> {str(e)[:300]}\n\n"
+                "Your TikTok cookies may have expired.\n"
+                "Fix: open your PC and run  <code>py refresh_cookies.py</code>"
+            )
+        except Exception:
+            pass
 
     # ── 8. Auto-preview ───────────────────────────────────────────────────────
     try:
