@@ -28,15 +28,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: kokoro_models/
-          key: kokoro-onnx-models-v1
+          key: kokoro-onnx-models-v2
 
       - name: Download Kokoro ONNX models
-        if: steps.cache-kokoro.outputs.cache-hit != 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p kokoro_models
-          gh release download model-files-v1 --dir kokoro_models/
+          [ -f kokoro_models/kokoro-v1.0.onnx ] || gh release download model-files-v1 --dir kokoro_models/
 
       - name: Cache gameplay clips
         uses: actions/cache@v4
