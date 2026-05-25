@@ -1,0 +1,95 @@
+name: BuriedCasefiles — Daily Documentary
+
+on:
+  schedule:
+    - cron: '30 6 * * *'   # 07:30 BST (summer) / 06:30 GMT (winter) — morning slot
+    - cron: '0 19 * * *'   # 20:00 BST (summer) / 19:00 GMT (winter) — evening slot
+  workflow_dispatch:        # allows manual trigger from GitHub Actions UI
+
+jobs:
+  generate-and-post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      # ── 1. Code ────────────────────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # ── 2. Caches (speeds up every run after the first) ────────────────────────
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: pip-
+
+      - name: Cache Kokoro models + font + music
+        uses: actions/cache@v4
+        with:
+          path: |
+            kokoro_models/
+            assets/
+            music/
+          key: assets-v2
+
+      # ── 3. System dependencies ─────────────────────────────────────────────────
+      - name: Install system packages
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            ffmpeg \
+            xvfb \
+            espeak-ng \
+            libsndfile1 \
+            libgl1-mesa-glx \
+            libglib2.0-0
+
+      # ── 4. Python packages ─────────────────────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Playwright Chromium
+        run: playwright install chromium --with-deps
+
+      # ── 5. Assets: font + music tracks ────────────────────────────────────────
+      - name: Download font and music assets
+        run: python setup_music.py
+
+      # ── 6. Secrets → files ────────────────────────────────────────────────────
+      - name: Write .env from secrets
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          printf 'GROQ_API_KEY=%s\nPEXELS_API_KEY=%s\nOPENROUTER_API_KEY=%s\n' \
+            "$GROQ_API_KEY" "$PEXELS_API_KEY" "$OPENROUTER_API_KEY" > .env
+
+      - name: Restore TikTok cookies
+        env:
+          TIKTOK_COOKIES_B64: ${{ secrets.TIKTOK_COOKIES_B64 }}
+        run: echo "$TIKTOK_COOKIES_B64" | base64 -d > tiktok_cookies.txt
+
+      # ── 7. Generate video + post to TikTok ────────────────────────────────────
+      - name: Run pipeline
+        run: |
+          Xvfb :99 -screen 0 1280x800x24 -ac &
+          sleep 2
+          DISPLAY=:99 python main_documentary.py
+        env:
+          PYTHONUNBUFFERED: "1"
+
+      # ── 8. Debug artefacts on failure ─────────────────────────────────────────
+      - name: Upload debug screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-${{ github.run_id }}
+          path: debug/
+          if-no-files-found: ignore
