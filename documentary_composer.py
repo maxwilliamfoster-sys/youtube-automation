@@ -9,6 +9,7 @@ import os
 import random as _random
 import shutil
 import subprocess
+import threading
 from datetime import datetime
 from typing import List, Dict, Optional
 from PIL import Image
@@ -87,7 +88,23 @@ def make_ken_burns_clip(
         "-pix_fmt", "yuv420p", "-r", str(VIDEO_FPS),
         os.path.abspath(output_path).replace("\\", "/"),
     ]
+    # Read stderr in a background thread to avoid deadlock when pipe buffer fills
+    stderr_chunks: list = []
+
     proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+
+    def _read_stderr():
+        try:
+            while True:
+                chunk = proc.stderr.read(4096)
+                if not chunk:
+                    break
+                stderr_chunks.append(chunk)
+        except Exception:
+            pass
+
+    stderr_thread = threading.Thread(target=_read_stderr, daemon=True)
+    stderr_thread.start()
 
     try:
         for n in range(total_frames):
@@ -113,12 +130,24 @@ def make_ken_burns_clip(
                 (sx, 0, tx, 0, sy, ty),
                 Image.BICUBIC,
             )
-            proc.stdin.write(frame.tobytes())
+            try:
+                proc.stdin.write(frame.tobytes())
+            except (BrokenPipeError, OSError):
+                break   # FFmpeg exited early; let the finally block clean up
 
     finally:
-        proc.stdin.close()
-        _, stderr = proc.communicate()
+        try:
+            proc.stdin.close()
+        except Exception:
+            pass
+        stderr_thread.join(timeout=30)
+        try:
+            proc.wait(timeout=60)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait()
 
+    stderr = b"".join(stderr_chunks)
     if proc.returncode != 0:
         print(f"[DocCompose] Ken Burns error:\n{stderr[-2000:].decode(errors='replace')}")
         raise RuntimeError(f"Ken Burns failed for {image_path}")
