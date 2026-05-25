@@ -27,6 +27,7 @@ gameplay/_pexels_fresh_*.mp4
 test_*.mp3
 test_*.wav
 generate_preview.py
+debug/
 
 # ─── Logs (local state, not needed in repo) ───────────────────────────────────
 scheduler_log.txt

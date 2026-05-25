@@ -224,9 +224,22 @@ def _do_upload(video_path: str, caption: str, cookies_path: str):
 
         time.sleep(1)
 
+        # ── Screenshot before posting (for debugging) ─────────────────────────
+        debug_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "debug")
+        os.makedirs(debug_dir, exist_ok=True)
+        debug_path = os.path.join(debug_dir, "before_post.png")
+        page.screenshot(path=debug_path)
+        print(f"[TikTok] Debug screenshot saved: {debug_path}")
+
         # ── Post ─────────────────────────────────────────────────────────────
         print("[TikTok] Clicking Post...")
-        # Try several selectors TikTok has used over time
+        time.sleep(2)   # ensure caption is committed before clicking
+
+        # Log all buttons on page to help debug
+        buttons = page.locator("button").all()
+        print(f"[TikTok] Buttons on page: {[b.inner_text() for b in buttons[:10]]}")
+
+        posted = False
         for selector in [
             "button:has-text('Post')",
             "button:has-text('Publish')",
@@ -235,17 +248,49 @@ def _do_upload(video_path: str, caption: str, cookies_path: str):
         ]:
             try:
                 btn = page.locator(selector).first
-                btn.wait_for(state="visible", timeout=5_000)
-                btn.click()
+                btn.wait_for(state="visible", timeout=8_000)
+                btn.scroll_into_view_if_needed()
+                time.sleep(0.5)
+                # Use JS click to bypass any overlay issues
+                btn.dispatch_event("click")
+                posted = True
+                print(f"[TikTok] Clicked with selector: {selector}")
                 break
-            except Exception:
+            except Exception as e:
+                print(f"[TikTok] Selector '{selector}' failed: {e}")
                 continue
 
-        # Wait for redirect back to creator center (indicates success)
+        if not posted:
+            page.screenshot(path=os.path.join(debug_dir, "post_btn_missing.png"))
+            raise RuntimeError(
+                "Could not find/click the Post button — TikTok UI may have changed. "
+                f"Check {debug_dir}/post_btn_missing.png"
+            )
+
+        # Wait for URL change — TikTok Studio goes to /tiktokstudio/content after posting
+        # Give it up to 60s as TikTok may do server-side validation first
+        time.sleep(3)
+        page.screenshot(path=os.path.join(debug_dir, "after_click.png"))
+        print(f"[TikTok] URL after click: {page.url}")
+
+        success = False
         try:
-            page.wait_for_url("**/creator-center**", timeout=30_000)
+            page.wait_for_url(
+                lambda url: "tiktokstudio/content" in url or "creator-center" in url,
+                timeout=60_000,
+            )
+            success = True
         except Exception:
-            time.sleep(5)   # fallback — post may have submitted anyway
+            pass
+
+        if not success:
+            current_url = page.url
+            page.screenshot(path=os.path.join(debug_dir, "no_redirect.png"))
+            raise RuntimeError(
+                f"Post failed — TikTok did not redirect after clicking Post. "
+                f"URL stayed at: {current_url}. "
+                f"Check screenshots in {debug_dir}/"
+            )
 
         print("[TikTok] Post submitted.")
         time.sleep(3)
