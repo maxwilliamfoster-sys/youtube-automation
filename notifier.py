@@ -1,35 +1,69 @@
 """
-Notifier — sends push notifications via ntfy.sh.
-Used to alert you when credentials need refreshing.
+Telegram notifier for the YouTube Shorts automation pipeline.
+Sends messages to your Telegram chat for upload results and credential alerts.
+
+Credentials read from .env:
+  TELEGRAM_BOT_TOKEN=<your bot token>
+  TELEGRAM_CHAT_ID=<your chat id>
 """
 
+import os
 import urllib.request
 import urllib.error
-import os
+import json
+from dotenv import load_dotenv
+
+load_dotenv()
+
+_TOKEN   = os.getenv("TELEGRAM_BOT_TOKEN", "")
+_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
 
 
-def send_ntfy(title: str, message: str, priority: str = "high", tags: str = "warning") -> None:
+def send_telegram(message: str) -> bool:
     """
-    Send a push notification via ntfy.sh.
-    Requires NTFY_TOPIC to be set in .env or environment.
-    Silently no-ops if NTFY_TOPIC is not configured.
+    Send a Telegram message to the configured chat.
+    Returns True on success. Silent — never raises or crashes the pipeline.
     """
-    topic = os.getenv("NTFY_TOPIC", "")
-    if not topic:
-        return
-
+    if not _TOKEN or not _CHAT_ID:
+        return False
     try:
+        payload = json.dumps({
+            "chat_id":    _CHAT_ID,
+            "text":       message,
+            "parse_mode": "HTML",
+        }).encode("utf-8")
         req = urllib.request.Request(
-            f"https://ntfy.sh/{topic}",
-            data=message.encode("utf-8"),
-            headers={
-                "Title":    title,
-                "Priority": priority,
-                "Tags":     tags,
-            },
+            f"https://api.telegram.org/bot{_TOKEN}/sendMessage",
+            data=payload,
+            headers={"Content-Type": "application/json"},
             method="POST",
         )
         urllib.request.urlopen(req, timeout=10)
+        return True
     except Exception as e:
-        # Never let a notification failure crash the pipeline
-        print(f"[Notify] Warning: could not send ntfy alert — {e}")
+        print(f"[Notify] Telegram alert failed — {e}")
+        return False
+
+
+# Convenience aliases used throughout the pipeline
+def notify_success(title: str, url: str) -> None:
+    send_telegram(
+        f"✅ <b>New Short Posted!</b>\n\n"
+        f"<b>{title}</b>\n"
+        f"{url}"
+    )
+
+
+def notify_failure(reason: str) -> None:
+    send_telegram(
+        f"❌ <b>Pipeline Failed</b>\n\n"
+        f"{reason}\n\n"
+        f"Check GitHub Actions for the full log."
+    )
+
+
+def notify_credential_expiry(service: str, steps: str) -> None:
+    send_telegram(
+        f"🔑 <b>Action Required — {service} credentials expired</b>\n\n"
+        f"{steps}"
+    )

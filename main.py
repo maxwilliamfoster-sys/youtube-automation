@@ -28,6 +28,7 @@ from caption_generator import get_captions
 from gameplay_manager import get_random_clip, cleanup_pexels_clip
 from video_composer import compose_video
 from youtube_uploader import upload_short
+from notifier import notify_success, notify_failure
 
 # FFmpeg install path (fallback if not in PATH yet)
 FFMPEG_FALLBACK_DIR = r"C:\ffmpeg\ffmpeg-8.1.1-essentials_build\bin"
@@ -177,8 +178,13 @@ def main():
             print(f"{'='*60}")
 
         try:
-            run_pipeline(upload=upload)
+            result = run_pipeline(upload=upload)
             successful += 1
+            if upload and result.get("upload"):
+                notify_success(
+                    title=result["upload"]["title"],
+                    url=result["upload"]["url"],
+                )
         except KeyboardInterrupt:
             print("\nInterrupted by user.")
             break
@@ -186,6 +192,7 @@ def main():
             failed += 1
             print(f"\n[FAIL] Pipeline failed: {e}")
             traceback.print_exc()
+            notify_failure(str(e))
             if args.count > 1:
                 print("Continuing with next video...\n")
 

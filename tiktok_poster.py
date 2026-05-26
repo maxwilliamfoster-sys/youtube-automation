@@ -18,7 +18,7 @@ from config import (
     TIKTOK_CAPTION_TEMPLATE,
     TIKTOK_COOKIES_FILE,
 )
-from notifier import send_ntfy
+from notifier import notify_credential_expiry
 
 _COOKIES_TXT  = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tiktok_cookies.txt")
 _COOKIES_JSON = TIKTOK_COOKIES_FILE
@@ -100,17 +100,13 @@ def upload_to_tiktok(
             msg = str(e)
             # Detect cookie/session expiry specifically and alert immediately
             if "cookies may have expired" in msg or "redirected to login" in msg.lower():
-                send_ntfy(
-                    title="TikTok Cookies Expired — Action Required",
-                    message=(
-                        "TikTok redirected to login — your cookies have expired.\n\n"
-                        "To fix:\n"
-                        "1. Run locally: python refresh_tiktok_cookies.py\n"
+                notify_credential_expiry(
+                    service="TikTok Cookies",
+                    steps=(
+                        "1. Run locally: <code>python refresh_tiktok_cookies.py</code>\n"
                         "2. Log into TikTok when the browser opens\n"
-                        "3. Update TIKTOK_COOKIES in GitHub Secrets"
+                        "3. Update <b>TIKTOK_COOKIES_B64</b> in GitHub → Settings → Secrets"
                     ),
-                    priority="urgent",
-                    tags="rotating_light,no_entry",
                 )
             print(f"[TikTok] Attempt {attempt}/{retries} failed: {e}")
             if attempt < retries:

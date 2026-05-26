@@ -18,7 +18,7 @@ from config import (
     YOUTUBE_CATEGORY_ID, YOUTUBE_PRIVACY, YOUTUBE_TAGS,
     YOUTUBE_DESCRIPTION_TEMPLATE, CREDENTIALS_FILE, TOKEN_FILE
 )
-from notifier import send_ntfy
+from notifier import notify_credential_expiry
 
 # YouTube API scopes needed
 SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
@@ -43,18 +43,14 @@ def get_authenticated_service():
             try:
                 creds.refresh(Request())
             except RefreshError:
-                send_ntfy(
-                    title="YouTube Token Expired — Action Required",
-                    message=(
-                        "Your YouTube OAuth token has expired and cannot be refreshed.\n\n"
-                        "To fix:\n"
-                        "1. Run locally: python youtube_uploader.py\n"
+                notify_credential_expiry(
+                    service="YouTube Token",
+                    steps=(
+                        "1. Run locally: <code>python youtube_uploader.py</code>\n"
                         "2. Log in when the browser opens\n"
-                        "3. Copy token.json contents\n"
-                        "4. Update YOUTUBE_TOKEN in GitHub Secrets"
+                        "3. Copy the contents of token.json\n"
+                        "4. Update <b>YOUTUBE_TOKEN</b> in GitHub → Settings → Secrets"
                     ),
-                    priority="urgent",
-                    tags="rotating_light,youtube",
                 )
                 raise
         else:
