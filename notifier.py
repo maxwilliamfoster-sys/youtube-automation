@@ -2,9 +2,11 @@
 Telegram notifier for the YouTube Shorts automation pipeline.
 Sends messages to your Telegram chat for upload results and credential alerts.
 
+Uses the dedicated HorrorShortsAlertsBot (separate from the TikTok bot).
+
 Credentials read from .env:
-  TELEGRAM_BOT_TOKEN=<your bot token>
-  TELEGRAM_CHAT_ID=<your chat id>
+  YOUTUBE_TELEGRAM_BOT_TOKEN=<HorrorShortsAlertsBot token>
+  YOUTUBE_TELEGRAM_CHAT_ID=<your chat id>
 """
 
 import os
@@ -15,8 +17,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-_TOKEN   = os.getenv("TELEGRAM_BOT_TOKEN", "")
-_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "")
+_TOKEN   = os.getenv("YOUTUBE_TELEGRAM_BOT_TOKEN", "")
+_CHAT_ID = os.getenv("YOUTUBE_TELEGRAM_CHAT_ID", "")
 
 
 def send_telegram(message: str) -> bool:

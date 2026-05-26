@@ -68,16 +68,16 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          YOUTUBE_TELEGRAM_BOT_TOKEN: ${{ secrets.YOUTUBE_TELEGRAM_BOT_TOKEN }}
+          YOUTUBE_TELEGRAM_CHAT_ID: ${{ secrets.YOUTUBE_TELEGRAM_CHAT_ID }}
         run: |
           python3 -c "import os; d=os.environ['YOUTUBE_CLIENT_SECRETS']; open('client_secrets.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
           python3 -c "import os; d=os.environ['YOUTUBE_TOKEN']; open('token.json','w',encoding='utf-8').write(d[1:] if d.startswith('﻿') else d)"
           echo "GROQ_API_KEY=${GROQ_API_KEY}" > .env
           echo "PEXELS_API_KEY=${PEXELS_API_KEY}" >> .env
           echo "OPENROUTER_API_KEY=${OPENROUTER_API_KEY}" >> .env
-          echo "TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}" >> .env
-          echo "TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}" >> .env
+          echo "YOUTUBE_TELEGRAM_BOT_TOKEN=${YOUTUBE_TELEGRAM_BOT_TOKEN}" >> .env
+          echo "YOUTUBE_TELEGRAM_CHAT_ID=${YOUTUBE_TELEGRAM_CHAT_ID}" >> .env
 
       - name: Create required folders
         run: mkdir -p gameplay output audio
@@ -88,9 +88,9 @@ jobs:
       - name: Notify on failure
         if: failure()
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          YOUTUBE_TELEGRAM_BOT_TOKEN: ${{ secrets.YOUTUBE_TELEGRAM_BOT_TOKEN }}
+          YOUTUBE_TELEGRAM_CHAT_ID: ${{ secrets.YOUTUBE_TELEGRAM_CHAT_ID }}
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+          curl -s -X POST "https://api.telegram.org/bot${YOUTUBE_TELEGRAM_BOT_TOKEN}/sendMessage" \
             -H "Content-Type: application/json" \
-            -d "{\"chat_id\":\"${TELEGRAM_CHAT_ID}\",\"text\":\"❌ <b>Pipeline Failed</b>\\n\\nThe YouTube Shorts automation failed.\\n\\n<a href=\\\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\\\">View run logs</a>\",\"parse_mode\":\"HTML\"}"
+            -d "{\"chat_id\":\"${YOUTUBE_TELEGRAM_CHAT_ID}\",\"text\":\"❌ <b>Pipeline Failed</b>\\n\\nThe YouTube Shorts automation failed.\\n\\n<a href=\\\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\\\">View run logs</a>\",\"parse_mode\":\"HTML\"}"
