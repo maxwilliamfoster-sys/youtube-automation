@@ -69,6 +69,7 @@ def record_post(video_id: str, meta: dict) -> None:
         "title":           meta.get("title", ""),
         "theme":           meta.get("theme"),
         "hook":            meta.get("hook"),
+        "background":      meta.get("background"),
         "target_seconds":  meta.get("target_seconds"),
         "actual_seconds":  meta.get("actual_seconds"),
         "word_count":      meta.get("word_count"),
@@ -93,7 +94,7 @@ def record_post(video_id: str, meta: dict) -> None:
               f"-> rolling {cal['words_per_second']:.2f} w/s (n={cal['samples']})")
     save_history(h)
     print(f"[Perf] Recorded post {video_id}: theme={meta.get('theme')} hook={meta.get('hook')} "
-          f"target={meta.get('target_seconds')}s actual={meta.get('actual_seconds')}s")
+          f"bg={meta.get('background')} target={meta.get('target_seconds')}s actual={meta.get('actual_seconds')}s")
 
 
 # ─── Fetching performance ─────────────────────────────────────────────────────

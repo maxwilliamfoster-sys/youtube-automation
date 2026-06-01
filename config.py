@@ -53,6 +53,9 @@ TARGET_DURATION_CANDIDATES = [45, 60, 75, 90]
 HORROR_THEMES = ["supernatural", "technology", "psychological", "wilderness", "domestic", "body"]
 # Opening hook styles the storyteller is told to use.
 HOOK_STYLES   = ["cold_detail", "in_action", "discovery", "overheard"]
+# Background styles the engine A/B-tests (atmospheric Pexels moods vs gameplay).
+# Keys MUST match gameplay_manager.BACKGROUND_CATEGORIES.
+BACKGROUND_CATEGORIES = ["fog", "rain", "fire", "storm", "abandoned", "water", "city", "gameplay"]
 
 PERFORMANCE_HISTORY_FILE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "performance_history.json"

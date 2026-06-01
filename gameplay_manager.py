@@ -41,6 +41,26 @@ PEXELS_SEARCHES = [
     "city timelapse night",
 ]
 
+# Pexels (and its CDN) reject the default Python-urllib User-Agent with HTTP 403,
+# so every request must look like a browser. This was why fresh backgrounds stopped
+# downloading and every video reused the same handful of gameplay clips.
+_UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36")
+
+# Background CATEGORIES the adaptive engine A/B-tests. Each maps to either a set of
+# Pexels search terms (atmospheric, horror-fitting footage) or the gameplay clips
+# (the high-retention "brainrot" style). Keys MUST match config.BACKGROUND_CATEGORIES.
+BACKGROUND_CATEGORIES = {
+    "fog":       {"source": "pexels",   "queries": ["misty forest", "dark forest walk", "foggy road", "mountain fog"]},
+    "rain":      {"source": "pexels",   "queries": ["rain window night", "night city rain"]},
+    "fire":      {"source": "pexels",   "queries": ["campfire dark", "candle flame dark", "fire embers"]},
+    "storm":     {"source": "pexels",   "queries": ["storm lightning", "snow blizzard"]},
+    "abandoned": {"source": "pexels",   "queries": ["abandoned building", "old graveyard"]},
+    "water":     {"source": "pexels",   "queries": ["ocean waves night", "underwater dark", "waterfall nature"]},
+    "city":      {"source": "pexels",   "queries": ["city timelapse night", "parkour rooftop"]},
+    "gameplay":  {"source": "gameplay", "queries": []},
+}
+
 _last_search_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".last_search")
 
 # FFmpeg location for yt-dlp merging — find dynamically so it works on Windows and Linux
@@ -189,16 +209,39 @@ def ensure_gameplay_clips(min_clips: int = 3) -> List[str]:
     return existing
 
 
-def download_pexels_clip(output_path: str) -> bool:
+import urllib.parse
+
+
+def _pexels_get(url: str) -> dict:
+    """GET the Pexels API with the auth + browser User-Agent (avoids 403)."""
+    req = urllib.request.Request(url, headers={"Authorization": PEXELS_API_KEY, "User-Agent": _UA})
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        return json.loads(resp.read())
+
+
+def _download_file(url: str, output_path: str) -> None:
+    """Stream a file to disk with a browser User-Agent (the CDN also 403s default urllib)."""
+    req = urllib.request.Request(url, headers={"User-Agent": _UA})
+    with urllib.request.urlopen(req, timeout=90) as r, open(output_path, "wb") as f:
+        shutil.copyfileobj(r, f)
+
+
+def download_pexels_clip(output_path: str, queries: list = None) -> bool:
     """
     Download a fresh random vertical video from Pexels API.
-    Returns True if successful. Requires PEXELS_API_KEY env var.
+
+    Args:
+        output_path: where to save the .mp4
+        queries:     restrict to these search terms (a background category). If None,
+                     uses the full PEXELS_SEARCHES list.
+    Returns True on success. Requires PEXELS_API_KEY.
     """
     if not PEXELS_API_KEY:
         return False
 
+    search_pool = queries if queries else PEXELS_SEARCHES
     try:
-        # Rotate search terms — never use the same one twice in a row
+        # Rotate search terms — avoid repeating the exact same one back-to-back.
         last_search = None
         if os.path.exists(_last_search_file):
             try:
@@ -206,8 +249,8 @@ def download_pexels_clip(output_path: str) -> bool:
                     last_search = f.read().strip()
             except Exception:
                 pass
-        available_searches = [s for s in PEXELS_SEARCHES if s != last_search]
-        search = random.choice(available_searches if available_searches else PEXELS_SEARCHES)
+        available_searches = [s for s in search_pool if s != last_search] or search_pool
+        search = random.choice(available_searches)
         try:
             with open(_last_search_file, "w") as f:
                 f.write(search)
@@ -215,24 +258,21 @@ def download_pexels_clip(output_path: str) -> bool:
             pass
         print(f"[Gameplay] Fetching fresh clip from Pexels: '{search}'...")
 
-        url = f"https://api.pexels.com/videos/search?query={urllib.parse.quote(search)}&orientation=portrait&size=large&per_page=20"
-        req = urllib.request.Request(url, headers={"Authorization": PEXELS_API_KEY})
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            data = json.loads(resp.read())
+        url = (f"https://api.pexels.com/videos/search?query={urllib.parse.quote(search)}"
+               f"&orientation=portrait&size=large&per_page=20")
+        data = _pexels_get(url)
 
         videos = data.get("videos", [])
         if not videos:
             print(f"[Gameplay] No Pexels results for '{search}'")
             return False
 
-        # Pick a random video from results, prefer HD
         random.shuffle(videos)
         for video in videos:
             files = video.get("video_files", [])
-            # Find best vertical file (portrait, HD preferred)
             portrait_files = [
                 f for f in files
-                if f.get("width", 0) < f.get("height", 0)  # portrait = width < height
+                if f.get("width", 0) < f.get("height", 0)
                 and f.get("height", 0) >= 1080
                 and f.get("file_type") == "video/mp4"
             ]
@@ -245,15 +285,14 @@ def download_pexels_clip(output_path: str) -> bool:
             if not portrait_files:
                 continue
 
-            # Pick highest quality portrait file
             best = max(portrait_files, key=lambda f: f.get("height", 0))
             video_url = best.get("link")
             if not video_url:
                 continue
 
             print(f"[Gameplay] Downloading from Pexels ({best.get('height')}p)...")
-            urllib.request.urlretrieve(video_url, output_path)
-            size_mb = os.path.getsize(output_path) / (1024*1024)
+            _download_file(video_url, output_path)
+            size_mb = os.path.getsize(output_path) / (1024 * 1024)
             print(f"[Gameplay] Pexels clip downloaded ({size_mb:.0f} MB)")
             return True
 
@@ -264,39 +303,19 @@ def download_pexels_clip(output_path: str) -> bool:
         print(f"[Gameplay] Pexels download error: {e}")
         return False
 
-
-import urllib.parse
-
 _last_clip_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".last_clip")
 
 
-def get_random_clip() -> str:
-    """
-    Return a gameplay clip for this Short.
-
-    Priority:
-    1. Pexels API (if PEXELS_API_KEY is set) — downloads a fresh unique clip every run, then deletes it after use.
-    2. Local/repo clips — rotates through available clips so the same one isn't reused back-to-back.
-    """
-    # --- Pexels: fresh clip every run ---
-    if PEXELS_API_KEY:
-        os.makedirs(GAMEPLAY_DIR, exist_ok=True)
-        pexels_path = os.path.join(GAMEPLAY_DIR, f"_pexels_fresh_{os.getpid()}.mp4")
-        if download_pexels_clip(pexels_path):
-            print(f"[Gameplay] Using fresh Pexels clip")
-            return pexels_path  # caller uses it; we'll clean up after compose
-
-    # --- Fallback: rotate through local clips ---
+def _local_gameplay_clip() -> str:
+    """Rotate through the local/yt-dlp gameplay clips (Subway Surfers / Minecraft)."""
     clips = ensure_gameplay_clips()
     hd_clips = filter_hd_clips(clips)
-
     if not hd_clips:
         raise RuntimeError(
             "No HD gameplay clips found (minimum 1080px wide)!\n"
             "Add 1080p Minecraft or Subway Surfers .mp4 files to:\n"
             f"  {GAMEPLAY_DIR}"
         )
-
     hd_clips = sorted(hd_clips)
 
     last_clip = None
@@ -307,20 +326,44 @@ def get_random_clip() -> str:
         except Exception:
             pass
 
-    available = [c for c in hd_clips if c != last_clip]
-    if not available:
-        available = hd_clips
-
+    available = [c for c in hd_clips if c != last_clip] or hd_clips
     chosen = random.choice(available)
-
     try:
         with open(_last_clip_file, "w") as f:
             f.write(chosen)
     except Exception:
         pass
-
-    print(f"[Gameplay] Using: {os.path.basename(chosen)}")
+    print(f"[Gameplay] Using local clip: {os.path.basename(chosen)}")
     return chosen
+
+
+def get_random_clip(background: str = None):
+    """
+    Return (clip_path, used_background) for this Short.
+
+    `background` is a category from BACKGROUND_CATEGORIES (chosen by the adaptive
+    engine). Atmospheric categories pull a fresh Pexels clip; "gameplay" (or any
+    Pexels failure) falls back to the local Subway Surfers / Minecraft clips. The
+    SECOND return value is the background actually used, so the engine learns from
+    reality even when a fallback kicks in.
+    """
+    os.makedirs(GAMEPLAY_DIR, exist_ok=True)
+
+    cat = background if background in BACKGROUND_CATEGORIES else random.choice(list(BACKGROUND_CATEGORIES))
+    spec = BACKGROUND_CATEGORIES[cat]
+
+    # --- Atmospheric (Pexels): fresh clip every run ---
+    if spec["source"] == "pexels" and PEXELS_API_KEY:
+        pexels_path = os.path.join(GAMEPLAY_DIR, f"_pexels_fresh_{os.getpid()}.mp4")
+        if download_pexels_clip(pexels_path, queries=spec["queries"]):
+            print(f"[Gameplay] Using fresh Pexels clip (background={cat})")
+            return pexels_path, cat
+        print(f"[Gameplay] Pexels '{cat}' unavailable — falling back to gameplay clips")
+
+    # --- Gameplay category, or Pexels fallback ---
+    chosen = _local_gameplay_clip()
+    used = cat if spec["source"] == "gameplay" else "gameplay"
+    return chosen, used
 
 
 def cleanup_pexels_clip(clip_path: str) -> None:

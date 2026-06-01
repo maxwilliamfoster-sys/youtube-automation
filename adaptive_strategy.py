@@ -24,7 +24,7 @@ import random
 
 from config import (
     TARGET_DURATION_CANDIDATES, TARGET_DURATION_DEFAULT,
-    HORROR_THEMES, HOOK_STYLES,
+    HORROR_THEMES, HOOK_STYLES, BACKGROUND_CATEGORIES,
     ADAPTIVE_ENABLED, ADAPTIVE_EXPLORATION, ADAPTIVE_MIN_SAMPLES,
     STORY_WORD_MIN, STORY_WORD_MAX,
 )
@@ -138,6 +138,7 @@ def get_strategy() -> dict:
             "target_words":   _words_for(secs, wps, overshoot),
             "theme":          random.choice(HORROR_THEMES),
             "hook":           random.choice(HOOK_STYLES),
+            "background":     random.choice(BACKGROUND_CATEGORIES),
             "words_per_second": wps,
             "rationale":      "adaptive disabled — defaults",
         }
@@ -147,12 +148,13 @@ def get_strategy() -> dict:
     retention_basis = _uses_retention(records)
 
     secs, len_scores, why = _choose_length(history, retention_basis)
-    theme, theme_scores   = _choose_attribute(history, "theme", HORROR_THEMES, retention_basis)
-    hook, hook_scores     = _choose_attribute(history, "hook",  HOOK_STYLES,  retention_basis)
+    theme, theme_scores   = _choose_attribute(history, "theme",      HORROR_THEMES,        retention_basis)
+    hook, hook_scores     = _choose_attribute(history, "hook",       HOOK_STYLES,          retention_basis)
+    background, bg_scores = _choose_attribute(history, "background", BACKGROUND_CATEGORIES, retention_basis)
 
     basis = "retention%" if retention_basis else "views/day"
     rationale = (
-        f"len={secs}s ({why}, basis={basis}) | theme={theme} | hook={hook} | "
+        f"len={secs}s ({why}, basis={basis}) | theme={theme} | hook={hook} | bg={background} | "
         f"len_scores={ {k: round(v,3) for k,v in len_scores.items()} }"
     )
 
@@ -161,6 +163,7 @@ def get_strategy() -> dict:
         "target_words":     _words_for(secs, wps, overshoot),
         "theme":            theme,
         "hook":             hook,
+        "background":       background,
         "words_per_second": wps,
         "rationale":        rationale,
     }
@@ -177,12 +180,14 @@ if __name__ == "__main__":
     for k, v in s.items():
         print(f"  {k}: {v}")
     print("\nDistribution over 200 draws (shows exploration spread):")
-    c_secs, c_theme, c_hook = Counter(), Counter(), Counter()
+    c_secs, c_theme, c_hook, c_bg = Counter(), Counter(), Counter(), Counter()
     for _ in range(200):
         d = get_strategy()
         c_secs[d["target_seconds"]] += 1
         c_theme[d["theme"]] += 1
         c_hook[d["hook"]] += 1
+        c_bg[d["background"]] += 1
     print("  length:", dict(c_secs.most_common()))
     print("  theme :", dict(c_theme.most_common()))
     print("  hook  :", dict(c_hook.most_common()))
+    print("  bg    :", dict(c_bg.most_common()))

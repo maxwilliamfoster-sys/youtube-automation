@@ -70,7 +70,7 @@ def run_pipeline(upload: bool = True, strategy: dict = None) -> dict:
         strategy = get_strategy()
     print("--- ADAPTIVE STRATEGY ---")
     print(f"  Target: {strategy['target_seconds']}s (~{strategy['target_words']} words) "
-          f"| theme={strategy['theme']} | hook={strategy['hook']}")
+          f"| theme={strategy['theme']} | hook={strategy['hook']} | bg={strategy['background']}")
     print(f"  {strategy['rationale']}\n")
     results["strategy"] = strategy
 
@@ -112,11 +112,12 @@ def run_pipeline(upload: bool = True, strategy: dict = None) -> dict:
     results["captions"] = captions
     print(f"  Caption segments: {len(captions)}\n")
 
-    # --- Step 4: Get Gameplay Footage ---
-    print("--- STEP 4: Getting Gameplay Footage ---")
-    gameplay_path = get_random_clip()
+    # --- Step 4: Get Background Footage (adaptive category) ---
+    print("--- STEP 4: Getting Background Footage ---")
+    gameplay_path, used_background = get_random_clip(strategy.get("background"))
     results["gameplay"] = gameplay_path
-    print()
+    results["used_background"] = used_background
+    print(f"  Background used: {used_background}\n")
 
     # --- Step 5: Compose Video ---
     print("--- STEP 5: Composing Video ---")
@@ -163,6 +164,7 @@ def run_pipeline(upload: bool = True, strategy: dict = None) -> dict:
                 "title":          story_data["title"],
                 "theme":          story_data.get("theme"),
                 "hook":           story_data.get("hook"),
+                "background":     results.get("used_background"),
                 "target_seconds": strategy.get("target_seconds"),
                 "target_words":   strategy.get("target_words"),
                 "actual_seconds": round(tts_result["duration"], 1),
