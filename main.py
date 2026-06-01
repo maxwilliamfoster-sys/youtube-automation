@@ -21,7 +21,15 @@ import sys
 import traceback
 from datetime import datetime
 
-from config import AUDIO_DIR, OUTPUT_DIR
+# Make console output UTF-8 safe everywhere (Windows defaults to cp1252, which
+# raises UnicodeEncodeError on characters like ≈ or emoji and would crash a run).
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+from config import AUDIO_DIR, OUTPUT_DIR, MAX_VIDEO_SECONDS, MIN_VIDEO_SECONDS
 from story_generator import generate_story
 from tts_generator import generate_tts
 from caption_generator import get_captions
@@ -29,6 +37,12 @@ from gameplay_manager import get_random_clip, cleanup_pexels_clip
 from video_composer import compose_video
 from youtube_uploader import upload_short
 from notifier import notify_success, notify_failure
+from adaptive_strategy import get_strategy
+from performance_tracker import refresh_stats, record_post
+
+# How many times to regenerate the story/voice if the result lands outside the
+# allowed duration band before giving up on this cycle (rather than post a bad video).
+MAX_GEN_ATTEMPTS = 3
 
 # FFmpeg install path (fallback if not in PATH yet)
 FFMPEG_FALLBACK_DIR = r"C:\ffmpeg\ffmpeg-8.1.1-essentials_build\bin"
@@ -41,7 +55,7 @@ def _ensure_ffmpeg_in_path():
         os.environ["PATH"] = FFMPEG_FALLBACK_DIR + os.pathsep + os.environ.get("PATH", "")
 
 
-def run_pipeline(upload: bool = True) -> dict:
+def run_pipeline(upload: bool = True, strategy: dict = None) -> dict:
     """Run the full automation pipeline once."""
 
     print("\n" + "="*60)
@@ -51,20 +65,46 @@ def run_pipeline(upload: bool = True) -> dict:
 
     results = {}
 
-    # --- Step 1: Generate Story ---
-    print("--- STEP 1: Generating Story ---")
-    story_data = generate_story()
-    results["story"] = story_data
-    print(f"  Title: {story_data['title']}")
-    print(f"  Words: {len(story_data['story'].split())}\n")
+    # --- Adaptive strategy: decide length / theme / hook for this video ---
+    if strategy is None:
+        strategy = get_strategy()
+    print("--- ADAPTIVE STRATEGY ---")
+    print(f"  Target: {strategy['target_seconds']}s (~{strategy['target_words']} words) "
+          f"| theme={strategy['theme']} | hook={strategy['hook']}")
+    print(f"  {strategy['rationale']}\n")
+    results["strategy"] = strategy
 
-    # --- Step 2: Text-to-Speech ---
-    print("--- STEP 2: Generating Voice ---")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    tts_result = generate_tts(story_data["story"], filename_prefix=f"story_{timestamp}")
+
+    # --- Steps 1-2 with duration guard: regenerate until the voice track fits the band ---
+    story_data = None
+    tts_result = None
+    for attempt in range(1, MAX_GEN_ATTEMPTS + 1):
+        print(f"--- STEP 1: Generating Story (attempt {attempt}/{MAX_GEN_ATTEMPTS}) ---")
+        story_data = generate_story(strategy)
+        print(f"  Title: {story_data['title']}")
+        print(f"  Words: {len(story_data['story'].split())}\n")
+
+        print("--- STEP 2: Generating Voice ---")
+        tts_result = generate_tts(story_data["story"], filename_prefix=f"story_{timestamp}")
+        dur = tts_result["duration"]
+        print(f"  Audio: {os.path.basename(tts_result['audio_path'])}")
+        print(f"  Duration: {dur:.1f}s\n")
+
+        if MIN_VIDEO_SECONDS <= dur <= MAX_VIDEO_SECONDS:
+            break
+        print(f"  [GUARD] Duration {dur:.1f}s outside allowed "
+              f"{MIN_VIDEO_SECONDS}-{MAX_VIDEO_SECONDS}s band — regenerating.\n")
+    else:
+        # Never post a video that fails the duration guard.
+        raise RuntimeError(
+            f"Could not produce a video within {MIN_VIDEO_SECONDS}-{MAX_VIDEO_SECONDS}s "
+            f"after {MAX_GEN_ATTEMPTS} attempts (last: {tts_result['duration']:.1f}s). "
+            "Skipping this cycle instead of posting a malformed video."
+        )
+
+    results["story"] = story_data
     results["tts"] = tts_result
-    print(f"  Audio: {os.path.basename(tts_result['audio_path'])}")
-    print(f"  Duration: {tts_result['duration']:.1f}s\n")
 
     # --- Step 3: Build Captions ---
     print("--- STEP 3: Building Captions ---")
@@ -92,7 +132,20 @@ def run_pipeline(upload: bool = True) -> dict:
         # Delete the temporary Pexels clip now that FFmpeg has finished reading it
         cleanup_pexels_clip(gameplay_path)
     results["video_path"] = video_path
-    print()
+
+    # --- Final duration check on the composed file (belt and braces) ---
+    try:
+        from video_composer import get_video_duration
+        final_dur = get_video_duration(video_path)
+        if final_dur > MAX_VIDEO_SECONDS:
+            raise RuntimeError(
+                f"Composed video is {final_dur:.1f}s (> {MAX_VIDEO_SECONDS}s cap) — refusing to upload."
+            )
+        print(f"  Final video duration: {final_dur:.1f}s (within cap)\n")
+    except RuntimeError:
+        raise
+    except Exception as e:
+        print(f"  [warn] could not verify final duration ({e})\n")
 
     # --- Step 6: Upload to YouTube ---
     if upload:
@@ -103,6 +156,20 @@ def run_pipeline(upload: bool = True) -> dict:
             story_hashtags=story_data.get("hashtags", ""),
         )
         results["upload"] = upload_result
+
+        # Record this post's parameters so the engine can learn from its performance.
+        try:
+            record_post(upload_result.get("video_id"), {
+                "title":          story_data["title"],
+                "theme":          story_data.get("theme"),
+                "hook":           story_data.get("hook"),
+                "target_seconds": strategy.get("target_seconds"),
+                "target_words":   strategy.get("target_words"),
+                "actual_seconds": round(tts_result["duration"], 1),
+                "word_count":     len(story_data["story"].split()),
+            })
+        except Exception as e:
+            print(f"  [warn] could not record post for learning ({e})")
         print()
     else:
         print("--- STEP 6: Upload Skipped (--no-upload) ---")
@@ -170,6 +237,15 @@ def main():
     upload = not args.no_upload
     successful = 0
     failed = 0
+
+    # Pull the latest performance numbers so the adaptive engine learns from how
+    # previously-posted videos are actually doing. Fails soft (offline / no token).
+    print("--- Refreshing performance history ---")
+    try:
+        refresh_stats()
+    except Exception as e:
+        print(f"[warn] performance refresh skipped ({e})")
+    print()
 
     for i in range(args.count):
         if args.count > 1:

@@ -22,6 +22,7 @@ gameplay/vertical_test_1.mp4
 gameplay/subway_3.mp4
 gameplay/_pexels_fresh_*.mp4
 .last_clip
+.last_search
 
 # ─── Test artefacts ───────────────────────────────────────────────────────────
 test_*.mp3

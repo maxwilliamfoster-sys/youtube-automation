@@ -23,8 +23,40 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
 # ─── Story Settings ───────────────────────────────────────────────────────────
 STORY_TYPES = ["horror", "creepy"]          # Types to rotate through
-STORY_WORD_COUNT = 210                       # ~60-65 seconds of speech (sweet spot for horror retention)
 GROQ_MODEL = "llama-3.3-70b-versatile"      # Free Llama 3.3 model via Groq
+
+# Voice speed calibration: how many spoken words af_nicole gets through per second
+# at KOKORO_SPEED. Empirically ~1.6 w/s (measured from posted videos). The pipeline
+# self-corrects this over time and stores the refined value in the history file.
+WORDS_PER_SECOND = 1.6
+
+# Fallback target length, used only when the adaptive strategy has no recommendation.
+# 70s sits in the best-performing 60–90s band (see adaptive_strategy.py).
+TARGET_DURATION_DEFAULT = 70                 # seconds
+STORY_WORD_COUNT = int(TARGET_DURATION_DEFAULT * WORDS_PER_SECOND)  # ~112 words
+
+# Hard word-count safety rails — a story outside this band is clamped/regenerated.
+# Stops a rambling or garbled LLM response from ever becoming a long video.
+STORY_WORD_MIN = 45
+STORY_WORD_MAX = 230
+
+# ─── Adaptive Growth Engine ───────────────────────────────────────────────────
+# Learns which video LENGTH, horror SUB-THEME and OPENING HOOK perform best, then
+# biases future videos toward winners — while always staying in the horror niche.
+ADAPTIVE_ENABLED        = True
+ADAPTIVE_EXPLORATION    = 0.20    # 20% of the time, explore a non-winning option (avoids tunnel vision)
+ADAPTIVE_MIN_SAMPLES    = 4       # per-option samples needed before its score is trusted over the prior
+# Candidate target lengths the engine is allowed to choose between (all valid Shorts):
+TARGET_DURATION_CANDIDATES = [45, 60, 75, 90]
+
+# Horror sub-themes (the niche never changes — only the flavour within it).
+HORROR_THEMES = ["supernatural", "technology", "psychological", "wilderness", "domestic", "body"]
+# Opening hook styles the storyteller is told to use.
+HOOK_STYLES   = ["cold_detail", "in_action", "discovery", "overheard"]
+
+PERFORMANCE_HISTORY_FILE = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "performance_history.json"
+)
 
 # ─── TTS (Text-to-Speech) Settings ───────────────────────────────────────────
 # Free Microsoft Edge neural voices — great quality, no API key needed
@@ -44,6 +76,12 @@ KOKORO_MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kok
 VIDEO_WIDTH  = 1080
 VIDEO_HEIGHT = 1920   # 9:16 for YouTube Shorts
 VIDEO_FPS    = 30
+
+# Hard duration guard — a composed video outside this band is REJECTED before upload
+# (the pipeline regenerates instead). YouTube Shorts must be ≤ 180s; we cap lower for
+# safety margin and to stay in the punchy range the audience actually watches.
+MAX_VIDEO_SECONDS = 170
+MIN_VIDEO_SECONDS = 15
 
 # ─── Caption Settings ─────────────────────────────────────────────────────────
 CAPTION_FONT_SIZE  = 60      # 60px — large and clear on mobile, safe for 2-word lines

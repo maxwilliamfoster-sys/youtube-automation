@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     permissions:
-      contents: read
+      contents: write   # allow committing the updated performance_history.json back
       issues: write
 
     steps:
@@ -84,6 +84,20 @@ jobs:
 
       - name: Run pipeline
         run: python main.py --count 1
+
+      - name: Persist adaptive learning history
+        if: always()   # save refreshed stats / new post labels even if a later step fails
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add performance_history.json || true
+          if git diff --staged --quiet; then
+            echo "No history changes to persist."
+          else
+            git commit -m "chore: update adaptive performance history [skip ci]"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
 
       - name: Notify on failure
         if: failure()

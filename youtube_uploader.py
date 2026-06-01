@@ -19,9 +19,7 @@ from config import (
     YOUTUBE_DESCRIPTION_TEMPLATE, CREDENTIALS_FILE, TOKEN_FILE
 )
 from notifier import notify_credential_expiry
-
-# YouTube API scopes needed
-SCOPES = ["https://www.googleapis.com/auth/youtube.upload"]
+from youtube_scopes import SCOPES  # upload + read/manage + analytics (single source of truth)
 
 
 def get_authenticated_service():

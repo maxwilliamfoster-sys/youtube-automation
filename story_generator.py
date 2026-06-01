@@ -9,19 +9,27 @@ import random
 import time
 import requests as _requests
 from groq import Groq, RateLimitError
-from config import GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY
+from config import (
+    GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY,
+    STORY_WORD_MIN, STORY_WORD_MAX,
+)
 
 # ── LLM backend constants ─────────────────────────────────────────────────────
 GROQ_FALLBACK_MODEL   = "llama-3.1-8b-instant"
 OPENROUTER_BASE_URL   = "https://openrouter.ai/api/v1/chat/completions"
 
-# OpenRouter free models tried in order — all 0 cost, no daily token cap
-# If the first is rate-limited upstream, we try the next automatically
+# OpenRouter free models tried in order — all 0 cost, no daily token cap.
+# We PREFER plain instruction-tuned models that return the answer directly. Reasoning
+# models (gpt-oss / nemotron) can leak their chain-of-thought into the output — which
+# is exactly what produced the 6-minute garbled video — so they sit last and their
+# output is always run through _sanitize_llm_text() regardless.
 OPENROUTER_FREE_MODELS = [
-    "meta-llama/llama-3.3-70b-instruct:free",   # Llama 3.3 70B — best quality match
-    "nvidia/nemotron-3-super-120b-a12b:free",    # Nemotron 120B — confirmed working
-    "openai/gpt-oss-120b:free",                  # GPT OSS 120B — very capable
-    "nousresearch/hermes-3-llama-3.1-405b:free", # Hermes 405B — last resort
+    "meta-llama/llama-3.3-70b-instruct:free",    # Llama 3.3 70B — best quality, direct answers
+    "meta-llama/llama-3.1-70b-instruct:free",    # Llama 3.1 70B — instruct fallback
+    "qwen/qwen-2.5-72b-instruct:free",           # Qwen 2.5 72B — instruct fallback
+    "nousresearch/hermes-3-llama-3.1-405b:free", # Hermes 405B — large instruct
+    "nvidia/nemotron-3-super-120b-a12b:free",    # reasoning — last resort (output sanitised)
+    "openai/gpt-oss-120b:free",                  # reasoning — last resort (output sanitised)
 ]
 
 # Shared state — flip to OpenRouter the moment Groq's daily limit is hit
@@ -128,185 +136,349 @@ def _groq_call(client: Groq, **kwargs) -> object:
             return _openrouter_call(**kwargs)
 
 
-HORROR_PROMPTS = [
-    # Supernatural / paranormal
-    "Write a horror story about a woman who notices her reflection has started moving half a second too late.",
-    "Write a creepy story about a man who keeps appearing in the background of strangers photos — always watching.",
-    "Write a horror story about a teenage boy whose Ouija board begins answering questions before anyone touches the planchette.",
-    "Write a terrifying story about a nurse who finds her patient in a different room each morning with no memory of moving.",
-    "Write a chilling story about a child who tells her parents about the tall figure that stands at the foot of her bed every night.",
-    "Write a scary story about an antique music box bought at an estate sale that plays a lullaby for a dead child.",
-    "Write a horror story about a small coastal town where everyone stopped aging thirty years ago — except one woman.",
-    "Write a creepy story about a man renovating his home who discovers a sealed room that isnt on any blueprint.",
-    "Write a horror story about a couple who rent a remote cottage and slowly realise the previous tenants never left.",
+# Prompts grouped by horror SUB-THEME. The adaptive engine picks a theme (biased
+# toward whatever performs best) and we draw a random prompt from it. Keys MUST match
+# config.HORROR_THEMES.
+HORROR_PROMPTS_BY_THEME = {
+    "supernatural": [
+        "Write a horror story about a woman who notices her reflection has started moving half a second too late.",
+        "Write a horror story about a teenage boy whose Ouija board begins answering questions before anyone touches the planchette.",
+        "Write a terrifying story about a nurse who finds her patient in a different room each morning with no memory of moving.",
+        "Write a chilling story about a child who tells her parents about the tall figure that stands at the foot of her bed every night.",
+        "Write a scary story about an antique music box bought at an estate sale that plays a lullaby for a dead child.",
+        "Write a horror story about a small coastal town where everyone stopped aging thirty years ago — except one woman.",
+        "Write a horror story about a couple who rent a remote cottage and slowly realise the previous tenants never left.",
+    ],
+    "technology": [
+        "Write a horror story about a man who receives a voicemail from his own number — recorded three hours after his death.",
+        "Write a scary story about a woman whose smart home locks her inside and speaks in her dead mothers voice.",
+        "Write a creepy story about a software engineer who finds a deepfake video of himself committing a crime he has no memory of.",
+        "Write a horror story about a teenage girl who discovers a Reddit account documenting her daily routine for two years.",
+        "Write a terrifying story about a security guard who notices CCTV footage shows events that havent happened yet.",
+        "Write a chilling story about a grief counsellor whose AI therapy app reveals things only the deceased could have known.",
+    ],
+    "psychological": [
+        "Write a horror story about a detective investigating a series of murders who realises all the evidence points to himself.",
+        "Write a creepy story about a woman who notices her furniture has been moved by inches each night while she slept.",
+        "Write a terrifying story about a man who cannot tell whether the last six months of his life were real or a coma dream.",
+        "Write a horror story about a hiker found alive after eleven years missing — who has not aged a single day.",
+        "Write a scary story about a grief support group where every member shares the exact same recurring nightmare.",
+        "Write a horror story about a soldier who returns home only to find his family has no memory of him ever existing.",
+    ],
+    "wilderness": [
+        "Write a horror story about a trail runner who finds a fully set campsite deep in a forest — coffee still warm, no one around.",
+        "Write a creepy story about a lighthouse keeper who begins receiving Morse code from a ship that sank in 1943.",
+        "Write a terrifying story about a family whose GPS leads them off the highway onto a road that does not exist on any map.",
+        "Write a scary story about a research team in Antarctica who begin to suspect one of their colleagues is not human.",
+        "Write a horror story about a survivalist who sets cameras around his remote cabin and reviews footage each morning.",
+    ],
+    "domestic": [
+        "Write a horror story about a babysitter who realises the children she is watching are not the same children from the family photo.",
+        "Write a chilling story about a coroner who receives a body for autopsy and recognises it as someone he spoke to that morning.",
+        "Write a scary story about a woman who sees the same stranger on her commute every day — always in exactly the right place.",
+        "Write a creepy story about a plumber who discovers a fully furnished living space hidden behind the walls of a family home.",
+        "Write a horror story about a woman who arrives for a job interview only to find the company has no record of contacting her.",
+        "Write a terrifying story about a man who steps into an elevator on the 14th floor and the doors open on a floor that should not exist.",
+    ],
+    "body": [
+        "Write a horror story about a surgeon who wakes from a coma to find unexplained surgical scars covering his body.",
+        "Write a creepy story about a woman whose shadow moves independently — always one step ahead of her.",
+        "Write a terrifying story about a man who finds his own teeth sealed in jars hidden throughout his house.",
+        "Write a scary story about a sleepwalker whose husband installs cameras and is horrified by where she goes each night.",
+        "Write a horror story about identical twins where one begins to suspect the other was replaced by something else years ago.",
+    ],
+}
+# Flat list kept for any caller that still wants "all prompts".
+HORROR_PROMPTS = [p for prompts in HORROR_PROMPTS_BY_THEME.values() for p in prompts]
 
-    # Technology / modern horror
-    "Write a horror story about a man who receives a voicemail from his own number — recorded three hours after his death.",
-    "Write a scary story about a woman whose smart home locks her inside and speaks in her dead mothers voice.",
-    "Write a creepy story about a software engineer who finds a deepfake video of himself committing a crime he has no memory of.",
-    "Write a horror story about a teenage girl who discovers a Reddit account documenting her daily routine for two years.",
-    "Write a terrifying story about a security guard who notices CCTV footage shows events that havent happened yet.",
-    "Write a chilling story about a grief counsellor whose AI therapy app reveals things only the deceased could have known.",
+# Opening-hook styles the engine can choose. Keys MUST match config.HOOK_STYLES.
+HOOK_INSTRUCTIONS = {
+    "cold_detail": "OPEN on a single concrete, unsettling detail stated plainly. Example: 'The voicemail had no timestamp.'",
+    "in_action":   "OPEN mid-action, already in motion. Example: 'I was halfway down the cellar stairs when the light died.'",
+    "discovery":   "OPEN on the narrator discovering or noticing something wrong. Example: 'I found a second door behind the wardrobe.'",
+    "overheard":   "OPEN on something heard — a sound, a voice, a message. Example: 'The knocking started at 3 a.m. Three taps. Always three.'",
+}
 
-    # Psychological / slow burn
-    "Write a horror story about a detective investigating a series of murders who realises all the evidence points to himself.",
-    "Write a creepy story about a woman who notices her furniture has been moved by inches each night while she slept.",
-    "Write a terrifying story about a man who cannot tell whether the last six months of his life were real or a coma dream.",
-    "Write a horror story about a hiker found alive after eleven years missing — who has not aged a single day.",
-    "Write a scary story about a grief support group where every member shares the exact same recurring nightmare.",
-    "Write a horror story about a soldier who returns home only to find his family has no memory of him ever existing.",
 
-    # Wilderness / isolation
-    "Write a horror story about a trail runner who finds a fully set campsite deep in a forest — coffee still warm, no one around.",
-    "Write a creepy story about a lighthouse keeper who begins receiving Morse code from a ship that sank in 1943.",
-    "Write a terrifying story about a family whose GPS leads them off the highway onto a road that does not exist on any map.",
-    "Write a scary story about a research team in Antarctica who begin to suspect one of their colleagues is not human.",
-    "Write a horror story about a survivalist who sets cameras around his remote cabin and reviews footage each morning.",
+# ─── LLM output sanitisation & validation ─────────────────────────────────────
+# This is the safety layer that stops reasoning-model chain-of-thought, instruction
+# echoes, or rambling from ever reaching the video. EVERY story/title/proofread
+# response is passed through here.
 
-    # Everyday life turned sinister
-    "Write a horror story about a babysitter who realises the children she is watching are not the same children from the family photo.",
-    "Write a chilling story about a coroner who receives a body for autopsy and recognises it as someone he spoke to that morning.",
-    "Write a scary story about a woman who sees the same stranger on her commute every day — always in exactly the right place.",
-    "Write a creepy story about a plumber who discovers a fully furnished living space hidden behind the walls of a family home.",
-    "Write a horror story about a woman who arrives for a job interview only to find the company has no record of contacting her.",
-    "Write a terrifying story about a man who steps into an elevator on the 14th floor and the doors open on a floor that should not exist.",
+_THINK_RE = re.compile(r"<(think|reasoning|thought|scratchpad)[^>]*>.*?</\1>",
+                       re.IGNORECASE | re.DOTALL)
+_PREAMBLE_RE = re.compile(
+    r"^\s*(?:sure|okay|ok|alright|certainly|of course|here(?:'s| is)(?: the| a)?|"
+    r"let me|i'?ll|i will|i need to|we need to|first[,]?|to write|note that|"
+    r"as requested|below is)[^\n.!?]*[:.]\s*",
+    re.IGNORECASE)
 
-    # Body horror / identity
-    "Write a horror story about a surgeon who wakes from a coma to find unexplained surgical scars covering his body.",
-    "Write a creepy story about a woman whose shadow moves independently — always one step ahead of her.",
-    "Write a terrifying story about a man who finds his own teeth sealed in jars hidden throughout his house.",
-    "Write a scary story about a sleepwalker whose husband installs cameras and is horrified by where she goes each night.",
-    "Write a horror story about identical twins where one begins to suspect the other was replaced by something else years ago.",
+# Hard markers that mean the generation FAILED (instruction echo / meta / refusal).
+# Any one of these in a story or title triggers a regenerate.
+_HARD_META = [
+    "youtube short", "the user wants", "the user asked", "word count", "max 8 word",
+    "no hashtags", "no quotes", "first person", "past tense", "as an ai", "i cannot",
+    "i can't write", "<think", "</think", "step 1", "here is the story",
+    "here's the story", "here is a story", "here's a story", "we need to produce",
+    "i'll write", "character count", "the prompt", "the instruction",
 ]
 
-STORY_SYSTEM_PROMPT = f"""You are a master horror storyteller writing scripts for YouTube Shorts.
+
+def _sanitize_llm_text(text: str) -> str:
+    """Strip reasoning blocks, markdown, conversational preamble and wrapping quotes."""
+    if not text:
+        return ""
+    text = _THINK_RE.sub(" ", text)
+    # If a <think> opened but never closed, keep only what's after the last close tag.
+    low = text.lower()
+    if "</think>" in low:
+        text = text[low.rfind("</think>") + len("</think>"):]
+    # Drop markdown fences / headers.
+    text = re.sub(r"```[a-zA-Z]*", " ", text).replace("```", " ")
+    text = re.sub(r"^\s*#+\s*", "", text, flags=re.MULTILINE)
+    # Strip a leading "Title:"/"Story:" style label.
+    text = re.sub(r"^\s*(?:title|story|script|output)\s*[:\-]\s*", "", text, flags=re.IGNORECASE)
+    # Remove conversational preamble (up to two passes).
+    for _ in range(2):
+        text = _PREAMBLE_RE.sub("", text.strip())
+    text = text.strip().strip('"').strip("'").strip()
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
+
+
+def _has_hard_meta(text: str) -> bool:
+    low = text.lower()
+    return any(m in low for m in _HARD_META)
+
+
+def _is_valid_story(text: str, min_words: int) -> bool:
+    if not text:
+        return False
+    if len(text.split()) < max(20, min_words):
+        return False
+    if _has_hard_meta(text):
+        return False
+    return True
+
+
+def _is_valid_title(title: str) -> bool:
+    if not title:
+        return False
+    wc = len(title.split())
+    if wc == 0 or wc > 12 or len(title) > 100:
+        return False
+    return not _has_hard_meta(title)
+
+
+def _clamp_to_words(text: str, max_words: int) -> str:
+    """Final safety net: never let a story exceed max_words. Trims to last full sentence."""
+    words = text.split()
+    if len(words) <= max_words:
+        return text
+    truncated = " ".join(words[:max_words])
+    ends = list(re.finditer(r"[.!?]", truncated))
+    if ends and ends[-1].end() > len(truncated) * 0.5:
+        return truncated[:ends[-1].end()].strip()
+    return truncated.strip().rstrip(",;:") + "."
+
+
+# Absolute last-resort story so the pipeline NEVER posts garbage if every attempt fails.
+_FALLBACK_STORY = (
+    "The knocking started at 3 a.m. Three taps, always three, against the inside of "
+    "the bedroom wall. I told myself it was the pipes the first night. By the third "
+    "night I had pressed my ear to the plaster and heard breathing on the other side. "
+    "There was no other side. My flat backed onto a solid brick wall, no cavity, no "
+    "neighbour. I called a builder, who tapped the wall and frowned and asked who lived "
+    "in the room behind mine. I told him no one could. He showed me the survey: a sealed "
+    "space, just large enough for a person, walled up decades ago. We opened it that "
+    "afternoon. Inside was a single wooden chair facing my wall, and the plaster on my "
+    "side was worn smooth, as if something had sat there for years, listening to me sleep."
+)
+
+def _story_system_prompt(target_words: int, hook_instruction: str) -> str:
+    """Build the storyteller system prompt for a specific target length and hook style."""
+    lo, hi = target_words - 10, target_words + 15
+    return f"""You are a master horror storyteller writing scripts for YouTube Shorts.
 
 Rules:
 - Write EXACTLY one complete story with a clear beginning, middle, and terrifying end
-- You MUST write between {STORY_WORD_COUNT - 10} and {STORY_WORD_COUNT + 10} words — count carefully
+- You MUST write between {lo} and {hi} words — count carefully. Do NOT exceed {hi} words.
 - Write ENTIRELY in FIRST PERSON ("I", "my", "me", "myself") — never switch to any other POV
 - Write ENTIRELY in PAST TENSE — every action, thought and observation must be past tense ("I heard", "I saw", "it was", "I walked", "I noticed", "I felt")
 - The story MUST make complete logical sense from start to finish — events must follow causally, no plot holes, no contradictions, no unresolved loose ends
 - Each sentence must naturally follow from the one before — the reader should always know where they are and what is happening
-- NO headers, NO titles, NO quotation marks around the whole story, NO markdown
+- {hook_instruction}
 - Make each story feel UNIQUE — different setting, tone, pacing and twist every time
 - End with a gut-punch twist or horrifying realisation the reader never saw coming
 - VARY your sentence openings — NEVER start two consecutive sentences with "I"
 - NEVER open with the words "dark", "darkness", "shadow", "shadows"
 - NEVER open with cliches like "It was a stormy night" or "I was alone"
-- Open with something immediate and gripping — a sound, an action, a discovery
-- Example good opening: "The voicemail had no timestamp. I played it twice before I understood the voice was my own."
 - Use short punchy sentences for pacing — they build dread
 - The story should feel like a viral Reddit r/nosleep post — personal, believable, terrifying
-- Output ONLY the story text, nothing else"""
+- Output ONLY the story text. No preamble, no explanation, no titles, no notes, no markdown, no XML or <think> tags. Begin directly with the first sentence of the story."""
 
 
-def generate_story() -> dict:
+def _generate_title(client: Groq, story_text: str) -> str:
+    """Generate a short creepy title, sanitised and validated, with a safe fallback."""
+    for _ in range(2):
+        resp = _groq_call(
+            client, model=GROQ_MODEL, max_tokens=30,
+            messages=[{
+                "role": "user",
+                "content": (
+                    "Output ONLY a short, creepy YouTube Short title of at most 8 words. "
+                    "No quotes, no hashtags, no explanation, no preamble — just the title text.\n\n"
+                    f"Story:\n{story_text[:300]}"
+                ),
+            }],
+        )
+        raw = resp.choices[0].message.content.strip()
+        # If the model echoed the instructions / leaked reasoning, reject the whole
+        # response — sanitising can leave a meaningless fragment that looks valid.
+        if _has_hard_meta(raw):
+            continue
+        title = _sanitize_llm_text(raw)
+        title = title.splitlines()[0].strip() if title else ""   # first line only
+        if _is_valid_title(title):
+            return title
+    # Fallback: build a title from the story's first sentence.
+    first = re.split(r"[.!?]", story_text.strip())[0].split()
+    return " ".join(first[:7]).title() or "A Horror Story"
+
+
+def generate_story(strategy: dict = None) -> dict:
     """
-    Generate a horror story using Groq (free).
+    Generate a horror story, hardened against reasoning-leak / garbled / over-long output.
 
-    Returns:
-        dict with keys: 'story' (str), 'title' (str), 'type' (str)
+    Args:
+        strategy: optional dict from adaptive_strategy.get_strategy() with keys
+                  'theme', 'hook', 'target_words'. If omitted, picks at random.
+
+    Returns dict: story, title, type, hashtags, theme, hook, target_words, word_count
     """
     client = Groq(api_key=GROQ_API_KEY)
-
     story_type = random.choice(STORY_TYPES)
-    prompt = random.choice(HORROR_PROMPTS)
 
-    print(f"[Story] Generating {story_type} story with Llama 3.3 (free)...")
+    # Resolve adaptive parameters (fall back to random / defaults).
+    theme = (strategy or {}).get("theme") or random.choice(list(HORROR_PROMPTS_BY_THEME))
+    if theme not in HORROR_PROMPTS_BY_THEME:
+        theme = random.choice(list(HORROR_PROMPTS_BY_THEME))
+    hook = (strategy or {}).get("hook") or random.choice(list(HOOK_INSTRUCTIONS))
+    if hook not in HOOK_INSTRUCTIONS:
+        hook = random.choice(list(HOOK_INSTRUCTIONS))
+    target_words = int((strategy or {}).get("target_words") or STORY_WORD_COUNT)
+    target_words = max(STORY_WORD_MIN, min(STORY_WORD_MAX, target_words))
 
-    # Generate the story
-    response = _groq_call(
-        client,
-        model=GROQ_MODEL,
-        max_tokens=600,
-        messages=[
-            {"role": "system", "content": STORY_SYSTEM_PROMPT},
-            {"role": "user",   "content": prompt},
-        ]
-    )
+    system_prompt = _story_system_prompt(target_words, HOOK_INSTRUCTIONS[hook])
+    theme_prompts = HORROR_PROMPTS_BY_THEME[theme]
+    max_tokens = min(900, target_words * 5 + 150)
+    min_acceptable = max(STORY_WORD_MIN, target_words - 40)
 
-    story_text = response.choices[0].message.content.strip()
+    print(f"[Story] Generating {story_type} story - theme={theme}, hook={hook}, "
+          f"target~{target_words} words")
 
-    # Generate a title
-    title_response = _groq_call(
-        client,
-        model=GROQ_MODEL,
-        max_tokens=30,
-        messages=[
-            {
+    # ── Story with validation + retries (rejects meta / garbled / too-short output) ──
+    story_text = None
+    last_raw = ""
+    for attempt in range(1, 4):
+        prompt = random.choice(theme_prompts)
+        resp = _groq_call(
+            client, model=GROQ_MODEL, max_tokens=max_tokens,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user",   "content": prompt},
+            ],
+        )
+        last_raw = resp.choices[0].message.content.strip()
+        cand = _sanitize_llm_text(last_raw)
+        if _is_valid_story(cand, min_acceptable):
+            story_text = cand
+            break
+        print(f"[Story] Attempt {attempt}/3 rejected (meta/garbled/short) — regenerating")
+
+    if story_text is None:
+        salvaged = _sanitize_llm_text(last_raw)
+        if _is_valid_story(salvaged, STORY_WORD_MIN):
+            story_text = salvaged
+            print("[Story] Using salvaged response after retries.")
+        else:
+            story_text = _FALLBACK_STORY
+            print("[Story] All attempts failed — using safe fallback story.")
+
+    # ── Proofread (POV/tense/coherence). Keep result only if it's still valid. ──
+    try:
+        proof_resp = _groq_call(
+            client, model=GROQ_MODEL, max_tokens=max_tokens,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a strict editor for short horror stories. Rewrite the story fixing ALL of the following:\n"
+                        "1) FIRST PERSON ONLY — every sentence must use I/my/me/myself. "
+                        "Remove any 'he', 'she', 'they', 'you', 'we' that refer to the narrator.\n"
+                        "2) PAST TENSE THROUGHOUT — convert every present-tense verb to past tense. "
+                        "'I see' → 'I saw', 'it is' → 'it was', 'I hear' → 'I heard'. No exceptions.\n"
+                        "3) COHERENCE — events must follow a logical order, nothing contradicts, no unresolved threads.\n"
+                        "4) VARIED SENTENCE STARTS — never two consecutive sentences starting with 'I'.\n"
+                        "5) Keep the same word count, tone, and ending twist.\n"
+                        "Output ONLY the corrected story text — no preamble, no notes, no tags."
+                    ),
+                },
+                {"role": "user", "content": story_text},
+            ],
+        )
+        proofed = _sanitize_llm_text(proof_resp.choices[0].message.content.strip())
+        if _is_valid_story(proofed, min_acceptable):
+            story_text = proofed
+            print("[Story] Proofread complete")
+        else:
+            print("[Story] Proofread output rejected — keeping original.")
+    except Exception as e:
+        print(f"[Story] Proofread skipped ({e})")
+
+    # ── Final hard safety net: never exceed the max word count ──
+    before = len(story_text.split())
+    story_text = _clamp_to_words(story_text, STORY_WORD_MAX)
+    if len(story_text.split()) < before:
+        print(f"[Story] Clamped {before} → {len(story_text.split())} words (max {STORY_WORD_MAX})")
+
+    # ── Title ──
+    title = _generate_title(client, story_text)
+
+    # ── Hashtags ──
+    try:
+        hashtag_response = _groq_call(
+            client, model=GROQ_MODEL, max_tokens=60,
+            messages=[{
                 "role": "user",
                 "content": (
-                    f"Give me a short, creepy YouTube Short title "
-                    f"(max 8 words, no quotes, no hashtags) for this story:\n\n{story_text[:200]}"
+                    "Output ONLY 5 relevant YouTube hashtags for this horror story, separated by "
+                    "spaces, no explanation:\n\n" + story_text[:200]
                 ),
-            }
+            }],
+        )
+        raw_tags = _sanitize_llm_text(hashtag_response.choices[0].message.content.strip())
+        tag_words = raw_tags.replace("\n", " ").split()
+        cleaned_tags = [
+            w if w.startswith("#") else f"#{w}"
+            for w in tag_words if w.replace("#", "").isalnum()
         ]
-    )
-
-    title = title_response.choices[0].message.content.strip().strip('"').strip("'")
-
-    # Proofread and fix the story — enforce POV, tense, and coherence
-    proofread_response = _groq_call(
-        client,
-        model=GROQ_MODEL,
-        max_tokens=700,
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "You are a strict editor for short horror stories. Rewrite the story fixing ALL of the following:\n"
-                    "1) FIRST PERSON ONLY — every sentence must use I/my/me/myself. "
-                    "Remove any 'he', 'she', 'they', 'you', 'we' that refer to the narrator.\n"
-                    "2) PAST TENSE THROUGHOUT — convert every present-tense verb to past tense. "
-                    "'I see' → 'I saw', 'it is' → 'it was', 'I hear' → 'I heard', 'I run' → 'I ran'. No exceptions.\n"
-                    "3) COHERENCE — ensure events follow a logical order, nothing contradicts, "
-                    "no unresolved threads, no sudden unexplained jumps. The reader must always know what is happening.\n"
-                    "4) VARIED SENTENCE STARTS — never two consecutive sentences starting with 'I'.\n"
-                    "5) OPENING — must NOT start with 'dark', 'darkness', 'shadow', 'shadows', "
-                    "'It was a stormy', or 'I was alone'.\n"
-                    "Keep the same word count, tone, and ending twist. Output ONLY the corrected story text, nothing else."
-                ),
-            },
-            {"role": "user", "content": story_text},
-        ]
-    )
-    story_text = proofread_response.choices[0].message.content.strip()
-    print(f"[Story] Proofread complete")
-
-    # Generate relevant hashtags for this specific story
-    hashtag_response = _groq_call(
-        client,
-        model=GROQ_MODEL,
-        max_tokens=60,
-        messages=[
-            {
-                "role": "user",
-                "content": (
-                    f"Give me 5 relevant YouTube hashtags for this horror story (no spaces in each tag, "
-                    f"just the hashtags separated by spaces, no explanation):\n\n{story_text[:200]}"
-                ),
-            }
-        ]
-    )
-
-    raw_tags = hashtag_response.choices[0].message.content.strip()
-    # Clean up — keep only words starting with # or add # if missing, take first 5 tags
-    tag_words = raw_tags.replace("\n", " ").split()
-    cleaned_tags = [
-        w if w.startswith("#") else f"#{w}"
-        for w in tag_words if w.replace("#", "").isalnum()
-    ]
-    story_hashtags = " ".join(cleaned_tags[:5])
+        story_hashtags = " ".join(cleaned_tags[:5])
+    except Exception:
+        story_hashtags = "#horror #scary #creepy #nosleep #horrorstory"
 
     word_count = len(story_text.split())
-    print(f"[Story] Generated: '{title}' ({word_count} words)")
+    print(f"[Story] Generated: '{title}' ({word_count} words, theme={theme}, hook={hook})")
 
     return {
-        "story": story_text,
-        "title": title,
-        "type": story_type,
-        "hashtags": story_hashtags,
+        "story":        story_text,
+        "title":        title,
+        "type":         story_type,
+        "hashtags":     story_hashtags,
+        "theme":        theme,
+        "hook":         hook,
+        "target_words": target_words,
     }
 
 
