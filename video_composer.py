@@ -43,7 +43,7 @@ FFPROBE = _find_ffmpeg("ffprobe")
 
 
 def get_video_duration(video_path: str) -> float:
-    """Get duration of a video file using FFprobe."""
+    """Get duration of a video file using FFprobe (container/format duration)."""
     cmd = [
         FFPROBE, "-v", "quiet",
         "-print_format", "json",
@@ -53,6 +53,33 @@ def get_video_duration(video_path: str) -> float:
     result = subprocess.run(cmd, capture_output=True, text=True)
     data = json.loads(result.stdout)
     return float(data["format"]["duration"])
+
+
+def get_stream_durations(video_path: str) -> tuple:
+    """
+    Return (video_stream_seconds, audio_stream_seconds) for a file.
+    The container duration equals the LONGER stream, so a frozen background (video
+    stream ends early while audio continues) is only visible by comparing the two.
+    Missing values fall back to 0.0.
+    """
+    cmd = [
+        FFPROBE, "-v", "quiet", "-print_format", "json",
+        "-show_streams", "-show_format", video_path,
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    try:
+        data = json.loads(result.stdout)
+    except Exception:
+        return 0.0, 0.0
+    fmt = float(data.get("format", {}).get("duration", 0) or 0)
+    vdur = adur = 0.0
+    for s in data.get("streams", []):
+        d = float(s.get("duration", 0) or 0)
+        if s.get("codec_type") == "video":
+            vdur = d or fmt
+        elif s.get("codec_type") == "audio":
+            adur = d or fmt
+    return vdur, adur
 
 
 def get_random_start_time(video_path: str, clip_duration: float) -> float:
@@ -158,15 +185,30 @@ def compose_video(
 
     print(f"[Video] Composing Short ({audio_duration:.1f}s)...")
 
-    start_time = get_random_start_time(gameplay_path, audio_duration)
-    print(f"[Video] Gameplay start: {start_time:.1f}s")
-
     # Convert all paths to absolute + forward slashes (FFmpeg needs this on Windows)
     def absfwd(p): return os.path.abspath(p).replace("\\", "/")
 
     abs_gameplay  = absfwd(gameplay_path)
     abs_audio     = absfwd(audio_path)
     abs_output    = absfwd(output_path)
+
+    # ── Background input: loop short clips so the video NEVER freezes ──────────
+    # If the background clip is long enough we seek to a random start for variety.
+    # If it is shorter than the narration (common for atmospheric Pexels clips),
+    # we loop it from the start so it fills the whole video instead of freezing on
+    # its last frame while the audio keeps playing.
+    try:
+        clip_dur = get_video_duration(gameplay_path)
+    except Exception:
+        clip_dur = 0.0
+    needed = audio_duration + 1.0
+    if clip_dur >= needed:
+        start_time = get_random_start_time(gameplay_path, audio_duration)
+        bg_input = ["-ss", str(start_time), "-i", abs_gameplay]
+        print(f"[Video] Background: {clip_dur:.1f}s clip, seek to {start_time:.1f}s")
+    else:
+        bg_input = ["-stream_loop", "-1", "-i", abs_gameplay]
+        print(f"[Video] Background: {clip_dur:.1f}s clip (< {needed:.1f}s) — looping to fill")
 
     # Scale height to 1920 with lanczos (sharpest), then crop width to 1080
     # Smart scale: portrait clips just get resized cleanly to 1080x1920.
@@ -195,10 +237,9 @@ def compose_video(
         ).format(fade_out=max(0, audio_duration - 3))
         cmd = [
             FFMPEG, "-y",
-            "-ss", str(start_time),
-            "-i", abs_gameplay,
+            *bg_input,                                # background (looped if short)
             "-i", abs_audio,
-            "-stream_loop", "-1", "-i", abs_music,   # loop music to fill video length
+            "-stream_loop", "-1", "-i", abs_music,    # loop music to fill video length
             "-filter_complex", audio_filter,
             "-vf", vf_filter,
             "-map", "0:v:0",
@@ -219,8 +260,7 @@ def compose_video(
         print("[Video] No music files found in assets/music/ — narration only")
         cmd = [
             FFMPEG, "-y",
-            "-ss", str(start_time),
-            "-i", abs_gameplay,
+            *bg_input,                                # background (looped if short)
             "-i", abs_audio,
             "-vf", vf_filter,
             "-map", "0:v:0",
@@ -244,6 +284,15 @@ def compose_video(
         print("[Video] FFmpeg error:")
         print(result.stderr[-3000:])
         raise RuntimeError(f"FFmpeg failed with code {result.returncode}")
+
+    # ── Freeze guard: the video stream MUST cover the audio (no frozen last frame) ──
+    vdur, adur = get_stream_durations(output_path)
+    print(f"[Video] Stream check — video {vdur:.1f}s vs audio {adur:.1f}s")
+    if adur > 0 and vdur > 0 and (adur - vdur) > 1.5:
+        raise RuntimeError(
+            f"Background froze: video stream is {vdur:.1f}s but audio is {adur:.1f}s "
+            f"({adur - vdur:.1f}s of frozen frame). Refusing to output a frozen video."
+        )
 
     size_mb = os.path.getsize(output_path) / (1024 * 1024)
     print(f"[Video] Done! {output_path}")

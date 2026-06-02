@@ -102,6 +102,40 @@ def save_srt(segments: List[Dict], output_path: str) -> None:
     print(f"[Captions] SRT saved: {output_path}")
 
 
+def verify_caption_coverage(segments: List[Dict], audio_duration: float,
+                            min_coverage: float = 0.6) -> tuple:
+    """
+    Sanity-check that captions actually track the narration end-to-end and in order.
+    Captions are timed from Whisper word-stamps on the real TTS audio, so they're
+    synced by construction — this is a safety net that catches genuine breakage
+    (empty/garbled timing, Whisper failing partway) before a video is posted.
+
+    Returns (ok: bool, reason: str).
+    """
+    if not segments:
+        return False, "no caption segments"
+
+    # Timings must be sane and broadly monotonic.
+    for seg in segments:
+        if seg["end"] < seg["start"] - 0.01:
+            return False, "a caption ends before it starts"
+    for a, b in zip(segments, segments[1:]):
+        if b["start"] < a["start"] - 0.1:
+            return False, "caption timings are out of order"
+
+    first_start = segments[0]["start"]
+    last_end    = segments[-1]["end"]
+    if first_start > 4.0:
+        return False, f"captions start {first_start:.1f}s late"
+    if audio_duration and audio_duration > 0:
+        coverage = last_end / audio_duration
+        if coverage < min_coverage:
+            return False, f"captions cover only {coverage*100:.0f}% of the {audio_duration:.0f}s narration"
+        if last_end > audio_duration + 2.5:
+            return False, f"captions run {last_end - audio_duration:.1f}s past the audio"
+    return True, f"captions cover {first_start:.1f}s–{last_end:.1f}s of {audio_duration:.0f}s ({len(segments)} segments)"
+
+
 def get_captions(tts_result: Dict, audio_dir: str, prefix: str = "story") -> List[Dict]:
     """
     Main function: get captions from TTS result dict.

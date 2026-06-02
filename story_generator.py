@@ -319,6 +319,38 @@ Rules:
 - Output ONLY the story text. No preamble, no explanation, no titles, no notes, no markdown, no XML or <think> tags. Begin directly with the first sentence of the story."""
 
 
+def _story_makes_sense(client: Groq, story: str) -> tuple:
+    """
+    Ask the LLM to confirm the story is ONE coherent narrative before we commit to it.
+    Returns (ok: bool, reason: str). Fails OPEN (returns True) on any error so a flaky
+    checker can never block posting — structural validation already caught the worst.
+    """
+    try:
+        resp = _groq_call(
+            client, model=GROQ_MODEL, max_tokens=80,
+            messages=[
+                {"role": "system", "content": (
+                    "You verify short horror stories for coherence. Reply with ONLY JSON: "
+                    '{"makes_sense": true or false, "reason": "<=8 words"}. '
+                    "makes_sense is TRUE only if the text is ONE coherent first-person story that "
+                    "flows logically start to finish — no contradictions, no missing context, no "
+                    "abrupt unexplained jumps, no repetition, and a clear ending. "
+                    "It is FALSE if it rambles, repeats, contradicts itself, is cut off mid-thought, "
+                    "or reads like notes or instructions rather than a story.")},
+                {"role": "user", "content": story},
+            ],
+        )
+        txt = resp.choices[0].message.content
+        m = re.search(r'"makes_sense"\s*:\s*(true|false)', txt, re.IGNORECASE)
+        if not m:
+            return True, "unparsed (fail-open)"
+        ok = m.group(1).lower() == "true"
+        rm = re.search(r'"reason"\s*:\s*"([^"]*)"', txt)
+        return ok, (rm.group(1) if rm else ("coherent" if ok else "incoherent"))
+    except Exception as e:
+        return True, f"check-skipped ({e})"
+
+
 def _generate_title(client: Groq, story_text: str) -> str:
     """Generate a short creepy title, sanitised and validated, with a safe fallback."""
     for _ in range(2):
@@ -378,42 +410,37 @@ def generate_story(strategy: dict = None) -> dict:
     print(f"[Story] Generating {story_type} story - theme={theme}, hook={hook}, "
           f"target~{target_words} words")
 
-    # ── Story with validation + retries (rejects meta / garbled / too-short output) ──
-    story_text = None
-    last_raw = ""
-    for attempt in range(1, 4):
-        prompt = random.choice(theme_prompts)
-        resp = _groq_call(
-            client, model=GROQ_MODEL, max_tokens=max_tokens,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user",   "content": prompt},
-            ],
-        )
-        last_raw = resp.choices[0].message.content.strip()
-        cand = _sanitize_llm_text(last_raw)
-        if _is_valid_story(cand, min_acceptable):
-            story_text = cand
-            break
-        print(f"[Story] Attempt {attempt}/3 rejected (meta/garbled/short) — regenerating")
+    def _build_one() -> str:
+        """Generate one fully-processed story: validated -> proofread -> clamped."""
+        story = None
+        raw = ""
+        for attempt in range(1, 4):
+            prompt = random.choice(theme_prompts)
+            resp = _groq_call(
+                client, model=GROQ_MODEL, max_tokens=max_tokens,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user",   "content": prompt},
+                ],
+            )
+            raw = resp.choices[0].message.content.strip()
+            cand = _sanitize_llm_text(raw)
+            if _is_valid_story(cand, min_acceptable):
+                story = cand
+                break
+            print(f"[Story] Attempt {attempt}/3 rejected (meta/garbled/short) — regenerating")
 
-    if story_text is None:
-        salvaged = _sanitize_llm_text(last_raw)
-        if _is_valid_story(salvaged, STORY_WORD_MIN):
-            story_text = salvaged
-            print("[Story] Using salvaged response after retries.")
-        else:
-            story_text = _FALLBACK_STORY
-            print("[Story] All attempts failed — using safe fallback story.")
+        if story is None:
+            salvaged = _sanitize_llm_text(raw)
+            story = salvaged if _is_valid_story(salvaged, STORY_WORD_MIN) else _FALLBACK_STORY
+            print("[Story] Using salvaged response." if story is salvaged else "[Story] Using safe fallback story.")
 
-    # ── Proofread (POV/tense/coherence). Keep result only if it's still valid. ──
-    try:
-        proof_resp = _groq_call(
-            client, model=GROQ_MODEL, max_tokens=max_tokens,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
+        # Proofread (POV / tense / coherence). Keep only if still valid.
+        try:
+            proof_resp = _groq_call(
+                client, model=GROQ_MODEL, max_tokens=max_tokens,
+                messages=[
+                    {"role": "system", "content": (
                         "You are a strict editor for short horror stories. Rewrite the story fixing ALL of the following:\n"
                         "1) FIRST PERSON ONLY — every sentence must use I/my/me/myself. "
                         "Remove any 'he', 'she', 'they', 'you', 'we' that refer to the narrator.\n"
@@ -422,26 +449,27 @@ def generate_story(strategy: dict = None) -> dict:
                         "3) COHERENCE — events must follow a logical order, nothing contradicts, no unresolved threads.\n"
                         "4) VARIED SENTENCE STARTS — never two consecutive sentences starting with 'I'.\n"
                         "5) Keep the same word count, tone, and ending twist.\n"
-                        "Output ONLY the corrected story text — no preamble, no notes, no tags."
-                    ),
-                },
-                {"role": "user", "content": story_text},
-            ],
-        )
-        proofed = _sanitize_llm_text(proof_resp.choices[0].message.content.strip())
-        if _is_valid_story(proofed, min_acceptable):
-            story_text = proofed
-            print("[Story] Proofread complete")
-        else:
-            print("[Story] Proofread output rejected — keeping original.")
-    except Exception as e:
-        print(f"[Story] Proofread skipped ({e})")
+                        "Output ONLY the corrected story text — no preamble, no notes, no tags.")},
+                    {"role": "user", "content": story},
+                ],
+            )
+            proofed = _sanitize_llm_text(proof_resp.choices[0].message.content.strip())
+            if _is_valid_story(proofed, min_acceptable):
+                story = proofed
+        except Exception as e:
+            print(f"[Story] Proofread skipped ({e})")
 
-    # ── Final hard safety net: never exceed the max word count ──
-    before = len(story_text.split())
-    story_text = _clamp_to_words(story_text, STORY_WORD_MAX)
-    if len(story_text.split()) < before:
-        print(f"[Story] Clamped {before} → {len(story_text.split())} words (max {STORY_WORD_MAX})")
+        return _clamp_to_words(story, STORY_WORD_MAX)
+
+    # ── Build + coherence gate: accept the first story that fully makes sense ──
+    story_text = _build_one()
+    for c_attempt in range(1, 3):     # up to 2 coherence-driven rebuilds
+        ok, reason = _story_makes_sense(client, story_text)
+        if ok:
+            print(f"[Story] Coherence check passed ({reason})")
+            break
+        print(f"[Story] Coherence check FAILED ({reason}) — rebuilding ({c_attempt}/2)")
+        story_text = _build_one()
 
     # ── Title ──
     title = _generate_title(client, story_text)

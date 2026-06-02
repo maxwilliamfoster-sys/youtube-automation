@@ -32,7 +32,7 @@ except Exception:
 from config import AUDIO_DIR, OUTPUT_DIR, MAX_VIDEO_SECONDS, MIN_VIDEO_SECONDS
 from story_generator import generate_story
 from tts_generator import generate_tts
-from caption_generator import get_captions
+from caption_generator import get_captions, verify_caption_coverage
 from gameplay_manager import get_random_clip, cleanup_pexels_clip
 from video_composer import compose_video
 from youtube_uploader import upload_short
@@ -106,11 +106,15 @@ def run_pipeline(upload: bool = True, strategy: dict = None) -> dict:
     results["story"] = story_data
     results["tts"] = tts_result
 
-    # --- Step 3: Build Captions ---
+    # --- Step 3: Build + verify Captions ---
     print("--- STEP 3: Building Captions ---")
     captions = get_captions(tts_result, AUDIO_DIR, prefix=f"story_{timestamp}")
     results["captions"] = captions
-    print(f"  Caption segments: {len(captions)}\n")
+    cap_ok, cap_reason = verify_caption_coverage(captions, tts_result["duration"])
+    print(f"  Caption segments: {len(captions)} | sync check: {cap_reason}")
+    if not cap_ok:
+        raise RuntimeError(f"Caption sync check failed ({cap_reason}) — skipping rather than posting mistimed captions.")
+    print()
 
     # --- Step 4: Get Background Footage (adaptive category) ---
     print("--- STEP 4: Getting Background Footage ---")
