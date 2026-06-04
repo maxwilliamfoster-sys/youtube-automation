@@ -13,9 +13,9 @@
         "views": 0,
         "likes": 0,
         "views_per_day": 0.0,
-        "age_days": 2.85,
+        "age_days": 2.99,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "tnaef3svhlU": {
@@ -31,10 +31,10 @@
         "duration": 98,
         "views": 1,
         "likes": 0,
-        "views_per_day": 0.352,
-        "age_days": 2.84,
+        "views_per_day": 0.3352,
+        "age_days": 2.98,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "RNb5py7W_1I": {
@@ -50,10 +50,10 @@
         "duration": 83,
         "views": 2,
         "likes": 0,
-        "views_per_day": 0.7217,
-        "age_days": 2.77,
+        "views_per_day": 0.6863,
+        "age_days": 2.91,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "FeX4U6nkHkA": {
@@ -69,10 +69,10 @@
         "duration": 85,
         "views": 1,
         "likes": 2,
-        "views_per_day": 0.4443,
-        "age_days": 2.25,
+        "views_per_day": 0.4178,
+        "age_days": 2.39,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "TCOFMbbZzAs": {
@@ -88,10 +88,10 @@
         "duration": 95,
         "views": 1,
         "likes": 1,
-        "views_per_day": 0.483,
-        "age_days": 2.07,
+        "views_per_day": 0.4518,
+        "age_days": 2.21,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "G2YcChKeEkk": {
@@ -108,9 +108,9 @@
         "views": 0,
         "likes": 0,
         "views_per_day": 0.0,
-        "age_days": 1.94,
+        "age_days": 2.08,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "jDVtZSK5aFg": {
@@ -127,9 +127,9 @@
         "views": 0,
         "likes": 0,
         "views_per_day": 0.0,
-        "age_days": 1.81,
+        "age_days": 1.95,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "PCzXNGOOrzo": {
@@ -145,10 +145,10 @@
         "duration": 72,
         "views": 1,
         "likes": 0,
-        "views_per_day": 0.9548,
-        "age_days": 1.05,
+        "views_per_day": 0.8404,
+        "age_days": 1.19,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "DRwb3a_zu0w": {
@@ -162,12 +162,12 @@
       "word_count": 162,
       "stats": {
         "duration": 90,
-        "views": 2,
+        "views": 1,
         "likes": 0,
-        "views_per_day": 2.1706,
-        "age_days": 0.92,
+        "views_per_day": 0.9399,
+        "age_days": 1.06,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "1ET12v7tjXI": {
@@ -181,12 +181,12 @@
       "word_count": 158,
       "stats": {
         "duration": 91,
-        "views": 3,
+        "views": 2,
         "likes": 0,
-        "views_per_day": 3.7262,
-        "age_days": 0.81,
+        "views_per_day": 2.1104,
+        "age_days": 0.95,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "OOX9WSSAmKw": {
@@ -205,7 +205,7 @@
         "views_per_day": 4.0,
         "age_days": 0.5,
         "avg_view_pct": null,
-        "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
       }
     },
     "y03Ci6ZupGA": {
@@ -217,6 +217,25 @@
       "target_seconds": 90,
       "actual_seconds": 90.0,
       "word_count": 151,
+      "stats": {
+        "duration": 91,
+        "views": 0,
+        "likes": 0,
+        "views_per_day": 0.0,
+        "age_days": 0.5,
+        "avg_view_pct": null,
+        "fetched_at": "2026-06-04T17:59:53.791710+00:00"
+      }
+    },
+    "0SrXJSABzLM": {
+      "posted_at": "2026-06-04T18:13:06.727525+00:00",
+      "title": "Log Still Warm In Abandoned Cottage",
+      "theme": "supernatural",
+      "hook": "cold_detail",
+      "background": "water",
+      "target_seconds": 90,
+      "actual_seconds": 88.6,
+      "word_count": 152,
       "stats": {}
     }
   },
@@ -226,432 +245,432 @@
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 2.88,
+      "age_days": 3.02,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "hYh-ju71_IE": {
       "duration": 139,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 2.88,
+      "age_days": 3.02,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "beCiVjgccWw": {
       "duration": 129,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 2.96,
+      "age_days": 3.1,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "0jjgBcD-ljw": {
       "duration": 130,
       "views": 1,
       "likes": 0,
-      "views_per_day": 0.256,
-      "age_days": 3.91,
+      "views_per_day": 0.247,
+      "age_days": 4.05,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "ZDIsyLAa-h4": {
       "duration": 131,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 4.05,
+      "age_days": 4.19,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "Td6TdWxbtOo": {
       "duration": 131,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 4.14,
+      "age_days": 4.29,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "C2qNzIwOwH4": {
       "duration": 142,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 4.91,
+      "age_days": 5.05,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "cYUN3QrS3ac": {
       "duration": 137,
       "views": 1,
       "likes": 0,
-      "views_per_day": 0.1977,
-      "age_days": 5.06,
+      "views_per_day": 0.1923,
+      "age_days": 5.2,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "uitYB038tFY": {
       "duration": 89,
       "views": 1,
       "likes": 0,
-      "views_per_day": 0.1941,
-      "age_days": 5.15,
+      "views_per_day": 0.1889,
+      "age_days": 5.29,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "WtAe9K3BU5U": {
       "duration": 364,
       "views": 3,
       "likes": 0,
-      "views_per_day": 0.5145,
-      "age_days": 5.83,
+      "views_per_day": 0.5022,
+      "age_days": 5.97,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "1kom2VmLe90": {
       "duration": 128,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 5.99,
+      "age_days": 6.13,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "GZ4PZYcjmOI": {
       "duration": 145,
       "views": 1,
       "likes": 0,
-      "views_per_day": 0.1642,
-      "age_days": 6.09,
+      "views_per_day": 0.1605,
+      "age_days": 6.23,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "kxDv2PB5lVQ": {
       "duration": 122,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 6.84,
+      "age_days": 6.98,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "AQkTuhqptkQ": {
       "duration": 129,
       "views": 2,
       "likes": 0,
-      "views_per_day": 0.2874,
-      "age_days": 6.96,
+      "views_per_day": 0.2817,
+      "age_days": 7.1,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "zdjfm7HKc3g": {
       "duration": 140,
       "views": 1,
       "likes": 0,
-      "views_per_day": 0.1413,
-      "age_days": 7.08,
+      "views_per_day": 0.1385,
+      "age_days": 7.22,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "qDSAFBExIeI": {
       "duration": 123,
       "views": 2,
       "likes": 0,
-      "views_per_day": 0.255,
-      "age_days": 7.84,
+      "views_per_day": 0.2504,
+      "age_days": 7.99,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "s2mVR1riy_A": {
       "duration": 149,
       "views": 3,
       "likes": 1,
-      "views_per_day": 0.3762,
-      "age_days": 7.98,
+      "views_per_day": 0.3696,
+      "age_days": 8.12,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "RPoDjaPTZF4": {
       "duration": 130,
       "views": 4,
       "likes": 1,
-      "views_per_day": 0.4947,
-      "age_days": 8.08,
+      "views_per_day": 0.4862,
+      "age_days": 8.23,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "5CXg_NBwRpE": {
       "duration": 138,
       "views": 1,
       "likes": 1,
-      "views_per_day": 0.1131,
-      "age_days": 8.84,
+      "views_per_day": 0.1113,
+      "age_days": 8.98,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "bki87SzOiL8": {
       "duration": 125,
       "views": 1,
       "likes": 1,
-      "views_per_day": 0.1113,
-      "age_days": 8.99,
+      "views_per_day": 0.1095,
+      "age_days": 9.13,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "V79yVNorvDc": {
       "duration": 113,
       "views": 1,
       "likes": 1,
-      "views_per_day": 0.1012,
-      "age_days": 9.88,
+      "views_per_day": 0.0998,
+      "age_days": 10.02,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "WUnW5S3F0cc": {
       "duration": 132,
       "views": 2,
       "likes": 1,
-      "views_per_day": 0.2001,
-      "age_days": 9.99,
+      "views_per_day": 0.1973,
+      "age_days": 10.14,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "bGfNdaU5-pg": {
       "duration": 122,
       "views": 2,
       "likes": 1,
-      "views_per_day": 0.1999,
-      "age_days": 10.01,
+      "views_per_day": 0.1971,
+      "age_days": 10.15,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "xP8nRjU5bSI": {
       "duration": 69,
       "views": 3,
       "likes": 1,
-      "views_per_day": 0.2976,
-      "age_days": 10.08,
+      "views_per_day": 0.2935,
+      "age_days": 10.22,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "Zs5lQJwA4_s": {
       "duration": 77,
       "views": 4,
       "likes": 1,
-      "views_per_day": 0.3698,
-      "age_days": 10.82,
+      "views_per_day": 0.365,
+      "age_days": 10.96,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "vTHEEdf4JFg": {
       "duration": 121,
       "views": 2,
       "likes": 1,
-      "views_per_day": 0.1833,
-      "age_days": 10.91,
+      "views_per_day": 0.181,
+      "age_days": 11.05,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "c54sHtD_6bY": {
       "duration": 152,
       "views": 2,
       "likes": 1,
-      "views_per_day": 0.1809,
-      "age_days": 11.06,
+      "views_per_day": 0.1786,
+      "age_days": 11.2,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "6BDsCX-pT1s": {
       "duration": 89,
       "views": 6,
       "likes": 1,
-      "views_per_day": 0.4326,
-      "age_days": 13.87,
+      "views_per_day": 0.4282,
+      "age_days": 14.01,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "WgQel1NsvJM": {
       "duration": 76,
       "views": 5,
       "likes": 1,
-      "views_per_day": 0.3574,
-      "age_days": 13.99,
+      "views_per_day": 0.3537,
+      "age_days": 14.13,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "R7WHjMHi_x4": {
       "duration": 75,
       "views": 5,
       "likes": 1,
-      "views_per_day": 0.3557,
-      "age_days": 14.06,
+      "views_per_day": 0.3521,
+      "age_days": 14.2,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "twtYgFkVRrg": {
       "duration": 66,
       "views": 3,
       "likes": 1,
-      "views_per_day": 0.2129,
-      "age_days": 14.09,
+      "views_per_day": 0.2108,
+      "age_days": 14.23,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "jpTkFnZlTHg": {
       "duration": 69,
       "views": 6,
       "likes": 1,
-      "views_per_day": 0.404,
-      "age_days": 14.85,
+      "views_per_day": 0.4002,
+      "age_days": 14.99,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "z-8YG_PsXbc": {
       "duration": 57,
       "views": 4,
       "likes": 1,
-      "views_per_day": 0.2668,
-      "age_days": 14.99,
+      "views_per_day": 0.2643,
+      "age_days": 15.13,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "88bDV4g_h_8": {
       "duration": 51,
       "views": 3,
       "likes": 1,
-      "views_per_day": 0.1985,
-      "age_days": 15.11,
+      "views_per_day": 0.1967,
+      "age_days": 15.25,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "tESttbAB0TU": {
       "duration": 53,
       "views": 3,
       "likes": 1,
-      "views_per_day": 0.197,
-      "age_days": 15.23,
+      "views_per_day": 0.1951,
+      "age_days": 15.37,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "puCzXLP7UAc": {
       "duration": 38,
       "views": 2,
       "likes": 1,
-      "views_per_day": 0.1313,
-      "age_days": 15.24,
+      "views_per_day": 0.13,
+      "age_days": 15.38,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "RBKaPGc9BiQ": {
       "duration": 53,
       "views": 4,
       "likes": 1,
-      "views_per_day": 0.2515,
-      "age_days": 15.9,
+      "views_per_day": 0.2493,
+      "age_days": 16.05,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "Ld9dk04rW2Y": {
       "duration": 41,
       "views": 10,
       "likes": 1,
-      "views_per_day": 0.6208,
-      "age_days": 16.11,
+      "views_per_day": 0.6153,
+      "age_days": 16.25,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "tzIAvHVyB7Y": {
       "duration": 72,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 2.85,
+      "age_days": 2.99,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "tnaef3svhlU": {
       "duration": 98,
       "views": 1,
       "likes": 0,
-      "views_per_day": 0.352,
-      "age_days": 2.84,
+      "views_per_day": 0.3352,
+      "age_days": 2.98,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "RNb5py7W_1I": {
       "duration": 83,
       "views": 2,
       "likes": 0,
-      "views_per_day": 0.7217,
-      "age_days": 2.77,
+      "views_per_day": 0.6863,
+      "age_days": 2.91,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "FeX4U6nkHkA": {
       "duration": 85,
       "views": 1,
       "likes": 2,
-      "views_per_day": 0.4443,
-      "age_days": 2.25,
+      "views_per_day": 0.4178,
+      "age_days": 2.39,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "TCOFMbbZzAs": {
       "duration": 95,
       "views": 1,
       "likes": 1,
-      "views_per_day": 0.483,
-      "age_days": 2.07,
+      "views_per_day": 0.4518,
+      "age_days": 2.21,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "G2YcChKeEkk": {
       "duration": 78,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 1.94,
+      "age_days": 2.08,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "jDVtZSK5aFg": {
       "duration": 88,
       "views": 0,
       "likes": 0,
       "views_per_day": 0.0,
-      "age_days": 1.81,
+      "age_days": 1.95,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "PCzXNGOOrzo": {
       "duration": 72,
       "views": 1,
       "likes": 0,
-      "views_per_day": 0.9548,
-      "age_days": 1.05,
+      "views_per_day": 0.8404,
+      "age_days": 1.19,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "DRwb3a_zu0w": {
       "duration": 90,
-      "views": 2,
+      "views": 1,
       "likes": 0,
-      "views_per_day": 2.1706,
-      "age_days": 0.92,
+      "views_per_day": 0.9399,
+      "age_days": 1.06,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "1ET12v7tjXI": {
       "duration": 91,
-      "views": 3,
+      "views": 2,
       "likes": 0,
-      "views_per_day": 3.7262,
-      "age_days": 0.81,
+      "views_per_day": 2.1104,
+      "age_days": 0.95,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     },
     "OOX9WSSAmKw": {
       "duration": 83,
@@ -660,12 +679,21 @@
       "views_per_day": 4.0,
       "age_days": 0.5,
       "avg_view_pct": null,
-      "fetched_at": "2026-06-04T14:34:35.006710+00:00"
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
+    },
+    "y03Ci6ZupGA": {
+      "duration": 91,
+      "views": 0,
+      "likes": 0,
+      "views_per_day": 0.0,
+      "age_days": 0.5,
+      "avg_view_pct": null,
+      "fetched_at": "2026-06-04T17:59:53.791710+00:00"
     }
   },
   "calibration": {
-    "words_per_second": 1.7,
-    "word_overshoot": 1.0118,
-    "samples": 12
+    "words_per_second": 1.7012,
+    "word_overshoot": 1.0114,
+    "samples": 13
   }
 }
