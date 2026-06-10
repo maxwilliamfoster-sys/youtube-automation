@@ -35,23 +35,30 @@ def send_alert(message: str) -> bool:
         return False
 
 
-def send_video(video_path: str, caption: str = "") -> bool:
+def send_video(video_path: str, caption: str = "",
+               width: int = None, height: int = None, duration: int = None) -> bool:
     """
     Send a finished video file to the configured chat (max 50 MB via the bot API).
+    Passing width/height makes Telegram render the in-app preview at the correct
+    aspect ratio (without them it guesses and can look stretched).
     `caption` may contain HTML. Returns True on success. Silent — never raises.
     """
     if not _TOKEN or not _CHAT_ID:
         return False
+    data = {
+        "chat_id": _CHAT_ID,
+        "caption": caption[:1024],
+        "parse_mode": "HTML",
+        "supports_streaming": "true",
+    }
+    if width:    data["width"]    = int(width)
+    if height:   data["height"]   = int(height)
+    if duration: data["duration"] = int(duration)
     try:
         with open(video_path, "rb") as f:
             resp = requests.post(
                 f"https://api.telegram.org/bot{_TOKEN}/sendVideo",
-                data={
-                    "chat_id": _CHAT_ID,
-                    "caption": caption[:1024],
-                    "parse_mode": "HTML",
-                    "supports_streaming": "true",
-                },
+                data=data,
                 files={"video": f},
                 timeout=300,
             )

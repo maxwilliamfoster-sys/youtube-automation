@@ -282,7 +282,8 @@ def run_cloud_deliver(count: int = 2) -> None:
     their phone. Never touches TikTok — zero bot/shadowban risk, no PC required.
     """
     from notify import send_alert, send_video, esc
-    from config import TIKTOK_HASHTAGS, TIKTOK_CAPTION_TEMPLATE
+    from config import TIKTOK_HASHTAGS, TIKTOK_CAPTION_TEMPLATE, VIDEO_WIDTH, VIDEO_HEIGHT
+    from video_composer import get_video_duration
 
     print(f"[Cloud] Generating {count} video(s) for manual posting...")
     delivered = 0
@@ -296,13 +297,17 @@ def run_cloud_deliver(count: int = 2) -> None:
                 story_hashtags=story.get("hashtags", ""),
             )
             size_mb = os.path.getsize(video_path) / (1024 * 1024)
+            try:
+                dur = int(round(get_video_duration(video_path)))
+            except Exception:
+                dur = None
             tg = (
                 f"🎬 <b>{esc(story['title'])}</b>\n"
-                f"⏱ {story.get('duration_hint','')}  •  {size_mb:.0f} MB\n\n"
+                f"⏱ {dur}s  •  {size_mb:.0f} MB  •  9:16\n\n"
                 f"Save this video, then paste this caption when you post it to TikTok:\n\n"
                 f"<code>{esc(caption)}</code>"
             )
-            if send_video(video_path, tg):
+            if send_video(video_path, tg, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
                 delivered += 1
             else:
