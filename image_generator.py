@@ -23,27 +23,31 @@ _FFMPEG = shutil.which("ffmpeg") or r"C:\ffmpeg\ffmpeg-8.1.1-essentials_build\bi
 
 # ─── Script segmentation ─────────────────────────────────────────────────────
 
+def _even_chunks(items: list, n: int) -> list:
+    """Split `items` into n groups as evenly as possible. The remainder is spread
+    across the FIRST `r` groups — never dumped on the last one (which would make the
+    final image linger for many seconds and tank retention)."""
+    k, r = divmod(len(items), n)
+    chunks, idx = [], 0
+    for i in range(n):
+        take = k + (1 if i < r else 0)
+        chunks.append(items[idx:idx + take])
+        idx += take
+    return chunks
+
+
 def split_story_segments(text: str, n: int) -> list:
     """
     Split a script into n segments so each image can match what's being narrated.
-    Prefers natural line breaks; falls back to equal word-count splits.
+    Prefers natural line breaks; falls back to equal word-count splits. Both paths
+    distribute evenly so no single scene absorbs a disproportionate slice of time.
     """
     lines = [l.strip() for l in text.split("\n") if l.strip()]
     if len(lines) >= n:
-        per_group = max(1, len(lines) // n)
-        segments = []
-        for i in range(n):
-            start = i * per_group
-            end = start + per_group if i < n - 1 else len(lines)
-            segments.append(" ".join(lines[start:end]))
-        return segments[:n]
-    # fallback: word-count split
+        return [" ".join(group) for group in _even_chunks(lines, n)]
+    # fallback: even word-count split
     words = text.split()
-    per_seg = max(1, len(words) // n)
-    return [
-        " ".join(words[i * per_seg: (i * per_seg + per_seg) if i < n - 1 else len(words)])
-        for i in range(n)
-    ]
+    return [" ".join(group) for group in _even_chunks(words, n)]
 
 
 # ─── Prompt generation ────────────────────────────────────────────────────────

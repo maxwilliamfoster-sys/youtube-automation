@@ -186,33 +186,35 @@ def build_filter_script(
     # A bold, boxed title at the top third that states the most shocking fact while
     # the narrator says it — this is the single biggest lever on 3-second retention.
     if hook_text:
-        hook = _wrap_ffmpeg_text(escape_ffmpeg_text(hook_text.upper()), 16)
+        hook = _wrap_ffmpeg_text(escape_ffmpeg_text(hook_text.upper()), 18)
         lines.append(
             f"drawtext={font_option}"
             f"text='{hook}':"
-            f"fontsize=74:"
+            f"fontsize=66:"
             f"fontcolor=white:"
             f"borderw=6:bordercolor=black:"
-            f"box=1:boxcolor=black@0.55:boxborderw=30:"
+            f"box=1:boxcolor=black@0.55:boxborderw=28:"
             f"line_spacing=12:"
             f"x=(w-text_w)/2:"
-            f"y=h*0.15:"
+            f"y=h*0.12:"
             f"enable='between(t,0,3.6)'"
         )
 
     # ── Retention overlay 2: FOLLOW call-to-action (final ~2.6s) ───────────────
+    # Wrapped + sized so it never overflows the 1080px frame.
     if cta_text and total_duration:
-        cta = escape_ffmpeg_text(cta_text.upper())
+        cta = _wrap_ffmpeg_text(escape_ffmpeg_text(cta_text.upper()), 15)
         cta_start = max(0.0, float(total_duration) - 2.6)
         lines.append(
             f"drawtext={font_option}"
             f"text='{cta}':"
-            f"fontsize=64:"
+            f"fontsize=56:"
             f"fontcolor=white:"
             f"borderw=5:bordercolor=black:"
-            f"box=1:boxcolor=red@0.65:boxborderw=26:"
+            f"box=1:boxcolor=red@0.65:boxborderw=24:"
+            f"line_spacing=10:"
             f"x=(w-text_w)/2:"
-            f"y=h*0.70:"
+            f"y=h*0.66:"
             f"enable='between(t,{cta_start:.3f},{float(total_duration):.3f})'"
         )
 

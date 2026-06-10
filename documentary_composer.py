@@ -274,7 +274,22 @@ def _segment_durations(
 
     # Rescale so durations sum exactly to audio_duration
     total = sum(raw)
-    return [d * audio_duration / total for d in raw]
+    durations = [d * audio_duration / total for d in raw]
+
+    # Retention safety net: cap any single scene at ~1.8x the average so one image
+    # can never sit nearly-static for half the video, then redistribute the excess
+    # to the scenes that have room. Capacity (n * cap) always exceeds audio_duration.
+    avg = audio_duration / n
+    cap = max(min_dur, avg * 1.8)
+    for _ in range(6):
+        excess = sum(max(0.0, d - cap) for d in durations)
+        if excess < 0.05:
+            break
+        durations = [min(d, cap) for d in durations]
+        room = [cap - d for d in durations]
+        total_room = sum(room) or 1.0
+        durations = [d + excess * (r / total_room) for d, r in zip(durations, room)]
+    return durations
 
 
 # ─── Background music mixer ──────────────────────────────────────────────────
