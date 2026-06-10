@@ -146,7 +146,7 @@ POSTING_TIMES   = ["07:30", "20:00"]   # 2 posts/day — optimal for new channel
 # Evening slot (19:00-21:00 UK) accounts for 38% of all true crime TikTok views.
 
 # ─── TikTok Upload Settings ──────────────────────────────────────────────────
-TIKTOK_HASHTAGS = "#horror #scarystory #horrortok #scarytok #fyp #foryou #creepy #horrorstory"
+TIKTOK_HASHTAGS = "#truecrime #truecrimetiktok #truecrimecommunity #coldcase #unsolved #mystery #fyp #foryou"
 TIKTOK_CAPTION_TEMPLATE = "{title}\n\n{hashtags} {story_hashtags}"
 
 # ─── Notifications ───────────────────────────────────────────────────────────

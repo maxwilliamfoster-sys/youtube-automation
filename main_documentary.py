@@ -301,13 +301,13 @@ def run_cloud_deliver(count: int = 2) -> None:
                 dur = int(round(get_video_duration(video_path)))
             except Exception:
                 dur = None
-            tg = (
-                f"🎬 <b>{esc(story['title'])}</b>\n"
-                f"⏱ {dur}s  •  {size_mb:.0f} MB  •  9:16\n\n"
-                f"Save this video, then paste this caption when you post it to TikTok:\n\n"
-                f"<code>{esc(caption)}</code>"
+            video_caption = (
+                f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n\n"
+                f"Save this, then copy the caption from the next message 👇"
             )
-            if send_video(video_path, tg, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
+            if send_video(video_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
+                # Caption as its OWN message — tap the block to copy it all at once.
+                send_alert(f"📋 <b>Caption</b> — tap to copy:\n\n<pre>{esc(caption)}</pre>")
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
                 delivered += 1
             else:
