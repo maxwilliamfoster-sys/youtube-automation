@@ -525,20 +525,51 @@ if __name__ == "__main__":
 # ═══════════════════════════════════════════════════════════════════════════════
 
 TRUE_CRIME_SCRIPT_PROMPT = """You are the scriptwriter for @buriedcasefiles — a true crime documentary TikTok channel.
+Your scripts are engineered for RETENTION: every sentence must earn the next second of watch time.
+The single most important metric is how many people watch past the first 3 seconds, and how many watch to the very end.
+
+MANDATORY STRUCTURE (in this exact order):
+1. THE HOOK — sentence 1, maximum 14 words. The single most shocking, concrete, verifiable
+   fact of the case. NO date, NO location, NO "In 1982" preamble — drop the viewer straight
+   into the most disturbing or impossible detail so they CANNOT scroll away. It must create an
+   instant burning question that only watching on can answer.
+   GOOD: "When they opened the freezer, they found seven years of his diaries — all dated after he died."
+   GOOD: "Every passenger landed safely. There were three more people on the ground than had boarded."
+   BANNED openings: "In [year]", "On [date]", "Imagine", "Picture this", "This is the story of" — they kill retention.
+2. THE BUILD — escalating beats. Each sentence raises a NEW question before fully resolving the last,
+   so an open loop is always running and there is never a clean place to swipe away.
+3. THE RETENTION SPIKE — around the two-thirds mark, drop one more jaw-dropping twist that re-hooks
+   anyone starting to drift. e.g. "But that wasn't the strangest part."
+4. THE ENDING — last 1-2 sentences land on the haunting, still-UNRESOLVED question, then a short
+   comment-bait CTA inviting the viewer to weigh in. e.g. "So what really happened to her? Comment your theory."
+   or "Guilty, or framed? You decide." This CTA is the ONLY meta line allowed.
 
 Style rules:
-- Cold, authoritative, documentary narrator tone — like Netflix true crime
-- Short punchy sentences that build tension and dread
-- Start with a striking date, location, or jaw-dropping fact
-- Build to a shocking revelation or unanswered question
-- End on what is still unknown, unresolved, or haunting
-- Real names, real dates, real locations — every word must be factually accurate
-- Write exactly 190-220 words (count carefully — TikTok needs 60-90 seconds)
-- NO narrator asides, NO "In this video", NO "Subscribe", NO fluff
-- Output ONLY the script text, nothing else"""
+- Cold, authoritative documentary-narrator tone — like a Netflix true crime voiceover.
+- Short, punchy sentences. Vary rhythm: a very short sentence after a longer one lands like a hammer.
+- Real names, real dates, real locations — every factual claim must be accurate. The shock comes from REAL details, never invented ones.
+- Write exactly 150-185 words (~60-75 seconds spoken — the highest-retention length).
+- NO "In this video", NO "In this short", NO channel name, NO "subscribe". The only meta line allowed is the final comment-bait CTA.
+- Output ONLY the spoken script text. No headings, no labels, no stage directions."""
+
 
 # Track used cases across the session to avoid repeats
 _USED_CASES: list = []
+
+
+def _extract_hook(script: str, max_words: int = 12) -> str:
+    """
+    Pull the opening hook (first sentence) out of a script for use as a big
+    on-screen text overlay in the first ~3 seconds. Trimmed to max_words so it
+    fits two lines on a 1080px-wide mobile frame.
+    """
+    if not script:
+        return ""
+    first = re.split(r"(?<=[.!?])\s+", script.strip())[0].strip().strip('"').strip()
+    words = first.split()
+    if len(words) > max_words:
+        first = " ".join(words[:max_words]).rstrip(",;:") + "…"
+    return first
 
 
 def _extract_json(text: str) -> dict:
@@ -604,7 +635,9 @@ def _write_script(client: Groq, case: dict) -> str:
                     f"Background: {case.get('summary','')}\n\n"
                     f"Key facts:\n{facts}\n\n"
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
-                    "Write the 190-220 word documentary script now."
+                    "Write the 150-185 word documentary script now. Open on the single most shocking "
+                    "verifiable detail (the hook), keep an open loop running throughout, add a retention-spike "
+                    "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA."
                 ),
             },
         ],
@@ -782,6 +815,7 @@ def generate_true_crime_story(max_attempts: int = 3) -> dict:
             "accuracy_score": acc,
             "interest_score": interest,
             "tiktok_safe":    tiktok_safe,
+            "hook":           _extract_hook(script),
         }
 
         if approved and acc >= 7 and interest >= 7 and sense and tiktok_safe:

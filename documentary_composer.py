@@ -328,11 +328,17 @@ def add_audio_and_captions(
     caption_segments: List[Dict],
     audio_duration: float,
     output_path: str,
+    hook_text: str = None,
+    cta_text: str = None,
 ) -> str:
-    """Burn captions and mix audio onto the background documentary video."""
+    """Burn captions (plus optional hook + follow CTA overlays) and mix audio
+    onto the background documentary video."""
 
     scale_pass = f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT},setsar=1"
-    vf_filter = build_filter_script(caption_segments, scale_pass)
+    vf_filter = build_filter_script(
+        caption_segments, scale_pass,
+        hook_text=hook_text, cta_text=cta_text, total_duration=audio_duration,
+    )
 
     cmd = [
         FFMPEG, "-y",
@@ -372,6 +378,8 @@ def compose_documentary(
     work_dir: str = None,
     fade_duration: float = 1.0,
     word_segments: Optional[List[str]] = None,
+    hook_text: str = None,
+    cta_text: str = "Follow for more unsolved cases",
 ) -> str:
     """
     Full documentary composition pipeline.
@@ -447,9 +455,12 @@ def compose_documentary(
         print("\n[DocCompose] Step 3/4 -- Music disabled, skipping...")
         final_audio = audio_path
 
-    # ── Step 4: Audio + captions ───────────────────────────────────────────────
-    print("\n[DocCompose] Step 4/4 -- Adding narration and captions...")
-    add_audio_and_captions(bg_path, final_audio, caption_segments, audio_duration, output_path)
+    # ── Step 4: Audio + captions (+ hook & follow CTA overlays) ─────────────────
+    print("\n[DocCompose] Step 4/4 -- Adding narration, captions, hook & CTA...")
+    add_audio_and_captions(
+        bg_path, final_audio, caption_segments, audio_duration, output_path,
+        hook_text=hook_text, cta_text=cta_text,
+    )
 
     # ── Cleanup ────────────────────────────────────────────────────────────────
     try:

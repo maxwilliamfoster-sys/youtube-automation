@@ -81,13 +81,18 @@ def _next_posting_slot(posting_times=None):
 
 # ─── Single video generation ──────────────────────────────────────────────────
 
-def run_once() -> str:
-    """Research, generate, and compose one true crime documentary video."""
-
-    # Ensure FFmpeg is on PATH
+def _ensure_ffmpeg_on_path():
     ffmpeg_fallback = r"C:\ffmpeg\ffmpeg-8.1.1-essentials_build\bin"
     if not shutil.which("ffmpeg") and os.path.exists(os.path.join(ffmpeg_fallback, "ffmpeg.exe")):
         os.environ["PATH"] = ffmpeg_fallback + os.pathsep + os.environ.get("PATH", "")
+
+
+def _generate_one() -> tuple:
+    """
+    Research → script → voice → captions → images → compose ONE video.
+    Returns (story_dict, video_path). Does NOT upload.
+    """
+    _ensure_ffmpeg_on_path()
 
     from config import (
         AUDIO_DIR, NUM_SCENE_IMAGES, SCENE_IMAGES_DIR,
@@ -111,6 +116,7 @@ def run_once() -> str:
     story = generate_true_crime_story(max_attempts=3)
     print(f"  Case:     {story['case_name']}")
     print(f"  Title:    {story['title']}")
+    print(f"  Hook:     {story.get('hook','')}")
     print(f"  Accuracy: {story['accuracy_score']}/10 | Interest: {story['interest_score']}/10")
 
     # ── 2. Voice ──────────────────────────────────────────────────────────────
@@ -122,8 +128,6 @@ def run_once() -> str:
         speed=TTS_DOCUMENTARY_SPEED,
     )
     print(f"  Duration: {tts['duration']:.1f}s")
-    if tts["duration"] < 60:
-        print(f"  WARNING: {tts['duration']:.1f}s — TikTok Creator Program needs 60s+")
 
     # ── 3. Captions ───────────────────────────────────────────────────────────
     print("\n--- STEP 3: Building Captions ---")
@@ -150,58 +154,125 @@ def run_once() -> str:
         title=story["title"],
         audio_duration=tts["duration"],
         word_segments=word_segments,
+        hook_text=story.get("hook", ""),
     )
 
     # ── 6. Log ────────────────────────────────────────────────────────────────
     _log({
-        "timestamp":      timestamp,
-        "case":           story["case_name"],
-        "title":          story["title"],
-        "duration_s":     round(tts["duration"], 1),
-        "accuracy":       story["accuracy_score"],
-        "interest":       story["interest_score"],
-        "video":          video_path,
-        "status":         "done",
+        "timestamp":  timestamp,
+        "case":       story["case_name"],
+        "title":      story["title"],
+        "duration_s": round(tts["duration"], 1),
+        "accuracy":   story["accuracy_score"],
+        "interest":   story["interest_score"],
+        "video":      video_path,
+        "status":     "done",
     })
+    print(f"\n[Done] {os.path.basename(video_path)}")
+    return story, video_path
 
-    print("\n" + "=" * 60)
-    print(f"  DONE: {os.path.basename(video_path)}")
-    print(f"  Path: {video_path}")
-    print("=" * 60 + "\n")
 
-    # ── 7. Upload to TikTok ───────────────────────────────────────────────────
-    print("\n--- STEP 7: Uploading to TikTok ---")
+def _post(story: dict, video_path: str, schedule_time=None) -> bool:
+    """Upload one video (now, or scheduled). Alerts via Telegram on failure."""
+    label = "Scheduling" if schedule_time else "Uploading"
+    print(f"\n--- {label} to TikTok ---")
     try:
+        # Preferred: official Content Posting API (no browser, cloud-friendly) when
+        # explicitly enabled and authorised. Falls back to the stealth browser poster.
+        try:
+            from tiktok_api_poster import api_available, post_video
+            if api_available():
+                print("[TikTok] Using official Content Posting API.")
+                from config import TIKTOK_HASHTAGS, TIKTOK_CAPTION_TEMPLATE
+                caption = TIKTOK_CAPTION_TEMPLATE.format(
+                    title=story["title"], hashtags=TIKTOK_HASHTAGS,
+                    story_hashtags=story.get("hashtags", ""),
+                )
+                return post_video(video_path, caption)
+        except Exception as api_e:
+            print(f"[TikTok] API path unavailable ({api_e}) — using browser poster.")
+
         from tiktok_poster import upload_to_tiktok
-        upload_to_tiktok(
+        return upload_to_tiktok(
             video_path=video_path,
             title=story["title"],
             story_hashtags=story.get("hashtags", ""),
+            schedule_time=schedule_time,
         )
     except Exception as e:
         print(f"[TikTok] Upload step error: {e}")
-        # Notify via Telegram so you know when to refresh cookies
         try:
             from notify import send_alert
             send_alert(
                 "⚠️ <b>BuriedCasefiles — TikTok upload failed</b>\n\n"
                 f"<b>Video:</b> {story['title']}\n"
                 f"<b>Error:</b> {str(e)[:300]}\n\n"
-                "Your TikTok cookies may have expired.\n"
-                "Fix: open your PC and run  <code>py refresh_cookies.py</code>"
+                "Your TikTok session may have expired.\n"
+                "Fix: open your PC and run  <code>py tiktok_poster.py --login</code>"
             )
         except Exception:
             pass
+        return False
 
-    # ── 8. Auto-preview ───────────────────────────────────────────────────────
+
+def run_once() -> str:
+    """Generate one video and post it immediately."""
+    story, video_path = _generate_one()
+    _post(story, video_path)
     try:
         os.startfile(video_path)
         print("[Preview] Opening video in default media player...")
-    except Exception as e:
-        print(f"[Preview] Could not auto-open video: {e}")
+    except Exception:
         print(f"[Preview] Open manually: {video_path}")
-
     return video_path
+
+
+def _today_slots(jitter_minutes: int = 7):
+    """
+    Build today's posting datetimes from config.POSTING_TIMES, each nudged by a
+    small random jitter so posts never land on a robotic exact-minute pattern.
+    Slots already past are rolled to tomorrow.
+    """
+    import random
+    try:
+        from config import POSTING_TIMES
+    except Exception:
+        POSTING_TIMES = ["07:30", "20:00"]
+
+    now = datetime.now()
+    slots = []
+    for s in POSTING_TIMES:
+        h, m = map(int, s.split(":"))
+        dt = now.replace(hour=h, minute=m, second=0, microsecond=0)
+        dt += timedelta(minutes=random.randint(-jitter_minutes, jitter_minutes))
+        if dt <= now + timedelta(minutes=16):   # TikTok needs ≥15 min lead time
+            dt += timedelta(days=1)
+        slots.append(dt)
+    return slots
+
+
+def run_batch() -> None:
+    """
+    Generate ALL of today's videos in ONE session and hand each to TikTok's native
+    scheduler. The PC only needs to wake once (morning) — TikTok's servers publish
+    each video at its slot, so the machine can sleep the rest of the day.
+    """
+    slots = _today_slots()
+    print(f"[Batch] Generating {len(slots)} videos, scheduling for: "
+          + ", ".join(s.strftime('%H:%M') for s in slots))
+
+    for i, slot in enumerate(slots, 1):
+        print(f"\n[Batch] ===== Video {i}/{len(slots)} → {slot:%Y-%m-%d %H:%M} =====")
+        try:
+            story, video_path = _generate_one()
+            ok = _post(story, video_path, schedule_time=slot)
+            print(f"[Batch] Video {i}: {'scheduled' if ok else 'FAILED'}")
+        except Exception as exc:
+            print(f"[Batch] Video {i} errored: {exc}")
+            _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
+                  "status": "error", "error": str(exc)})
+
+    print("\n[Batch] Done — PC can sleep; TikTok will publish at the scheduled times.")
 
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
@@ -236,55 +307,47 @@ def show_log(last_n: int = 10):
 
 # ─── Windows Task Scheduler ───────────────────────────────────────────────────
 
-def register_scheduler(every_hours: int = 24):
+def register_scheduler(wake_time: str = "06:30"):
     """
-    Register two Windows Task Scheduler tasks for optimal posting times:
-      BuriedCasefilesAM — 07:30 daily  (morning commute + overnight US traffic)
-      BuriedCasefilesPM — 20:00 daily  (UK prime-time true crime window)
+    Register ONE daily Windows task that:
+      • wakes the PC from sleep (WakeToRun) at `wake_time`,
+      • runs `--batch` to generate the day's videos and hand them to TikTok's
+        native scheduler for publishing at the configured POSTING_TIMES.
 
-    If every_hours < 24, falls back to a single hourly task instead.
+    Because TikTok publishes from its own servers, the PC only needs to be awake
+    for this one morning window — it can sleep the rest of the day.
+
+    Replaces the old twice-daily BuriedCasefilesAM / BuriedCasefilesPM tasks.
     """
     script = os.path.abspath(__file__)
     python = sys.executable
-    tr_cmd = f'"{python}" "{script}"'
+    task   = "BuriedCasefilesDaily"
 
-    if every_hours < 24:
-        # Manual interval mode — single HOURLY task
-        task = "BuriedCasefilesGenerator"
-        cmd  = ["schtasks", "/create", "/f",
-                "/tn", task, "/tr", tr_cmd,
-                "/sc", "HOURLY", "/mo", str(every_hours), "/st", "09:00"]
-        print(f"[Scheduler] Registering '{task}' (every {every_hours}h)...")
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"[Scheduler] Success.  Remove: schtasks /delete /tn {task} /f")
-        else:
-            print(f"[Scheduler] Failed: {result.stderr.strip()}")
-            print("[Scheduler] Tip: run as Administrator for Task Scheduler access.")
-        return
+    # Remove the legacy two-task setup if present (ignore errors).
+    for old in ("BuriedCasefilesAM", "BuriedCasefilesPM"):
+        subprocess.run(["schtasks", "/delete", "/tn", old, "/f"],
+                       capture_output=True, text=True)
 
-    # Default: two daily tasks at optimal UK posting times
-    slots = [("BuriedCasefilesAM", "07:30"), ("BuriedCasefilesPM", "20:00")]
-    ok = 0
-    for task, start_time in slots:
-        cmd = ["schtasks", "/create", "/f",
-               "/tn", task, "/tr", tr_cmd,
-               "/sc", "DAILY", "/st", start_time]
-        print(f"[Scheduler] Registering '{task}' daily at {start_time} UK time...")
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"[Scheduler]   OK '{task}' scheduled.")
-            ok += 1
-        else:
-            print(f"[Scheduler]   FAIL: {result.stderr.strip()}")
-
-    if ok == 2:
-        print("\n[Scheduler] Both tasks active — 2 videos/day at 07:30 and 20:00.")
-        print("[Scheduler] To remove:")
-        print("  schtasks /delete /tn BuriedCasefilesAM /f")
-        print("  schtasks /delete /tn BuriedCasefilesPM /f")
-    elif ok == 0:
-        print("\n[Scheduler] Failed — run this script as Administrator.")
+    # Build the task with PowerShell so we can set WakeToRun + run-when-on-battery.
+    ps = f"""
+$action  = New-ScheduledTaskAction -Execute '{python}' -Argument '"{script}" --batch'
+$trigger = New-ScheduledTaskTrigger -Daily -At {wake_time}
+$settings = New-ScheduledTaskSettingsSet -WakeToRun -AllowStartIfOnBatteries `
+            -DontStopIfGoingOnBatteries -StartWhenAvailable
+Register-ScheduledTask -TaskName '{task}' -Action $action -Trigger $trigger `
+            -Settings $settings -Force | Out-Null
+Write-Host 'OK'
+"""
+    print(f"[Scheduler] Registering single daily wake task '{task}' at {wake_time}...")
+    result = subprocess.run(["powershell", "-NoProfile", "-Command", ps],
+                            capture_output=True, text=True)
+    if result.returncode == 0 and "OK" in result.stdout:
+        print(f"[Scheduler] OK — '{task}' will wake the PC daily at {wake_time} and batch-post.")
+        print("[Scheduler] Legacy AM/PM tasks removed.")
+        print(f"[Scheduler] To remove: schtasks /delete /tn {task} /f")
+    else:
+        print(f"[Scheduler] FAILED: {(result.stderr or result.stdout).strip()}")
+        print("[Scheduler] Tip: run this terminal as Administrator and retry.")
 
 
 # ─── Entry point ──────────────────────────────────────────────────────────────
@@ -293,12 +356,16 @@ def main():
     parser = argparse.ArgumentParser(
         description="@buriedcasefiles — automated true crime documentary generator"
     )
+    parser.add_argument("--batch",    action="store_true",
+                        help="Generate all of today's videos and schedule them via TikTok (one wake)")
     parser.add_argument("--loop",     action="store_true",
                         help="Run continuously, generating one video per interval")
     parser.add_argument("--every",    type=int, default=24,
                         help="Hours between videos in loop mode (default: 24)")
     parser.add_argument("--schedule", action="store_true",
-                        help="Register with Windows Task Scheduler and exit")
+                        help="Register the single daily wake task in Windows Task Scheduler and exit")
+    parser.add_argument("--wake-time", type=str, default="06:30",
+                        help="Morning wake time for the daily batch task (default 06:30)")
     parser.add_argument("--log",      action="store_true",
                         help="Show recent generation history and exit")
     args = parser.parse_args()
@@ -308,7 +375,11 @@ def main():
         return
 
     if args.schedule:
-        register_scheduler(args.every)
+        register_scheduler(args.wake_time)
+        return
+
+    if args.batch:
+        run_batch()
         return
 
     if args.loop:

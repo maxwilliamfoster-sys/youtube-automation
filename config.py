@@ -126,7 +126,7 @@ PEXELS_API_KEY      = os.getenv("PEXELS_API_KEY", "")
 POLLINATIONS_MODEL  = "flux"
 POLLINATIONS_DELAY  = 16.0     # Seconds between requests (anonymous: 1 req/15s)
                                # Register free at auth.pollinations.ai → set to 6.0
-NUM_SCENE_IMAGES    = 5        # Atmospheric scenes per video
+NUM_SCENE_IMAGES    = 7        # Atmospheric scenes per video — more scenes = faster cuts = better retention
 SCENE_IMAGES_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scene_images")
 
 # ─── Background Music Settings ───────────────────────────────────────────────

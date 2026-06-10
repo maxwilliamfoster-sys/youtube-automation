@@ -112,10 +112,36 @@ def escape_ffmpeg_text(text: str) -> str:
     for bad, good in bad_chars:
         text = text.replace(bad, good)
     return text.strip()
-def build_filter_script(caption_segments: List[Dict], scale_crop: str) -> str:
+def _wrap_ffmpeg_text(text: str, max_chars: int = 16) -> str:
+    """Greedily wrap text to lines of at most max_chars, joined by real newlines
+    (FFmpeg drawtext renders an embedded newline as a line break)."""
+    words, out, cur = text.split(), [], ""
+    for w in words:
+        if cur and len(cur) + 1 + len(w) > max_chars:
+            out.append(cur)
+            cur = w
+        else:
+            cur = f"{cur} {w}".strip()
+    if cur:
+        out.append(cur)
+    return "\n".join(out)
+
+
+def build_filter_script(
+    caption_segments: List[Dict],
+    scale_crop: str,
+    hook_text: str = None,
+    cta_text: str = None,
+    total_duration: float = None,
+) -> str:
     """
     Build the complete FFmpeg filter chain as a script string.
     Writing it to a file avoids all shell/comma escaping issues.
+
+    Optional retention overlays:
+      hook_text:      big headline card shown for the first ~3.6s (the scroll-stopper).
+      cta_text:       follow call-to-action shown in the final ~2.6s.
+      total_duration: required for cta timing (video length in seconds).
     """
     y_pos = int(VIDEO_HEIGHT * CAPTION_POSITION)
 
@@ -155,6 +181,40 @@ def build_filter_script(caption_segments: List[Dict], scale_crop: str) -> str:
             f"enable='between(t,{start:.3f},{end:.3f})'"
         )
         lines.append(drawtext)
+
+    # ── Retention overlay 1: the HOOK headline card (first ~3.6s) ──────────────
+    # A bold, boxed title at the top third that states the most shocking fact while
+    # the narrator says it — this is the single biggest lever on 3-second retention.
+    if hook_text:
+        hook = _wrap_ffmpeg_text(escape_ffmpeg_text(hook_text.upper()), 16)
+        lines.append(
+            f"drawtext={font_option}"
+            f"text='{hook}':"
+            f"fontsize=74:"
+            f"fontcolor=white:"
+            f"borderw=6:bordercolor=black:"
+            f"box=1:boxcolor=black@0.55:boxborderw=30:"
+            f"line_spacing=12:"
+            f"x=(w-text_w)/2:"
+            f"y=h*0.15:"
+            f"enable='between(t,0,3.6)'"
+        )
+
+    # ── Retention overlay 2: FOLLOW call-to-action (final ~2.6s) ───────────────
+    if cta_text and total_duration:
+        cta = escape_ffmpeg_text(cta_text.upper())
+        cta_start = max(0.0, float(total_duration) - 2.6)
+        lines.append(
+            f"drawtext={font_option}"
+            f"text='{cta}':"
+            f"fontsize=64:"
+            f"fontcolor=white:"
+            f"borderw=5:bordercolor=black:"
+            f"box=1:boxcolor=red@0.65:boxborderw=26:"
+            f"x=(w-text_w)/2:"
+            f"y=h*0.70:"
+            f"enable='between(t,{cta_start:.3f},{float(total_duration):.3f})'"
+        )
 
     # Join with comma — write as single filter chain
     return ",".join(lines)

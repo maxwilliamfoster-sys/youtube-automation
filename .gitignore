@@ -4,6 +4,10 @@ token.json
 client_secrets.json
 tiktok_cookies.txt
 tiktok_cookies.json
+tiktok_tokens.json
+
+# ─── Persistent stealth browser profile — contains your live TikTok session ───
+tiktok_profile/
 
 # ─── Generated output — large, per-video files ────────────────────────────────
 output/
