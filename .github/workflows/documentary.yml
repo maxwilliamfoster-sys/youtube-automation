@@ -1,18 +1,28 @@
-name: BuriedCasefiles — Daily Documentary
+name: BuriedCasefiles — Generate & Deliver
+
+# Fully cloud video GENERATION. TikTok posting is done by you, by hand, from your
+# phone — that's the most shadowban-proof method there is, and it means your PC
+# never needs to be on. Each run builds the videos and sends them to your Telegram
+# (with a ready-to-paste caption); they're also saved as downloadable artifacts.
 
 on:
-  # Cron DISABLED — TikTok upload requires a real browser/IP (cloud IPs are blocked).
-  # Primary automation: Windows Task Scheduler with Wake-on-Timer (wakes PC from sleep).
-  # Use workflow_dispatch below to manually test video generation from GitHub.
-  workflow_dispatch:        # click "Run workflow" in the GitHub Actions UI to test
+  schedule:
+    # 06:00 UTC daily (07:00 UK in summer / BST). Posting time is up to you — these
+    # just land on your phone each morning. GitHub may delay cron by a few minutes.
+    - cron: '0 6 * * *'
+  workflow_dispatch:          # "Run workflow" button — generate on demand
+    inputs:
+      count:
+        description: 'How many videos to generate'
+        default: '2'
+        required: false
 
 jobs:
-  generate-and-post:
+  generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 50
 
     steps:
-      # ── 1. Code ────────────────────────────────────────────────────────────────
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -21,75 +31,66 @@ jobs:
         with:
           python-version: '3.11'
 
-      # ── 2. Caches (speeds up every run after the first) ────────────────────────
-      - name: Cache pip packages
+      # ── Caches (first run is slow; later runs reuse models/assets) ─────────────
+      - name: Cache pip
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: pip-${{ hashFiles('requirements.txt') }}
           restore-keys: pip-
 
-      - name: Cache Kokoro models + font + music
+      - name: Cache models, font & music
         uses: actions/cache@v4
         with:
           path: |
             kokoro_models/
             assets/
             music/
-          key: assets-v2
+            ~/.cache/huggingface
+          key: assets-v3
 
-      # ── 3. System dependencies ─────────────────────────────────────────────────
+      # ── System deps: only FFmpeg + audio libs. No browser, no Xvfb. ───────────
       - name: Install system packages
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends \
-            ffmpeg \
-            xvfb \
-            espeak-ng \
-            libsndfile1 \
-            libgl1 \
-            libglib2.0-0
+            ffmpeg espeak-ng libsndfile1 libgomp1
 
-      # ── 4. Python packages ─────────────────────────────────────────────────────
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
-      - name: Install Playwright Chromium
-        run: playwright install chromium --with-deps
-
-      # ── 5. Assets: font + music tracks ────────────────────────────────────────
-      - name: Download font and music assets
+      - name: Download font + music assets
         run: python setup_music.py
 
-      # ── 6. Secrets → files ────────────────────────────────────────────────────
-      - name: Write .env from secrets
+      # ── Secrets → .env (generation keys + Telegram delivery) ──────────────────
+      - name: Write .env
         env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          GROQ_API_KEY:       ${{ secrets.GROQ_API_KEY }}
+          PEXELS_API_KEY:     ${{ secrets.PEXELS_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          printf 'GROQ_API_KEY=%s\nPEXELS_API_KEY=%s\nOPENROUTER_API_KEY=%s\n' \
-            "$GROQ_API_KEY" "$PEXELS_API_KEY" "$OPENROUTER_API_KEY" > .env
+          {
+            echo "GROQ_API_KEY=$GROQ_API_KEY"
+            echo "PEXELS_API_KEY=$PEXELS_API_KEY"
+            echo "OPENROUTER_API_KEY=$OPENROUTER_API_KEY"
+            echo "TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN"
+            echo "TELEGRAM_CHAT_ID=$TELEGRAM_CHAT_ID"
+          } > .env
 
-      - name: Restore TikTok cookies
-        env:
-          TIKTOK_COOKIES_B64: ${{ secrets.TIKTOK_COOKIES_B64 }}
-        run: echo "$TIKTOK_COOKIES_B64" | base64 -d > tiktok_cookies.txt
-
-      # ── 7. Generate video + post to TikTok ────────────────────────────────────
-      - name: Run pipeline
-        run: |
-          Xvfb :99 -screen 0 1280x800x24 -ac &
-          sleep 2
-          DISPLAY=:99 python main_documentary.py
+      # ── Generate videos and deliver them to Telegram ──────────────────────────
+      - name: Generate & deliver
+        run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '2' }}
         env:
           PYTHONUNBUFFERED: "1"
 
-      # ── 8. Debug artefacts on failure ─────────────────────────────────────────
-      - name: Upload debug screenshots on failure
-        if: failure()
+      # ── Backup copy: downloadable from the run page for 7 days ─────────────────
+      - name: Upload videos as artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: debug-${{ github.run_id }}
-          path: debug/
+          name: videos-${{ github.run_id }}
+          path: output/*.mp4
           if-no-files-found: ignore
+          retention-days: 7

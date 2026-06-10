@@ -275,6 +275,55 @@ def run_batch() -> None:
     print("\n[Batch] Done — PC can sleep; TikTok will publish at the scheduled times.")
 
 
+def run_cloud_deliver(count: int = 2) -> None:
+    """
+    GENERATE-ONLY cloud mode (for GitHub Actions): make `count` videos and send each
+    to Telegram with a ready-to-paste caption, so the user posts them manually from
+    their phone. Never touches TikTok — zero bot/shadowban risk, no PC required.
+    """
+    from notify import send_alert, send_video, esc
+    from config import TIKTOK_HASHTAGS, TIKTOK_CAPTION_TEMPLATE
+
+    print(f"[Cloud] Generating {count} video(s) for manual posting...")
+    delivered = 0
+    for i in range(1, count + 1):
+        print(f"\n[Cloud] ===== Video {i}/{count} =====")
+        try:
+            story, video_path = _generate_one()
+            caption = TIKTOK_CAPTION_TEMPLATE.format(
+                title=story["title"],
+                hashtags=TIKTOK_HASHTAGS,
+                story_hashtags=story.get("hashtags", ""),
+            )
+            size_mb = os.path.getsize(video_path) / (1024 * 1024)
+            tg = (
+                f"🎬 <b>{esc(story['title'])}</b>\n"
+                f"⏱ {story.get('duration_hint','')}  •  {size_mb:.0f} MB\n\n"
+                f"Save this video, then paste this caption when you post it to TikTok:\n\n"
+                f"<code>{esc(caption)}</code>"
+            )
+            if send_video(video_path, tg):
+                print(f"[Cloud] Delivered to Telegram: {story['title']}")
+                delivered += 1
+            else:
+                send_alert(
+                    f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"
+                    f"{esc(story['title'])} ({size_mb:.0f} MB — may be over Telegram's 50 MB limit).\n"
+                    f"Download it from the GitHub Actions run artifacts instead."
+                )
+                print(f"[Cloud] Telegram delivery failed for {story['title']}")
+        except Exception as exc:
+            print(f"[Cloud] Video {i} errored: {exc}")
+            _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
+                  "status": "error", "error": str(exc)})
+
+    send_alert(
+        f"✅ <b>BuriedCasefiles — {delivered}/{count} video(s) ready</b>\n\n"
+        f"They're above this message — save each one and post it to TikTok whenever you like."
+    )
+    print(f"\n[Cloud] Done — {delivered}/{count} delivered to Telegram.")
+
+
 # ─── Logging ──────────────────────────────────────────────────────────────────
 
 def _log(entry: dict):
@@ -356,6 +405,10 @@ def main():
     parser = argparse.ArgumentParser(
         description="@buriedcasefiles — automated true crime documentary generator"
     )
+    parser.add_argument("--cloud",    action="store_true",
+                        help="Generate-only: make videos and deliver to Telegram for manual posting (GitHub Actions)")
+    parser.add_argument("--count",    type=int, default=2,
+                        help="How many videos to generate in --cloud mode (default: 2)")
     parser.add_argument("--batch",    action="store_true",
                         help="Generate all of today's videos and schedule them via TikTok (one wake)")
     parser.add_argument("--loop",     action="store_true",
@@ -376,6 +429,10 @@ def main():
 
     if args.schedule:
         register_scheduler(args.wake_time)
+        return
+
+    if args.cloud:
+        run_cloud_deliver(count=args.count)
         return
 
     if args.batch:
