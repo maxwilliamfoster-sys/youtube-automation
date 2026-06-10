@@ -7,20 +7,25 @@ name: BuriedCasefiles — Generate & Deliver
 
 on:
   schedule:
-    # 06:00 UTC daily (07:00 UK in summer / BST). Posting time is up to you — these
-    # just land on your phone each morning. GitHub may delay cron by a few minutes.
-    - cron: '0 6 * * *'
+    # Times are UTC; UK is currently BST (UTC+1). Each run makes ONE video and sends
+    # it to Telegram ~10-15 min after the cron fires (GitHub's free scheduler is not
+    # minute-precise, so treat these as "around" 9am / 1pm / 4pm).
+    - cron: '45 7 * * *'     # ~09:00 UK — video 1
+    - cron: '45 11 * * *'    # ~13:00 UK — video 2
+    - cron: '45 14 * * *'    # ~16:00 UK — video 3
   workflow_dispatch:          # "Run workflow" button — generate on demand
     inputs:
       count:
         description: 'How many videos to generate'
-        default: '2'
+        default: '1'
         required: false
 
 jobs:
   generate:
     runs-on: ubuntu-latest
     timeout-minutes: 50
+    permissions:
+      contents: write   # to commit recent_cases.json back so cases never repeat
 
     steps:
       - name: Checkout
@@ -81,9 +86,24 @@ jobs:
 
       # ── Generate videos and deliver them to Telegram ──────────────────────────
       - name: Generate & deliver
-        run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '2' }}
+        run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '1' }}
         env:
           PYTHONUNBUFFERED: "1"
+
+      # ── Persist used cases so future runs never repeat a case ─────────────────
+      - name: Persist recent cases
+        if: always()
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recent_cases.json || true
+          if git diff --staged --quiet; then
+            echo "No new case to persist."
+          else
+            git commit -m "chore: update recent cases [skip ci]"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
 
       # ── Backup copy: downloadable from the run page for 7 days ─────────────────
       - name: Upload videos as artifacts

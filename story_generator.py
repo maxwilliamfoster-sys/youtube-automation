@@ -5,6 +5,7 @@ and true crime documentary scripts with research + fact-checking.
 
 import re
 import json
+import os
 import random
 import time
 import requests as _requests
@@ -556,6 +557,31 @@ Style rules:
 # Track used cases across the session to avoid repeats
 _USED_CASES: list = []
 
+# Persisted across runs (committed back in CI) so the daily videos never repeat a case.
+RECENT_CASES_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "recent_cases.json")
+
+
+def _load_recent_cases() -> list:
+    try:
+        with open(RECENT_CASES_FILE, encoding="utf-8") as f:
+            data = json.load(f)
+            return data if isinstance(data, list) else []
+    except Exception:
+        return []
+
+
+def _save_recent_case(name: str, keep: int = 60) -> None:
+    """Append a case to the persisted recent-cases list (de-duplicated, capped)."""
+    if not name:
+        return
+    cases = [c for c in _load_recent_cases() if c != name]
+    cases.append(name)
+    try:
+        with open(RECENT_CASES_FILE, "w", encoding="utf-8") as f:
+            json.dump(cases[-keep:], f, indent=2)
+    except Exception:
+        pass
+
 
 def _extract_hook(script: str, max_words: int = 12) -> str:
     """
@@ -759,6 +785,11 @@ def generate_true_crime_story(max_attempts: int = 3) -> dict:
     """
     client = Groq(api_key=GROQ_API_KEY)
 
+    # Seed exclusions from prior runs (persisted file) so cases never repeat day-to-day.
+    for _name in _load_recent_cases():
+        if _name not in _USED_CASES:
+            _USED_CASES.append(_name)
+
     last_result = None
 
     for attempt in range(max_attempts):
@@ -820,6 +851,7 @@ def generate_true_crime_story(max_attempts: int = 3) -> dict:
 
         if approved and acc >= 7 and interest >= 7 and sense and tiktok_safe:
             _USED_CASES.append(case_name)
+            _save_recent_case(case_name)
             print(f"[TrueCrime] APPROVED: '{title}'")
             return last_result
 
