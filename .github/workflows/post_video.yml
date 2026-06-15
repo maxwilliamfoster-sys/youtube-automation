@@ -1,10 +1,14 @@
 name: Post YouTube Short
 
 on:
-  schedule:
-    - cron: '0 9 * * *'
-    - cron: '0 12 * * *'
-    - cron: '30 15 * * *'
+  # ── DISCONTINUED 2026-06-02 ─────────────────────────────────────────────────
+  # Scary-stories channel retired in favour of the new psychology channel.
+  # Auto-posting is OFF (schedule disabled). Code/history are kept intact; the
+  # workflow can still be run by hand via "Run workflow" if ever needed.
+  # schedule:
+  #   - cron: '0 9 * * *'
+  #   - cron: '0 12 * * *'
+  #   - cron: '30 15 * * *'
   workflow_dispatch:
 
 jobs:
