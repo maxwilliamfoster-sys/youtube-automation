@@ -27,13 +27,24 @@ OPENROUTER_BASE_URL   = "https://openrouter.ai/api/v1/chat/completions"
 # models (gpt-oss / nemotron) can leak their chain-of-thought into the output — which
 # is exactly what produced the 6-minute garbled video — so they sit last and their
 # output is always run through _sanitize_llm_text() regardless.
+# Instruct-tuned models ONLY, checked against OpenRouter's live catalogue.
+#
+# Three entries here were dead (404 — removed from OpenRouter): llama-3.1-70b-instruct,
+# qwen-2.5-72b-instruct and gpt-oss-120b. With those gone and the rest rate-limited,
+# every call fell through to the reasoning model at the bottom — which answered a
+# request for a 5-word question with "Okay, the user has given me a specific case:".
+# That is the chain-of-thought leak this file's own history blames for a garbled video.
+#
+# So no reasoning models at all. A "last resort" that emits its own monologue into a
+# script is worse than no fallback: the run now fails loudly and alerts, which is the
+# correct outcome. Never add an uncensored model here either (OpenRouter lists a few
+# free ones) — they would quietly undercut the Community Guidelines gate.
 OPENROUTER_FREE_MODELS = [
-    "meta-llama/llama-3.3-70b-instruct:free",    # Llama 3.3 70B — best quality, direct answers
-    "meta-llama/llama-3.1-70b-instruct:free",    # Llama 3.1 70B — instruct fallback
-    "qwen/qwen-2.5-72b-instruct:free",           # Qwen 2.5 72B — instruct fallback
-    "nousresearch/hermes-3-llama-3.1-405b:free", # Hermes 405B — large instruct
-    "nvidia/nemotron-3-super-120b-a12b:free",    # reasoning — last resort (output sanitised)
-    "openai/gpt-oss-120b:free",                  # reasoning — last resort (output sanitised)
+    "meta-llama/llama-3.3-70b-instruct:free",     # same family as the Groq model
+    "qwen/qwen3-next-80b-a3b-instruct:free",      # instruct, 262k ctx
+    "google/gemma-4-31b-it:free",                 # instruct-tuned
+    "google/gemma-4-26b-a4b-it:free",             # instruct-tuned, verified clean output
+    "nousresearch/hermes-3-llama-3.1-405b:free",  # large instruct
 ]
 
 # Shared state — flip to OpenRouter the moment Groq's daily limit is hit
@@ -864,7 +875,8 @@ COMPLIANCE_OK = "OK"
 _COMPLIANCE_TIERS = ("OK", "FYF_INELIGIBLE", "AGE_RESTRICTED", "BANNED")
 
 
-def compliance_review(client: Groq, script: str, caption: str, case: dict) -> dict:
+def compliance_review(client: Groq, script: str, caption: str, case: dict,
+                      cta: str = "") -> dict:
     """
     Final, independent Community Guidelines review of exactly what will be posted.
 
@@ -903,7 +915,8 @@ def compliance_review(client: Groq, script: str, caption: str, case: dict) -> di
                         "real tragedy for shock value.\n"
                         "- OK: suitable for general recommendation. Covers the case "
                         "factually and respectfully, without graphic detail.\n\n"
-                        "Judge the SCRIPT and the CAPTION together — both are posted.\n"
+                        "Judge the SCRIPT, the CAPTION and the ON-SCREEN CARD together "
+                        "— all three are published.\n"
                         "Reply ONLY with valid JSON:\n"
                         '{"verdict":"OK|FYF_INELIGIBLE|AGE_RESTRICTED|BANNED",'
                         '"reasons":["..."],"worst_line":"..."}'
@@ -914,7 +927,8 @@ def compliance_review(client: Groq, script: str, caption: str, case: dict) -> di
                     "content": (
                         f"Case: {case.get('case_name','')}\n\n"
                         f"SCRIPT (spoken aloud over the video):\n{script}\n\n"
-                        f"CAPTION (posted with the video):\n{caption}"
+                        f"CAPTION (posted with the video):\n{caption}\n\n"
+                        f"ON-SCREEN CARD (burned into the final seconds):\n{cta or '(none)'}"
                     ),
                 },
             ],
@@ -1010,6 +1024,48 @@ def merge_hashtags(*groups: str, limit: int = 5) -> str:
             if len(out) >= limit:
                 return " ".join(out)
     return " ".join(out)
+
+
+def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
+    """
+    The final on-screen card: a two-option question about the case.
+
+    Every video used to end on the same static "Follow for more unsolved cases".
+    That asks for a follow — high effort, and identical on every post. A binary
+    question tied to this specific case can be answered with one word, which is the
+    lowest-effort comment there is, and comments are the strongest reach signal
+    TikTok has. It renders ~15 characters per line, so it has to be short.
+    """
+    try:
+        resp = _groq_call(client,
+            model=GROQ_MODEL,
+            max_tokens=30,
+            messages=[{
+                "role": "user",
+                "content": (
+                    "Write ONE two-option question about this true crime case that a "
+                    "viewer can answer with a single word in the comments.\n\n"
+                    f"Case: {case.get('case_name','')}\n"
+                    f"Unresolved: {case.get('unresolved','')}\n"
+                    f"Script: {script[:400]}\n\n"
+                    "Rules:\n"
+                    "- Format exactly: 'X or Y?'\n"
+                    "- Maximum 5 words total. Shorter is better.\n"
+                    "- Must fit this specific case, not be generic.\n"
+                    "- Examples: 'Accident or murder?' 'Guilty or framed?' "
+                    "'Alive or dead?' 'Suicide or staged?'\n"
+                    "- No hashtags, no quotes, no emojis.\n"
+                    "Output ONLY the question."
+                ),
+            }],
+        )
+        text = _sanitize_llm_text(resp.choices[0].message.content).strip().strip('"')
+        # Must be short enough for the card and actually be a question.
+        if text and text.endswith("?") and len(text.split()) <= 6 and len(text) <= 34:
+            return text
+    except Exception as e:
+        print(f"[TrueCrime] CTA generation failed ({e}) — using default.")
+    return "What really happened?"
 
 
 def _write_caption(client: Groq, case: dict, script: str) -> str:
@@ -1144,12 +1200,17 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         print(f"[TrueCrime] Hashtags: {tags}")
         print(f"[TrueCrime] Caption: {description}")
 
+        # ── Step 7: Final on-screen engagement card ───────────────────────────
+        cta = _write_engagement_cta(client, case, script)
+        print(f"[TrueCrime] CTA card: {cta}")
+
         last_result = {
             "script":         script,
             "title":          title,
             "case_name":      case_name,
             "hashtags":       tags,
             "caption":        caption,
+            "cta":            cta,
             "accuracy_score": acc,
             "interest_score": interest,
             "tiktok_safe":    tiktok_safe,
@@ -1165,7 +1226,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             continue
 
         print("[Compliance] Reviewing against TikTok Community Guidelines...")
-        verdict = compliance_review(client, script, caption, case)
+        verdict = compliance_review(client, script, caption, case, cta=cta)
         last_result["compliance"] = verdict
         if verdict["verdict"] != COMPLIANCE_OK:
             for r in verdict["reasons"][:3]:

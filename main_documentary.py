@@ -155,6 +155,9 @@ def _generate_one() -> tuple:
         audio_duration=tts["duration"],
         word_segments=word_segments,
         hook_text=story.get("hook", ""),
+        # Never wired up before, so every video fell back to the composer's default
+        # "Follow for more unsolved cases" — the same generic ask on every post.
+        cta_text=story.get("cta") or None,
     )
 
     # ── 6. Log ────────────────────────────────────────────────────────────────
