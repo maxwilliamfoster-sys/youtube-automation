@@ -332,7 +332,7 @@ def run_cloud_deliver(count: int = 2) -> None:
         print(f"\n[Cloud] ===== Video {i}/{count} =====")
         try:
             story, video_path = _generate_one()
-            caption = TIKTOK_CAPTION_TEMPLATE.format(
+            caption = story.get("caption") or TIKTOK_CAPTION_TEMPLATE.format(
                 title=story["title"],
                 hashtags=TIKTOK_HASHTAGS,
                 story_hashtags=story.get("hashtags", ""),
@@ -342,14 +342,17 @@ def run_cloud_deliver(count: int = 2) -> None:
                 dur = int(round(get_video_duration(video_path)))
             except Exception:
                 dur = None
+            # Everything in ONE message: the video and its ready-to-paste caption.
+            # Telegram renders <pre> as a code block with a copy button, so posting is
+            # save video -> tap caption -> paste in TikTok. Caption cap is 1024 chars;
+            # ours runs ~200, and send_video truncates as a backstop.
             video_caption = (
                 f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n\n"
-                f"Save this, then copy the caption from the next message 👇"
+                f"Tap the caption to copy it 👇\n"
+                f"<pre>{esc(caption)}</pre>"
             )
             send_path = _fit_telegram_limit(video_path)
             if send_video(send_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
-                # Caption as its OWN message — tap the block to copy it all at once.
-                send_alert(f"📋 <b>Caption</b> — tap to copy:\n\n<pre>{esc(caption)}</pre>")
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
                 delivered += 1
             else:
@@ -365,12 +368,14 @@ def run_cloud_deliver(count: int = 2) -> None:
             _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
                   "status": "error", "error": str(exc)})
 
-    if delivered:
+    if delivered and count > 1:
+        # Only worth a summary for a batch. For the usual single-video run it would
+        # just be a third message restating what is already on screen.
         send_alert(
             f"✅ <b>BuriedCasefiles — {delivered}/{count} video(s) ready</b>\n\n"
             f"They're above this message — save each one and post it to TikTok whenever you like."
         )
-    else:
+    elif not delivered:
         send_alert(
             f"❌ <b>BuriedCasefiles — no videos made</b>\n\n"
             f"All {count} attempt(s) failed. Check the GitHub Actions log."

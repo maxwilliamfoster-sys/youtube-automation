@@ -864,6 +864,79 @@ def _generate_hashtags(client: Groq, case: dict) -> str:
     return " ".join(tags[:7])
 
 
+# Reach tags that no longer do anything — TikTok's algorithm ignores them and they
+# read as spam to viewers, crowding out tags that actually describe the video.
+_JUNK_TAGS = {"#fyp", "#fypage", "#foryou", "#foryoupage", "#viral", "#viralvideo",
+              "#trending", "#tiktok", "#video"}
+
+
+def merge_hashtags(*groups: str, limit: int = 6) -> str:
+    """
+    Combine hashtag groups into one deduplicated set.
+
+    The old caption pasted a fixed tag list next to the generated one, so every post
+    shipped ~15 tags with #truecrime and #coldcase appearing twice. Specific tags are
+    kept first: they are what the video is actually about, and a handful of relevant
+    tags reaches further than a wall of generic ones.
+    """
+    seen, out = set(), []
+    for group in groups:
+        for word in (group or "").split():
+            # \w is Unicode-aware, so accented names survive. Stripping to [A-Za-z0-9]
+            # turned "#Cédrika" into "#Cdrika" — and this pool is full of non-English
+            # names (Cédrika Provencher, Sophie Toscan du Plantier, Tair Rada).
+            body = re.sub(r"\W", "", word.lstrip("#"), flags=re.UNICODE)
+            if not body:
+                continue
+            tag = f"#{body}"
+            key = tag.lower()
+            if len(tag) < 3 or key in _JUNK_TAGS or key in seen:
+                continue
+            seen.add(key)
+            out.append(tag)
+            if len(out) >= limit:
+                return " ".join(out)
+    return " ".join(out)
+
+
+def _write_caption(client: Groq, case: dict, script: str) -> str:
+    """
+    The TikTok description: a curiosity hook plus a question.
+
+    The caption used to be just the video title, which gives nobody a reason to stop
+    or reply. Comments are the strongest reach signal on TikTok, so it ends on an
+    open question aimed squarely at the unresolved part of the case.
+    """
+    try:
+        resp = _groq_call(client,
+            model=GROQ_MODEL,
+            max_tokens=110,
+            messages=[{
+                "role": "user",
+                "content": (
+                    "Write a TikTok caption for this true crime video.\n\n"
+                    f"Case: {case.get('case_name','')}\n"
+                    f"Still unresolved: {case.get('unresolved','')}\n"
+                    f"Script: {script[:500]}\n\n"
+                    "Rules:\n"
+                    "- Sentence 1: a hook that creates curiosity. Max 14 words. "
+                    "Do NOT reveal the twist or the ending.\n"
+                    "- Sentence 2: an open question asking viewers what they think "
+                    "happened, so they reply in the comments.\n"
+                    "- Under 180 characters total. No hashtags. No quotation marks. "
+                    "No emojis.\n"
+                    "Output ONLY the caption text."
+                ),
+            }],
+        )
+        text = _sanitize_llm_text(resp.choices[0].message.content)
+        if text and len(text) <= 300:
+            return text
+    except Exception as e:
+        print(f"[TrueCrime] Caption generation failed ({e}) — using title.")
+    return ""
+
+
 def generate_true_crime_story(max_attempts: int = 5) -> dict:
     """
     Research, write, and fact-check a true crime documentary script.
@@ -947,13 +1020,21 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
 
         # ── Step 5: Case-specific hashtags ────────────────────────────────────
         hashtags = _generate_hashtags(client, case)
-        print(f"[TrueCrime] Hashtags: {hashtags}")
+
+        # ── Step 6: Ready-to-paste TikTok caption ─────────────────────────────
+        from config import TIKTOK_HASHTAGS
+        description = _write_caption(client, case, script) or title
+        tags = merge_hashtags(hashtags, TIKTOK_HASHTAGS)
+        caption = f"{description}\n\n{tags}"
+        print(f"[TrueCrime] Hashtags: {tags}")
+        print(f"[TrueCrime] Caption: {description}")
 
         last_result = {
             "script":         script,
             "title":          title,
             "case_name":      case_name,
-            "hashtags":       hashtags,
+            "hashtags":       tags,
+            "caption":        caption,
             "accuracy_score": acc,
             "interest_score": interest,
             "tiktok_safe":    tiktok_safe,
