@@ -21,6 +21,7 @@ from config import (
     CAPTION_STROKE_COLOR, CAPTION_STROKE_WIDTH,
     CAPTION_POSITION, OUTPUT_DIR,
     MUSIC_DIR, MUSIC_VOLUME, MUSIC_ENABLED,
+    AUDIO_LUFS_TARGET,
 )
 
 
@@ -47,6 +48,57 @@ KEN_BURNS_STYLES = [
     (1.10, 1.35, 0.50, 0.80, 0.50, 0.25, "rise up"),
     (1.35, 1.10, 0.50, 0.25, 0.50, 0.75, "sink down"),
 ]
+
+
+# ─── B-roll clip (real Pexels footage) ────────────────────────────────────────
+
+def make_broll_clip(video_path: str, duration: float, output_path: str) -> str:
+    """
+    Cut a downloaded Pexels clip to `duration`, filled to a 1080x1920 frame.
+
+    Source clips are already portrait but rarely exactly 9:16, so they are scaled to
+    cover and centre-cropped. Clips shorter than the scene are looped. Longer clips
+    start at a random offset, so a query that returns the same footage twice does not
+    show the identical opening seconds.
+    """
+    print(f"[DocCompose] B-roll -- {os.path.basename(video_path)} ({duration:.1f}s)...")
+
+    try:
+        src_duration = get_video_duration(video_path)
+    except Exception:
+        src_duration = 0.0
+
+    pre_input, start = [], 0.0
+    if src_duration >= duration + 0.4:
+        # Leave the last 0.2s alone; some encodes have a ragged final frame.
+        start = _random.uniform(0.0, max(0.0, src_duration - duration - 0.2))
+        pre_input = ["-ss", f"{start:.2f}"]
+    elif src_duration > 0:
+        pre_input = ["-stream_loop", "-1"]   # too short — loop it to fill the scene
+
+    vf = (
+        f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT}:force_original_aspect_ratio=increase,"
+        f"crop={VIDEO_WIDTH}:{VIDEO_HEIGHT},fps={VIDEO_FPS},setsar=1,format=yuv420p"
+    )
+
+    cmd = [
+        FFMPEG, "-y",
+        *pre_input,
+        "-i", os.path.abspath(video_path).replace("\\", "/"),
+        "-t", f"{duration:.2f}",
+        "-vf", vf,
+        "-an",                                  # scene audio is never used
+        "-c:v", "libx264", "-preset", "fast", "-crf", "20",
+        "-pix_fmt", "yuv420p", "-r", str(VIDEO_FPS),
+        os.path.abspath(output_path).replace("\\", "/"),
+    ]
+    result = subprocess.run(cmd, capture_output=True)
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"B-roll clip failed for {video_path}:\n"
+            f"{result.stderr[-800:].decode(errors='replace')}"
+        )
+    return output_path
 
 
 # ─── Ken Burns single clip (PIL — sub-pixel accurate, zero jitter) ────────────
@@ -307,11 +359,21 @@ def _segment_durations(
 
 def mix_background_music(narration_path: str, duration: float, work_dir: str) -> str:
     """
-    Mix a quiet procedural drone track under the narration audio.
+    Mix a quiet drone track under the narration and master the result for TikTok.
 
-    Picks a random drone_*.wav from music/ and blends it at MUSIC_VOLUME
-    (default 12% — subtle but present).  Returns path to the mixed AAC file.
-    Falls back silently to the original narration if no tracks exist.
+    Three things happen here, and the first is a bug fix worth spelling out:
+
+    1. amix runs with normalize=0. Its default (normalize=1) divides every input by
+       the input count, so the narration was silently halved — measured at -28.1 LUFS
+       out of the mixer versus -22.1 for the narration alone. Every video shipped ~6 dB
+       quiet.
+    2. The music is side-chained to the narration, so it ducks automatically while the
+       narrator speaks and swells back in the gaps.
+    3. loudnorm masters to -14 LUFS / -1.5 dBTP, the level TikTok and streaming
+       services normalise to. Delivering at -28 meant the platform boosted the whole
+       track, noise and all.
+
+    Returns the mastered AAC, or the raw narration if no music or FFmpeg fails.
     """
     tracks = (sorted(glob.glob(os.path.join(MUSIC_DIR, "track_*.mp3")))
               or sorted(glob.glob(os.path.join(MUSIC_DIR, "drone_*.wav"))))
@@ -324,13 +386,30 @@ def mix_background_music(narration_path: str, duration: float, work_dir: str) ->
 
     print(f"[DocCompose] Music: {os.path.basename(drone_path)} @ {MUSIC_VOLUME * 100:.0f}% vol")
 
+    filter_chain = (
+        # Broadcast-style narration treatment before anything else touches it:
+        # highpass strips rumble/breath thump below the voice, and gentle compression
+        # evens out the loud/quiet swings of TTS delivery so quiet lines stay audible
+        # under the music instead of disappearing.
+        f"[0:a]highpass=f=85,"
+        f"acompressor=threshold=-18dB:ratio=3:attack=5:release=120,"
+        f"asplit=2[voice][key];"
+        f"[1:a]volume={MUSIC_VOLUME}[bg];"
+        # Music ducks whenever the narrator speaks, keyed off the narration itself.
+        f"[bg][key]sidechaincompress="
+        f"threshold=0.02:ratio=8:attack=15:release=350[duck];"
+        # normalize=0 is the fix — the default halves the narration.
+        f"[voice][duck]amix=inputs=2:duration=first:normalize=0[mix];"
+        # Master to the level TikTok normalises to, with headroom for the AAC encoder.
+        f"[mix]loudnorm=I={AUDIO_LUFS_TARGET}:TP=-1.5:LRA=11[aout]"
+    )
+
     cmd = [
         FFMPEG, "-y",
         "-i",             os.path.abspath(narration_path).replace("\\", "/"),
         "-stream_loop",   "-1",
         "-i",             os.path.abspath(drone_path).replace("\\", "/"),
-        "-filter_complex",
-        f"[1:a]volume={MUSIC_VOLUME}[bg];[0:a][bg]amix=inputs=2:duration=first[aout]",
+        "-filter_complex", filter_chain,
         "-map",   "[aout]",
         "-t",     str(round(duration + 1.5, 2)),
         "-c:a",   "aac",
@@ -462,12 +541,32 @@ def compose_documentary(
     # Each clip is the scene duration + fade overlap so there are no gaps
     clip_durations = [round(d + fade_duration + 0.1, 2) for d in scene_durations]
 
-    # ── Step 1: Ken Burns clips ────────────────────────────────────────────────
-    print("\n[DocCompose] Step 1/4 -- Applying Ken Burns motion to scenes...")
+    # ── Step 1: Scene clips (real footage where available, else Ken Burns) ─────
+    print("\n[DocCompose] Step 1/4 -- Building scene clips...")
     clip_paths = []
-    for i, img_path in enumerate(image_paths):
+    for i, media_path in enumerate(image_paths):
         clip_path = os.path.join(work_dir, f"clip_{i:02d}.mp4")
-        make_ken_burns_clip(img_path, clip_durations[i], i, clip_path)
+        if str(media_path).lower().endswith(".mp4"):
+            try:
+                make_broll_clip(media_path, clip_durations[i], clip_path)
+            except Exception as e:
+                # Never drop the scene: every clip duration is a slice of the narration
+                # timeline, so a missing clip would slide the video out of sync with the
+                # audio. Freeze a frame from the clip and pan it instead.
+                print(f"[DocCompose] B-roll failed ({e})\n"
+                      f"[DocCompose] Falling back to a still frame for scene {i+1}.")
+                frame = os.path.join(work_dir, f"fallback_{i:02d}.jpg")
+                subprocess.run(
+                    [FFMPEG, "-y", "-i", os.path.abspath(media_path).replace("\\", "/"),
+                     "-vframes", "1", "-q:v", "2", frame],
+                    capture_output=True,
+                )
+                if not os.path.exists(frame):
+                    raise RuntimeError(f"Scene {i+1}: b-roll unusable and no frame "
+                                       f"could be extracted from {media_path}") from e
+                make_ken_burns_clip(frame, clip_durations[i], i, clip_path)
+        else:
+            make_ken_burns_clip(media_path, clip_durations[i], i, clip_path)
         clip_paths.append(clip_path)
 
     # ── Step 2: Crossfade ──────────────────────────────────────────────────────

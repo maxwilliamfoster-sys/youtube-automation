@@ -126,6 +126,11 @@ PEXELS_API_KEY      = os.getenv("PEXELS_API_KEY", "")
 POLLINATIONS_MODEL  = "flux"
 POLLINATIONS_DELAY  = 16.0     # Seconds between requests (anonymous: 1 req/15s)
                                # Register free at auth.pollinations.ai → set to 6.0
+# Use real Pexels video footage for scenes, falling back to a panned still per scene
+# when no clip matches. Moving footage is the single biggest step away from looking
+# like a slideshow, and Pexels returns usable portrait clips for these queries.
+USE_VIDEO_BROLL     = True
+
 NUM_SCENE_IMAGES    = 12       # Atmospheric scenes per video — more scenes = faster cuts = better retention
                                # At 7, scenes held for 8-12s each and the video read as a
                                # slideshow. 12 puts a cut roughly every 3-5s. Costs almost
@@ -138,6 +143,11 @@ SCENE_IMAGES_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "
 MUSIC_DIR       = os.path.join(os.path.dirname(os.path.abspath(__file__)), "music")
 MUSIC_VOLUME    = 0.12   # 12% relative to narration — subtle, not distracting
 MUSIC_ENABLED   = True   # Set False to disable background music
+
+# Integrated loudness target. TikTok/Instagram/YouTube all normalise playback to
+# roughly -14 LUFS; delivering quieter just means the platform turns everything up,
+# noise included. The old mix measured -28 LUFS.
+AUDIO_LUFS_TARGET = -14.0
 
 # ─── TikTok Posting Schedule (UK / GMT) ──────────────────────────────────────
 # Optimal times based on TikTok analytics research (Sprout Social / Hootsuite 2024)

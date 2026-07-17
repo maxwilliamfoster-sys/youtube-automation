@@ -14,7 +14,8 @@ import shutil
 import requests
 from pathlib import Path
 from groq import Groq
-from config import GROQ_API_KEY, GROQ_MODEL, POLLINATIONS_DELAY, POLLINATIONS_MODEL, SCENE_IMAGES_DIR, PEXELS_API_KEY
+from config import (GROQ_API_KEY, GROQ_MODEL, POLLINATIONS_DELAY, POLLINATIONS_MODEL,
+                    SCENE_IMAGES_DIR, PEXELS_API_KEY, USE_VIDEO_BROLL)
 
 IMAGE_BASE_URL = "https://image.pollinations.ai/prompt/"
 
@@ -136,6 +137,82 @@ def _generate_pexels_queries(story_title: str, segments: list) -> list:
         if line.strip()
     ]
     return queries
+
+
+def fetch_pexels_video(
+    query: str,
+    output_path: str,
+    api_key: str = None,
+    seen_ids: set = None,
+    min_duration: float = 3.0,
+) -> bool:
+    """
+    Download a portrait Pexels *video* clip matching `query`.
+
+    Real footage moves on its own. A panned still cannot look like anything but a
+    panned still, which is what made the videos read as a slideshow. Pexels returns
+    plenty of usable portrait clips for the atmospheric queries this pipeline builds,
+    so b-roll is the default and stills are the fallback.
+
+    Returns True on success. Callers must fall back to a still if this returns False.
+    """
+    key = api_key or PEXELS_API_KEY
+    if not key:
+        return False
+
+    headers = {"Authorization": key}
+    params = {"query": query, "orientation": "portrait", "size": "medium", "per_page": 15}
+
+    try:
+        resp = requests.get(
+            "https://api.pexels.com/videos/search",
+            headers=headers, params=params, timeout=25,
+        )
+        if resp.status_code != 200:
+            print(f"[Video] Pexels HTTP {resp.status_code} for '{query}'")
+            return False
+
+        videos = [
+            v for v in resp.json().get("videos", [])
+            if v.get("width", 0) < v.get("height", 1)
+            and v.get("duration", 0) >= min_duration
+        ]
+        if not videos:
+            return False
+
+        # Same repeat problem as the stills: scene queries rhyme, so without this the
+        # same clip lands in several scenes of one video.
+        if seen_ids is not None:
+            unused = [v for v in videos if v.get("id") not in seen_ids]
+            if unused:
+                videos = unused
+
+        video = min(videos, key=lambda v: abs((v["width"] / v["height"]) - (9 / 16)))
+
+        # Pick the rendition nearest 1080 wide — smaller needs upscaling, much larger
+        # is a slow download we would only crop away.
+        files = [
+            f for f in video.get("video_files", [])
+            if f.get("width") and f.get("height") and f["width"] < f["height"]
+        ]
+        if not files:
+            return False
+        best = min(files, key=lambda f: abs(f["width"] - 1080))
+
+        clip = requests.get(best["link"], timeout=120)
+        if clip.status_code != 200:
+            return False
+        with open(output_path, "wb") as fh:
+            fh.write(clip.content)
+
+        if seen_ids is not None:
+            seen_ids.add(video.get("id"))
+        print(f"[Video] Pexels clip: '{query}' ({best['width']}x{best['height']}, "
+              f"{video.get('duration')}s)")
+        return True
+    except Exception as e:
+        print(f"[Video] Pexels video failed for '{query}': {e}")
+        return False
 
 
 def fetch_pexels_image(
@@ -333,6 +410,8 @@ def generate_story_images(
 
     saved_paths = []
     seen_photo_ids: set = set()   # so no photo repeats within one video
+    seen_video_ids: set = set()
+    broll_count = 0
     for i in range(num_images):
         output_path = os.path.join(output_dir, f"scene_{i + 1:02d}.jpg")
         print(f"\n[Images] Scene {i + 1}/{num_images}...")
@@ -340,6 +419,17 @@ def generate_story_images(
 
         if use_pexels:
             query = pexels_queries[i] if i < len(pexels_queries) else f"dark atmospheric {story_title}"
+
+            # Prefer real footage; fall back to a still for this scene if none exists.
+            # The composer decides what to do with each by file extension, so a mixed
+            # list of .mp4 and .jpg is expected and fine.
+            if USE_VIDEO_BROLL:
+                video_path = os.path.join(output_dir, f"scene_{i + 1:02d}.mp4")
+                if fetch_pexels_video(query, video_path, seen_ids=seen_video_ids):
+                    saved_paths.append(video_path)
+                    broll_count += 1
+                    continue
+
             success = fetch_pexels_image(query, output_path, seen_ids=seen_photo_ids)
             if not success:
                 # Pexels failed — fall back to Pollinations for this scene
