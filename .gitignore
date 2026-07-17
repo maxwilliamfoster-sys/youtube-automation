@@ -39,6 +39,11 @@ scheduler_log.txt
 upload_log.txt
 documentary_log.json
 
+# Wikipedia case pool — a rebuildable cache, not source. Left uncommitted so CI
+# refetches it and picks up newly-written articles. (recent_cases.json IS committed:
+# it is the memory of what has already been posted.)
+case_pool.json
+
 # ─── Python cache ─────────────────────────────────────────────────────────────
 __pycache__/
 *.pyc

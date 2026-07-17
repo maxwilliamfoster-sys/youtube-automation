@@ -275,6 +275,47 @@ def run_batch() -> None:
     print("\n[Batch] Done — PC can sleep; TikTok will publish at the scheduled times.")
 
 
+def _fit_telegram_limit(video_path: str, limit_mb: int = 48) -> str:
+    """
+    Telegram's bot API rejects uploads over 50 MB. Re-encode to fit and return the new
+    path; return the original if it already fits or if the re-encode fails.
+
+    Previously an oversized video just told the user to fetch it from the GitHub Actions
+    artifacts — which silently became a dead end once the artifact storage quota filled.
+    """
+    size_mb = os.path.getsize(video_path) / (1024 * 1024)
+    if size_mb <= limit_mb:
+        return video_path
+
+    print(f"[Cloud] Video is {size_mb:.0f} MB — over Telegram's limit. Re-encoding...")
+    try:
+        from video_composer import FFMPEG, get_video_duration
+        duration = get_video_duration(video_path)
+        audio_kbps = 96
+        # 5% headroom for container overhead so we land safely under the limit.
+        total_kbps = (limit_mb * 8 * 1024 * 0.95) / duration
+        video_kbps = max(300, int(total_kbps - audio_kbps))
+
+        out = video_path.replace(".mp4", "_tg.mp4")
+        subprocess.run(
+            [FFMPEG, "-y", "-i", video_path,
+             "-c:v", "libx264", "-preset", "veryfast",
+             "-b:v", f"{video_kbps}k", "-maxrate", f"{int(video_kbps * 1.2)}k",
+             "-bufsize", f"{video_kbps * 2}k",
+             "-c:a", "aac", "-b:a", f"{audio_kbps}k",
+             "-movflags", "+faststart", out],
+            check=True, capture_output=True,
+        )
+        new_mb = os.path.getsize(out) / (1024 * 1024)
+        if new_mb <= 50:
+            print(f"[Cloud] Re-encoded to {new_mb:.0f} MB.")
+            return out
+        print(f"[Cloud] Re-encode still {new_mb:.0f} MB — sending original.")
+    except Exception as e:
+        print(f"[Cloud] Re-encode failed ({e}) — sending original.")
+    return video_path
+
+
 def run_cloud_deliver(count: int = 2) -> None:
     """
     GENERATE-ONLY cloud mode (for GitHub Actions): make `count` videos and send each
@@ -305,7 +346,8 @@ def run_cloud_deliver(count: int = 2) -> None:
                 f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n\n"
                 f"Save this, then copy the caption from the next message 👇"
             )
-            if send_video(video_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
+            send_path = _fit_telegram_limit(video_path)
+            if send_video(send_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
                 # Caption as its OWN message — tap the block to copy it all at once.
                 send_alert(f"📋 <b>Caption</b> — tap to copy:\n\n<pre>{esc(caption)}</pre>")
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
@@ -313,8 +355,9 @@ def run_cloud_deliver(count: int = 2) -> None:
             else:
                 send_alert(
                     f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"
-                    f"{esc(story['title'])} ({size_mb:.0f} MB — may be over Telegram's 50 MB limit).\n"
-                    f"Download it from the GitHub Actions run artifacts instead."
+                    f"{esc(story['title'])} ({size_mb:.0f} MB).\n"
+                    f"Grab it from the GitHub Actions run page → Artifacts, if that run "
+                    f"still has one."
                 )
                 print(f"[Cloud] Telegram delivery failed for {story['title']}")
         except Exception as exc:

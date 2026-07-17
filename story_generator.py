@@ -4,12 +4,15 @@ and true crime documentary scripts with research + fact-checking.
 """
 
 import re
+import difflib
 import json
 import os
 import random
 import time
 import requests as _requests
 from groq import Groq, RateLimitError
+
+import case_source
 from config import (
     GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY,
     STORY_WORD_MIN, STORY_WORD_MAX,
@@ -574,13 +577,81 @@ def _save_recent_case(name: str, keep: int = 60) -> None:
     """Append a case to the persisted recent-cases list (de-duplicated, capped)."""
     if not name:
         return
-    cases = [c for c in _load_recent_cases() if c != name]
+    cases = [c for c in _load_recent_cases() if not _same_case(c, name)]
     cases.append(name)
     try:
         with open(RECENT_CASES_FILE, "w", encoding="utf-8") as f:
             json.dump(cases[-keep:], f, indent=2)
     except Exception:
         pass
+
+
+# ─── Case de-duplication ──────────────────────────────────────────────────────
+# The model is asked to avoid recent cases, but a 70B model ignores that hint and
+# keeps returning its handful of favourites. Exclusion is therefore enforced HERE,
+# in code, not left to the prompt.
+
+# Words that carry no identifying information — stripped before comparing, so
+# "The Murder of the Osborne Family" and "The Murders of the Osborne Family"
+# collapse to the same key ("osborne family") and count as one case.
+_FILLER_RE = re.compile(
+    r"\b(the|a|an|of|in|at|on|case|files?|murders?|killings?|deaths?|disappearances?|"
+    r"vanishings?|mystery|mysteries|mysterious|incident|affair|massacres?|"
+    r"poisonings?|unsolved|strange)\b",
+    re.I,
+)
+
+# The model sometimes answers the exclusion instruction conversationally and the
+# reply lands in case_name, e.g. "X is excluded, instead: Y". Never accept those.
+_BAD_NAME_RE = re.compile(
+    r"(excluded|exclude|instead|already used|as requested|avoid|cannot|sorry|"
+    r"here (is|are)|i (will|can|have))",
+    re.I,
+)
+
+
+def _norm_case(name: str) -> str:
+    """Reduce a case name to a comparable key: lowercase, no punctuation, no filler."""
+    s = re.sub(r"[^\w\s]", " ", (name or "").lower())
+    s = _FILLER_RE.sub(" ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _same_case(a: str, b: str) -> bool:
+    """True if two case names refer to the same case (exact, or near-identical)."""
+    ka, kb = _norm_case(a), _norm_case(b)
+    if not ka or not kb:
+        return False
+    if ka == kb or ka in kb or kb in ka:
+        return True
+    return difflib.SequenceMatcher(None, ka, kb).ratio() >= 0.85
+
+
+def _is_duplicate(name: str, recent: list) -> bool:
+    return any(_same_case(name, r) for r in recent)
+
+
+def _valid_case_name(name: str) -> bool:
+    """Reject empty, over-long, or model-chatter case names."""
+    if not name or not name.strip():
+        return False
+    if len(name) > 90 or len(name.split()) > 12:
+        return False
+    return not _BAD_NAME_RE.search(name)
+
+
+def _pick_fresh_case() -> dict:
+    """
+    A real, previously-unused case from Wikipedia: {title, extract, url}.
+
+    The model is never asked to name a case. Left to choose it either repeats its
+    favourites forever or invents one outright — see case_source for the details.
+    Returns {} if no case could be sourced.
+    """
+    sourced = case_source.pick_case(lambda t: _is_duplicate(t, _USED_CASES))
+    if sourced:
+        print(f"[TrueCrime] Sourced: {sourced['title']}  ({sourced['url']})")
+    return sourced
 
 
 def _extract_hook(script: str, max_words: int = 12) -> str:
@@ -610,22 +681,27 @@ def _extract_json(text: str) -> dict:
     return {}
 
 
-def _research_case(client: Groq) -> dict:
-    """Ask Groq to research and propose a compelling true crime case."""
-    exclude = f"\n\nAvoid these cases (already used): {', '.join(_USED_CASES[-20:])}" if _USED_CASES else ""
+def _research_case(client: Groq, sourced: dict) -> dict:
+    """
+    Turn a sourced Wikipedia case into the structured JSON the pipeline expects.
 
+    The model summarises supplied source text — it is not asked to recall anything.
+    That is the whole point: recall is where both the repetition and the invented
+    cases came from.
+    """
     resp = _groq_call(client,
         model=GROQ_MODEL,
-        max_tokens=500,
+        max_tokens=600,
         messages=[
             {
                 "role": "system",
                 "content": (
-                    "You are a true crime researcher. Propose one real, compelling, "
-                    "verifiable case for a short documentary. Prefer lesser-known cases "
-                    "with shocking twists, unresolved mysteries, or haunting unanswered questions. "
-                    "Avoid: Jack the Ripper, Ted Bundy, Jeffrey Dahmer, BTK, Zodiac Killer "
-                    "(too overexposed). "
+                    "You are a true crime researcher. You will be given the encyclopaedia "
+                    "entry for a real case. Extract its details for a short documentary, "
+                    "focusing on shocking twists, unresolved questions and haunting details.\n"
+                    "Use ONLY facts present in the supplied text. Never add details from "
+                    "memory. If the text does not state something, leave that field vague "
+                    "rather than inventing it.\n"
                     "Reply ONLY with valid JSON — no markdown, no explanation:\n"
                     '{"case_name":"...","location":"...","year":"...","summary":"...",'
                     '"key_facts":["fact1","fact2","fact3","fact4","fact5"],'
@@ -635,15 +711,20 @@ def _research_case(client: Groq) -> dict:
             {
                 "role": "user",
                 "content": (
-                    "Suggest one real true crime case: cold case, mysterious death, "
-                    "shocking murder, unsolved disappearance, or conspiracy. "
-                    "Must be historically documented and verifiable."
-                    + exclude
+                    f"Case: {sourced['title']}\n\n"
+                    f"Encyclopaedia entry:\n{sourced['extract'][:6000]}"
                 ),
             },
         ],
     )
-    return _extract_json(resp.choices[0].message.content.strip())
+    case = _extract_json(resp.choices[0].message.content.strip())
+    if case:
+        # Always the sourced title, never the model's paraphrase — de-duplication is
+        # tracked against these titles, and a reworded name would defeat it.
+        case["case_name"] = sourced["title"]
+        case["source_url"] = sourced.get("url", "")
+        case["source_text"] = sourced["extract"]
+    return case
 
 
 def _write_script(client: Groq, case: dict) -> str:
@@ -710,11 +791,24 @@ def _fact_check(client: Groq, case: dict, script: str) -> dict:
                 "role": "user",
                 "content": (
                     f"Case being covered: {case.get('case_name','')}\n\n"
-                    f"Script:\n{script}\n\n"
-                    "Check: Are all facts accurate? Are dates/names/events real? "
-                    "Does the narrative make complete logical sense? Is it genuinely interesting? "
-                    "Is it compliant with TikTok Community Guidelines? "
-                    "Flag any invented, embellished, or policy-violating claims."
+                    + (
+                        # Score accuracy against the real source, not the model's memory.
+                        # Graded from memory it once passed a wholly invented case at 8/10.
+                        f"SOURCE OF TRUTH (encyclopaedia entry for this case):\n"
+                        f"{case['source_text'][:6000]}\n\n"
+                        f"Script:\n{script}\n\n"
+                        "Check the script ONLY against the source of truth above. "
+                        "accuracy_score must reflect how well the script's names, dates and "
+                        "events match that source. Any claim in the script that the source "
+                        "does not support is an invented claim — list it in issues and score "
+                        "accuracy below 7. "
+                        if case.get("source_text") else
+                        f"Script:\n{script}\n\n"
+                        "Check: Are all facts accurate? Are dates/names/events real? "
+                    )
+                    + "Does the narrative make complete logical sense? Is it genuinely interesting? "
+                      "Is it compliant with TikTok Community Guidelines? "
+                      "Flag any invented, embellished, or policy-violating claims."
                 ),
             },
         ],
@@ -770,7 +864,7 @@ def _generate_hashtags(client: Groq, case: dict) -> str:
     return " ".join(tags[:7])
 
 
-def generate_true_crime_story(max_attempts: int = 3) -> dict:
+def generate_true_crime_story(max_attempts: int = 5) -> dict:
     """
     Research, write, and fact-check a true crime documentary script.
 
@@ -795,9 +889,26 @@ def generate_true_crime_story(max_attempts: int = 3) -> dict:
     for attempt in range(max_attempts):
         print(f"\n[TrueCrime] Attempt {attempt + 1}/{max_attempts} — researching case...")
 
-        # ── Step 1: Research ──────────────────────────────────────────────────
-        case = _research_case(client)
-        case_name = case.get("case_name", f"Unknown Case {attempt}")
+        # ── Step 1: Source a real, unused case, then research it ──────────────
+        sourced = _pick_fresh_case()
+        if not sourced:
+            print("[TrueCrime] Could not source a fresh case from Wikipedia — retrying.")
+            continue
+
+        case = _research_case(client, sourced)
+        case_name = (case.get("case_name") or "").strip()
+        if not _valid_case_name(case_name):
+            print(f"[TrueCrime] Rejected — unusable case name: {case_name!r}")
+            continue
+
+        # Belt and braces: the pool was already filtered against _USED_CASES, but a
+        # near-duplicate title ("Murder of X" vs "Murders of X") can still slip in.
+        if _is_duplicate(case_name, _USED_CASES):
+            print(f"[TrueCrime] Rejected — '{case_name}' has been used before. Retrying.")
+            _USED_CASES.append(case_name)
+            continue
+
+        _USED_CASES.append(case_name)  # never re-pick within this run either
         print(f"[TrueCrime] Case: {case_name} ({case.get('year','?')}, {case.get('location','?')})")
 
         # ── Step 2: Write script ──────────────────────────────────────────────
@@ -867,6 +978,15 @@ def generate_true_crime_story(max_attempts: int = 3) -> dict:
         print(f"[TrueCrime] Rejected ({', '.join(reason)}) — trying a different case...")
         _USED_CASES.append(case_name)  # avoid repeating it
 
-    # Use best attempt even if it didn't hit full threshold
+    if not last_result:
+        raise RuntimeError(
+            f"No usable case found in {max_attempts} attempts — every candidate was a "
+            f"repeat or unusable. Check the LLM backend is responding."
+        )
+
+    # Use the best attempt even if it didn't hit the full quality threshold. Persist it
+    # regardless: an unsaved case is picked again next run, which is what made the
+    # channel loop the same three videos.
     print(f"[TrueCrime] Using best result after {max_attempts} attempts.")
+    _save_recent_case(last_result.get("case_name"))
     return last_result

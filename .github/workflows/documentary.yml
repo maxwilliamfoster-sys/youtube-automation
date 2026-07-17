@@ -105,12 +105,17 @@ jobs:
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
-      # ── Backup copy: downloadable from the run page for 7 days ─────────────────
+      # ── Backup copy: downloadable from the run page for 2 days ─────────────────
+      # Telegram is the real delivery path; this is only a fallback. It is allowed to
+      # fail: the free artifact storage quota fills up, and when it did every run went
+      # red even though the video had already been delivered successfully.
+      # Retention is short so the quota cannot fill again.
       - name: Upload videos as artifacts
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: videos-${{ github.run_id }}
           path: output/*.mp4
           if-no-files-found: ignore
-          retention-days: 7
+          retention-days: 2
