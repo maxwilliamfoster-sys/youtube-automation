@@ -113,7 +113,7 @@ def _generate_one() -> tuple:
 
     # ── 1. Research & write story ─────────────────────────────────────────────
     print("\n--- STEP 1: Researching True Crime Story ---")
-    story = generate_true_crime_story(max_attempts=3)
+    story = generate_true_crime_story(max_attempts=5)
     print(f"  Case:     {story['case_name']}")
     print(f"  Title:    {story['title']}")
     print(f"  Hook:     {story.get('hook','')}")
@@ -365,11 +365,22 @@ def run_cloud_deliver(count: int = 2) -> None:
             _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
                   "status": "error", "error": str(exc)})
 
-    send_alert(
-        f"✅ <b>BuriedCasefiles — {delivered}/{count} video(s) ready</b>\n\n"
-        f"They're above this message — save each one and post it to TikTok whenever you like."
-    )
+    if delivered:
+        send_alert(
+            f"✅ <b>BuriedCasefiles — {delivered}/{count} video(s) ready</b>\n\n"
+            f"They're above this message — save each one and post it to TikTok whenever you like."
+        )
+    else:
+        send_alert(
+            f"❌ <b>BuriedCasefiles — no videos made</b>\n\n"
+            f"All {count} attempt(s) failed. Check the GitHub Actions log."
+        )
     print(f"\n[Cloud] Done — {delivered}/{count} delivered to Telegram.")
+
+    # Fail the CI run when nothing shipped. Delivering zero videos previously still
+    # reported success, so a wholly broken run looked identical to a healthy one.
+    if delivered == 0:
+        raise SystemExit(f"[Cloud] FAILED — 0/{count} videos delivered.")
 
 
 # ─── Logging ──────────────────────────────────────────────────────────────────

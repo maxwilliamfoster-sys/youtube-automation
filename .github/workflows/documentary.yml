@@ -91,12 +91,14 @@ jobs:
           PYTHONUNBUFFERED: "1"
 
       # ── Persist used cases so future runs never repeat a case ─────────────────
+      # case_pool.json rides along: rebuilding it costs ~60 rate-limited Wikipedia
+      # calls, so it is committed and only refetched when it expires.
       - name: Persist recent cases
         if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recent_cases.json || true
+          git add recent_cases.json case_pool.json || true
           if git diff --staged --quiet; then
             echo "No new case to persist."
           else

@@ -32,8 +32,10 @@ API = "https://en.wikipedia.org/w/api.php"
 UA = "BuriedCasefiles/1.0 (https://github.com/maxwilliamfoster-sys/youtube-automation)"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Committed to the repo, and committed back by CI when it expires. Rebuilding costs
+# ~60 rate-limited API calls, so a cloud run should read it, not build it.
 POOL_FILE = os.path.join(BASE_DIR, "case_pool.json")
-POOL_TTL_DAYS = 14
+POOL_TTL_DAYS = 30
 
 # Roots are expanded through their sub-categories (by country, by decade), which is
 # where the breadth comes from — a few roots fan out into thousands of real cases.
@@ -71,17 +73,44 @@ _OFF_TOPIC = re.compile(
 )
 
 _session = None
+_last_call = 0.0
+
+# Wikimedia throttles hard from shared cloud IPs, and GitHub Actions runners are very
+# much shared. Firing requests back-to-back got every one of them 429'd from CI while
+# working fine from a home connection, so requests are serialised with a gap.
+MIN_INTERVAL = 0.5
+MAX_RETRIES = 4
 
 
 def _get(params: dict) -> dict:
-    global _session
+    global _session, _last_call
     if _session is None:
         _session = requests.Session()
         _session.headers["User-Agent"] = UA
-    params = {**params, "format": "json"}
-    r = _session.get(API, params=params, timeout=25)
-    r.raise_for_status()
-    return r.json()
+    params = {**params, "format": "json", "maxlag": "5"}
+
+    for attempt in range(MAX_RETRIES):
+        gap = time.time() - _last_call
+        if gap < MIN_INTERVAL:
+            time.sleep(MIN_INTERVAL - gap)
+
+        r = _session.get(API, params=params, timeout=25)
+        _last_call = time.time()
+
+        if r.status_code == 429:
+            wait = float(r.headers.get("Retry-After", 2 ** attempt))
+            print(f"[CaseSource] Rate-limited by Wikipedia — waiting {wait:.0f}s...")
+            time.sleep(min(wait, 30))
+            continue
+        r.raise_for_status()
+        data = r.json()
+        # maxlag returns 200 with an error body when the replicas are behind.
+        if isinstance(data, dict) and data.get("error", {}).get("code") == "maxlag":
+            time.sleep(2 ** attempt)
+            continue
+        return data
+
+    raise RuntimeError(f"Wikipedia rate-limited after {MAX_RETRIES} attempts")
 
 
 def _members(category: str, kind: str) -> list:
@@ -195,7 +224,7 @@ def get_summary(title: str) -> dict:
     return {}
 
 
-def pick_case(is_duplicate, tries: int = 25) -> dict:
+def pick_case(is_duplicate, tries: int = 8) -> dict:
     """
     Return {title, extract, url} for a real case that isn't a repeat.
 
