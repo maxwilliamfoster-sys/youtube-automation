@@ -870,9 +870,10 @@ _JUNK_TAGS = {"#fyp", "#fypage", "#foryou", "#foryoupage", "#viral", "#viralvide
               "#trending", "#tiktok", "#video"}
 
 
-def merge_hashtags(*groups: str, limit: int = 6) -> str:
+def merge_hashtags(*groups: str, limit: int = 5) -> str:
     """
-    Combine hashtag groups into one deduplicated set.
+    Combine hashtag groups into one deduplicated set, capped at TikTok's 5-hashtag
+    limit for descriptions.
 
     The old caption pasted a fixed tag list next to the generated one, so every post
     shipped ~15 tags with #truecrime and #coldcase appearing twice. Specific tags are

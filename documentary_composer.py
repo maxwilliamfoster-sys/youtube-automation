@@ -28,13 +28,24 @@ from config import (
 # Each tuple: (zoom_start, zoom_end, cx_start, cy_start, cx_end, cy_end, label)
 # cx/cy are 0.0–1.0 fractions of the image width/height (centre of visible window).
 
+# Motion is deliberately stronger than a classic documentary pan. These clips are now
+# ~3-5s rather than ~9s, and the old 1.00->1.25 drift was so slow over a long hold that
+# the video read as a still slideshow. Wider zoom ranges and lateral drifts give each
+# cut visible movement. Keep end zoom <= ~1.45: beyond that, upscaling gets soft.
 KEN_BURNS_STYLES = [
-    (1.00, 1.25, 0.50, 0.50, 0.50, 0.50, "push-in center"),
-    (1.25, 1.00, 0.50, 0.50, 0.50, 0.50, "pull-back center"),
-    (1.00, 1.20, 0.85, 0.15, 0.75, 0.25, "push-in top-right"),
-    (1.00, 1.20, 0.15, 0.85, 0.25, 0.75, "push-in bottom-left"),
-    (1.25, 1.00, 0.50, 0.15, 0.50, 0.25, "pull-back upper"),
-    (1.00, 1.20, 0.15, 0.15, 0.25, 0.25, "push-in top-left"),
+    (1.00, 1.38, 0.50, 0.50, 0.50, 0.50, "push-in center"),
+    (1.38, 1.00, 0.50, 0.50, 0.50, 0.50, "pull-back center"),
+    (1.05, 1.42, 0.85, 0.15, 0.70, 0.30, "push-in top-right"),
+    (1.05, 1.42, 0.15, 0.85, 0.30, 0.70, "push-in bottom-left"),
+    (1.40, 1.05, 0.50, 0.12, 0.50, 0.30, "pull-back upper"),
+    (1.05, 1.40, 0.15, 0.15, 0.30, 0.30, "push-in top-left"),
+    # Pure lateral pans. The crop window is clamped to the image, so travel is capped
+    # at (1 - 1/zoom) of the width — at zoom 1.20 that is only ±8%, barely visible.
+    # 1.32 buys a ~24% sweep, which actually reads as a camera move.
+    (1.32, 1.32, 0.00, 0.50, 1.00, 0.50, "drift right"),
+    (1.32, 1.32, 1.00, 0.50, 0.00, 0.50, "drift left"),
+    (1.10, 1.35, 0.50, 0.80, 0.50, 0.25, "rise up"),
+    (1.35, 1.10, 0.50, 0.25, 0.50, 0.75, "sink down"),
 ]
 
 
@@ -391,7 +402,9 @@ def compose_documentary(
     title: str = "true_crime",
     audio_duration: float = None,
     work_dir: str = None,
-    fade_duration: float = 1.0,
+    # 0.5s, not 1.0s: scenes are now ~3-5s, and a 1s crossfade spent a quarter of each
+    # one dissolving, which blunted exactly the snappier cutting the extra scenes buy.
+    fade_duration: float = 0.5,
     word_segments: Optional[List[str]] = None,
     hook_text: str = None,
     cta_text: str = "Follow for more unsolved cases",

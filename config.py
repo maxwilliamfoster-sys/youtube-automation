@@ -126,7 +126,11 @@ PEXELS_API_KEY      = os.getenv("PEXELS_API_KEY", "")
 POLLINATIONS_MODEL  = "flux"
 POLLINATIONS_DELAY  = 16.0     # Seconds between requests (anonymous: 1 req/15s)
                                # Register free at auth.pollinations.ai → set to 6.0
-NUM_SCENE_IMAGES    = 7        # Atmospheric scenes per video — more scenes = faster cuts = better retention
+NUM_SCENE_IMAGES    = 12       # Atmospheric scenes per video — more scenes = faster cuts = better retention
+                               # At 7, scenes held for 8-12s each and the video read as a
+                               # slideshow. 12 puts a cut roughly every 3-5s. Costs almost
+                               # nothing: Pexels mode has no per-image rate-limit wait, and
+                               # total render time is driven by video length, not scene count.
 SCENE_IMAGES_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "scene_images")
 
 # ─── Background Music Settings ───────────────────────────────────────────────

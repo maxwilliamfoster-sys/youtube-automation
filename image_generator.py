@@ -142,17 +142,23 @@ def fetch_pexels_image(
     query: str,
     output_path: str,
     api_key: str = None,
+    seen_ids: set = None,
 ) -> bool:
     """
     Search Pexels for a portrait stock photo matching `query` and download it.
     Returns True on success, False if no results or API key missing.
+
+    `seen_ids` carries the photo IDs already used in this video. Scene queries are all
+    variations on "dark atmospheric ...", so without it Pexels returns the same top
+    photo for several scenes and the same picture appears repeatedly in one video.
     """
     key = api_key or PEXELS_API_KEY
     if not key:
         return False
 
     headers = {"Authorization": key}
-    params  = {"query": query, "orientation": "portrait", "size": "large", "per_page": 5}
+    # 15 candidates rather than 5: enough alternatives to skip already-used photos.
+    params  = {"query": query, "orientation": "portrait", "size": "large", "per_page": 15}
 
     try:
         resp = requests.get(
@@ -168,12 +174,23 @@ def fetch_pexels_image(
             print(f"[Images] Pexels: no results for '{query}'")
             return False
 
+        # Prefer photos not already used in this video; fall back to the full list
+        # rather than failing the scene outright if every candidate is a repeat.
+        if seen_ids is not None:
+            unused = [p for p in photos if p.get("id") not in seen_ids]
+            if unused:
+                photos = unused
+            else:
+                print(f"[Images] Pexels: all results for '{query}' already used — reusing.")
+
         # Pick the photo closest to portrait 9:16 aspect ratio
         def portrait_score(p):
             w, h = p["width"], p["height"]
             return abs((w / h) - (9 / 16))
 
         photo = min(photos, key=portrait_score)
+        if seen_ids is not None:
+            seen_ids.add(photo.get("id"))
         img_url = photo["src"].get("large2x") or photo["src"]["original"]
 
         img_resp = requests.get(img_url, timeout=60)
@@ -315,6 +332,7 @@ def generate_story_images(
             prompts.append(generic_fallbacks[len(prompts) % len(generic_fallbacks)])
 
     saved_paths = []
+    seen_photo_ids: set = set()   # so no photo repeats within one video
     for i in range(num_images):
         output_path = os.path.join(output_dir, f"scene_{i + 1:02d}.jpg")
         print(f"\n[Images] Scene {i + 1}/{num_images}...")
@@ -322,7 +340,7 @@ def generate_story_images(
 
         if use_pexels:
             query = pexels_queries[i] if i < len(pexels_queries) else f"dark atmospheric {story_title}"
-            success = fetch_pexels_image(query, output_path)
+            success = fetch_pexels_image(query, output_path, seen_ids=seen_photo_ids)
             if not success:
                 # Pexels failed — fall back to Pollinations for this scene
                 print(f"[Images] Pexels failed, falling back to Pollinations...")
