@@ -836,15 +836,105 @@ def _fact_check(client: Groq, case: dict, script: str) -> dict:
         ],
     )
     result = _extract_json(resp.choices[0].message.content.strip())
-    # Safe defaults if JSON parse fails
+    # Fail CLOSED. These defaults previously assumed a script was safe and approved when
+    # the model's JSON failed to parse — a garbled reply silently became a pass on the
+    # guidelines gate. An unparseable review is not evidence of safety.
+    parsed = bool(result)
+    if not parsed:
+        print("[TrueCrime] Fact-check reply unparseable — treating as a rejection.")
     return {
-        "accuracy_score": result.get("accuracy_score", 7),
-        "interest_score":  result.get("interest_score",  7),
-        "makes_sense":     result.get("makes_sense",     True),
-        "tiktok_safe":     result.get("tiktok_safe",     True),
-        "issues":          result.get("issues",          []),
-        "approved":        result.get("approved",        True),
+        "accuracy_score": result.get("accuracy_score", 0),
+        "interest_score":  result.get("interest_score",  0),
+        "makes_sense":     result.get("makes_sense",     False),
+        "tiktok_safe":     result.get("tiktok_safe",     False),
+        "issues":          result.get("issues",          [] if parsed else ["fact-check reply unparseable"]),
+        "approved":        result.get("approved",        False),
     }
+
+
+# ─── TikTok Community Guidelines gate ─────────────────────────────────────────
+# TikTok sorts sensitive content into tiers, and only the top one is worth posting:
+#   OK              — recommendable in the For You feed.
+#   FYF_INELIGIBLE  — allowed to exist, but never recommended. Effectively zero reach.
+#   AGE_RESTRICTED  — 18+ only. Craters reach and signals borderline content.
+#   BANNED          — removal and a strike against the account.
+# Anything below OK is refused: FYF_INELIGIBLE gets no views, and repeatedly posting
+# borderline material is what accumulates strikes. Better no video than a strike.
+COMPLIANCE_OK = "OK"
+_COMPLIANCE_TIERS = ("OK", "FYF_INELIGIBLE", "AGE_RESTRICTED", "BANNED")
+
+
+def compliance_review(client: Groq, script: str, caption: str, case: dict) -> dict:
+    """
+    Final, independent Community Guidelines review of exactly what will be posted.
+
+    Deliberately separate from _fact_check: that call is asked to judge accuracy and
+    entertainment value at the same time, and a reviewer scoring "is this compelling?"
+    is a poor judge of "will this get the account struck". This one does nothing else,
+    and sees the caption too — the caption is posted alongside the video and is just as
+    capable of breaking a rule.
+
+    Fails closed: an unparseable or errored review is a BANNED verdict, never a pass.
+    """
+    try:
+        resp = _groq_call(client,
+            model=GROQ_MODEL,
+            max_tokens=400,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a TikTok Trust & Safety moderator reviewing a true crime "
+                        "video before it is posted. Be strict: the account's survival "
+                        "depends on you, and a false pass is far more costly than a false "
+                        "reject.\n\n"
+                        "Classify into exactly one verdict:\n"
+                        "- BANNED: would be removed / earn a strike. Extremely graphic, "
+                        "gory or disturbing detail; glorifying, celebrating or promoting "
+                        "the perpetrator or the crime; instructions for a harmful act; "
+                        "hate or dehumanisation; sexualising anyone; sexual or graphic "
+                        "detail involving a minor; self-harm or suicide methods; targeted "
+                        "harassment of a real identifiable living person; graphic detail "
+                        "of a real named victim's injuries or death.\n"
+                        "- AGE_RESTRICTED: mature themes fit only for 18+ — significant "
+                        "violence, disturbing imagery, or frank discussion of killing.\n"
+                        "- FYF_INELIGIBLE: not removable, but too shocking, distressing "
+                        "or sensationalised for the For You feed. Includes dwelling on a "
+                        "real tragedy for shock value.\n"
+                        "- OK: suitable for general recommendation. Covers the case "
+                        "factually and respectfully, without graphic detail.\n\n"
+                        "Judge the SCRIPT and the CAPTION together — both are posted.\n"
+                        "Reply ONLY with valid JSON:\n"
+                        '{"verdict":"OK|FYF_INELIGIBLE|AGE_RESTRICTED|BANNED",'
+                        '"reasons":["..."],"worst_line":"..."}'
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        f"Case: {case.get('case_name','')}\n\n"
+                        f"SCRIPT (spoken aloud over the video):\n{script}\n\n"
+                        f"CAPTION (posted with the video):\n{caption}"
+                    ),
+                },
+            ],
+        )
+        result = _extract_json(resp.choices[0].message.content.strip())
+        verdict = str(result.get("verdict", "")).upper().strip()
+        if verdict not in _COMPLIANCE_TIERS:
+            print(f"[Compliance] Unparseable verdict {verdict!r} — refusing the video.")
+            return {"verdict": "BANNED",
+                    "reasons": ["compliance review returned no usable verdict"],
+                    "worst_line": ""}
+        return {
+            "verdict": verdict,
+            "reasons": result.get("reasons", []) or [],
+            "worst_line": result.get("worst_line", "") or "",
+        }
+    except Exception as e:
+        # An errored safety check is not a pass.
+        print(f"[Compliance] Review failed ({e}) — refusing the video.")
+        return {"verdict": "BANNED", "reasons": [f"review error: {e}"], "worst_line": ""}
 
 
 def _generate_hashtags(client: Groq, case: dict) -> str:
@@ -981,6 +1071,8 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             _USED_CASES.append(_name)
 
     last_result = None
+    best_safe = None          # best candidate that PASSED the guidelines gate
+    best_safe_score = -1
 
     for attempt in range(max_attempts):
         print(f"\n[TrueCrime] Attempt {attempt + 1}/{max_attempts} — researching case...")
@@ -1064,15 +1156,39 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             "hook":           _extract_hook(script),
         }
 
-        if approved and acc >= 7 and interest >= 7 and sense and tiktok_safe:
+        # ── Guidelines gate — a HARD requirement, checked before anything else ────
+        # Quality is negotiable; a strike against the account is not. Nothing below is
+        # allowed to override this.
+        if not tiktok_safe:
+            print("[TrueCrime] Rejected (TikTok guidelines violation) — trying another case...")
+            _USED_CASES.append(case_name)
+            continue
+
+        print("[Compliance] Reviewing against TikTok Community Guidelines...")
+        verdict = compliance_review(client, script, caption, case)
+        last_result["compliance"] = verdict
+        if verdict["verdict"] != COMPLIANCE_OK:
+            for r in verdict["reasons"][:3]:
+                print(f"[Compliance]   ! {r}")
+            print(f"[Compliance] BLOCKED — {verdict['verdict']}. Trying another case.")
+            _USED_CASES.append(case_name)
+            continue
+        print(f"[Compliance] PASSED ({verdict['verdict']}) — eligible for the For You feed.")
+
+        # Past this point the script is guidelines-safe. Only quality is left to judge.
+        if approved and acc >= 7 and interest >= 7 and sense:
             _USED_CASES.append(case_name)
             _save_recent_case(case_name)
             print(f"[TrueCrime] APPROVED: '{title}'")
             return last_result
 
+        # Safe but below the quality bar. Keep the best one as a fallback so a run still
+        # ships something rather than nothing — but only ever from safe candidates.
+        score = acc + interest
+        if score > best_safe_score:
+            best_safe, best_safe_score = last_result, score
+
         reason = []
-        if not tiktok_safe:
-            reason.append("TikTok guidelines violation")
         if acc < 7:
             reason.append(f"accuracy {acc}/10")
         if interest < 7:
@@ -1082,15 +1198,17 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         print(f"[TrueCrime] Rejected ({', '.join(reason)}) — trying a different case...")
         _USED_CASES.append(case_name)  # avoid repeating it
 
-    if not last_result:
-        raise RuntimeError(
-            f"No usable case found in {max_attempts} attempts — every candidate was a "
-            f"repeat or unusable. Check the LLM backend is responding."
-        )
+    # Fall back only to a candidate that PASSED the guidelines gate. This previously
+    # returned last_result — the final attempt, whatever it was — so a script the
+    # reviewer had just rejected for a guidelines violation got published anyway. The
+    # safety check ran, failed, and was then ignored.
+    if best_safe:
+        print(f"[TrueCrime] Using best guidelines-safe result after {max_attempts} attempts.")
+        _save_recent_case(best_safe.get("case_name"))
+        return best_safe
 
-    # Use the best attempt even if it didn't hit the full quality threshold. Persist it
-    # regardless: an unsaved case is picked again next run, which is what made the
-    # channel loop the same three videos.
-    print(f"[TrueCrime] Using best result after {max_attempts} attempts.")
-    _save_recent_case(last_result.get("case_name"))
-    return last_result
+    # Nothing safe at all. No video is the correct outcome — never trade a strike for a post.
+    raise RuntimeError(
+        f"No guidelines-safe case found in {max_attempts} attempts. No video produced — "
+        f"refusing to post content that failed the TikTok Community Guidelines review."
+    )

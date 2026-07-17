@@ -332,6 +332,24 @@ def run_cloud_deliver(count: int = 2) -> None:
         print(f"\n[Cloud] ===== Video {i}/{count} =====")
         try:
             story, video_path = _generate_one()
+
+            # Last line of defence. The generator already refuses to return anything that
+            # failed the guidelines gate, so this should never fire — but it is the final
+            # point before a video reaches the user's phone, and a silent regression
+            # upstream must not be able to put a strike on the account.
+            verdict = (story.get("compliance") or {}).get("verdict")
+            if verdict != "OK":
+                reasons = "; ".join((story.get("compliance") or {}).get("reasons", []))
+                send_alert(
+                    f"🛑 <b>Video blocked — TikTok guidelines</b>\n\n"
+                    f"{esc(story.get('title', '?'))}\n"
+                    f"<b>Verdict:</b> {esc(verdict or 'unreviewed')}\n"
+                    f"<b>Why:</b> {esc(reasons[:300] or 'no compliance review attached')}\n\n"
+                    f"Not sent. Nothing to post."
+                )
+                print(f"[Cloud] BLOCKED by guidelines gate ({verdict}) — not delivering.")
+                continue
+
             caption = story.get("caption") or TIKTOK_CAPTION_TEMPLATE.format(
                 title=story["title"],
                 hashtags=TIKTOK_HASHTAGS,
@@ -347,7 +365,8 @@ def run_cloud_deliver(count: int = 2) -> None:
             # save video -> tap caption -> paste in TikTok. Caption cap is 1024 chars;
             # ours runs ~200, and send_video truncates as a backstop.
             video_caption = (
-                f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n\n"
+                f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n"
+                f"✅ TikTok guidelines: passed — safe to post\n\n"
                 f"Tap the caption to copy it 👇\n"
                 f"<pre>{esc(caption)}</pre>"
             )
