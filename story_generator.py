@@ -15,18 +15,33 @@ from groq import Groq, RateLimitError
 import case_source
 from config import (
     GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY,
-    STORY_WORD_MIN, STORY_WORD_MAX,
+    STORY_WORD_MIN, STORY_WORD_MAX, CEREBRAS_API_KEY,
 )
 
 # ── LLM backend constants ─────────────────────────────────────────────────────
 GROQ_FALLBACK_MODEL   = "llama-3.1-8b-instant"
 OPENROUTER_BASE_URL   = "https://openrouter.ai/api/v1/chat/completions"
 
-# OpenRouter free models tried in order — all 0 cost, no daily token cap.
-# We PREFER plain instruction-tuned models that return the answer directly. Reasoning
-# models (gpt-oss / nemotron) can leak their chain-of-thought into the output — which
-# is exactly what produced the 6-minute garbled video — so they sit last and their
-# output is always run through _sanitize_llm_text() regardless.
+# ── Cerebras: the second free pool ────────────────────────────────────────────
+# Groq's free tier is 100,000 tokens/DAY. One video costs roughly 9k tokens per
+# attempt, so 3 videos/day with retries runs at 60-80k — close enough to the ceiling
+# that a few extra retries tip it over, and the whole run degrades. Cerebras gives
+# another 1,000,000 tokens/day free with no card, which is ~10x Groq's allowance and
+# far beyond anything this pipeline can spend.
+#
+# Two caveats that shape the code below:
+#   * Free tier is 5 requests/MINUTE (not 30), so calls must be spaced ~13s apart.
+#   * Free tier does NOT carry llama-3.3-70b. It offers gpt-oss-120b, zai-glm-4.7 and
+#     gemma-4-31b. gpt-oss-120b is a reasoning model — the same class that leaked
+#     chain-of-thought into a script — so only the instruct-tuned gemma-4-31b is used.
+CEREBRAS_BASE_URL     = "https://api.cerebras.ai/v1/chat/completions"
+CEREBRAS_MODEL        = "gemma-4-31b"
+CEREBRAS_MIN_INTERVAL = 13.0     # 5 req/min free tier
+_cerebras_last_call   = 0.0
+_use_cerebras         = False    # flips on once Groq's daily cap is hit
+
+# OpenRouter free models, tried in order. Last resort: the free pool is aggressively
+# rate-limited (429s are routine) and the catalogue churns without notice.
 # Instruct-tuned models ONLY, checked against OpenRouter's live catalogue.
 #
 # Three entries here were dead (404 — removed from OpenRouter): llama-3.1-70b-instruct,
@@ -61,6 +76,44 @@ class _FakeResponse:
             self.message.content = text
     def __init__(self, text: str):
         self.choices = [self._Choice(text)]
+
+
+def _cerebras_call(**kwargs) -> object:
+    """
+    Call Cerebras' OpenAI-compatible endpoint. Raises on any failure so the caller can
+    drop through to OpenRouter.
+
+    Note the two API differences from Groq/OpenAI: the parameter is
+    `max_completion_tokens`, not `max_tokens`, and the free tier allows only 5
+    requests/minute, so calls are spaced out here rather than failing.
+    """
+    global _cerebras_last_call
+    if not CEREBRAS_API_KEY:
+        raise RuntimeError("CEREBRAS_API_KEY not set")
+
+    gap = time.time() - _cerebras_last_call
+    if gap < CEREBRAS_MIN_INTERVAL:
+        wait = CEREBRAS_MIN_INTERVAL - gap
+        print(f"[LLM] Cerebras 5 req/min — waiting {wait:.0f}s...")
+        time.sleep(wait)
+
+    payload = {
+        "model":       CEREBRAS_MODEL,
+        "messages":    kwargs.get("messages", []),
+        "temperature": 0.8,
+        "max_completion_tokens": kwargs.get("max_tokens", 1024),
+    }
+    resp = _requests.post(
+        CEREBRAS_BASE_URL, json=payload,
+        headers={"Authorization": f"Bearer {CEREBRAS_API_KEY}",
+                 "Content-Type": "application/json"},
+        timeout=90,
+    )
+    _cerebras_last_call = time.time()
+    if resp.status_code != 200:
+        raise RuntimeError(f"Cerebras HTTP {resp.status_code}: {resp.text[:200]}")
+    text = resp.json()["choices"][0]["message"]["content"]
+    return _FakeResponse(_sanitize_llm_text(text))
 
 
 def _openrouter_call(**kwargs) -> object:
@@ -115,18 +168,38 @@ def _openrouter_call(**kwargs) -> object:
     raise RuntimeError(f"All OpenRouter free models unavailable. Last error: {last_err}")
 
 
+def _fallback_call(**kwargs) -> object:
+    """
+    Everything after Groq, in order of free headroom: Cerebras (1M tokens/day) first,
+    then OpenRouter's free pool (heavily rate-limited and its model list churns).
+    """
+    global _use_cerebras
+    if CEREBRAS_API_KEY:
+        try:
+            if not _use_cerebras:
+                print(f"[LLM] Switching to Cerebras ({CEREBRAS_MODEL}, 1M tokens/day free).")
+                _use_cerebras = True
+            return _cerebras_call(**kwargs)
+        except Exception as e:
+            print(f"[LLM] Cerebras failed ({str(e)[:120]}) — trying OpenRouter...")
+    return _openrouter_call(**kwargs)
+
+
 def _groq_call(client: Groq, **kwargs) -> object:
     """
-    Smart LLM router:
-      1. Uses Groq (fast, Llama 3.3 70B) while within its daily 100k token limit.
-      2. The instant Groq hits its hard daily cap, permanently switches to
-         OpenRouter (free Llama 3.3 70B, no daily token cap) for the rest of the session.
-      No sleeping, no waiting — immediate failover.
+    Smart LLM router, ordered by how much free headroom each backend has:
+      1. Groq — fastest and best quality (Llama 3.3 70B), but only 100k tokens/DAY.
+      2. Cerebras — 1M tokens/day free, so ~10x the room. Slower (5 req/min) and a
+         smaller model, but it means a Groq cap is a non-event rather than a dead run.
+      3. OpenRouter free pool — last resort; its free models are often 429 and the
+         catalogue changes without notice.
+    Once Groq's daily cap is hit the switch is permanent for the session — the cap
+    will not clear before the run ends.
     """
     global _use_openrouter
 
     if _use_openrouter:
-        return _openrouter_call(**kwargs)
+        return _fallback_call(**kwargs)
 
     try:
         return client.chat.completions.create(**kwargs)
@@ -137,7 +210,7 @@ def _groq_call(client: Groq, **kwargs) -> object:
         if is_daily:
             print("[LLM] Groq daily token limit reached — switching to OpenRouter (free, no cap).")
             _use_openrouter = True
-            return _openrouter_call(**kwargs)
+            return _fallback_call(**kwargs)
         # RPM throttle — short wait, then one retry
         m = re.search(r'try again in (?:(\d+)m\s*)?(\d+(?:\.\d+)?)s', msg)
         wait = (float(m.group(1) or 0) * 60 + float(m.group(2)) + 3) if m else 30
@@ -148,7 +221,7 @@ def _groq_call(client: Groq, **kwargs) -> object:
         except RateLimitError:
             print("[LLM] Still rate-limited — switching to OpenRouter permanently.")
             _use_openrouter = True
-            return _openrouter_call(**kwargs)
+            return _fallback_call(**kwargs)
 
 
 # Prompts grouped by horror SUB-THEME. The adaptive engine picks a theme (biased

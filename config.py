@@ -17,6 +17,12 @@ GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 # Then: Dashboard → Keys → Create Key → copy it here
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 
+# Cerebras — the second free token pool. Groq's free tier is 100k tokens/day, which
+# 3 videos/day with retries can exhaust; Cerebras adds 1M/day free with no card.
+# Optional: leave blank and the pipeline just falls back to OpenRouter as before.
+# Free key: https://cloud.cerebras.ai/ -> sign up -> API Keys.
+CEREBRAS_API_KEY = os.getenv("CEREBRAS_API_KEY", "")
+
 # Google Gemini — kept for regions where it's available
 # Get free key: https://aistudio.google.com/app/apikey
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
