@@ -730,6 +730,26 @@ def _research_case(client: Groq, sourced: dict) -> dict:
 def _write_script(client: Groq, case: dict) -> str:
     """Write a documentary script based on the researched case."""
     facts = "\n".join(f"- {f}" for f in case.get("key_facts", []))
+
+    # Hand over the full encyclopaedia entry, not just the condensed summary. Working
+    # from five key facts alone, the model had too little material for the "jaw-dropping
+    # twist" this prompt demands, so it invented one — and the fact-checker then
+    # rejected the script at 6/10 for claims the source did not support, burning an
+    # attempt each time. The source also carries far more real detail to draw on.
+    source = case.get("source_text", "")
+    source_block = (
+        f"SOURCE (the encyclopaedia entry — the ONLY permitted source of facts):\n"
+        f"{source[:6000]}\n\n"
+        if source else ""
+    )
+    grounding = (
+        "Every factual claim — names, dates, places, events, the twist — must appear in "
+        "the SOURCE above. Dramatise the TELLING, never the facts. If the source has no "
+        "jaw-dropping twist, build the spike from the most unsettling detail that IS "
+        "there. An invented detail fails fact-check and the script is discarded.\n\n"
+        if source else ""
+    )
+
     resp = _groq_call(client,
         model=GROQ_MODEL,
         max_tokens=600,
@@ -739,9 +759,11 @@ def _write_script(client: Groq, case: dict) -> str:
                 "role": "user",
                 "content": (
                     f"Case: {case.get('case_name','')}, {case.get('location','')}, {case.get('year','')}\n\n"
+                    f"{source_block}"
                     f"Background: {case.get('summary','')}\n\n"
                     f"Key facts:\n{facts}\n\n"
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
+                    f"{grounding}"
                     "Write the 150-185 word documentary script now. Open on the single most shocking "
                     "verifiable detail (the hook), keep an open loop running throughout, add a retention-spike "
                     "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA."
