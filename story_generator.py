@@ -1068,6 +1068,71 @@ def _generate_hashtags(client: Groq, case: dict) -> str:
 _JUNK_TAGS = {"#fyp", "#fypage", "#foryou", "#foryoupage", "#viral", "#viralvideo",
               "#trending", "#tiktok", "#video"}
 
+# The tags that put a video in front of true-crime viewers. These are communities
+# people actually browse; a geographic or decade tag is not.
+CORE_TAGS = ["#truecrime", "#truecrimetiktok", "#truecrimecommunity"]
+
+# One of these describes what kind of case it is. Also browsable.
+_TYPE_TAGS = {
+    "#coldcase", "#unsolved", "#unsolvedmystery", "#unsolvedmysteries", "#missingperson",
+    "#missing", "#murder", "#murdermystery", "#disappearance", "#kidnapping",
+    "#coldcasefiles", "#mystery", "#crimestory", "#wrongfulconviction", "#serialkiller",
+}
+
+# Tags that fill a slot without earning it: decades nobody browses, and #documentary,
+# which is enormous, generic, and competes with actual documentary channels.
+_WEAK_TAG = re.compile(r"^#(\d{3,4}s|\d{4}|documentary|history|story|crime)$", re.I)
+
+
+def build_hashtags(story_tags: str, case_name: str = "") -> str:
+    """
+    Five tags: the true-crime communities first, then the case type, then one
+    case-specific tag for search.
+
+    This ordering is drawn from the account's own analytics. The best-performing post
+    by a factor of ~2.6 carried only broad community tags, while posts led by narrow
+    tags (#sudan, #Florida, #ireland, #2000s) trailed it. That matches how the tags
+    work: nobody browses #sudan looking for true crime, so a narrow tag spends one of
+    only five slots without reaching anyone. The single specific tag is kept because
+    ~1.7% of traffic arrives from search, on queries like "tara calico".
+    """
+    picked = list(CORE_TAGS)
+    seen = {t.lower() for t in picked}
+
+    candidates = []
+    for word in (story_tags or "").split():
+        body = re.sub(r"\W", "", word.lstrip("#"), flags=re.UNICODE)
+        if not body:
+            continue
+        tag = f"#{body}"
+        if tag.lower() in seen or tag.lower() in _JUNK_TAGS or len(tag) < 3:
+            continue
+        candidates.append(tag)
+
+    # Slot 4 — what kind of case this is.
+    type_tag = next((t for t in candidates if t.lower() in _TYPE_TAGS), None)
+    if type_tag:
+        picked.append(type_tag)
+        seen.add(type_tag.lower())
+
+    # Slot 5 — something searchable. Prefer a tag drawn from the case name over a
+    # place: people search the case, not the country.
+    key = re.sub(r"\W", "", (case_name or "")).lower()
+    rest = [t for t in candidates if t.lower() not in seen and not _WEAK_TAG.match(t)]
+    specific = next((t for t in rest if t.lstrip("#").lower() in key), None) or \
+               (rest[0] if rest else None)
+    if specific:
+        picked.append(specific)
+
+    # Backfill only if the model gave us nothing usable.
+    for t in ("#unsolved", "#coldcase", "#mystery"):
+        if len(picked) >= 5:
+            break
+        if t not in {p.lower() for p in picked}:
+            picked.append(t)
+
+    return " ".join(picked[:5])
+
 
 def merge_hashtags(*groups: str, limit: int = 5) -> str:
     """
@@ -1163,8 +1228,14 @@ def _write_caption(client: Groq, case: dict, script: str) -> str:
                     "Rules:\n"
                     "- Sentence 1: a hook that creates curiosity. Max 14 words. "
                     "Do NOT reveal the twist or the ending.\n"
-                    "- Sentence 2: an open question asking viewers what they think "
-                    "happened, so they reply in the comments.\n"
+                    "- Sentence 2: a question that makes the viewer PICK A SIDE, "
+                    "naming the two options. A reader must be able to answer it with "
+                    "one word.\n"
+                    "  GOOD: 'Accident, or did someone push him?'\n"
+                    "  GOOD: 'Was the husband covering for someone?'\n"
+                    "  BAD: 'What do you think happened?' — too open, nobody replies "
+                    "to it.\n"
+                    "  BAD: 'Who was responsible?' — same problem.\n"
                     "- Under 180 characters total. No hashtags. No quotation marks. "
                     "No emojis.\n"
                     "Output ONLY the caption text."
@@ -1266,9 +1337,8 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         hashtags = _generate_hashtags(client, case)
 
         # ── Step 6: Ready-to-paste TikTok caption ─────────────────────────────
-        from config import TIKTOK_HASHTAGS
         description = _write_caption(client, case, script) or title
-        tags = merge_hashtags(hashtags, TIKTOK_HASHTAGS)
+        tags = build_hashtags(hashtags, case_name)
         caption = f"{description}\n\n{tags}"
         print(f"[TrueCrime] Hashtags: {tags}")
         print(f"[TrueCrime] Caption: {description}")

@@ -62,15 +62,72 @@ _NOT_A_CASE = re.compile(
 # real, but wrong for this channel and often straight into TikTok's moderation
 # filters. Cheaper to drop them here than to burn a generation attempt discovering
 # the fact-checker won't pass them.
-_OFF_TOPIC = re.compile(
-    r"\b(massacre|genocide|pogrom|war crimes?|wartime|terroris[tm]|bombing|airstrike|"
-    r"air raid|insurgen|guerrilla|militia|paramilitary|regiment|batallion|battalion|"
-    r"mass shooting|school shooting|hostage diplomacy|coup|junta|dictator|"
-    r"president|senator|politician|minister|ambassador|general|admiral|"
-    r"nazi|ss[- ]|gestapo|wehrmacht|holocaust|apartheid|"
-    r"ancient|classical|bc\b|b\.c\.|roman|byzantine|medieval)\b",
+# Wikipedia's first sentence is always definitional ("X is a marble statue by..."), so
+# it is the cheapest reliable way to tell a real case from a thing NAMED like one.
+# "Abduction of a Sabine Woman" is a Giambologna sculpture; it matched the case-title
+# pattern perfectly, and every downstream gate passed it because the script was
+# accurate — accurately describing a statue. A whole video shipped about it.
+_NOT_AN_EVENT = re.compile(
+    r"\bis\s+(a|an|the)\s+[^.]{0,60}?\b("
+    r"statue|sculpture|painting|portrait|artwork|fresco|mural|engraving|"
+    r"novel|book|short story|poem|play|opera|ballet|musical|"
+    r"film|movie|documentary|television|tv series|episode|sitcom|"
+    r"song|single|album|band|video game|board game|"
+    r"myth|legend|folk tale|fairy tale|deity|god|goddess|"
+    r"museum|monument|memorial|building|church|castle|bridge|"
+    r"genus|species|plant|mineral|asteroid|crater"
+    r")\b",
     re.I,
 )
+
+# A genuine case intro says what happened and that someone looked into it.
+_CRIME_WORDS = re.compile(
+    r"\b(murder|murdered|killed|killing|homicide|manslaughter|"
+    r"disappear|disappeared|disappearance|missing|vanished|abducted|abduction|"
+    r"kidnap|kidnapped|kidnapping|body|bodies|remains|corpse|"
+    r"police|detective|investigat|inquest|coroner|suspect|convicted|conviction|"
+    r"trial|court|sentenced|arrested|charged|crime|unsolved|cold case)\b",
+    re.I,
+)
+
+# Split into two tiers, because a single blunt keyword list over the whole intro was
+# throwing away prime material. "Vizconde murders" — a family murdered in their home,
+# exactly this channel's content — was rejected for containing the word "massacre",
+# and "Murder of Wendy Albano" for mentioning a senator who pushed the investigation.
+#
+# Tier 1: unambiguous. If these appear anywhere, it is not a true-crime case.
+_OFF_TOPIC_ANYWHERE = re.compile(
+    r"\b(genocide|pogrom|war crimes?|holocaust|ethnic cleansing|"
+    r"nazi|gestapo|wehrmacht|apartheid|terrorist attack|suicide bombing)\b",
+    re.I,
+)
+
+# Tier 2: only disqualifying when they describe what the article IS. Wikipedia's first
+# sentence is definitional, so checking only there keeps passing mentions harmless.
+# "massacre" is deliberately absent: it describes family murders (Vizconde, Villisca)
+# as often as war atrocities, and the former is exactly this channel's material. War
+# atrocities are caught by tier 1 and by the Community Guidelines gate downstream.
+_OFF_TOPIC_SUBJECT = re.compile(
+    r"\b(bombing|airstrike|air raid|insurgen|guerrilla|militia|paramilitary|"
+    r"regiment|battalion|mass shooting|school shooting|coup|junta|dictator|"
+    r"president|senator|politician|prime minister|ambassador|general|admiral|"
+    r"ancient|classical|roman|byzantine|medieval)\b",
+    re.I,
+)
+
+
+def _first_sentence(text: str) -> str:
+    m = re.search(r"^.{0,400}?[.!?](?=\s|$)", text.strip(), re.S)
+    return m.group(0) if m else text[:400]
+
+
+def _is_off_topic(text: str) -> str:
+    """Return the offending term, or '' if the text looks like a true-crime case."""
+    m = _OFF_TOPIC_ANYWHERE.search(text)
+    if m:
+        return m.group(0)
+    m = _OFF_TOPIC_SUBJECT.search(_first_sentence(text))
+    return m.group(0) if m else ""
 
 _session = None
 _last_call = 0.0
@@ -141,7 +198,7 @@ _CASE_TITLE = re.compile(
 def _is_case(title: str) -> bool:
     if not title or _NOT_A_CASE.match(title):
         return False
-    if _OFF_TOPIC.search(title):
+    if _is_off_topic(title):
         return False
     return bool(_CASE_TITLE.search(title))
 
@@ -212,7 +269,19 @@ def get_summary(title: str) -> dict:
                 return {}
             # Titles that are just a person's name reveal nothing; the intro does.
             # This is what catches e.g. a Wehrmacht admiral filed under "unsolved deaths".
-            if _OFF_TOPIC.search(extract[:600]):
+            off = _is_off_topic(extract)
+            if off:
+                print(f"[CaseSource] Skipping {title!r} — off-topic ({off}).")
+                return {}
+            # An artwork or film whose title reads like a case.
+            if _NOT_AN_EVENT.search(extract[:400]):
+                print(f"[CaseSource] Skipping {title!r} — not a real case (artwork/media).")
+                return {}
+            # Positive check: a real case names a crime or an investigation somewhere in
+            # its intro. Requiring this rejects the long tail of odd articles the
+            # category tree drags in without needing a rule for each one.
+            if not _CRIME_WORDS.search(extract):
+                print(f"[CaseSource] Skipping {title!r} — intro describes no crime.")
                 return {}
             return {
                 "title":   page.get("title", title),
