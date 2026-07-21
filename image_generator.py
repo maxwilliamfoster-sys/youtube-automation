@@ -14,6 +14,10 @@ import shutil
 import requests
 from pathlib import Path
 from groq import Groq
+# Route Groq calls through the shared router so they fail over to Cerebras/OpenRouter
+# when Groq's daily token cap is hit. Calling client.chat.completions.create directly
+# here bypassed that and 429'd a whole run — after a valid story had already been made.
+from story_generator import _groq_call
 from config import (GROQ_API_KEY, GROQ_MODEL, POLLINATIONS_DELAY, POLLINATIONS_MODEL,
                     SCENE_IMAGES_DIR, PEXELS_API_KEY, USE_VIDEO_BROLL)
 
@@ -78,7 +82,7 @@ def generate_image_prompts(
     else:
         user_content = f"Story title: {story_title}\n\nStory excerpt: {story_text[:600]}"
 
-    response = client.chat.completions.create(
+    response = _groq_call(client,
         model=GROQ_MODEL,
         max_tokens=800,
         messages=[
@@ -112,7 +116,7 @@ def _generate_pexels_queries(story_title: str, segments: list) -> list:
     """Use Groq to turn story segments into short Pexels search queries."""
     client = Groq(api_key=GROQ_API_KEY)
     seg_lines = "\n".join(f"Scene {i+1}: {seg[:200]}" for i, seg in enumerate(segments))
-    response = client.chat.completions.create(
+    response = _groq_call(client,
         model=GROQ_MODEL,
         max_tokens=200,
         messages=[
