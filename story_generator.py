@@ -959,69 +959,80 @@ def compliance_review(client: Groq, script: str, caption: str, case: dict,
     and sees the caption too — the caption is posted alongside the video and is just as
     capable of breaking a rule.
 
-    Fails closed: an unparseable or errored review is a BANNED verdict, never a pass.
+    Fails closed: an unparseable or errored review is a BANNED verdict, never a pass —
+    but only AFTER a retry. A single transient glitch (the model occasionally returns
+    an empty or non-JSON reply) was enough to discard a case that would have passed,
+    and a run of those helped a whole slot produce no video. The retry keeps the
+    fail-closed guarantee while not throwing away a good case over one bad response.
     """
-    try:
-        resp = _groq_call(client,
-            model=GROQ_MODEL,
-            max_tokens=400,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a TikTok Trust & Safety moderator reviewing a true crime "
-                        "video before it is posted. Be strict: the account's survival "
-                        "depends on you, and a false pass is far more costly than a false "
-                        "reject.\n\n"
-                        "Classify into exactly one verdict:\n"
-                        "- BANNED: would be removed / earn a strike. Extremely graphic, "
-                        "gory or disturbing detail; glorifying, celebrating or promoting "
-                        "the perpetrator or the crime; instructions for a harmful act; "
-                        "hate or dehumanisation; sexualising anyone; sexual or graphic "
-                        "detail involving a minor; self-harm or suicide methods; targeted "
-                        "harassment of a real identifiable living person; graphic detail "
-                        "of a real named victim's injuries or death.\n"
-                        "- AGE_RESTRICTED: mature themes fit only for 18+ — significant "
-                        "violence, disturbing imagery, or frank discussion of killing.\n"
-                        "- FYF_INELIGIBLE: not removable, but too shocking, distressing "
-                        "or sensationalised for the For You feed. Includes dwelling on a "
-                        "real tragedy for shock value.\n"
-                        "- OK: suitable for general recommendation. Covers the case "
-                        "factually and respectfully, without graphic detail.\n\n"
-                        "Judge the SCRIPT, the CAPTION and the ON-SCREEN CARD together "
-                        "— all three are published.\n"
-                        "Reply ONLY with valid JSON:\n"
-                        '{"verdict":"OK|FYF_INELIGIBLE|AGE_RESTRICTED|BANNED",'
-                        '"reasons":["..."],"worst_line":"..."}'
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": (
-                        f"Case: {case.get('case_name','')}\n\n"
-                        f"SCRIPT (spoken aloud over the video):\n{script}\n\n"
-                        f"CAPTION (posted with the video):\n{caption}\n\n"
-                        f"ON-SCREEN CARD (burned into the final seconds):\n{cta or '(none)'}"
-                    ),
-                },
-            ],
-        )
-        result = _extract_json(resp.choices[0].message.content.strip())
-        verdict = str(result.get("verdict", "")).upper().strip()
-        if verdict not in _COMPLIANCE_TIERS:
-            print(f"[Compliance] Unparseable verdict {verdict!r} — refusing the video.")
+    messages = [
+        {
+            "role": "system",
+            "content": (
+                "You are a TikTok Trust & Safety moderator reviewing a true crime "
+                "video before it is posted. Be strict: the account's survival "
+                "depends on you, and a false pass is far more costly than a false "
+                "reject.\n\n"
+                "Classify into exactly one verdict:\n"
+                "- BANNED: would be removed / earn a strike. Extremely graphic, "
+                "gory or disturbing detail; glorifying, celebrating or promoting "
+                "the perpetrator or the crime; instructions for a harmful act; "
+                "hate or dehumanisation; sexualising anyone; sexual or graphic "
+                "detail involving a minor; self-harm or suicide methods; targeted "
+                "harassment of a real identifiable living person; graphic detail "
+                "of a real named victim's injuries or death.\n"
+                "- AGE_RESTRICTED: mature themes fit only for 18+ — significant "
+                "violence, disturbing imagery, or frank discussion of killing.\n"
+                "- FYF_INELIGIBLE: not removable, but too shocking, distressing "
+                "or sensationalised for the For You feed. Includes dwelling on a "
+                "real tragedy for shock value.\n"
+                "- OK: suitable for general recommendation. Covers the case "
+                "factually and respectfully, without graphic detail.\n\n"
+                "Judge the SCRIPT, the CAPTION and the ON-SCREEN CARD together "
+                "— all three are published.\n"
+                "Reply ONLY with valid JSON:\n"
+                '{"verdict":"OK|FYF_INELIGIBLE|AGE_RESTRICTED|BANNED",'
+                '"reasons":["..."],"worst_line":"..."}'
+            ),
+        },
+        {
+            "role": "user",
+            "content": (
+                f"Case: {case.get('case_name','')}\n\n"
+                f"SCRIPT (spoken aloud over the video):\n{script}\n\n"
+                f"CAPTION (posted with the video):\n{caption}\n\n"
+                f"ON-SCREEN CARD (burned into the final seconds):\n{cta or '(none)'}"
+            ),
+        },
+    ]
+
+    # Two tries: the model occasionally returns an empty or non-JSON reply, and one
+    # such glitch used to discard a case that would have passed. Retry once, then fail
+    # closed — the guarantee is preserved, a good case is not thrown away over a blip.
+    for parse_attempt in range(2):
+        try:
+            resp = _groq_call(client, model=GROQ_MODEL, max_tokens=400, messages=messages)
+            result = _extract_json(resp.choices[0].message.content.strip())
+            verdict = str(result.get("verdict", "")).upper().strip()
+            if verdict in _COMPLIANCE_TIERS:
+                return {
+                    "verdict": verdict,
+                    "reasons": result.get("reasons", []) or [],
+                    "worst_line": result.get("worst_line", "") or "",
+                }
+            if parse_attempt == 0:
+                print("[Compliance] Unparseable verdict — retrying once...")
+                continue
+            print(f"[Compliance] Unparseable verdict {verdict!r} again — refusing the video.")
             return {"verdict": "BANNED",
                     "reasons": ["compliance review returned no usable verdict"],
                     "worst_line": ""}
-        return {
-            "verdict": verdict,
-            "reasons": result.get("reasons", []) or [],
-            "worst_line": result.get("worst_line", "") or "",
-        }
-    except Exception as e:
-        # An errored safety check is not a pass.
-        print(f"[Compliance] Review failed ({e}) — refusing the video.")
-        return {"verdict": "BANNED", "reasons": [f"review error: {e}"], "worst_line": ""}
+        except Exception as e:
+            if parse_attempt == 0:
+                print(f"[Compliance] Review error ({str(e)[:80]}) — retrying once...")
+                continue
+            print(f"[Compliance] Review failed ({e}) — refusing the video.")
+            return {"verdict": "BANNED", "reasons": [f"review error: {e}"], "worst_line": ""}
 
 
 def _generate_hashtags(client: Groq, case: dict) -> str:

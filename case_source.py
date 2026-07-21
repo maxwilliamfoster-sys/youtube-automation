@@ -98,8 +98,19 @@ _CRIME_WORDS = re.compile(
 # Tier 1: unambiguous. If these appear anywhere, it is not a true-crime case.
 _OFF_TOPIC_ANYWHERE = re.compile(
     r"\b(genocide|pogrom|war crimes?|holocaust|ethnic cleansing|"
-    r"nazi|gestapo|wehrmacht|apartheid|terrorist attack|suicide bombing)\b",
+    r"nazi|gestapo|wehrmacht|apartheid|terrorist attack|suicide bombing|"
+    r"extrajudicial|enforced disappearance|forced disappearance|"
+    r"crimes against humanity|state-sponsored)\b",
     re.I,
+)
+
+# Country/institution-level topics dressed up as cases, e.g. "Extrajudicial killings
+# and enforced disappearances in Bangladesh". These are systemic human-rights articles,
+# not a single crime with a victim and an investigation — impossible to tell as one
+# 60-second documentary and squarely into TikTok's political-content territory.
+_SYSTEMIC_TITLE = re.compile(
+    r"\b(killings|disappearances|murders|massacres)\s+(and\s+\w+\s+)?(in|of|during|under|by)\s+"
+    r"(the\s+)?[A-Z]",
 )
 
 # Tier 2: only disqualifying when they describe what the article IS. Wikipedia's first
@@ -199,6 +210,8 @@ def _is_case(title: str) -> bool:
     if not title or _NOT_A_CASE.match(title):
         return False
     if _is_off_topic(title):
+        return False
+    if _SYSTEMIC_TITLE.search(title):
         return False
     return bool(_CASE_TITLE.search(title))
 

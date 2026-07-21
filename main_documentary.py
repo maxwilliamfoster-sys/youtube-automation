@@ -113,7 +113,11 @@ def _generate_one() -> tuple:
 
     # ── 1. Research & write story ─────────────────────────────────────────────
     print("\n--- STEP 1: Researching True Crime Story ---")
-    story = generate_true_crime_story(max_attempts=5)
+    # The guidelines gate legitimately rejects a lot: the Wikipedia pool is heavy with
+    # graphic murders that land AGE_RESTRICTED or worse. A run that drew several dark
+    # cases in a row could exhaust 5 attempts and produce nothing (as one 10am slot
+    # did). 8 gives comfortable headroom; each rejected attempt is cheap.
+    story = generate_true_crime_story(max_attempts=8)
     print(f"  Case:     {story['case_name']}")
     print(f"  Title:    {story['title']}")
     print(f"  Hook:     {story.get('hook','')}")
