@@ -1,18 +1,18 @@
 name: BuriedCasefiles — Generate & Deliver
 
-# Fully cloud video GENERATION. TikTok posting is done by you, by hand, from your
-# phone — that's the most shadowban-proof method there is, and it means your PC
-# never needs to be on. Each run builds the videos and sends them to your Telegram
-# (with a ready-to-paste caption); they're also saved as downloadable artifacts.
+# Fully cloud: generates a video, auto-posts it to TikTok via Upload-Post (when
+# configured), and sends it to Telegram as a confirmation + fallback. PC never on.
+#
+# Cadence is set to the Upload-Post FREE tier: ~10 posts/month. One video every 3
+# days is the most that auto-posts for free, so nothing ever hits a paywall or piles
+# up unposted. To post more often, raise the frequency here AND move to a paid plan.
 
 on:
   schedule:
-    # Times are UTC; UK is currently BST (UTC+1). Each run makes ONE video and sends
-    # it to Telegram ~10-15 min after the cron fires (GitHub's free scheduler is not
-    # minute-precise, so treat these as "around" 9am / 1pm / 4pm).
-    - cron: '45 7 * * *'     # ~09:00 UK — video 1
-    - cron: '45 11 * * *'    # ~13:00 UK — video 2
-    - cron: '45 14 * * *'    # ~16:00 UK — video 3
+    # Every 3rd day of the month at 16:00 UTC (~17:00 UK, BST) — evening skews well
+    # for the channel's older UK audience. Gives ~10 posts/month, matching the free
+    # tier. GitHub's scheduler isn't minute-precise; the video lands ~10-15 min later.
+    - cron: '0 16 */3 * *'
   workflow_dispatch:          # "Run workflow" button — generate on demand
     inputs:
       count:
