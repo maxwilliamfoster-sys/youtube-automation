@@ -23,6 +23,26 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 # Free key: https://cloud.cerebras.ai/ -> sign up -> API Keys.
 CEREBRAS_API_KEY = os.getenv("CEREBRAS_API_KEY", "")
 
+# ─── Fully-automated TikTok posting (Upload-Post) ─────────────────────────────
+# All three must be set before anything posts, so this is completely inert until the
+# owner opts in — it cannot disturb the working Telegram/manual flow.
+#   UPLOADPOST_API_KEY : from upload-post.com dashboard
+#   UPLOADPOST_USER    : the profile name you connect your TikTok account under
+#   TIKTOK_AUTOPOST=1  : the explicit on-switch
+UPLOADPOST_API_KEY = os.getenv("UPLOADPOST_API_KEY", "")
+UPLOADPOST_USER    = os.getenv("UPLOADPOST_USER", "")
+TIKTOK_AUTOPOST    = os.getenv("TIKTOK_AUTOPOST", "") in ("1", "true", "True")
+
+# PUBLIC_TO_EVERYONE is the whole point — anything else limits or hides the post.
+TIKTOK_PRIVACY_LEVEL = os.getenv("TIKTOK_PRIVACY_LEVEL", "PUBLIC_TO_EVERYONE")
+
+# TikTok's synthetic-media policy. Left OFF because the visuals are real stock footage
+# and only the narration is AI voiceover — which is not the realistic-AI-scene content
+# the label targets. If you would rather disclose to be maximally safe, set
+# TIKTOK_LABEL_AI=1; note the "AI-generated" label can dampen reach. A genuine
+# judgement call — flip it if you prefer caution over reach.
+TIKTOK_LABEL_AI = os.getenv("TIKTOK_LABEL_AI", "") in ("1", "true", "True")
+
 # Google Gemini — kept for regions where it's available
 # Get free key: https://aistudio.google.com/app/apikey
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")

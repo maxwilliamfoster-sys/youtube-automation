@@ -323,6 +323,48 @@ def _fit_telegram_limit(video_path: str, limit_mb: int = 48) -> str:
     return video_path
 
 
+def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc) -> None:
+    """
+    Post the finished video to TikTok via Upload-Post, if auto-posting is switched on.
+
+    Safety: this is only ever called after the guidelines gate returned OK, so nothing
+    below the OK bar can reach TikTok. Re-checks the verdict once more as a backstop —
+    the account's safety must not depend on the call site alone. Never raises.
+    """
+    try:
+        import tiktok_uploadpost as tp
+    except Exception as e:
+        print(f"[TikTok] poster unavailable ({e}) — skipping.")
+        return
+
+    if not tp.is_configured():
+        return  # owner hasn't opted in; Telegram-only, exactly as before
+
+    # Backstop guardrail: only OK-verdict videos may be posted, no exceptions.
+    if (story.get("compliance") or {}).get("verdict") != "OK":
+        print("[TikTok] Refusing to post — compliance verdict is not OK.")
+        return
+
+    print("[TikTok] Auto-posting to TikTok via Upload-Post...")
+    ok, detail = tp.post_video(video_path, caption)
+    if ok:
+        print(f"[TikTok] Posted: {detail}")
+        try:
+            send_alert(f"🚀 <b>Posted to TikTok</b>\n\n{esc(story.get('title','?'))}\n{esc(detail)}")
+        except Exception:
+            pass
+    else:
+        print(f"[TikTok] Post failed: {detail}")
+        try:
+            send_alert(
+                f"⚠️ <b>TikTok auto-post failed</b>\n\n"
+                f"{esc(story.get('title','?'))}\n<b>Reason:</b> {esc(detail[:300])}\n\n"
+                f"The video is above in Telegram — post it manually this time."
+            )
+        except Exception:
+            pass
+
+
 def run_cloud_deliver(count: int = 2) -> None:
     """
     GENERATE-ONLY cloud mode (for GitHub Actions): make `count` videos and send each
@@ -381,6 +423,11 @@ def run_cloud_deliver(count: int = 2) -> None:
             if send_video(send_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
                 delivered += 1
+                # Auto-post to TikTok — only reachable here, i.e. AFTER the guidelines
+                # gate passed (verdict OK) and the video was safely delivered to
+                # Telegram. If posting fails, the Telegram copy is the fallback, so a
+                # bad post never means a lost video. Inert unless the owner opted in.
+                _autopost_tiktok(video_path, caption, story, send_alert, esc)
             else:
                 send_alert(
                     f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"

@@ -76,6 +76,9 @@ jobs:
           CEREBRAS_API_KEY:   ${{ secrets.CEREBRAS_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+          UPLOADPOST_API_KEY: ${{ secrets.UPLOADPOST_API_KEY }}
+          UPLOADPOST_USER:    ${{ secrets.UPLOADPOST_USER }}
+          TIKTOK_AUTOPOST:    ${{ secrets.TIKTOK_AUTOPOST }}
         run: |
           {
             echo "GROQ_API_KEY=$GROQ_API_KEY"
@@ -84,6 +87,9 @@ jobs:
             echo "CEREBRAS_API_KEY=$CEREBRAS_API_KEY"
             echo "TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN"
             echo "TELEGRAM_CHAT_ID=$TELEGRAM_CHAT_ID"
+            echo "UPLOADPOST_API_KEY=$UPLOADPOST_API_KEY"
+            echo "UPLOADPOST_USER=$UPLOADPOST_USER"
+            echo "TIKTOK_AUTOPOST=$TIKTOK_AUTOPOST"
           } > .env
 
       # ── Generate videos and deliver them to Telegram ──────────────────────────
