@@ -96,6 +96,18 @@ TTS_PITCH = "-5Hz"                           # Slightly lower = more ominous
 # Documentary / True Crime voice — Kokoro ONNX (natural, not robotic)
 # Install: pip install kokoro-onnx soundfile
 # Models auto-downloaded to kokoro_models/ on first run
+# ─── Chatterbox narrator (expressive British male) ────────────────────────────
+# Kokoro was the flattest voice measured (pitch variation 24.2 vs Chatterbox's 58.6),
+# which is what made the narration sound synthetic. Chatterbox clones a British male
+# from a reference clip and is far more expressive; it costs ~5 min/run on CPU.
+# Set CHATTERBOX_ENABLED=0 to fall straight back to Kokoro/edge-tts.
+CHATTERBOX_ENABLED     = os.getenv("CHATTERBOX_ENABLED", "1") not in ("0", "false", "False")
+CHATTERBOX_REFERENCE   = os.getenv("CHATTERBOX_REFERENCE", "assets/narrator_ref_ryan.wav")
+CHATTERBOX_EXAGGERATION = float(os.getenv("CHATTERBOX_EXAGGERATION", "0.6"))
+# Lower cfg_weight = slower, more deliberate delivery. The default 0.5 was too fast.
+CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.3"))
+CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.28"))
+
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
 TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)
 # Good alternatives: "am_michael" (American deep), "am_adam" (American natural)

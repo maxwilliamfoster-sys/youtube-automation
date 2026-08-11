@@ -125,12 +125,25 @@ def _generate_one() -> tuple:
 
     # ── 2. Voice ──────────────────────────────────────────────────────────────
     print("\n--- STEP 2: Generating Voice ---")
-    tts = generate_tts(
-        story["script"],
-        filename_prefix=prefix,
-        voice=TTS_DOCUMENTARY_VOICE,
-        speed=TTS_DOCUMENTARY_SPEED,
-    )
+    # Chatterbox is the expressive British narrator; Kokoro/edge-tts is the fallback.
+    # Chatterbox is a generative model, so a take can occasionally come out malformed
+    # and it is far slower. In an unattended pipeline a bad voice must degrade to the
+    # old engine rather than lose the whole video.
+    tts = None
+    try:
+        import chatterbox_narrator
+        if chatterbox_narrator.is_available():
+            tts = chatterbox_narrator.generate(story["script"], filename_prefix=prefix)
+    except Exception as e:
+        print(f"[Voice] Chatterbox failed ({str(e)[:160]}) — falling back to Kokoro.")
+
+    if tts is None:
+        tts = generate_tts(
+            story["script"],
+            filename_prefix=prefix,
+            voice=TTS_DOCUMENTARY_VOICE,
+            speed=TTS_DOCUMENTARY_SPEED,
+        )
     print(f"  Duration: {tts['duration']:.1f}s")
 
     # ── 3. Captions ───────────────────────────────────────────────────────────
