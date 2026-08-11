@@ -1,9 +1,8 @@
-name: Voice test — Chatterbox feasibility
+name: Voice test — Chatterbox British narrator
 
-# Throwaway experiment: can Chatterbox TTS run on a free GitHub runner, and how
-# long does ~60s of narration take on CPU? Chatterbox beats ElevenLabs in blind
-# preference tests, but the docs say production use wants a GPU — this measures
-# whether the free CPU runner is viable for this pipeline. Delete once decided.
+# Validates the narrator BEFORE wiring it into the pipeline: British male voice via
+# reference cloning, slower pacing, and sentence-chunked generation so long scripts
+# are not truncated. Outputs mp3 so the samples are actually playable.
 
 on:
   workflow_dispatch:
@@ -11,60 +10,79 @@ on:
 jobs:
   chatterbox:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
-
-      - name: Runner specs
-        run: |
-          echo "CPU cores: $(nproc)"
-          free -g | head -2
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Chatterbox (CPU torch)
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: chatterbox-pip-v1
+
+      - name: Install
         run: |
           python -m pip install --upgrade pip
           pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
           pip install chatterbox-tts
+          sudo apt-get update -qq && sudo apt-get install -y ffmpeg
 
-      - name: Generate narration sample (timed)
+      - name: Generate British narrator samples
         run: |
           python - <<'PY'
-          import time, torch, torchaudio
+          import re, time, torch, torchaudio, subprocess
           from chatterbox.tts import ChatterboxTTS
 
-          TEXT = ("In nineteen seventy-five, a fishing boat found a body floating off the "
-                  "Isle of Mull, still wearing a pilot's uniform. The plane he had been "
-                  "flying was never found. But that wasn't the strangest part. The autopsy "
-                  "showed he had died before he ever hit the water. "
-                  "So what really happened to Peter Gibbs?")
+          SCRIPT = ("In nineteen seventy-five, a fishing boat found a body floating off the "
+                    "Isle of Mull, still wearing a pilot's uniform. The plane he had been "
+                    "flying was never found. But that wasn't the strangest part. The autopsy "
+                    "showed he had died before he ever hit the water. "
+                    "So what really happened to Peter Gibbs?")
 
-          t0 = time.time()
+          def sentences(text):
+              # Chatterbox truncates long input, so feed it one sentence at a time and
+              # stitch the results. Also gives natural breathing room between beats.
+              return [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
+
           model = ChatterboxTTS.from_pretrained(device="cpu")
-          load_s = time.time() - t0
-          print(f"MODEL LOAD: {load_s:.1f}s")
+          print("model loaded")
 
-          # exaggeration drives emotional intensity; cfg_weight paces delivery.
-          for tag, exag, cfg in [("neutral", 0.5, 0.5), ("emotive", 0.8, 0.3)]:
-              t1 = time.time()
-              wav = model.generate(TEXT, exaggeration=exag, cfg_weight=cfg)
-              gen_s = time.time() - t1
-              path = f"chatterbox_{tag}.wav"
-              torchaudio.save(path, wav, model.sr)
-              audio_s = wav.shape[-1] / model.sr
-              print(f"{tag}: gen {gen_s:.1f}s for {audio_s:.1f}s audio "
-                    f"(realtime factor {gen_s/audio_s:.2f}x)")
+          # cfg_weight controls pacing: lower = slower, more deliberate delivery.
+          # The default 0.5 was judged too fast, so 0.3 is the candidate.
+          VARIANTS = [
+              ("ryan_slow",    "assets/narrator_ref_ryan.wav",   0.6, 0.3),
+              ("ryan_slowest", "assets/narrator_ref_ryan.wav",   0.6, 0.2),
+              ("thomas_slow",  "assets/narrator_ref_thomas.wav", 0.6, 0.3),
+          ]
+          for tag, ref, exag, cfg in VARIANTS:
+              t0 = time.time()
+              chunks = []
+              for i, s in enumerate(sentences(SCRIPT)):
+                  wav = model.generate(s, audio_prompt_path=ref,
+                                       exaggeration=exag, cfg_weight=cfg)
+                  chunks.append(wav)
+                  # brief pause between sentences — documentary pacing
+                  chunks.append(torch.zeros(1, int(model.sr * 0.28)))
+              full = torch.cat(chunks, dim=-1)
+              raw = f"{tag}.wav"
+              torchaudio.save(raw, full, model.sr)
+              subprocess.run(["ffmpeg","-y","-i",raw,"-codec:a","libmp3lame",
+                              "-b:a","192k",f"{tag}.mp3"], capture_output=True)
+              dur = full.shape[-1]/model.sr
+              print(f"{tag}: {dur:.1f}s audio in {time.time()-t0:.0f}s "
+                    f"({(time.time()-t0)/dur:.1f}x realtime)")
           PY
 
       - name: Upload samples
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: chatterbox-samples
-          path: chatterbox_*.wav
+          name: british-narrator-samples
+          path: '*.mp3'
           if-no-files-found: warn
-          retention-days: 3
+          retention-days: 5
