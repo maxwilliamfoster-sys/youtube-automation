@@ -306,9 +306,87 @@ def get_summary(title: str) -> dict:
     return {}
 
 
-def pick_case(is_duplicate, tries: int = 8) -> dict:
+# ─── Intrigue scoring ─────────────────────────────────────────────────────────
+# Cases were previously chosen at random, which is why quality swung so wildly. The
+# channel's own analytics are unambiguous about what works: the best post (1.9K views,
+# ~2.6x the next) was bodies at the base of cliffs "with no signs of" a fall, while
+# "teen dies in brawl" managed 218. An unexplained mystery massively outperforms a
+# sad-but-ordinary crime, because only the mystery leaves a question the viewer needs
+# answered — which is also what drives the comments the whole strategy depends on.
+
+# The hook: something that should be impossible, or was never explained.
+_INTRIGUE_STRONG = re.compile(
+    r"\b(never (been )?(found|identified|solved|explained|recovered|seen again)|"
+    r"no (trace|sign|signs|evidence|explanation|witnesses)|"
+    r"remains? (a )?(mystery|unidentified|unsolved)|"
+    r"vanished|disappeared without|unexplained|inexplicable|baffl\w+|"
+    r"still unidentified|unidentified (man|woman|body|remains)|"
+    r"mysterious circumstances|locked from the inside|no one (has )?ever)\b",
+    re.I,
+)
+
+# Supporting texture: cold cases, strange details, reopened investigations.
+_INTRIGUE_MEDIUM = re.compile(
+    r"\b(cold case|unsolved|reopened|new evidence|decades later|years later|"
+    r"conflicting|contradict\w*|theory|theories|speculation|rumou?r|"
+    r"last seen|final sighting|anonymous|cryptic|strange|bizarre|puzzl\w+|"
+    r"never charged|acquitted|overturned|wrongful|exonerat\w+)\b",
+    re.I,
+)
+
+# Resolved and ordinary: a known killer, a confession, a routine conviction. Real
+# crime, but there is no open question left for a viewer to argue about.
+_MUNDANE = re.compile(
+    r"\b(pleaded guilty|pled guilty|confessed|admitted|convicted of|found guilty|"
+    r"sentenced to|arrested (at|and charged)|domestic (dispute|violence)|"
+    r"brawl|bar fight|drunken|robbery gone|drug deal|gang (dispute|feud))\b",
+    re.I,
+)
+
+
+def intrigue_score(summary: dict) -> float:
     """
-    Return {title, extract, url} for a real case that isn't a repeat.
+    Rate how much of an open question a case leaves. Higher = better video.
+
+    Scored from the article's own text, so it measures the actual story rather than
+    the title. Normalised by nothing — the value is only ever compared against other
+    candidates in the same batch.
+    """
+    text = summary.get("extract", "")
+    if not text:
+        return 0.0
+
+    # Score DENSITY, not raw counts. Counting hits alone just rewards long articles:
+    # a rambling 4,000-word piece on an ordinary murder outscored the Great Mull Air
+    # Mystery, which is genuinely gripping but briefly written. What matters is how
+    # much of the story is unexplained, not how many words it took to say so.
+    per_1k = max(len(text), 400) / 1000.0
+    raw = (3.0 * len(_INTRIGUE_STRONG.findall(text))
+           + 1.0 * len(_INTRIGUE_MEDIUM.findall(text))
+           - 2.0 * len(_MUNDANE.findall(text)))
+    score = raw / per_1k
+
+    title = summary.get("title", "").lower()
+    # Disappearances are the channel's strongest format: the mystery is the premise,
+    # and they consistently clear the Community Guidelines gate that graphic murders
+    # trip on, so they are far likelier to actually reach the For You feed.
+    if title.startswith(("disappearance", "vanishing")):
+        score += 4.0
+    elif "unidentified" in title or "mystery" in title:
+        score += 3.0
+
+    # Needs enough substance to carry 60 seconds, but epics earn nothing extra.
+    score += min(len(text) / 2000.0, 1.0)
+    return score
+
+
+def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12) -> dict:
+    """
+    Return {title, extract, url} for the most intriguing unused case available.
+
+    Fetches a shortlist of candidates and returns the highest-scoring one rather than
+    the first that loads. Random selection was producing a lot of ordinary
+    "man convicted of murder" stories that had nothing for a viewer to wonder about.
 
     `is_duplicate(title) -> bool` is supplied by the caller so this module stays
     unaware of how recency is tracked.
@@ -324,11 +402,34 @@ def pick_case(is_duplicate, tries: int = 8) -> dict:
         candidates = [t for t in pool if not is_duplicate(t)] or pool
 
     random.shuffle(candidates)
-    for title in candidates[:tries]:
+
+    scored = []
+    for title in candidates[:shortlist]:
         summary = get_summary(title)
-        if summary:
-            return summary
-    return {}
+        if not summary:
+            continue
+        summary["intrigue"] = intrigue_score(summary)
+        scored.append(summary)
+        # A standout is not worth spending more API calls on.
+        if summary["intrigue"] >= 12:
+            break
+
+    if not scored:
+        # Shortlist all rejected — fall back to the old behaviour so a run still ships.
+        for title in candidates[shortlist:shortlist + tries]:
+            summary = get_summary(title)
+            if summary:
+                return summary
+        return {}
+
+    scored.sort(key=lambda s: s["intrigue"], reverse=True)
+    best = scored[0]
+    runners_up = "; ".join(f"{s['title'][:28]} ({s['intrigue']:.0f})" for s in scored[1:4])
+    print(f"[CaseSource] Picked '{best['title']}' — intrigue {best['intrigue']:.1f}, "
+          f"best of {len(scored)}")
+    if runners_up:
+        print(f"[CaseSource]   beat: {runners_up}")
+    return best
 
 
 if __name__ == "__main__":

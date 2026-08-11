@@ -113,12 +113,20 @@ MAX_VIDEO_SECONDS = 170
 MIN_VIDEO_SECONDS = 15
 
 # ─── Caption Settings ─────────────────────────────────────────────────────────
-CAPTION_FONT_SIZE  = 60      # 60px — large and clear on mobile, safe for 2-word lines
+CAPTION_FONT_SIZE  = 84      # Heavy type is the current look; 60px read thin and dated.
+                             # Measured with MontserratBold: the longest word that
+                             # realistically appears ("DISAPPEARANCE") is 788px at 86,
+                             # so 84 keeps a safe margin inside the 1080px frame.
+                             # Two words at this size WOULD overflow — hence 1 below.
 CAPTION_FONT_COLOR = "white"
 CAPTION_STROKE_COLOR = "black"
-CAPTION_STROKE_WIDTH = 3
+CAPTION_STROKE_WIDTH = 8     # Thick outline — what keeps big type readable over moving
+                             # footage now that the background boxes are gone.
 CAPTION_POSITION   = 0.38    # 38% down — above ALL TikTok UI (pfp, buttons, username bar)
-WORDS_PER_CAPTION  = 2       # 2 words per line — max ~750px wide, never overflows 1080px
+WORDS_PER_CAPTION  = 1       # One word at a time — the karaoke style that dominates
+                             # short-form now. Each word lands on the beat of the
+                             # narration, which holds the eye far better than a static
+                             # two-word block, and it lets the type be much larger.
 
 # ─── Gameplay Sources ─────────────────────────────────────────────────────────
 # These are free-to-use gameplay URLs (Creative Commons / no copyright)

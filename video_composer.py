@@ -161,7 +161,15 @@ def build_filter_script(
 
     lines = [scale_crop]
 
+    # The hook card owns the screen while it is up. Running word captions underneath
+    # it made the two collide once the type got bigger, and even spaced apart it
+    # splits attention during the three seconds that decide whether anyone stays.
+    HOOK_END = 3.6
+    hook_active = bool(hook_text)
+
     for seg in caption_segments:
+        if hook_active and seg["start"] < HOOK_END:
+            continue
         text  = escape_ffmpeg_text(seg["text"].upper())
         start = seg["start"]
         end   = seg["end"]
@@ -175,6 +183,7 @@ def build_filter_script(
             f"fontcolor={CAPTION_FONT_COLOR}:"
             f"borderw={CAPTION_STROKE_WIDTH}:"
             f"bordercolor={CAPTION_STROKE_COLOR}:"
+            f"shadowcolor=black@0.8:shadowx=3:shadowy=4:"
             f"x=(w-text_w)/2:"
             f"y={y_pos}:"
             f"fix_bounds=1:"
@@ -185,36 +194,43 @@ def build_filter_script(
     # ── Retention overlay 1: the HOOK headline card (first ~3.6s) ──────────────
     # A bold, boxed title at the top third that states the most shocking fact while
     # the narrator says it — this is the single biggest lever on 3-second retention.
+    # No background box. A translucent black slab behind the text is the single most
+    # dated thing on screen — it reads as a 2019 YouTube tutorial. Current practice is
+    # heavy type with a thick outline and a drop shadow, which stays legible over busy
+    # footage without putting a grey rectangle across the shot.
     if hook_text:
+        # 18 chars/line: measured, 21 ran the longest line edge-to-edge on 1080px.
         hook = _wrap_ffmpeg_text(escape_ffmpeg_text(hook_text.upper()), 18)
         lines.append(
             f"drawtext={font_option}"
             f"text='{hook}':"
-            f"fontsize=66:"
+            f"fontsize=76:"
             f"fontcolor=white:"
-            f"borderw=6:bordercolor=black:"
-            f"box=1:boxcolor=black@0.55:boxborderw=28:"
-            f"line_spacing=12:"
+            f"borderw=10:bordercolor=black:"
+            f"shadowcolor=black@0.85:shadowx=4:shadowy=5:"
+            f"line_spacing=16:"
             f"x=(w-text_w)/2:"
-            f"y=h*0.12:"
+            f"y=h*0.13:"
             f"enable='between(t,0,3.6)'"
         )
 
-    # ── Retention overlay 2: FOLLOW call-to-action (final ~2.6s) ───────────────
-    # Wrapped + sized so it never overflows the 1080px frame.
+    # ── Retention overlay 2: the engagement card (final ~2.6s) ────────────────
+    # Amber rather than a red box: it is the genre's signature accent, reads as
+    # deliberate design instead of a warning banner, and still pops against the
+    # desaturated night footage these videos are built from.
     if cta_text and total_duration:
-        cta = _wrap_ffmpeg_text(escape_ffmpeg_text(cta_text.upper()), 15)
+        cta = _wrap_ffmpeg_text(escape_ffmpeg_text(cta_text.upper()), 14)
         cta_start = max(0.0, float(total_duration) - 2.6)
         lines.append(
             f"drawtext={font_option}"
             f"text='{cta}':"
-            f"fontsize=56:"
-            f"fontcolor=white:"
-            f"borderw=5:bordercolor=black:"
-            f"box=1:boxcolor=red@0.65:boxborderw=24:"
-            f"line_spacing=10:"
+            f"fontsize=72:"
+            f"fontcolor=0xFFC42E:"
+            f"borderw=10:bordercolor=black:"
+            f"shadowcolor=black@0.85:shadowx=4:shadowy=5:"
+            f"line_spacing=14:"
             f"x=(w-text_w)/2:"
-            f"y=h*0.66:"
+            f"y=h*0.62:"
             f"enable='between(t,{cta_start:.3f},{float(total_duration):.3f})'"
         )
 
