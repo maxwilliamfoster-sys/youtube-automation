@@ -446,10 +446,16 @@ def add_audio_and_captions(
     #   eq           lifts contrast and pulls saturation back (documentary, not advert)
     #   colorbalance cools the shadows slightly — the true-crime house look
     #   vignette     darkens the corners, pushing the eye to the centre and the text
+    # Tuned by rendering real Pexels night footage and looking at it. The first
+    # attempt (contrast 1.12, brightness -0.015, vignette PI/4.2) crushed the frame to
+    # near-black: this b-roll is ALREADY dark, so darkening it destroyed the brickwork
+    # and parked cars entirely. Murky footage also does not catch the eye on a bright
+    # feed. So the curve LIFTS the shadows (0/0.04) instead of sinking them.
     grade = (
-        "eq=contrast=1.12:saturation=0.80:brightness=-0.015,"
-        "colorbalance=bs=0.06:bm=0.02:rh=0.02,"
-        "vignette=PI/4.2"
+        "curves=all='0/0.04 0.5/0.56 1/1',"     # lift blacks, gentle S in the mids
+        "eq=contrast=1.10:saturation=0.92,"      # a touch of punch, barely desaturated
+        "colorbalance=bs=0.05:rh=0.02,"          # cool shadows, warm highlights
+        "vignette=PI/7"                          # subtle — PI/4.2 was a black tunnel
     )
     scale_pass = f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT},setsar=1,{grade}"
     vf_filter = build_filter_script(

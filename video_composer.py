@@ -234,6 +234,17 @@ def build_filter_script(
             f"enable='between(t,{cta_start:.3f},{float(total_duration):.3f})'"
         )
 
+    # ── Progress bar ──────────────────────────────────────────────────────────
+    # A thin amber line at the very top, filling as the video plays. It is the one
+    # piece of chrome worth adding: it silently answers "how much is left?", which is
+    # the question that makes people swipe away mid-story. Sits at y=0, clear of
+    # TikTok's own UI, and is thin enough not to compete with the footage.
+    if total_duration and float(total_duration) > 0:
+        d = float(total_duration)
+        lines.append(
+            f"drawbox=x=0:y=0:w='iw*min(t/{d:.3f},1)':h=7:color=0xFFC42E@0.9:t=fill"
+        )
+
     # Join with comma — write as single filter chain
     return ",".join(lines)
 
