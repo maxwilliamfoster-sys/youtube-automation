@@ -64,6 +64,18 @@ jobs:
       - name: Install Python dependencies
         run: pip install -r requirements.txt
 
+      # ── Chatterbox narrator ───────────────────────────────────────────────
+      # The expressive British voice. CPU-only torch: no GPU on free runners, and
+      # the CPU wheel is a fraction of the CUDA one. Measured at ~4.3x realtime,
+      # so ~60s of narration costs ~5 min. If this step fails the pipeline still
+      # runs — chatterbox_narrator.is_available() returns False and it falls back
+      # to Kokoro, so a broken install degrades the voice instead of the video.
+      - name: Install Chatterbox (expressive narrator)
+        continue-on-error: true
+        run: |
+          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install chatterbox-tts
+
       - name: Download font + music assets
         run: python setup_music.py
 
