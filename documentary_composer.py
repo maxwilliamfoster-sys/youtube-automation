@@ -439,7 +439,19 @@ def add_audio_and_captions(
     """Burn captions (plus optional hook + follow CTA overlays) and mix audio
     onto the background documentary video."""
 
-    scale_pass = f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT},setsar=1"
+    # A single cinematic grade over everything. Each video stitches ~12 stock clips
+    # shot by different people in different light, and untouched they read as a pile
+    # of unrelated footage — the main reason the result looked amateur rather than
+    # produced. One grade across the whole timeline makes them look like one shoot:
+    #   eq           lifts contrast and pulls saturation back (documentary, not advert)
+    #   colorbalance cools the shadows slightly — the true-crime house look
+    #   vignette     darkens the corners, pushing the eye to the centre and the text
+    grade = (
+        "eq=contrast=1.12:saturation=0.80:brightness=-0.015,"
+        "colorbalance=bs=0.06:bm=0.02:rh=0.02,"
+        "vignette=PI/4.2"
+    )
+    scale_pass = f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT},setsar=1,{grade}"
     vf_filter = build_filter_script(
         caption_segments, scale_pass,
         hook_text=hook_text, cta_text=cta_text, total_duration=audio_duration,
