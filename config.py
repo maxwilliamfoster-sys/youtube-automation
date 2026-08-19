@@ -87,7 +87,32 @@ STORY_WORD_MAX = 230
 # biases future videos toward winners — while always staying in the horror niche.
 ADAPTIVE_ENABLED        = True
 ADAPTIVE_EXPLORATION    = 0.20    # 20% of the time, explore a non-winning option (avoids tunnel vision)
-ADAPTIVE_MIN_SAMPLES    = 4       # per-option samples needed before its score is trusted over the prior
+ADAPTIVE_MIN_SAMPLES    = 8       # per-option samples needed before its score is trusted over the prior
+
+# ─── Evidence gates: what the engine needs before it is allowed to have an opinion ───
+# These exist because the engine spent June confidently exploiting noise. With 22 posts
+# spread over 6 themes x 4 hooks x 4 lengths (96 cells) and a channel total of 104 views,
+# it picked 45s in 86% of draws — traceable to ONE video that got ONE view at 1.01 days
+# old, scoring 0.9949 views/day, the highest reward in the dataset. The other two 45s
+# videos got zero.
+#
+# Two gates, because total volume alone is not enough. The June channel had 104 total
+# views, which sounds like data until you divide: 59 videos, a mean of 1.8 views each.
+# At that density the entire difference between a "winning" and "losing" option is one
+# or two people, so both gates must pass before the engine is allowed a preference.
+#
+# An engine that says "I don't know yet" is strictly more useful than one that invents
+# a favourite from a single view — the failure mode is not a wrong answer, it is a
+# confident one that stops you looking at the real problem.
+ADAPTIVE_MIN_TOTAL_VIEWS = 200   # channel-wide floor
+ADAPTIVE_MIN_MEAN_VIEWS  = 5     # per-video floor: below this, 0-vs-2 views is one person
+
+# views/day is views divided by age, so a video with one view scores 2.00 at half a day
+# old and 0.10 at ten days old — a 20x swing driven entirely by WHEN stats were fetched
+# rather than by anything the video did. Records younger than this are excluded from the
+# reward basis so fetch timing cannot masquerade as performance. (Retention, when the
+# Analytics API is finally enabled, has no such flaw and is unaffected by this gate.)
+ADAPTIVE_MIN_AGE_DAYS = 3.0
 # Candidate target lengths the engine is allowed to choose between (all valid Shorts):
 TARGET_DURATION_CANDIDATES = [45, 60, 75, 90]
 

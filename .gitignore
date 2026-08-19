@@ -37,7 +37,11 @@ debug/
 # ─── Logs (local state, not needed in repo) ───────────────────────────────────
 scheduler_log.txt
 upload_log.txt
-documentary_log.json
+# documentary_log.json is deliberately NOT ignored. It is the only record of what the
+# cloud pipeline actually produced — case, title, length, accuracy, interest — and on a
+# GitHub runner an ignored file dies with the container. Ignoring it meant every run
+# generated a video and then threw away the evidence, so no feature could ever be
+# correlated with how a post performed. It is committed back by documentary.yml.
 
 # ─── Python cache ─────────────────────────────────────────────────────────────
 __pycache__/

@@ -55,11 +55,44 @@ jobs:
           key: assets-v3
 
       # ── System deps: only FFmpeg + audio libs. No browser, no Xvfb. ───────────
+      #
+      # timeout + retry because this step wedged on 2026-08-19: apt hung for 50
+      # minutes (08:16 -> 09:06), hit the job's timeout-minutes ceiling, and every
+      # step after it was skipped — the whole posting slot lost to a stuck package
+      # mirror. The same step took 23 seconds an hour later, so it is an
+      # intermittent mirror problem, not a broken package list.
+      #
+      # Without a step-level timeout a hang costs the entire 50-minute job budget
+      # and delivers nothing. Five minutes is ~13x the normal runtime, so it only
+      # trips on a genuine hang, and one retry picks a fresh mirror. If both
+      # attempts fail the run dies in ~10 minutes with a clear cause instead of
+      # silently burning the slot.
       - name: Install system packages
+        timeout-minutes: 12
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            ffmpeg espeak-ng libsndfile1 libgomp1
+          set -euo pipefail
+          install_deps() {
+            # `set -e` inside the function too: it runs via `bash -c`, which does not
+            # inherit the outer shell's -e, so without this a failed update would fall
+            # through to the install and report the install's status instead.
+            set -e
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends \
+              ffmpeg espeak-ng libsndfile1 libgomp1
+          }
+          for attempt in 1 2; do
+            if timeout 5m bash -c "$(declare -f install_deps); install_deps"; then
+              echo "System packages installed (attempt ${attempt})."
+              exit 0
+            fi
+            echo "::warning::apt attempt ${attempt} timed out or failed after 5m."
+            sudo pkill -9 -f apt-get || true
+            sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock* || true
+            sudo dpkg --configure -a || true
+            sleep 10
+          done
+          echo "::error::apt failed twice — package mirror is not responding."
+          exit 1
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
@@ -113,16 +146,23 @@ jobs:
       # ── Persist used cases so future runs never repeat a case ─────────────────
       # case_pool.json rides along: rebuilding it costs ~60 rate-limited Wikipedia
       # calls, so it is committed and only refetched when it expires.
+      #
+      # documentary_log.json rides along too, and matters more than it looks. It is the
+      # only record of what each run actually built. On an ephemeral runner an
+      # uncommitted log dies with the container, so the pipeline was producing videos
+      # and discarding every trace of what it had chosen — which is why there is no way
+      # to ask "did the 90s cases do better than the 60s ones?" for anything made since
+      # June. Committing it starts that record now.
       - name: Persist recent cases
         if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recent_cases.json case_pool.json || true
+          git add recent_cases.json case_pool.json documentary_log.json || true
           if git diff --staged --quiet; then
             echo "No new case to persist."
           else
-            git commit -m "chore: update recent cases [skip ci]"
+            git commit -m "chore: update recent cases + generation log [skip ci]"
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
