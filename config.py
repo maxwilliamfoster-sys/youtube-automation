@@ -49,7 +49,23 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "")
 
 # ─── Story Settings ───────────────────────────────────────────────────────────
 STORY_TYPES = ["horror", "creepy"]          # Types to rotate through
-GROQ_MODEL = "llama-3.3-70b-versatile"      # Free Llama 3.3 model via Groq
+# Groq retired llama-3.3-70b-versatile (and llama-3.1-8b-instant) on 2026-08-16, which
+# is exactly when every scheduled run began dying on a 404 model_not_found. This is
+# Groq's own recommended replacement for it.
+#
+# It is a reasoning model, which this pipeline otherwise refuses (see the OpenRouter
+# list in story_generator.py — a reasoning model once leaked its chain-of-thought into
+# a script and garbled a video). It is safe here for a reason that does not apply to
+# those: Groq returns gpt-oss reasoning in a SEPARATE `reasoning` field, so it never
+# reaches `message.content`. GROQ_REASONING_EFFORT below keeps it minimal anyway, and
+# _sanitize_llm_text still strips <think> blocks as a second line of defence.
+GROQ_MODEL = "openai/gpt-oss-120b"          # Free via Groq; replaces retired Llama 3.3 70B
+
+# Only gpt-oss models accept this, and only on Groq — it is applied on the Groq path
+# alone, never to the Cerebras/OpenRouter fallbacks. "low" is deliberate: reasoning
+# tokens bill against the same 100k/day free allowance the scripts need, and this
+# workload is short-form copywriting, not maths.
+GROQ_REASONING_EFFORT = "low"
 
 # Voice speed calibration: how many spoken words af_nicole gets through per second
 # at KOKORO_SPEED. Empirically ~1.6 w/s (measured from posted videos). The pipeline

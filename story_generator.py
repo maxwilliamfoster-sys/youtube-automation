@@ -1,5 +1,5 @@
 """
-Story Generator — uses Groq (FREE) + Llama 3.3 to generate horror stories
+Story Generator — uses Groq (FREE) + gpt-oss-120b to generate horror stories
 and true crime documentary scripts with research + fact-checking.
 """
 
@@ -10,16 +10,19 @@ import os
 import random
 import time
 import requests as _requests
-from groq import Groq, RateLimitError
+from groq import Groq, RateLimitError, APIStatusError, APIConnectionError
 
 import case_source
 from config import (
     GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY,
-    STORY_WORD_MIN, STORY_WORD_MAX, CEREBRAS_API_KEY,
+    STORY_WORD_MIN, STORY_WORD_MAX, CEREBRAS_API_KEY, GROQ_REASONING_EFFORT,
 )
 
 # ── LLM backend constants ─────────────────────────────────────────────────────
-GROQ_FALLBACK_MODEL   = "llama-3.1-8b-instant"
+# Groq retired llama-3.1-8b-instant alongside llama-3.3-70b-versatile on 2026-08-16.
+# Nothing referenced this constant, so it broke nothing — but leaving a decommissioned
+# model id lying around is a trap for whoever wires up a cheap-tier call next.
+GROQ_FALLBACK_MODEL   = "openai/gpt-oss-20b"   # currently unused; Groq's 8b-instant successor
 OPENROUTER_BASE_URL   = "https://openrouter.ai/api/v1/chat/completions"
 
 # ── Cerebras: the second free pool ────────────────────────────────────────────
@@ -31,9 +34,15 @@ OPENROUTER_BASE_URL   = "https://openrouter.ai/api/v1/chat/completions"
 #
 # Two caveats that shape the code below:
 #   * Free tier is 5 requests/MINUTE (not 30), so calls must be spaced ~13s apart.
-#   * Free tier does NOT carry llama-3.3-70b. It offers gpt-oss-120b, zai-glm-4.7 and
-#     gemma-4-31b. gpt-oss-120b is a reasoning model — the same class that leaked
-#     chain-of-thought into a script — so only the instruct-tuned gemma-4-31b is used.
+#   * It offers gpt-oss-120b, zai-glm-4.7 and gemma-4-31b. gpt-oss-120b is a reasoning
+#     model — the same class that leaked chain-of-thought into a script — so only the
+#     instruct-tuned gemma-4-31b is used here.
+#
+#     Groq now runs gpt-oss-120b as its primary (Llama 3.3 was retired and gpt-oss is
+#     the recommended replacement), which is not the contradiction it looks like: Groq
+#     returns gpt-oss reasoning in a separate `reasoning` field, so it cannot reach
+#     `message.content`. That guarantee is Groq-specific and has not been verified for
+#     this endpoint, so the conservative instruct-only choice stands on Cerebras.
 CEREBRAS_BASE_URL     = "https://api.cerebras.ai/v1/chat/completions"
 CEREBRAS_MODEL        = "gemma-4-31b"
 CEREBRAS_MIN_INTERVAL = 13.0     # 5 req/min free tier
@@ -185,16 +194,33 @@ def _fallback_call(**kwargs) -> object:
     return _openrouter_call(**kwargs)
 
 
+def _groq_kwargs(**kwargs) -> dict:
+    """
+    Groq-only request tweaks. Kept separate from the kwargs handed to _fallback_call so
+    a Groq-specific parameter can never be forwarded to Cerebras or OpenRouter, which
+    reject unknown fields.
+
+    gpt-oss is a reasoning model and reasoning tokens are billed against the same
+    100k/day free allowance the scripts need, so effort is pinned low. Groq accepts
+    `reasoning_effort` on gpt-oss models only — hence the guard, so that pointing
+    GROQ_MODEL at a non-reasoning model later does not start producing 400s.
+    """
+    if "gpt-oss" in str(kwargs.get("model", "")):
+        kwargs.setdefault("reasoning_effort", GROQ_REASONING_EFFORT)
+    return kwargs
+
+
 def _groq_call(client: Groq, **kwargs) -> object:
     """
     Smart LLM router, ordered by how much free headroom each backend has:
-      1. Groq — fastest and best quality (Llama 3.3 70B), but only 100k tokens/DAY.
+      1. Groq — fastest and best quality (gpt-oss-120b), but only 100k tokens/DAY.
       2. Cerebras — 1M tokens/day free, so ~10x the room. Slower (5 req/min) and a
          smaller model, but it means a Groq cap is a non-event rather than a dead run.
       3. OpenRouter free pool — last resort; its free models are often 429 and the
          catalogue changes without notice.
     Once Groq's daily cap is hit the switch is permanent for the session — the cap
-    will not clear before the run ends.
+    will not clear before the run ends. The same applies to a Groq backend that has
+    stopped answering at all (retired model, outage): see the APIStatusError branch.
     """
     global _use_openrouter
 
@@ -202,7 +228,7 @@ def _groq_call(client: Groq, **kwargs) -> object:
         return _fallback_call(**kwargs)
 
     try:
-        return client.chat.completions.create(**kwargs)
+        return client.chat.completions.create(**_groq_kwargs(**kwargs))
     except RateLimitError as e:
         msg = str(e)
         # Hard daily token cap — switch permanently to OpenRouter (no wait)
@@ -217,11 +243,29 @@ def _groq_call(client: Groq, **kwargs) -> object:
         print(f"[LLM] Groq RPM limit — waiting {wait:.0f}s...")
         time.sleep(wait)
         try:
-            return client.chat.completions.create(**kwargs)
-        except RateLimitError:
-            print("[LLM] Still rate-limited — switching to OpenRouter permanently.")
+            return client.chat.completions.create(**_groq_kwargs(**kwargs))
+        except (APIStatusError, APIConnectionError):
+            # Broader than RateLimitError on purpose: this retry sits inside an except
+            # block, so anything it raises escapes past the handler below and kills the
+            # run — the same shape of hole that the retired model fell through.
+            print("[LLM] Groq still refusing — switching to the fallback chain permanently.")
             _use_openrouter = True
             return _fallback_call(**kwargs)
+    except (APIStatusError, APIConnectionError) as e:
+        # Anything Groq refuses that is NOT a rate limit: a retired model (404
+        # model_not_found), a rejected parameter (400), an outage (5xx), a dead socket.
+        #
+        # This branch is the actual reason five days of runs died. Groq retired
+        # llama-3.3-70b-versatile on 2026-08-16; every run since raised NotFoundError
+        # here, which nothing caught, so the run aborted with Cerebras and OpenRouter
+        # both configured and neither one tried. A backend that has stopped answering
+        # is precisely what the fallback chain exists for, so treat it like the daily
+        # cap: switch permanently and carry on. A retired model will not come back
+        # mid-run, and neither will an outage worth re-probing on every call.
+        print(f"[LLM] Groq unavailable ({type(e).__name__}: {str(e)[:160]}) — "
+              f"switching to the fallback chain for the rest of this run.")
+        _use_openrouter = True
+        return _fallback_call(**kwargs)
 
 
 # Prompts grouped by horror SUB-THEME. The adaptive engine picks a theme (biased
