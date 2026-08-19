@@ -26,6 +26,7 @@ from config import (
     TARGET_DURATION_CANDIDATES, TARGET_DURATION_DEFAULT,
     HORROR_THEMES, HOOK_STYLES, BACKGROUND_CATEGORIES,
     ADAPTIVE_ENABLED, ADAPTIVE_EXPLORATION, ADAPTIVE_MIN_SAMPLES,
+    ADAPTIVE_MIN_TOTAL_VIEWS, ADAPTIVE_MIN_MEAN_VIEWS, ADAPTIVE_MIN_AGE_DAYS,
     STORY_WORD_MIN, STORY_WORD_MAX,
 )
 from performance_tracker import load_history, get_words_per_second, get_word_overshoot
@@ -40,6 +41,31 @@ _RETENTION_PRIOR = 0.5   # neutral 50% prior when the reward basis is retention
 
 def _uses_retention(records: list) -> bool:
     return any(r.get("avg_view_pct") is not None for r in records)
+
+
+def _rate_is_meaningful(rec: dict) -> bool:
+    """
+    Whether a record's views/day is old enough to mean anything.
+
+    views/day is views divided by age, so a single-view video scores 2.00 at half a day
+    old and 0.10 at ten days old. That 20x spread is fetch timing, not performance, and
+    ranking options on it is how the engine came to prefer 45s on the strength of one
+    view. Retention has no such flaw, so this gate applies only to the rate basis.
+    """
+    age = rec.get("age_days")
+    return age is not None and age >= ADAPTIVE_MIN_AGE_DAYS
+
+
+def _usable(records: list, retention_basis: bool) -> list:
+    """Records whose reward can be trusted under the basis currently in use."""
+    if retention_basis:
+        return [r for r in records if r.get("avg_view_pct") is not None]
+    return [r for r in records if _rate_is_meaningful(r)]
+
+
+def _total_views(history: dict) -> int:
+    """Channel-wide view count — the engine's evidence budget."""
+    return sum((r.get("views") or 0) for r in history.get("observed", {}).values())
 
 
 def _reward(rec: dict, retention_basis: bool) -> float:
@@ -85,7 +111,7 @@ def _choose_length(history: dict, retention_basis: bool) -> tuple:
     scores = {}
     for cand in TARGET_DURATION_CANDIDATES:
         near = [r for r in observed if abs(r.get("duration", 0) - cand) <= 15 and r.get("duration", 0) <= 170]
-        rewards = [_reward(r, retention_basis) for r in near]
+        rewards = [_reward(r, retention_basis) for r in _usable(near, retention_basis)]
         prior = _RETENTION_PRIOR if retention_basis else _LENGTH_PRIOR.get(cand, 0.4)
         scores[cand] = _shrunk(rewards, prior)
     # epsilon-greedy: explore sometimes, otherwise take the best
@@ -99,13 +125,14 @@ def _choose_length(history: dict, retention_basis: bool) -> tuple:
 
 
 def _choose_attribute(history: dict, attr: str, options: list, retention_basis: bool) -> tuple:
-    posts = [p for p in history.get("posts", {}).values() if p.get(attr) and p.get("stats")]
+    posts = [p for p in history.get("posts", {}).values()
+             if p.get(attr) and p.get("stats") and _usable([p["stats"]], retention_basis)]
     # neutral prior = mean reward across all labelled posts (or 0 if none yet)
-    all_rewards = [_reward(p["stats"], retention_basis) for p in posts if p.get("stats")]
+    all_rewards = [_reward(p["stats"], retention_basis) for p in posts]
     prior = (sum(all_rewards) / len(all_rewards)) if all_rewards else (_RETENTION_PRIOR if retention_basis else 0.4)
     scores = {}
     for opt in options:
-        rewards = [_reward(p["stats"], retention_basis) for p in posts if p.get(attr) == opt and p.get("stats")]
+        rewards = [_reward(p["stats"], retention_basis) for p in posts if p.get(attr) == opt]
         scores[opt] = _shrunk(rewards, prior)
     if random.random() < ADAPTIVE_EXPLORATION:
         choice = random.choice(options)
@@ -146,6 +173,33 @@ def get_strategy() -> dict:
     history = load_history()
     records = list(history.get("observed", {}).values())
     retention_basis = _uses_retention(records)
+
+    # ── Evidence gate ─────────────────────────────────────────────────────────
+    # Below a floor of total views there is nothing to learn from, only sampling
+    # noise, and exploiting it produces a confident preference built on one or two
+    # views. Explore evenly instead and say so, so the rationale in the logs reads
+    # "no signal yet" rather than a fabricated winner. Retention data, when it
+    # exists, is trustworthy at far lower volumes and bypasses the gate.
+    total_views = _total_views(history)
+    mean_views  = (total_views / len(records)) if records else 0.0
+    thin = total_views < ADAPTIVE_MIN_TOTAL_VIEWS or mean_views < ADAPTIVE_MIN_MEAN_VIEWS
+    if not retention_basis and thin:
+        secs = TARGET_DURATION_DEFAULT
+        return {
+            "target_seconds":   secs,
+            "target_words":     _words_for(secs, wps, overshoot),
+            "theme":            random.choice(HORROR_THEMES),
+            "hook":             random.choice(HOOK_STYLES),
+            "background":       random.choice(BACKGROUND_CATEGORIES),
+            "words_per_second": wps,
+            "rationale": (
+                f"insufficient evidence to optimise — {total_views} total views across "
+                f"{len(records)} videos ({mean_views:.1f} each; need "
+                f"{ADAPTIVE_MIN_TOTAL_VIEWS} total and {ADAPTIVE_MIN_MEAN_VIEWS} each). "
+                f"Exploring uniformly at the default {secs}s. At this density views/day "
+                f"is dominated by when stats were fetched, not by the videos."
+            ),
+        }
 
     secs, len_scores, why = _choose_length(history, retention_basis)
     theme, theme_scores   = _choose_attribute(history, "theme",      HORROR_THEMES,        retention_basis)
