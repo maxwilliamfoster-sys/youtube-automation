@@ -52,7 +52,8 @@ KEN_BURNS_STYLES = [
 
 # ─── B-roll clip (real Pexels footage) ────────────────────────────────────────
 
-def make_broll_clip(video_path: str, duration: float, output_path: str) -> str:
+def make_broll_clip(video_path: str, duration: float, output_path: str,
+                    scene_index: int = 0) -> str:
     """
     Cut a downloaded Pexels clip to `duration`, filled to a 1080x1920 frame.
 
@@ -76,9 +77,29 @@ def make_broll_clip(video_path: str, duration: float, output_path: str) -> str:
     elif src_duration > 0:
         pre_input = ["-stream_loop", "-1"]   # too short — loop it to fill the scene
 
+    # Slow camera move on every clip, alternating push-in and pull-back. Three reasons:
+    # the b-roll played completely static before, which is what made the videos feel
+    # inert; the research on this niche is explicit that varying the framing per scene
+    # is what maintains visual momentum; and TikTok's originality system demotes
+    # imported media carried with no creative edit, which is a plausible contributor to
+    # the flat ~200-view ceiling. Motion, grade and captions together are that edit.
+    #
+    # Rendered at 2x then zoompan'd down: zoompan quantises its crop to whole source
+    # pixels, so zooming a frame that is already the output size makes the move stutter
+    # visibly. Working from an oversized source keeps it smooth.
+    frames = max(1, int(round(duration * VIDEO_FPS)))
+    push_in = (scene_index % 2 == 0)
+    if push_in:
+        z_expr = f"1.0+0.14*on/{frames}"
+    else:
+        z_expr = f"1.14-0.14*on/{frames}"
     vf = (
-        f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT}:force_original_aspect_ratio=increase,"
-        f"crop={VIDEO_WIDTH}:{VIDEO_HEIGHT},fps={VIDEO_FPS},setsar=1,format=yuv420p"
+        f"scale={VIDEO_WIDTH * 2}:{VIDEO_HEIGHT * 2}:force_original_aspect_ratio=increase,"
+        f"crop={VIDEO_WIDTH * 2}:{VIDEO_HEIGHT * 2},"
+        f"zoompan=z='{z_expr}':d=1:"
+        f"x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':"
+        f"s={VIDEO_WIDTH}x{VIDEO_HEIGHT}:fps={VIDEO_FPS},"
+        f"setsar=1,format=yuv420p"
     )
 
     cmd = [
@@ -566,7 +587,7 @@ def compose_documentary(
         clip_path = os.path.join(work_dir, f"clip_{i:02d}.mp4")
         if str(media_path).lower().endswith(".mp4"):
             try:
-                make_broll_clip(media_path, clip_durations[i], clip_path)
+                make_broll_clip(media_path, clip_durations[i], clip_path, scene_index=i)
             except Exception as e:
                 # Never drop the scene: every clip duration is a slice of the narration
                 # timeline, so a missing clip would slide the video out of sync with the
