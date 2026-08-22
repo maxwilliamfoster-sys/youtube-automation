@@ -126,6 +126,29 @@ _OFF_TOPIC_SUBJECT = re.compile(
     re.I,
 )
 
+# Dates that place a case outside living memory. "Death of Cleopatra" became a
+# true-crime documentary because the word filter never saw "ancient" — the article
+# says "30 BC". Audiences connect to cases with photographs, police files and
+# relatives still alive to wonder about them.
+_TOO_OLD = re.compile(
+    r"\b\d{1,4}\s?(BC|BCE|B\.C\.)\b"
+    r"|\b1[0-7]\d{2}\b"
+    r"|\b\d{1,2}(st|nd|rd|th)\s+century\b",
+    re.I,
+)
+
+# State violence and public-figure killings. Real crimes, but they play as politics,
+# not true crime: no relatable victim and nothing for a viewer to solve. The pool
+# served a Russian activist, a Philippine official and a US execution — every one
+# scored badly on intrigue and every one still got posted.
+_POLITICAL_CASE = re.compile(
+    r"\b(activist|dissident|opposition (leader|figure|politician)"
+    r"|executed by|death (row|penalty)|capital punishment|lethal injection"
+    r"|government official|party official|board secretary|mayor|councillor"
+    r"|cartel|militant|rebel|regime|state security|secret police)\b",
+    re.I,
+)
+
 
 def _first_sentence(text: str) -> str:
     m = re.search(r"^.{0,400}?[.!?](?=\s|$)", text.strip(), re.S)
@@ -286,6 +309,14 @@ def get_summary(title: str) -> dict:
             if off:
                 print(f"[CaseSource] Skipping {title!r} — off-topic ({off}).")
                 return {}
+            # Outside living memory — no photographs, no files, no one left to wonder.
+            if _TOO_OLD.search(extract[:500]):
+                print(f"[CaseSource] Skipping {title!r} — outside living memory.")
+                return {}
+            # Political killing rather than true crime.
+            if _POLITICAL_CASE.search(extract[:700]):
+                print(f"[CaseSource] Skipping {title!r} — political, not true crime.")
+                return {}
             # An artwork or film whose title reads like a case.
             if _NOT_AN_EVENT.search(extract[:400]):
                 print(f"[CaseSource] Skipping {title!r} — not a real case (artwork/media).")
@@ -344,6 +375,11 @@ _MUNDANE = re.compile(
 )
 
 
+# Below this, a case is not worth a video. Tuned against cases with known
+# performance: the duds scored under 2.5, the strong ones 7+.
+MIN_INTRIGUE = 6.0
+
+
 def intrigue_score(summary: dict) -> float:
     """
     Rate how much of an open question a case leaves. Higher = better video.
@@ -366,6 +402,30 @@ def intrigue_score(summary: dict) -> float:
            - 2.0 * len(_MUNDANE.findall(text)))
     score = raw / per_1k
 
+    low = text.lower()
+    # Audience relatability. The analytics show a UK-skewed, 35+ audience whose other
+    # viewing is British news. A case they could imagine happening near them lands;
+    # one in an unfamiliar country with no cultural foothold does not, however
+    # mysterious it is on paper.
+    if re.search(r"(england|scotland|wales|britain|british|uk|london|ireland|irish)", low):
+        score += 3.5
+    elif re.search(r"(united states|american|australia|australian|canada|canadian|new zealand)", low):
+        score += 2.0
+
+    # An ordinary victim is the whole appeal of the genre — it could have been anyone.
+    if re.search(r"(student|nurse|teacher|schoolgirl|schoolboy|mother|father|"
+                 r"housewife|waitress|barmaid|shop assistant|teenager|child|"
+                 r"young woman|young man|girl|boy)", low):
+        score += 2.0
+
+    # A concrete, filmable discovery is what a hook is built from — the research is
+    # explicit that a viral case needs "a specific, shocking detail that can open the
+    # video". Without one there is nothing to put in the first three seconds.
+    if re.search(r"(body was found|remains were found|found (dead|buried|floating|"
+                 r"in a|at the)|last seen|abandoned car|locked|footprints|"
+                 r"never arrived|failed to return|walked out)", low):
+        score += 2.5
+
     title = summary.get("title", "").lower()
     # Disappearances are the channel's strongest format: the mystery is the premise,
     # and they consistently clear the Community Guidelines gate that graphic murders
@@ -380,7 +440,8 @@ def intrigue_score(summary: dict) -> float:
     return score
 
 
-def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12) -> dict:
+def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12,
+              _retries: int = 2) -> dict:
     """
     Return {title, extract, url} for the most intriguing unused case available.
 
@@ -423,6 +484,20 @@ def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12) -> dict:
         return {}
 
     scored.sort(key=lambda s: s["intrigue"], reverse=True)
+
+    # A minimum bar, not just "best available". This was the real defect: the picker
+    # returned the top of the shortlist even when every candidate was weak, so on a
+    # bad draw it confidently shipped a dud. Death of Cleopatra (1.0), Dustin Higgs
+    # (-1.5) and a Russian activist (0.2) were all scored correctly as poor and all
+    # got posted anyway. Below the bar it re-rolls a fresh shortlist instead.
+    if scored[0]["intrigue"] < MIN_INTRIGUE and _retries > 0:
+        print(f"[CaseSource] Best candidate only scored {scored[0]['intrigue']:.1f} "
+              f"(bar is {MIN_INTRIGUE}) — drawing a new shortlist.")
+        fresh = pick_case(is_duplicate, tries=tries, shortlist=shortlist,
+                          _retries=_retries - 1)
+        if fresh:
+            return fresh
+
     best = scored[0]
     runners_up = "; ".join(f"{s['title'][:28]} ({s['intrigue']:.0f})" for s in scored[1:4])
     print(f"[CaseSource] Picked '{best['title']}' — intrigue {best['intrigue']:.1f}, "
