@@ -63,12 +63,19 @@ _use_cerebras         = False    # flips on once Groq's daily cap is hit
 # script is worse than no fallback: the run now fails loudly and alerts, which is the
 # correct outcome. Never add an uncensored model here either (OpenRouter lists a few
 # free ones) — they would quietly undercut the Community Guidelines gate.
+# Verified live 2026-08-21. The previous slugs (llama-3.3-70b-instruct:free,
+# qwen-2.5-72b-instruct:free, hermes-3-405b:free) now 404 with "unavailable for
+# free", which left this failover dead — it looked fine until Groq's daily cap
+# was hit, then went dark rather than failing over. Re-check these if failover
+# ever stops working; OpenRouter retires free slugs often.
+# Plain-output models only: several free models return an empty `content` with
+# everything in `reasoning`, and content-safety classifiers reply "User Safety: safe".
 OPENROUTER_FREE_MODELS = [
-    "meta-llama/llama-3.3-70b-instruct:free",     # same family as the Groq model
-    "qwen/qwen3-next-80b-a3b-instruct:free",      # instruct, 262k ctx
-    "google/gemma-4-31b-it:free",                 # instruct-tuned
-    "google/gemma-4-26b-a4b-it:free",             # instruct-tuned, verified clean output
-    "nousresearch/hermes-3-llama-3.1-405b:free",  # large instruct
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "google/gemma-4-31b-it:free",
+    "openai/gpt-oss-20b:free",
+    "nvidia/nemotron-3-nano-30b-a3b:free",
 ]
 
 # Shared state — flip to OpenRouter the moment Groq's daily limit is hit
@@ -459,7 +466,7 @@ def _story_makes_sense(client: Groq, story: str) -> tuple:
     """
     try:
         resp = _groq_call(
-            client, model=GROQ_MODEL, max_tokens=80,
+            client, model=GROQ_MODEL, max_tokens=260,
             messages=[
                 {"role": "system", "content": (
                     "You verify short horror stories for coherence. Reply with ONLY JSON: "
@@ -487,7 +494,7 @@ def _generate_title(client: Groq, story_text: str) -> str:
     """Generate a short creepy title, sanitised and validated, with a safe fallback."""
     for _ in range(2):
         resp = _groq_call(
-            client, model=GROQ_MODEL, max_tokens=30,
+            client, model=GROQ_MODEL, max_tokens=200,
             messages=[{
                 "role": "user",
                 "content": (
@@ -609,7 +616,7 @@ def generate_story(strategy: dict = None) -> dict:
     # ── Hashtags ──
     try:
         hashtag_response = _groq_call(
-            client, model=GROQ_MODEL, max_tokens=60,
+            client, model=GROQ_MODEL, max_tokens=220,
             messages=[{
                 "role": "user",
                 "content": (
@@ -670,8 +677,12 @@ MANDATORY STRUCTURE (in this exact order):
    BANNED openings: "In [year]", "On [date]", "Imagine", "Picture this", "This is the story of" — they kill retention.
 2. THE BUILD — escalating beats. Each sentence raises a NEW question before fully resolving the last,
    so an open loop is always running and there is never a clean place to swipe away.
-3. THE RETENTION SPIKE — around the two-thirds mark, drop one more jaw-dropping twist that re-hooks
-   anyone starting to drift. e.g. "But that wasn't the strangest part."
+3. THE RETENTION SPIKE — around the two-thirds mark, re-hook anyone starting to drift with the
+   single most unsettling fact THE SOURCE ACTUALLY CONTAINS. e.g. "But that wasn't the strangest part."
+   CRITICAL: if the source has no dramatic twist, use its most unusual real detail — an odd
+   timing, an unexplained gap, a thing that was never found. Do NOT invent a twist to fill this
+   slot. A quiet true script beats a thrilling false one; inventing here fails fact-check and the
+   whole script is discarded.
 4. THE ENDING — last 1-2 sentences land on the haunting, still-UNRESOLVED question, then a short
    comment-bait CTA inviting the viewer to weigh in. e.g. "So what really happened to her? Comment your theory."
    or "Guilty, or framed? You decide." This CTA is the ONLY meta line allowed.
@@ -680,6 +691,11 @@ Style rules:
 - Cold, authoritative documentary-narrator tone — like a Netflix true crime voiceover.
 - Short, punchy sentences. Vary rhythm: a very short sentence after a longer one lands like a hammer.
 - Real names, real dates, real locations — every factual claim must be accurate. The shock comes from REAL details, never invented ones.
+- NEVER invent: names of relatives or suspects, autopsy or forensic findings, quotes, times of
+  day, weather, what someone was wearing or thinking. If the source does not state it, it does
+  not go in the script. These are real people with real families.
+- Being sparse is allowed. If the source is thin, write a shorter script rather than padding it
+  with plausible-sounding detail.
 - Write exactly 150-185 words (~60-75 seconds spoken — the highest-retention length).
 - NO "In this video", NO "In this short", NO channel name, NO "subscribe". The only meta line allowed is the final comment-bait CTA.
 - Output ONLY the spoken script text. No headings, no labels, no stage directions."""
@@ -778,6 +794,16 @@ def _pick_fresh_case() -> dict:
     """
     sourced = case_source.pick_case(lambda t: _is_duplicate(t, _USED_CASES))
     if sourced:
+        # Filtering and scoring ran on the intro (cheap, across a whole shortlist).
+        # Now that one case is chosen, pull the FULL article: intros run ~300 chars
+        # while the articles run 4,000-7,000. Writing a 170-word script from 300
+        # characters is what forced the model to invent relatives' names, autopsy
+        # results and weather, and held fact-check accuracy at 3-4/10.
+        full = case_source.get_full_text(sourced["title"])
+        if len(full) > len(sourced.get("extract", "")):
+            print(f"[TrueCrime] Source: {len(sourced['extract'])} -> {len(full)} chars "
+                  f"(full article)")
+            sourced["extract"] = full
         print(f"[TrueCrime] Sourced: {sourced['title']}  ({sourced['url']})")
     return sourced
 
@@ -988,6 +1014,10 @@ def _fact_check(client: Groq, case: dict, script: str) -> dict:
 #   BANNED          — removal and a strike against the account.
 # Anything below OK is refused: FYF_INELIGIBLE gets no views, and repeatedly posting
 # borderline material is what accumulates strikes. Better no video than a strike.
+# A script below this is factually unsound — it invents detail about real victims.
+# Never publishable, not even as a last-resort fallback.
+MIN_FALLBACK_ACCURACY = 6
+
 COMPLIANCE_OK = "OK"
 _COMPLIANCE_TIERS = ("OK", "FYF_INELIGIBLE", "AGE_RESTRICTED", "BANNED")
 
@@ -1088,7 +1118,7 @@ def _generate_hashtags(client: Groq, case: dict) -> str:
     """
     resp = _groq_call(client,
         model=GROQ_MODEL,
-        max_tokens=80,
+        max_tokens=260,
         messages=[{
             "role": "user",
             "content": (
@@ -1232,7 +1262,7 @@ def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
     try:
         resp = _groq_call(client,
             model=GROQ_MODEL,
-            max_tokens=30,
+            max_tokens=200,
             messages=[{
                 "role": "user",
                 "content": (
@@ -1272,7 +1302,7 @@ def _write_caption(client: Groq, case: dict, script: str) -> str:
     try:
         resp = _groq_call(client,
             model=GROQ_MODEL,
-            max_tokens=110,
+            max_tokens=320,
             messages=[{
                 "role": "user",
                 "content": (
@@ -1377,7 +1407,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         # ── Step 4: Title ─────────────────────────────────────────────────────
         title_resp = _groq_call(client,
             model=GROQ_MODEL,
-            max_tokens=25,
+            max_tokens=200,   # +reasoning headroom (see note below)
             messages=[{
                 "role": "user",
                 "content": (
@@ -1443,9 +1473,17 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
 
         # Safe but below the quality bar. Keep the best one as a fallback so a run still
         # ships something rather than nothing — but only ever from safe candidates.
-        score = acc + interest
-        if score > best_safe_score:
-            best_safe, best_safe_score = last_result, score
+        # Only ever fall back to a script that is factually sound. Interest is a
+        # matter of taste; accuracy is not. A run shipped a video scoring 4/10 that
+        # the fact-checker had flagged for invented names, an invented autopsy result
+        # and invented forensic findings — about a real murder victim with a real
+        # family. Publishing fabrications about real people is worse than publishing
+        # nothing, so a weak-but-true script may be the fallback and a false one may
+        # never be.
+        if acc >= MIN_FALLBACK_ACCURACY:
+            score = acc + interest
+            if score > best_safe_score:
+                best_safe, best_safe_score = last_result, score
 
         reason = []
         if acc < 7:
@@ -1466,7 +1504,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         _save_recent_case(best_safe.get("case_name"))
         return best_safe
 
-    # Nothing safe at all. No video is the correct outcome — never trade a strike for a post.
+    # Nothing both safe and accurate. No video is the correct outcome.
     raise RuntimeError(
         f"No guidelines-safe case found in {max_attempts} attempts. No video produced — "
         f"refusing to post content that failed the TikTok Community Guidelines review."

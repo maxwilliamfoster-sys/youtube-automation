@@ -512,3 +512,33 @@ if __name__ == "__main__":
     print(f"{len(pool)} cases in pool")
     for t in random.sample(pool, min(15, len(pool))):
         print("  -", t)
+
+
+def get_full_text(title: str, cap: int = 7000) -> str:
+    """
+    The complete article text, not just the intro.
+
+    Filtering and scoring run on the intro because they happen across a whole
+    shortlist and the intro is cheap. Script writing is different: it happens once,
+    for one chosen case, and it needs material. Intros run 250-350 characters, while
+    the full articles run 4,000-7,000 — 12x to 21x more real detail.
+
+    That gap was the cause of the fabrication problem. Asked to build a 170-word
+    script from 40 words of source, the model invented the difference: relatives'
+    names, autopsy findings, the weather. Fact-check accuracy sat at 3-4/10 and no
+    amount of prompt discipline fixed it, because the instruction to write a full
+    script and the instruction to invent nothing were impossible together. Given the
+    real article there is enough to say without inventing anything.
+    """
+    try:
+        data = _get({
+            "action": "query", "prop": "extracts",
+            "explaintext": 1, "redirects": 1, "titles": title,
+        })
+        for _, page in data.get("query", {}).get("pages", {}).items():
+            text = (page.get("extract") or "").strip()
+            if text:
+                return text[:cap]
+    except Exception as e:
+        print(f"[CaseSource] Full text unavailable for {title!r}: {e}")
+    return ""
