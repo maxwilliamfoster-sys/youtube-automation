@@ -86,6 +86,12 @@ def generate(text: str, filename_prefix: str = "doc") -> dict:
     ref = os.path.join(BASE_DIR, CHATTERBOX_REFERENCE)
     spoken = normalize_for_tts(text)      # numbers/years -> words, as before
     chunks_text = _sentences(spoken)
+    if not chunks_text:
+        # Belt and braces. An empty script once reached this point and torch.cat died
+        # on an empty tensor list; the Kokoro fallback then failed on the same empty
+        # text, so the run lost the video entirely. The generator now blocks empty
+        # scripts upstream, but the narrator must not be the thing that explodes.
+        raise RuntimeError("nothing to narrate — script is empty after normalisation")
     print(f"[Chatterbox] Narrating {len(chunks_text)} sentence(s) "
           f"as {os.path.basename(ref)}...")
 

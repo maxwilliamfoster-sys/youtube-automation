@@ -904,10 +904,7 @@ def _write_script(client: Groq, case: dict) -> str:
         if source else ""
     )
 
-    resp = _groq_call(client,
-        model=GROQ_MODEL,
-        max_tokens=600,
-        messages=[
+    messages_for_retry = [
             {"role": "system", "content": TRUE_CRIME_SCRIPT_PROMPT},
             {
                 "role": "user",
@@ -923,9 +920,21 @@ def _write_script(client: Groq, case: dict) -> str:
                     "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA."
                 ),
             },
-        ],
-    )
-    return resp.choices[0].message.content.strip()
+    ]
+
+    # 900, not 600: gpt-oss spends a large slice of the budget on hidden reasoning
+    # before it emits a word, and a truncated or empty script is worse than a slow one.
+    resp = _groq_call(client, model=GROQ_MODEL, max_tokens=900,
+                      messages=messages_for_retry)
+    script = (resp.choices[0].message.content or "").strip()
+    if not script:
+        # gpt-oss occasionally spends its whole budget on hidden reasoning and returns
+        # an empty string. One retry is almost always enough.
+        print("[TrueCrime] Script came back empty — retrying once...")
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=900,
+                          messages=messages_for_retry)
+        script = (resp.choices[0].message.content or "").strip()
+    return script
 
 
 def _fact_check(client: Groq, case: dict, script: str) -> dict:
@@ -1017,6 +1026,11 @@ def _fact_check(client: Groq, case: dict, script: str) -> dict:
 # A script below this is factually unsound — it invents detail about real victims.
 # Never publishable, not even as a last-resort fallback.
 MIN_FALLBACK_ACCURACY = 6
+
+# A narration below this is not a script. Anything shorter means the model
+# returned nothing usable, and every downstream stage — fact-check, title, TTS —
+# behaves unpredictably when handed it.
+MIN_SCRIPT_WORDS = 40
 
 COMPLIANCE_OK = "OK"
 _COMPLIANCE_TIERS = ("OK", "FYF_INELIGIBLE", "AGE_RESTRICTED", "BANNED")
@@ -1389,6 +1403,18 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         script = _write_script(client, case)
         word_count = len(script.split())
         print(f"[TrueCrime] Script: {word_count} words")
+
+        # Never let an empty or stunted script reach the fact-checker. A run shipped
+        # with zero narration because gpt-oss returned an empty script, the
+        # fact-checker then scored the nothing it was given 9/10 and approved it, and
+        # the title call invented "The Midnight Bank Heist" for a disappearance case.
+        # Both voice engines then failed on empty text and the video was lost. Judge
+        # the script here, where it is cheap and certain, not downstream.
+        if word_count < MIN_SCRIPT_WORDS:
+            print(f"[TrueCrime] Rejected — script too short ({word_count} words, "
+                  f"need {MIN_SCRIPT_WORDS}). Trying another case.")
+            _USED_CASES.append(case_name)
+            continue
 
         # ── Step 3: Fact-check ────────────────────────────────────────────────
         print("[TrueCrime] Fact-checking...")
