@@ -845,7 +845,7 @@ def _research_case(client: Groq, sourced: dict) -> dict:
     """
     resp = _groq_call(client,
         model=GROQ_MODEL,
-        max_tokens=600,
+        max_tokens=1600,
         messages=[
             {
                 "role": "system",
@@ -893,7 +893,7 @@ def _write_script(client: Groq, case: dict) -> str:
     source = case.get("source_text", "")
     source_block = (
         f"SOURCE (the encyclopaedia entry — the ONLY permitted source of facts):\n"
-        f"{source[:6000]}\n\n"
+        f"{source[:SCRIPT_SOURCE_CHARS]}\n\n"
         if source else ""
     )
     grounding = (
@@ -922,16 +922,17 @@ def _write_script(client: Groq, case: dict) -> str:
             },
     ]
 
-    # 900, not 600: gpt-oss spends a large slice of the budget on hidden reasoning
-    # before it emits a word, and a truncated or empty script is worse than a slow one.
-    resp = _groq_call(client, model=GROQ_MODEL, max_tokens=900,
+    # 600 deliberately. At 900 the model rambled to ~600 words (a 3.5-minute video);
+    # at 600 it lands on 180-210 and scores 9/10. It ignores the word count in the
+    # prompt, so the token ceiling is what actually holds the script to length.
+    resp = _groq_call(client, model=GROQ_MODEL, max_tokens=600,
                       messages=messages_for_retry)
     script = (resp.choices[0].message.content or "").strip()
     if not script:
         # gpt-oss occasionally spends its whole budget on hidden reasoning and returns
         # an empty string. One retry is almost always enough.
         print("[TrueCrime] Script came back empty — retrying once...")
-        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=900,
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=600,
                           messages=messages_for_retry)
         script = (resp.choices[0].message.content or "").strip()
     return script
@@ -949,7 +950,7 @@ def _fact_check(client: Groq, case: dict, script: str) -> dict:
     """
     resp = _groq_call(client,
         model=GROQ_MODEL,
-        max_tokens=400,
+        max_tokens=1400,
         messages=[
             {
                 "role": "system",
@@ -1031,6 +1032,14 @@ MIN_FALLBACK_ACCURACY = 6
 # returned nothing usable, and every downstream stage — fact-check, title, TTS —
 # behaves unpredictably when handed it.
 MIN_SCRIPT_WORDS = 40
+# ~250 words is about 95 seconds narrated — already past the sweet spot.
+MAX_SCRIPT_WORDS = 260
+# How much source the SCRIPT WRITER sees. The fact-checker still gets the full
+# article. With 6000 characters in front of it the model tried to cover the whole
+# piece and ran to 380-620 words against a 150-185 target — it treats a long source
+# as a brief to summarise rather than a well to draw from. 2800 is ample for 60
+# seconds and removes the temptation to ramble.
+SCRIPT_SOURCE_CHARS = 2800
 
 COMPLIANCE_OK = "OK"
 _COMPLIANCE_TIERS = ("OK", "FYF_INELIGIBLE", "AGE_RESTRICTED", "BANNED")
@@ -1099,7 +1108,7 @@ def compliance_review(client: Groq, script: str, caption: str, case: dict,
     # closed — the guarantee is preserved, a good case is not thrown away over a blip.
     for parse_attempt in range(2):
         try:
-            resp = _groq_call(client, model=GROQ_MODEL, max_tokens=400, messages=messages)
+            resp = _groq_call(client, model=GROQ_MODEL, max_tokens=1400, messages=messages)
             result = _extract_json(resp.choices[0].message.content.strip())
             verdict = str(result.get("verdict", "")).upper().strip()
             if verdict in _COMPLIANCE_TIERS:
@@ -1413,6 +1422,15 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         if word_count < MIN_SCRIPT_WORDS:
             print(f"[TrueCrime] Rejected — script too short ({word_count} words, "
                   f"need {MIN_SCRIPT_WORDS}). Trying another case.")
+            _USED_CASES.append(case_name)
+            continue
+
+        # And an upper bound. The model ignores the word count in the prompt, so a
+        # loosened token ceiling let it ramble to ~600 words — a 3.5-minute video for
+        # a format that works at 60 seconds. It also buries the fact-checker in text.
+        if word_count > MAX_SCRIPT_WORDS:
+            print(f"[TrueCrime] Rejected — script too long ({word_count} words, "
+                  f"max {MAX_SCRIPT_WORDS}). Trying another case.")
             _USED_CASES.append(case_name)
             continue
 
