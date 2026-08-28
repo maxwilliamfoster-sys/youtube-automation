@@ -118,10 +118,17 @@ TTS_PITCH = "-5Hz"                           # Slightly lower = more ominous
 # from a reference clip and is far more expressive; it costs ~5 min/run on CPU.
 # Set CHATTERBOX_ENABLED=0 to fall straight back to Kokoro/edge-tts.
 CHATTERBOX_ENABLED     = os.getenv("CHATTERBOX_ENABLED", "1") not in ("0", "false", "False")
-CHATTERBOX_REFERENCE   = os.getenv("CHATTERBOX_REFERENCE", "assets/narrator_ref_ryan.wav")
-CHATTERBOX_EXAGGERATION = float(os.getenv("CHATTERBOX_EXAGGERATION", "0.6"))
+CHATTERBOX_REFERENCE   = os.getenv("CHATTERBOX_REFERENCE", "assets/narrator_ref_energetic_ryan.wav")
+# 1.0 = top of Chatterbox's emotional range. Measured across five variants, this
+# was the only setting that meaningfully moved: 1.36x the pitch variation of the
+# previous voice and the widest range by a clear margin. The three middle
+# variants all landed within 7% of the old one — a livelier reference alone was
+# not enough, the exaggeration dial had to go with it.
+CHATTERBOX_EXAGGERATION = float(os.getenv("CHATTERBOX_EXAGGERATION", "1.0"))
 # Lower cfg_weight = slower, more deliberate delivery. The default 0.5 was too fast.
-CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.3"))
+# 0.55: quicker and less deliberate. 0.3 was set after "too fast" feedback and
+# overshot into flat — the register UK crime accounts use is energetic, not slow.
+CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.55"))
 CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.28"))
 
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
