@@ -453,6 +453,12 @@ def run_cloud_deliver(count: int = 2) -> None:
                 print(f"[Cloud] BLOCKED by guidelines gate ({verdict}) — not delivering.")
                 continue
 
+            # Lead the caption with the case-name title the working UK crime accounts
+            # use, then the hook line, then tags.
+            tt = story.get("tiktok_title")
+            if tt and story.get("caption"):
+                story["caption"] = f"{tt}
+{story['caption']}"
             caption = story.get("caption") or TIKTOK_CAPTION_TEMPLATE.format(
                 title=story["title"],
                 hashtags=TIKTOK_HASHTAGS,

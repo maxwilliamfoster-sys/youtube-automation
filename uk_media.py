@@ -49,6 +49,19 @@ _NOT_A_PHOTO = re.compile(
 # Anything past this is skipped rather than downloaded.
 _MAX_BYTES = 14_000_000
 
+# UK place names are reused worldwide and are also breed/product names. A search for
+# "Ipswich, Suffolk" returned Ipswich QUEENSLAND, Downtown Suffolk VIRGINIA and a
+# Suffolk ram lamb — all of which reached a finished video about an Ipswich murder.
+_WRONG_PLACE = re.compile(
+    r"(queensland|australia|new south wales|victoria, au|"
+    r"virginia|massachusetts|new hampshire|connecticut|vermont|"
+    r", va|, ma|, nh|, ct|, ny|"
+    r"new zealand|ontario|jamaica|barbados|south africa|"
+    r"ram lamb|ewe|sheep|breed|cattle|pig|poultry|"
+    r"coat of arms|flag of|logo|diagram)",
+    re.I,
+)
+
 _session = None
 _last = 0.0
 MIN_INTERVAL = 0.4          # Wikimedia throttles shared cloud IPs hard
@@ -152,12 +165,19 @@ def location_images(place: str, limit: int = 6) -> list:
     the interchangeable stock footage this channel used before.
     """
     try:
+        # Anchor the search to the UK. Without it Commons happily returns the
+        # same place name in Australia or the United States.
         found = _get(COMMONS_API, {
-            "action": "query", "list": "search", "srsearch": place,
-            "srnamespace": 6, "srlimit": limit * 3,
+            "action": "query", "list": "search",
+            "srsearch": f"{place} United Kingdom",
+            "srnamespace": 6, "srlimit": limit * 4,
         })
         titles = [h["title"] for h in found.get("query", {}).get("search", [])]
-        return _image_details(titles)[:limit]
+        details = _image_details(titles)
+        # Then drop anything the anchor did not catch — wrong country, or a breed
+        # of sheep that happens to share the county's name.
+        clean = [d for d in details if not _WRONG_PLACE.search(d["title"])]
+        return clean[:limit]
     except Exception as e:
         print(f"[UKMedia] location search failed for {place!r}: {e}")
         return []
@@ -182,7 +202,7 @@ def clean_place(raw: str) -> list:
     def _parts(text):
         # Split on commas and slashes; drop narrative fragments like "last seen at".
         for chunk in re.split(r"[,/;]| and ", text):
-            chunk = re.sub(r"(last seen at|body found in|near|found in|in)", " ", chunk, flags=re.I)
+            chunk = re.sub(r"(last seen at|body found in|near|found in|in)", " ", chunk, flags=re.I)
             chunk = re.sub(r"\s+", " ", chunk).strip(" .-")
             # A place name is short and has no digits.
             if 2 < len(chunk) <= 40 and not re.search(r"\d", chunk):

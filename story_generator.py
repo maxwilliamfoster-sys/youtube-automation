@@ -1173,12 +1173,18 @@ def _generate_hashtags(client: Groq, case: dict) -> str:
 
 # Reach tags that no longer do anything — TikTok's algorithm ignores them and they
 # read as spam to viewers, crowding out tags that actually describe the video.
-_JUNK_TAGS = {"#fyp", "#fypage", "#foryou", "#foryoupage", "#viral", "#viralvideo",
-              "#trending", "#tiktok", "#video"}
+# #fyp and #foryou are deliberately NOT here: the UK crime accounts performing best
+# use them, so they are treated as part of the working formula rather than spam.
+_JUNK_TAGS = {"#viral", "#viralvideo", "#trending", "#tiktok", "#video"}
 
 # The tags that put a video in front of true-crime viewers. These are communities
 # people actually browse; a geographic or decade tag is not.
-CORE_TAGS = ["#truecrime", "#truecrimetiktok", "#truecrimecommunity"]
+# Copied from UK crime accounts that are consistently performing (76K followers,
+# 2.4M likes). Note #fyp/#foryou: general advice says they are dead weight and this
+# file used to strip them, but the accounts actually winning in this niche use them,
+# so their set is followed rather than the advice. Worth revisiting once there is
+# enough of the channel's own data to judge.
+CORE_TAGS = ["#ukcrime", "#crimetok", "#truecrime", "#fyp"]
 
 # One of these describes what kind of case it is. Also browsable.
 _TYPE_TAGS = {
@@ -1467,6 +1473,12 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
 
         # ── Step 6: Ready-to-paste TikTok caption ─────────────────────────────
         description = _write_caption(client, case, script) or title
+        # Title pattern copied from the best-performing UK crime accounts, which open
+        # every post with the case name: "Ava White case. | Uk crime story." Naming
+        # the case up front is a search hook and sets the expectation instantly.
+        case_label = re.sub(r"^(the\s+)?(murder|killing|death|disappearance)\s+of\s+",
+                            "", case_name, flags=re.I).strip()
+        tiktok_title = f"{case_label} case. | UK crime story."
         tags = build_hashtags(hashtags, case_name)
         caption = f"{description}\n\n{tags}"
         print(f"[TrueCrime] Hashtags: {tags}")
@@ -1487,6 +1499,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             "year":           (str(case.get("year") or "")).strip(),
             "hashtags":       tags,
             "caption":        caption,
+            "tiktok_title":   tiktok_title,
             "cta":            cta,
             "accuracy_score": acc,
             "interest_score": interest,
