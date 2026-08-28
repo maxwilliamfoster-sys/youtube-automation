@@ -71,11 +71,18 @@ _use_cerebras         = False    # flips on once Groq's daily cap is hit
 # Plain-output models only: several free models return an empty `content` with
 # everything in `reasoning`, and content-safety classifiers reply "User Safety: safe".
 OPENROUTER_FREE_MODELS = [
-    "nvidia/nemotron-3-ultra-550b-a55b:free",
-    "nvidia/nemotron-3-super-120b-a12b:free",
+    # Probed live 2026-08-28: of 18 :free models listed, this was the ONLY one
+    # answering — everything else returned 429 (the account's free-models-per-day
+    # cap) or 403. Worth re-probing when failover breaks; OpenRouter's free
+    # catalogue turns over constantly and slugs are retired without notice.
+    #
+    # It is also a better fit than the Groq primary for this pipeline: asked for
+    # 150-185 words it returned 182, where gpt-oss-120b returns 309-620 and has to
+    # be trimmed in code, and its JSON parses first time.
+    "minimax/minimax-m3:free",
     "google/gemma-4-31b-it:free",
-    "openai/gpt-oss-20b:free",
-    "nvidia/nemotron-3-nano-30b-a3b:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
 ]
 
 # Shared state — flip to OpenRouter the moment Groq's daily limit is hit
