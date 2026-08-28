@@ -1034,6 +1034,9 @@ MIN_FALLBACK_ACCURACY = 6
 MIN_SCRIPT_WORDS = 40
 # ~250 words is about 95 seconds narrated — already past the sweet spot.
 MAX_SCRIPT_WORDS = 260
+# Trim to this before rejecting. ~185 words is about 70 seconds narrated,
+# which is the length this format works at.
+TRIM_SCRIPT_WORDS = 185
 # How much source the SCRIPT WRITER sees. The fact-checker still gets the full
 # article. With 6000 characters in front of it the model tried to cover the whole
 # piece and ran to 380-620 words against a 150-185 target — it treats a long source
@@ -1431,9 +1434,32 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             _USED_CASES.append(case_name)
             continue
 
-        # And an upper bound. The model ignores the word count in the prompt, so a
-        # loosened token ceiling let it ramble to ~600 words — a 3.5-minute video for
-        # a format that works at 60 seconds. It also buries the fact-checker in text.
+        # Trim rather than reject. The model reliably ignores the word count in the
+        # prompt — scripts came back at 309, 360 and 362 words against a 185 target —
+        # and the token ceiling cannot fix it, because gpt-oss needs headroom for
+        # hidden reasoning and any headroom it gets it spends on prose. Three of eight
+        # attempts in one run died on length alone, producing no video at all.
+        #
+        # Trimming on sentence boundaries and always keeping the LAST sentence
+        # preserves the structure that matters: the hook opens, the body builds, and
+        # the closing question is what drives comments.
+        if word_count > TRIM_SCRIPT_WORDS:
+            sentences = re.split(r"(?<=[.!?])\s+", script.strip())
+            if len(sentences) > 2:
+                closing = sentences[-1]
+                kept, running = [], len(closing.split())
+                for sent in sentences[:-1]:
+                    n = len(sent.split())
+                    if running + n > TRIM_SCRIPT_WORDS:
+                        break
+                    kept.append(sent)
+                    running += n
+                if kept:
+                    script = " ".join(kept + [closing])
+                    word_count = len(script.split())
+                    print(f"[TrueCrime] Trimmed script to {word_count} words "
+                          f"(kept the closing question).")
+
         if word_count > MAX_SCRIPT_WORDS:
             print(f"[TrueCrime] Rejected — script too long ({word_count} words, "
                   f"max {MAX_SCRIPT_WORDS}). Trying another case.")
