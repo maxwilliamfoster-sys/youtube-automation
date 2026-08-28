@@ -225,8 +225,9 @@ def _groq_call(client: Groq, **kwargs) -> object:
          smaller model, but it means a Groq cap is a non-event rather than a dead run.
       3. OpenRouter free pool — last resort; its free models are often 429 and the
          catalogue changes without notice.
-    Once Groq's daily cap is hit the switch is permanent for the session — the cap
-    will not clear before the run ends. The same applies to a Groq backend that has
+    Only a DAILY cap (or a Groq backend that has stopped answering entirely) retires
+    Groq for the session. A per-minute throttle is waited out and retried, because it
+    clears in seconds and the fallbacks below are far weaker — and currently dead. The same applies to a Groq backend that has
     stopped answering at all (retired model, outage): see the APIStatusError branch.
     """
     global _use_openrouter
@@ -244,20 +245,34 @@ def _groq_call(client: Groq, **kwargs) -> object:
             print("[LLM] Groq daily token limit reached — switching to OpenRouter (free, no cap).")
             _use_openrouter = True
             return _fallback_call(**kwargs)
-        # RPM throttle — short wait, then one retry
-        m = re.search(r'try again in (?:(\d+)m\s*)?(\d+(?:\.\d+)?)s', msg)
-        wait = (float(m.group(1) or 0) * 60 + float(m.group(2)) + 3) if m else 30
-        print(f"[LLM] Groq RPM limit — waiting {wait:.0f}s...")
-        time.sleep(wait)
-        try:
-            return client.chat.completions.create(**_groq_kwargs(**kwargs))
-        except (APIStatusError, APIConnectionError):
-            # Broader than RateLimitError on purpose: this retry sits inside an except
-            # block, so anything it raises escapes past the handler below and kills the
-            # run — the same shape of hole that the retired model fell through.
-            print("[LLM] Groq still refusing — switching to the fallback chain permanently.")
-            _use_openrouter = True
-            return _fallback_call(**kwargs)
+        # A per-minute throttle is temporary and says nothing about the day's budget,
+        # so it must NOT retire Groq for the session. It used to: one blip flipped the
+        # router permanently, the run fell into a fallback chain that is currently dead
+        # (Cerebras 402, OpenRouter free models withdrawn) and the whole video was lost
+        # while Groq was answering normally seconds later.
+        for attempt in range(3):
+            m = re.search(r'try again in (?:(\d+)m\s*)?(\d+(?:\.\d+)?)s', msg)
+            wait = (float(m.group(1) or 0) * 60 + float(m.group(2)) + 3) if m else 20
+            wait = min(wait, 75)
+            print(f"[LLM] Groq RPM limit — waiting {wait:.0f}s "
+                  f"(attempt {attempt + 1}/3)...")
+            time.sleep(wait)
+            try:
+                return client.chat.completions.create(**_groq_kwargs(**kwargs))
+            except RateLimitError as again:
+                msg = str(again)
+                if "tokens per day" in msg.lower() or "tpd" in msg.lower():
+                    print("[LLM] Groq daily cap reached — switching to the fallback chain.")
+                    _use_openrouter = True
+                    return _fallback_call(**kwargs)
+                continue
+            except (APIStatusError, APIConnectionError):
+                break
+        # Still throttled after three waits: try the fallback for THIS call only,
+        # and if that fails too, let the error surface rather than silently
+        # abandoning a backend that is probably fine by the next call.
+        print("[LLM] Groq still throttled — using the fallback for this call only.")
+        return _fallback_call(**kwargs)
     except (APIStatusError, APIConnectionError) as e:
         # Anything Groq refuses that is NOT a rate limit: a retired model (404
         # model_not_found), a rejected parameter (400), an outage (5xx), a dead socket.
