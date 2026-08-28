@@ -38,11 +38,13 @@ jobs:
           import re, time, torch, torchaudio, subprocess
           from chatterbox.tts import ChatterboxTTS
 
-          SCRIPT = ("In nineteen seventy-five, a fishing boat found a body floating off the "
-                    "Isle of Mull, still wearing a pilot's uniform. The plane he had been "
-                    "flying was never found. But that wasn't the strangest part. The autopsy "
-                    "showed he had died before he ever hit the water. "
-                    "So what really happened to Peter Gibbs?")
+          # A real UK case in the channel's actual register, so the samples are judged
+          # on the content they will really carry.
+          SCRIPT = ("Andrew Gosden withdrew two hundred pounds, bought a single ticket to "
+                    "London, and walked out of King's Cross station. He was fourteen. "
+                    "That CCTV still is the last confirmed sighting of him. "
+                    "No bank card used. No phone signal. Nothing. "
+                    "So what actually happened to Andrew Gosden?")
 
           def sentences(text):
               # Chatterbox truncates long input, so feed it one sentence at a time and
@@ -54,10 +56,17 @@ jobs:
 
           # cfg_weight controls pacing: lower = slower, more deliberate delivery.
           # The default 0.5 was judged too fast, so 0.3 is the candidate.
+          # Chasing "more alive". exaggeration drives emotional intensity, cfg_weight
+          # drives pace (higher = quicker, less deliberate), and the reference clip
+          # sets the register the clone copies. The current production voice is
+          # ryan @ 0.6/0.3 read from a deliberately flat reference — these push all
+          # three levers toward the energetic delivery UK crime accounts use.
           VARIANTS = [
-              ("ryan_slow",    "assets/narrator_ref_ryan.wav",   0.6, 0.3),
-              ("ryan_slowest", "assets/narrator_ref_ryan.wav",   0.6, 0.2),
-              ("thomas_slow",  "assets/narrator_ref_thomas.wav", 0.6, 0.3),
+              ("A_current",        "assets/narrator_ref_ryan.wav",            0.6, 0.3),
+              ("B_energetic_ref",  "assets/narrator_ref_energetic_ryan.wav",  0.6, 0.4),
+              ("C_high_emotion",   "assets/narrator_ref_energetic_ryan.wav",  0.85, 0.5),
+              ("D_max_alive",      "assets/narrator_ref_energetic_ryan.wav",  1.0, 0.55),
+              ("E_thomas_lively",  "assets/narrator_ref_energetic_thomas.wav", 0.85, 0.5),
           ]
           for tag, ref, exag, cfg in VARIANTS:
               t0 = time.time()
