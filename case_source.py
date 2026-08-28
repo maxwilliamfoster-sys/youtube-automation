@@ -40,15 +40,29 @@ POOL_TTL_DAYS = 30
 # Roots are expanded through their sub-categories (by country, by decade), which is
 # where the breadth comes from — a few roots fan out into thousands of real cases.
 ROOT_CATEGORIES = [
-    "Category:Unsolved deaths",
-    "Category:Unsolved murders by country",
-    "Category:Missing person cases by country",
-    "Category:Kidnappings by country",
-    "Category:Murders by country",
-    "Category:Unidentified murder victims",
-    "Category:Cold cases",
-    "Category:Overturned convictions",
+    # UK-focused. The audience is British (analytics: UK-skewed, 35+, watching British
+    # news), and a case they could imagine happening down the road lands far harder
+    # than an unfamiliar foreign one.
+    "Category:Murder in London",
+    "Category:Murder in England",
+    "Category:Murder in Scotland",
+    "Category:Murder in Wales",
+    "Category:Missing person cases in England",
+    "Category:Missing person cases in Scotland",
+    "Category:Unsolved murders in the United Kingdom",
+    "Category:Crime in London",
+    "Category:Crime in Scotland",
+    "Category:Kidnappings in the United Kingdom",
+    "Category:Robberies in the United Kingdom",
+    "Category:Miscarriage of justice cases in the United Kingdom",
 ]
+# Deliberately NOT included: "Category:English gangsters" and the organised-crime
+# group categories. Those articles are biographies of named individuals, and a script
+# calling a named person a gang member is precisely the defamation exposure to avoid —
+# UK defamation law is claimant-friendly and the burden would fall on this channel.
+# Reported CASES ("Murder of X", "Disappearance of Y") are court-tested public record;
+# accusations about people are not. The _is_case title filter already enforces this,
+# since gangster articles are titled with bare personal names.
 # Deliberately NOT included: "Category:Unidentified people" — despite the name it is
 # mostly anonymous medieval artists ("Master of Cabestany"), not unidentified victims.
 

@@ -399,7 +399,35 @@ def run_cloud_deliver(count: int = 2) -> None:
             # failed the guidelines gate, so this should never fire — but it is the final
             # point before a video reaches the user's phone, and a silent regression
             # upstream must not be able to put a strike on the account.
+            # Copyright, defamation and TikTok guidelines — all three before anything
+            # is delivered. Each fails differently, so each is checked separately:
+            # a non-free image, an unproven accusation about a named person, and
+            # glorifying an offender are three distinct ways to get the account or the
+            # owner in trouble, and none is caught reliably by the others.
             verdict = (story.get("compliance") or {}).get("verdict")
+            try:
+                import publish_checks
+                gate = publish_checks.run_all(
+                    story.get("script", ""),
+                    story.get("caption", ""),
+                    story.get("images", []),
+                    verdict or "unreviewed",
+                )
+                if not gate["ok"]:
+                    reasons = chr(10).join(f"• {b}" for b in gate["blocking"][:5])
+                    send_alert(
+                        "🛑 <b>Video blocked before sending</b>" + chr(10)*2
+                        + esc(story.get("title", "?")) + chr(10)*2
+                        + esc(reasons) + chr(10)*2 + "Not sent."
+                    )
+                    print("[Cloud] BLOCKED by publish checks:")
+                    for b in gate["blocking"]:
+                        print(f"    ! {b}")
+                    continue
+                story["attribution"] = gate["attribution"]
+            except ImportError:
+                print("[Cloud] publish_checks unavailable — falling back to the guidelines gate only.")
+
             if verdict != "OK":
                 reasons = "; ".join((story.get("compliance") or {}).get("reasons", []))
                 send_alert(
