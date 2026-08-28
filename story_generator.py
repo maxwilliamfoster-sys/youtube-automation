@@ -706,8 +706,8 @@ MANDATORY STRUCTURE (in this exact order):
    slot. A quiet true script beats a thrilling false one; inventing here fails fact-check and the
    whole script is discarded.
 4. THE ENDING — last 1-2 sentences land on the haunting, still-UNRESOLVED question, then a short
-   comment-bait CTA inviting the viewer to weigh in. e.g. "So what really happened to her? Comment your theory."
-   or "Guilty, or framed? You decide." This CTA is the ONLY meta line allowed.
+   plain line naming what is still unresolved. e.g. "The case has never been solved."
+   Do NOT write "comment your theory" and do NOT invite viewers to guess the killer — a moderator reads a real death framed as a puzzle as sensationalising it. This closing line is the ONLY meta line allowed.
 
 Style rules:
 - Cold, authoritative documentary-narrator tone — like a Netflix true crime voiceover.
@@ -1315,7 +1315,7 @@ def merge_hashtags(*groups: str, limit: int = 5) -> str:
 
 def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
     """
-    The final on-screen card: a two-option question about the case.
+    The final on-screen card: what is still unresolved about the case.
 
     Every video used to end on the same static "Follow for more unsolved cases".
     That asks for a follow — high effort, and identical on every post. A binary
@@ -1330,19 +1330,21 @@ def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
             messages=[{
                 "role": "user",
                 "content": (
-                    "Write ONE two-option question about this true crime case that a "
-                    "viewer can answer with a single word in the comments.\n\n"
+                    "Write ONE short closing line for a true crime video that invites "
+                    "discussion WITHOUT turning a real death into a quiz.\n\n"
                     f"Case: {case.get('case_name','')}\n"
                     f"Unresolved: {case.get('unresolved','')}\n"
                     f"Script: {script[:400]}\n\n"
                     "Rules:\n"
-                    "- Format exactly: 'X or Y?'\n"
-                    "- Maximum 5 words total. Shorter is better.\n"
-                    "- Must fit this specific case, not be generic.\n"
-                    "- Examples: 'Accident or murder?' 'Guilty or framed?' "
-                    "'Alive or dead?' 'Suicide or staged?'\n"
+                    "- Maximum 6 words. Shorter is better.\n"
+                    "- Point at what is still UNKNOWN or unresolved.\n"
+                    "- Do NOT ask viewers to guess who did it, and do NOT phrase it as "
+                    "a two-option quiz about a real person's death — a moderator reads "
+                    "that as sensationalising a real tragedy and suppresses the video.\n"
+                    "- Examples: 'Still unsolved after thirty years.' "
+                    "'The case remains open.' 'Her car was never found.'\n"
                     "- No hashtags, no quotes, no emojis.\n"
-                    "Output ONLY the question."
+                    "Output ONLY the line."
                 ),
             }],
         )
@@ -1352,7 +1354,7 @@ def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
             return text
     except Exception as e:
         print(f"[TrueCrime] CTA generation failed ({e}) — using default.")
-    return "What really happened?"
+    return "The case remains unsolved."
 
 
 def _write_caption(client: Groq, case: dict, script: str) -> str:
@@ -1377,9 +1379,10 @@ def _write_caption(client: Groq, case: dict, script: str) -> str:
                     "Rules:\n"
                     "- Sentence 1: a hook that creates curiosity. Max 14 words. "
                     "Do NOT reveal the twist or the ending.\n"
-                    "- Sentence 2: a question that makes the viewer PICK A SIDE, "
-                    "naming the two options. A reader must be able to answer it with "
-                    "one word.\n"
+                    "- Sentence 2: invite discussion by naming what is still unknown. "
+                    "Do NOT ask readers to guess who killed a real person and do NOT "
+                    "make them pick between suspects — a moderator reads that as "
+                    "sensationalising a real death and suppresses the video.\n"
                     "  GOOD: 'Accident, or did someone push him?'\n"
                     "  GOOD: 'Was the husband covering for someone?'\n"
                     "  BAD: 'What do you think happened?' — too open, nobody replies "
