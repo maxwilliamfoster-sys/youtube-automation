@@ -36,6 +36,19 @@ UA = "BuriedCasefiles/1.0 (https://github.com/maxwilliamfoster-sys/youtube-autom
 # Licences that permit reuse. Anything not on this list is skipped rather than risked.
 _FREE_LICENCE = ("cc-by", "cc0", "cc-sa", "pd", "public")
 
+# Commons is an archive, not a photo library: the same search returns book scans,
+# PDFs, maps and Victorian engravings alongside photographs. A Dickens journal page
+# is not "real UK footage", so only actual photographs are accepted.
+_PHOTO_EXT = (".jpg", ".jpeg", ".png")
+_NOT_A_PHOTO = re.compile(
+    r"\.(pdf|djvu|svg|tif|tiff|ogv|webm)$"
+    r"|\b(IA |archive\.org|journal|magazine|newspaper|manuscript|engraving|lithograph|woodcut|etching|map of|plan of|coat of arms|title page|frontispiece|illustration from)",
+    re.I,
+)
+# Wikimedia serves originals, and some are enormous (a 95MB scan appeared in testing).
+# Anything past this is skipped rather than downloaded.
+_MAX_BYTES = 14_000_000
+
 _session = None
 _last = 0.0
 MIN_INTERVAL = 0.4          # Wikimedia throttles shared cloud IPs hard
@@ -71,6 +84,11 @@ def _image_details(titles: list, min_width: int = 900) -> list:
         if not any(k in licence for k in _FREE_LICENCE):
             continue
         if info.get("width", 0) < min_width:
+            continue
+        name = page.get("title", "")[5:]
+        if not name.lower().endswith(_PHOTO_EXT) or _NOT_A_PHOTO.search(name):
+            continue
+        if info.get("size", 0) > _MAX_BYTES:
             continue
         artist = re.sub(r"<[^>]+>", "", meta.get("Artist", {}).get("value", "") or "").strip()
         out.append({

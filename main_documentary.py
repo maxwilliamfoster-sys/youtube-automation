@@ -154,13 +154,20 @@ def _generate_one() -> tuple:
     # ── 4. Scene images ───────────────────────────────────────────────────────
     print("\n--- STEP 4: Fetching Scene Images ---")
     image_dir = os.path.join(SCENE_IMAGES_DIR, prefix)
-    image_paths, word_segments = generate_story_images(
+    # The real place carries the visuals. story['location'] comes from the Wikipedia
+    # article, so it is the actual town/borough the case happened in.
+    uk_place = (story.get("location") or "").strip()
+    image_paths, word_segments, used_images = generate_story_images(
         story_title=story["title"],
         story_text=story["script"],
         output_dir=image_dir,
         num_images=NUM_SCENE_IMAGES,
+        uk_place=uk_place,
     )
-    print(f"  {len(image_paths)} images ready")
+    # Licences travel with the story so the copyright gate can check them before send.
+    story["images"] = used_images
+    uk_count = len(used_images)
+    print(f"  {len(image_paths)} images ready ({uk_count} real UK locations)")
 
     # ── 5. Compose ────────────────────────────────────────────────────────────
     print("\n--- STEP 5: Composing Video ---")

@@ -193,6 +193,12 @@ POLLINATIONS_DELAY  = 16.0     # Seconds between requests (anonymous: 1 req/15s)
 # like a slideshow, and Pexels returns usable portrait clips for these queries.
 USE_VIDEO_BROLL     = True
 
+# Prefer free-licensed photographs of the REAL UK place a case happened in over
+# generic stock. Lawful (CC/CC0 via Wikimedia Commons, licence recorded for the
+# copyright gate) and far more specific — the actual street, the actual Old Bailey.
+# Falls through to Pexels when a place yields nothing usable.
+UK_LOCATION_IMAGES  = True
+
 NUM_SCENE_IMAGES    = 12       # Atmospheric scenes per video — more scenes = faster cuts = better retention
                                # At 7, scenes held for 8-12s each and the video read as a
                                # slideshow. 12 puts a cut roughly every 3-5s. Costs almost

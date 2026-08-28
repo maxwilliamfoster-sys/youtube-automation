@@ -19,7 +19,8 @@ from groq import Groq
 # here bypassed that and 429'd a whole run — after a valid story had already been made.
 from story_generator import _groq_call
 from config import (GROQ_API_KEY, GROQ_MODEL, POLLINATIONS_DELAY, POLLINATIONS_MODEL,
-                    SCENE_IMAGES_DIR, PEXELS_API_KEY, USE_VIDEO_BROLL)
+                    SCENE_IMAGES_DIR, PEXELS_API_KEY, USE_VIDEO_BROLL,
+                    UK_LOCATION_IMAGES)
 
 IMAGE_BASE_URL = "https://image.pollinations.ai/prompt/"
 
@@ -365,10 +366,57 @@ def _create_dark_fallback(output_path: str):
 
 # ─── Main entry point ─────────────────────────────────────────────────────────
 
+
+def _uk_location_image(place: str, scene_query: str, output_path: str,
+                       seen_ids: set, manifest: list) -> bool:
+    """
+    Download a free-licensed photograph of the real UK place this case happened in.
+
+    Records licence and credit into `manifest` so the copyright gate can verify every
+    image before delivery — CC-BY and CC-BY-SA both require the author be credited,
+    so an image with no recorded author is a failure, not a warning.
+
+    Returns False (rather than raising) when nothing usable is found, so the caller
+    falls through to stock footage.
+    """
+    try:
+        import uk_media
+    except Exception:
+        return False
+
+    # Try the specific scene idea against the place first, then the place alone.
+    for query in (f"{place} {scene_query}".strip(), place):
+        try:
+            for img in uk_media.location_images(query, limit=8):
+                if img["url"] in seen_ids:
+                    continue
+                # Wikimedia rejects downloads without a descriptive User-Agent —
+                # a bare requests.get() gets a 403 and a 126-byte error body, which
+                # silently produced zero UK images.
+                r = requests.get(img["url"], timeout=60,
+                                 headers={"User-Agent": uk_media.UA})
+                if r.status_code != 200 or len(r.content) < 20000:
+                    continue
+                with open(output_path, "wb") as fh:
+                    fh.write(r.content)
+                seen_ids.add(img["url"])
+                manifest.append({
+                    "title":   img["title"],
+                    "licence": img["licence"],
+                    "credit":  img["credit"],
+                    "source":  img["url"],
+                })
+                print(f"[UK] {img['title'][:44]} [{img['licence']}]")
+                return True
+        except Exception as e:
+            print(f"[UK] location fetch failed for {query!r}: {str(e)[:80]}")
+    return False
+
 def generate_story_images(
     story_title: str,
     story_text: str,
     output_dir: str,
+    uk_place: str = "",
     num_images: int = 5,
     delay: float = None,
 ) -> tuple:
@@ -414,12 +462,25 @@ def generate_story_images(
 
     saved_paths = []
     seen_photo_ids: set = set()   # so no photo repeats within one video
+    seen_uk_ids: set = set()
+    used_images: list = []        # licence + credit for the copyright gate
     seen_video_ids: set = set()
     broll_count = 0
     for i in range(num_images):
         output_path = os.path.join(output_dir, f"scene_{i + 1:02d}.jpg")
         print(f"\n[Images] Scene {i + 1}/{num_images}...")
         success = False
+
+        # Real UK locations first. Commons carries free-licensed photographs of the
+        # actual streets, courts and towns these cases happened in, which is both
+        # lawful and far more specific than interchangeable stock footage. Falls
+        # through to Pexels when a place yields nothing usable.
+        if UK_LOCATION_IMAGES and uk_place:
+            q = pexels_queries[i] if i < len(pexels_queries) else ""
+            got = _uk_location_image(uk_place, q, output_path, seen_uk_ids, used_images)
+            if got:
+                saved_paths.append(output_path)
+                continue
 
         if use_pexels:
             query = pexels_queries[i] if i < len(pexels_queries) else f"dark atmospheric {story_title}"
@@ -455,12 +516,12 @@ def generate_story_images(
         saved_paths.append(output_path)
 
     print(f"\n[Images] Done: {len(saved_paths)} scene images")
-    return saved_paths, word_segments
+    return saved_paths, word_segments, used_images
 
 
 if __name__ == "__main__":
     # Quick test
-    paths = generate_story_images(
+    paths, _segs, _used = generate_story_images(
         story_title="The Somerton Man",
         story_text="A dead man found on a beach with no identity, a hidden pocket containing Persian words meaning 'it is finished', and an undeciphered code.",
         output_dir="./test_images",
