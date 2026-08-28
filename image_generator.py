@@ -384,8 +384,16 @@ def _uk_location_image(place: str, scene_query: str, output_path: str,
     except Exception:
         return False
 
-    # Try the specific scene idea against the place first, then the place alone.
-    for query in (f"{place} {scene_query}".strip(), place):
+    # The place arrives as prose ("Doncaster, South Yorkshire (last seen at King's
+    # Cross, London)"), which Commons matches nothing for. Split it into real place
+    # names and try each, most specific first.
+    candidates = uk_media.clean_place(place) or [place]
+    queries = []
+    for cand in candidates:
+        queries.append(f"{cand} {scene_query}".strip())
+        queries.append(cand)
+
+    for query in queries:
         try:
             for img in uk_media.location_images(query, limit=8):
                 if img["url"] in seen_ids:

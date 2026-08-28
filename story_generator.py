@@ -1480,6 +1480,11 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             "script":         script,
             "title":          title,
             "case_name":      case_name,
+            # The place the case happened. Carried through because the image layer
+            # searches it for real UK photographs — without it that search ran on an
+            # empty string and every scene silently fell back to stock footage.
+            "location":       (case.get("location") or "").strip(),
+            "year":           (str(case.get("year") or "")).strip(),
             "hashtags":       tags,
             "caption":        caption,
             "cta":            cta,

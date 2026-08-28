@@ -161,3 +161,40 @@ def location_images(place: str, limit: int = 6) -> list:
     except Exception as e:
         print(f"[UKMedia] location search failed for {place!r}: {e}")
         return []
+
+
+def clean_place(raw: str) -> list:
+    """
+    Turn a messy location string into searchable place names, best first.
+
+    The research step returns prose, not a place: "Doncaster, South Yorkshire (last
+    seen at King's Cross, London)". Commons finds nothing for that whole string, so
+    it is split into candidates — the primary town, then the county, then any place
+    named in the parenthetical, which is often where the case actually unfolded.
+    """
+    if not raw:
+        return []
+    out = []
+    # Places mentioned inside brackets are usually the second location in the story.
+    bracketed = re.findall(r"\(([^)]*)\)", raw)
+    main = re.sub(r"\([^)]*\)", " ", raw)
+
+    def _parts(text):
+        # Split on commas and slashes; drop narrative fragments like "last seen at".
+        for chunk in re.split(r"[,/;]| and ", text):
+            chunk = re.sub(r"(last seen at|body found in|near|found in|in)", " ", chunk, flags=re.I)
+            chunk = re.sub(r"\s+", " ", chunk).strip(" .-")
+            # A place name is short and has no digits.
+            if 2 < len(chunk) <= 40 and not re.search(r"\d", chunk):
+                yield chunk
+
+    out.extend(_parts(main))
+    for b in bracketed:
+        out.extend(_parts(b))
+
+    seen, uniq = set(), []
+    for p in out:
+        k = p.lower()
+        if k not in seen:
+            seen.add(k); uniq.append(p)
+    return uniq[:4]
