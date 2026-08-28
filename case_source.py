@@ -276,6 +276,12 @@ def build_pool(depth: int = 2) -> list:
     return sorted(titles)
 
 
+def _sources_hash() -> str:
+    """Fingerprint of the category list, so editing it forces a rebuild."""
+    import hashlib
+    return hashlib.sha1("|".join(ROOT_CATEGORIES).encode()).hexdigest()[:12]
+
+
 def load_pool(force_refresh: bool = False) -> list:
     """Cached case pool. Rebuilds if missing, stale, or suspiciously small."""
     if not force_refresh and os.path.exists(POOL_FILE):
@@ -284,8 +290,15 @@ def load_pool(force_refresh: bool = False) -> list:
                 blob = json.load(f)
             fresh = time.time() - blob.get("built_at", 0) < POOL_TTL_DAYS * 86400
             cases = blob.get("cases", [])
-            if fresh and len(cases) > 200:
+            # The pool is also invalid if the SOURCE CATEGORIES changed. Switching the
+            # roots to UK categories did nothing for a whole run because the cached
+            # worldwide pool was still inside its 30-day TTL — the pipeline happily
+            # served German and Japanese cases and nothing said the pool was stale.
+            same_sources = blob.get("sources_hash") == _sources_hash()
+            if fresh and same_sources and len(cases) > 200:
                 return cases
+            if fresh and not same_sources:
+                print("[CaseSource] Source categories changed — rebuilding the pool.")
         except Exception:
             pass
 
@@ -295,7 +308,9 @@ def load_pool(force_refresh: bool = False) -> list:
     if cases:
         try:
             with open(POOL_FILE, "w", encoding="utf-8") as f:
-                json.dump({"built_at": int(time.time()), "cases": cases}, f, indent=1)
+                json.dump({"built_at": int(time.time()),
+                       "sources_hash": _sources_hash(),
+                       "cases": cases}, f, indent=1)
         except Exception:
             pass
     return cases

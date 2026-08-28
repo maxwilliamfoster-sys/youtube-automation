@@ -96,7 +96,7 @@ def _generate_one() -> tuple:
 
     from config import (
         AUDIO_DIR, NUM_SCENE_IMAGES, SCENE_IMAGES_DIR,
-        TTS_DOCUMENTARY_VOICE, TTS_DOCUMENTARY_SPEED,
+        TTS_DOCUMENTARY_VOICE, TTS_DOCUMENTARY_SPEED, UK_LOCATION_IMAGES,
     )
     from story_generator import generate_true_crime_story
     from tts_generator import generate_tts
@@ -168,6 +168,12 @@ def _generate_one() -> tuple:
     story["images"] = used_images
     uk_count = len(used_images)
     print(f"  {len(image_paths)} images ready ({uk_count} real UK locations)")
+    # A silent fall-through to stock is how a whole run shipped with zero UK imagery
+    # while reporting success. If the feature is on and produced nothing, say so
+    # loudly — it means the case was not UK, or the place name did not resolve.
+    if UK_LOCATION_IMAGES and uk_count == 0:
+        print(f"  [WARN] UK imagery is enabled but produced NOTHING for "
+              f"place={uk_place!r} — every scene fell back to stock footage.")
 
     # ── 5. Compose ────────────────────────────────────────────────────────────
     print("\n--- STEP 5: Composing Video ---")
