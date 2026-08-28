@@ -457,8 +457,7 @@ def run_cloud_deliver(count: int = 2) -> None:
             # use, then the hook line, then tags.
             tt = story.get("tiktok_title")
             if tt and story.get("caption"):
-                story["caption"] = f"{tt}
-{story['caption']}"
+                story["caption"] = tt + chr(10) + story["caption"]
             caption = story.get("caption") or TIKTOK_CAPTION_TEMPLATE.format(
                 title=story["title"],
                 hashtags=TIKTOK_HASHTAGS,
