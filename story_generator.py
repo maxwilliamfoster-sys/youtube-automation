@@ -1200,6 +1200,14 @@ _TYPE_TAGS = {
 # which is enormous, generic, and competes with actual documentary channels.
 _WEAK_TAG = re.compile(r"^#(\d{3,4}s|\d{4}|documentary|history|story|crime)$", re.I)
 
+# Stopwords that reached real captions as "#The" and "#We" — the case-specific slot
+# grabbed the first word of a sentence instead of a name or place.
+_STOPWORD_TAG = {
+    "the","a","an","and","but","or","we","he","she","they","it","this","that",
+    "his","her","their","was","were","is","are","had","has","been","when","then",
+    "after","before","police","case","body","found","new","two","one",
+}
+
 
 def build_hashtags(story_tags: str, case_name: str = "") -> str:
     """
@@ -1273,6 +1281,8 @@ def merge_hashtags(*groups: str, limit: int = 5) -> str:
             tag = f"#{body}"
             key = tag.lower()
             if len(tag) < 3 or key in _JUNK_TAGS or key in seen:
+                continue
+            if tag.lstrip("#").lower() in _STOPWORD_TAG:
                 continue
             seen.add(key)
             out.append(tag)
@@ -1455,10 +1465,19 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
                     kept.append(sent)
                     running += n
                 if kept:
-                    script = " ".join(kept + [closing])
-                    word_count = len(script.split())
-                    print(f"[TrueCrime] Trimmed script to {word_count} words "
-                          f"(kept the closing question).")
+                    trimmed = " ".join(kept + [closing])
+                    trimmed_count = len(trimmed.split())
+                    # Only accept the trim if it left a usable script. The loop stops
+                    # at the first sentence that would breach the budget, so one long
+                    # sentence early on could cut a 300-word script to 27 — and the
+                    # minimum-length check runs BEFORE this, so those shipped.
+                    if trimmed_count >= MIN_SCRIPT_WORDS:
+                        script, word_count = trimmed, trimmed_count
+                        print(f"[TrueCrime] Trimmed script to {word_count} words "
+                              f"(kept the closing question).")
+                    else:
+                        print(f"[TrueCrime] Trim would leave only {trimmed_count} words "
+                              f"— keeping the full script instead.")
 
         if word_count > MAX_SCRIPT_WORDS:
             print(f"[TrueCrime] Rejected — script too long ({word_count} words, "
