@@ -706,8 +706,8 @@ MANDATORY STRUCTURE (in this exact order):
    slot. A quiet true script beats a thrilling false one; inventing here fails fact-check and the
    whole script is discarded.
 4. THE ENDING — last 1-2 sentences land on the haunting, still-UNRESOLVED question, then a short
-   plain line naming what is still unresolved. e.g. "The case has never been solved."
-   Do NOT write "comment your theory" and do NOT invite viewers to guess the killer — a moderator reads a real death framed as a puzzle as sensationalising it. This closing line is the ONLY meta line allowed.
+   open question plus an invitation to comment. e.g. "The case has never been solved. What do you think happened? Comment below."
+   Ask what the viewer THINKS about the unanswered question and invite a comment. Do NOT ask them to name, guess or accuse a suspect, and do not frame the death itself as a quiz — a moderator reads that as sensationalising a real tragedy. This closing line is the ONLY meta line allowed.
 
 Style rules:
 - Cold, authoritative documentary-narrator tone — like a Netflix true crime voiceover.
@@ -718,7 +718,10 @@ Style rules:
   not go in the script. These are real people with real families.
 - Being sparse is allowed. If the source is thin, write a shorter script rather than padding it
   with plausible-sounding detail.
-- Write exactly 150-185 words (~60-75 seconds spoken — the highest-retention length).
+- Write exactly 95-115 words (~40-45 seconds spoken). SHORT is the point: completion
+  rate drives reach, and a viewer who finishes a 45-second video is worth far more
+  than one who abandons a 70-second one. Cut every sentence that is not the hook,
+  a hard fact, the turn, or the closing question.
 - NO "In this video", NO "In this short", NO channel name, NO "subscribe". The only meta line allowed is the final comment-bait CTA.
 - Output ONLY the spoken script text. No headings, no labels, no stage directions."""
 
@@ -937,7 +940,7 @@ def _write_script(client: Groq, case: dict) -> str:
                     f"Key facts:\n{facts}\n\n"
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
                     f"{grounding}"
-                    "Write the 150-185 word documentary script now. Open on the single most shocking "
+                    "Write the 95-115 word documentary script now. Open on the single most shocking "
                     "verifiable detail (the hook), keep an open loop running throughout, add a retention-spike "
                     "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA."
                 ),
@@ -1056,9 +1059,10 @@ MIN_FALLBACK_ACCURACY = 6
 MIN_SCRIPT_WORDS = 40
 # ~250 words is about 95 seconds narrated — already past the sweet spot.
 MAX_SCRIPT_WORDS = 260
-# Trim to this before rejecting. ~185 words is about 70 seconds narrated,
-# which is the length this format works at.
-TRIM_SCRIPT_WORDS = 185
+# Trim to this before rejecting. ~115 words is about 45 seconds narrated.
+# Short-form reach follows completion rate, and a 45s video is far likelier
+# to be watched to the end than a 70s one — the previous target.
+TRIM_SCRIPT_WORDS = 115
 # How much source the SCRIPT WRITER sees. The fact-checker still gets the full
 # article. With 6000 characters in front of it the model tried to cover the whole
 # piece and ran to 380-620 words against a 150-185 target — it treats a long source
@@ -1330,19 +1334,21 @@ def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
             messages=[{
                 "role": "user",
                 "content": (
-                    "Write ONE short closing line for a true crime video that invites "
-                    "discussion WITHOUT turning a real death into a quiz.\n\n"
+                    "Write ONE short closing line for a true crime video that asks the "
+                    "viewer to comment.\n\n"
                     f"Case: {case.get('case_name','')}\n"
                     f"Unresolved: {case.get('unresolved','')}\n"
                     f"Script: {script[:400]}\n\n"
                     "Rules:\n"
-                    "- Maximum 6 words. Shorter is better.\n"
-                    "- Point at what is still UNKNOWN or unresolved.\n"
-                    "- Do NOT ask viewers to guess who did it, and do NOT phrase it as "
-                    "a two-option quiz about a real person's death — a moderator reads "
-                    "that as sensationalising a real tragedy and suppresses the video.\n"
-                    "- Examples: 'Still unsolved after thirty years.' "
-                    "'The case remains open.' 'Her car was never found.'\n"
+                    "- Maximum 7 words. Must include the word 'comment'.\n"
+                    "- Ask what the viewer THINKS about the unanswered question, or "
+                    "whether they remember or know the case.\n"
+                    "- Do NOT ask them to name, guess or accuse a suspect, and do NOT "
+                    "frame it as a two-option quiz about how a real person died — a "
+                    "moderator reads that as sensationalising a real death.\n"
+                    "- Examples: 'What do you think? Comment below.' "
+                    "'Comment if you remember this case.' "
+                    "'Should this case be reopened? Comment.'\n"
                     "- No hashtags, no quotes, no emojis.\n"
                     "Output ONLY the line."
                 ),
@@ -1354,7 +1360,7 @@ def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
             return text
     except Exception as e:
         print(f"[TrueCrime] CTA generation failed ({e}) — using default.")
-    return "The case remains unsolved."
+    return "What do you think? Comment below."
 
 
 def _write_caption(client: Groq, case: dict, script: str) -> str:

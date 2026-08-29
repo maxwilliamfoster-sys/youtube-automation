@@ -164,7 +164,7 @@ def build_filter_script(
     # The hook card owns the screen while it is up. Running word captions underneath
     # it made the two collide once the type got bigger, and even spaced apart it
     # splits attention during the three seconds that decide whether anyone stays.
-    HOOK_END = 3.6
+    HOOK_END = 1.8
     hook_active = bool(hook_text)
 
     for seg in caption_segments:
@@ -198,6 +198,10 @@ def build_filter_script(
     # dated thing on screen — it reads as a 2019 YouTube tutorial. Current practice is
     # heavy type with a thick outline and a drop shadow, which stays legible over busy
     # footage without putting a grey rectangle across the shot.
+    #
+    # 1.8s, not 3.6s. A title card held for nearly four seconds is a long-form opening:
+    # it delays the story and gives the viewer a free moment to scroll. Short-form
+    # convention is a fast punch that the narration has already overtaken.
     if hook_text:
         # 18 chars/line: measured, 21 ran the longest line edge-to-edge on 1080px.
         hook = _wrap_ffmpeg_text(escape_ffmpeg_text(hook_text.upper()), 18)
@@ -211,7 +215,7 @@ def build_filter_script(
             f"line_spacing=16:"
             f"x=(w-text_w)/2:"
             f"y=h*0.13:"
-            f"enable='between(t,0,3.6)'"
+            f"enable='between(t,0,1.8)'"
         )
 
     # ── Retention overlay 2: the engagement card (final ~2.6s) ────────────────
