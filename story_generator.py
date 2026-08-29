@@ -718,7 +718,8 @@ Style rules:
   not go in the script. These are real people with real families.
 - Being sparse is allowed. If the source is thin, write a shorter script rather than padding it
   with plausible-sounding detail.
-- Write exactly 95-115 words (~40-45 seconds spoken). SHORT is the point: completion
+- Write 100-120 words (~40-45 seconds spoken). NEVER fewer than 95 — a script under
+  that is too thin to tell the case and leaves the viewer with nothing. Completion
   rate drives reach, and a viewer who finishes a 45-second video is worth far more
   than one who abandons a 70-second one. Cut every sentence that is not the hook,
   a hard fact, the turn, or the closing question.
@@ -940,7 +941,7 @@ def _write_script(client: Groq, case: dict) -> str:
                     f"Key facts:\n{facts}\n\n"
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
                     f"{grounding}"
-                    "Write the 95-115 word documentary script now. Open on the single most shocking "
+                    "Write the 100-120 word documentary script now (never fewer than 95). Open on the single most shocking "
                     "verifiable detail (the hook), keep an open loop running throughout, add a retention-spike "
                     "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA."
                 ),
@@ -1355,8 +1356,12 @@ def _write_engagement_cta(client: Groq, case: dict, script: str) -> str:
             }],
         )
         text = _sanitize_llm_text(resp.choices[0].message.content).strip().strip('"')
-        # Must be short enough for the card and actually be a question.
-        if text and text.endswith("?") and len(text.split()) <= 6 and len(text) <= 34:
+        # Must fit the card and actually ask for a comment. This check used to require
+        # the line to END in "?", which silently rejected every valid output once the
+        # prompt changed to "...? Comment below." — so every video fell back to the
+        # generic default and the case-specific card never shipped.
+        words = len(text.split())
+        if text and "comment" in text.lower() and words <= 8 and len(text) <= 42:
             return text
     except Exception as e:
         print(f"[TrueCrime] CTA generation failed ({e}) — using default.")
