@@ -126,10 +126,14 @@ CHATTERBOX_REFERENCE   = os.getenv("CHATTERBOX_REFERENCE", "assets/narrator_ref_
 # not enough, the exaggeration dial had to go with it.
 CHATTERBOX_EXAGGERATION = float(os.getenv("CHATTERBOX_EXAGGERATION", "1.0"))
 # Lower cfg_weight = slower, more deliberate delivery. The default 0.5 was too fast.
-# 0.55: quicker and less deliberate. 0.3 was set after "too fast" feedback and
-# overshot into flat — the register UK crime accounts use is energetic, not slow.
-CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.55"))
-CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.28"))
+# 0.42: 0.55 was hard to follow and 0.3 was flat, so this sits between them.
+# Pace and energy are separate dials — exaggeration stays at 1.0, so the delivery
+# is still lively, just clearer. Clarity wins over speed: a viewer who cannot
+# follow the story leaves regardless of how energetic it sounds.
+CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.42"))
+# A longer beat between sentences. Each one carries a new fact, and back-to-back
+# delivery gave the listener no moment to absorb it.
+CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.42"))
 
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
 TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)

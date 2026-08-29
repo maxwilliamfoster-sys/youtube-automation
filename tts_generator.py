@@ -186,17 +186,78 @@ async def _generate_audio_edge(text: str, output_path: str,
 
 # ─── Whisper word timing ──────────────────────────────────────────────────────
 
-def _transcribe_for_timing(audio_path: str) -> list:
-    """Use faster-whisper to get accurate word-level timestamps."""
+def _correct_against_script(word_timings: list, script: str) -> list:
+    """
+    Replace Whisper's transcribed words with the words we actually wrote.
+
+    Whisper is used for TIMING, not for content: the exact narration text is already
+    known, so letting a speech model guess it can only introduce errors. Captions are
+    a big part of these videos, and a wrong word on screen is worse than no caption.
+
+    The two sequences are aligned with difflib, so Whisper keeps supplying the
+    timings while every displayed word comes from the script. Mismatched runs are
+    mapped across proportionally, and a wildly divergent transcript is left alone
+    rather than force-fitted.
+    """
+    import difflib
+
+    if not word_timings or not script:
+        return word_timings
+
+    def norm(w):
+        return re.sub(r"[^a-z0-9]", "", w.lower())
+
+    heard = [norm(w["word"]) for w in word_timings]
+    real_words = script.split()
+    real = [norm(w) for w in real_words]
+    if not any(real):
+        return word_timings
+
+    matcher = difflib.SequenceMatcher(a=heard, b=real, autojunk=False)
+    ratio = matcher.ratio()
+    if ratio < 0.45:
+        # Too different to trust the mapping — a garbled take, or the wrong audio.
+        print(f"[TTS] Caption correction skipped (only {ratio:.0%} match to script).")
+        return word_timings
+
+    corrected = list(word_timings)
+    replaced = 0
+    for tag, i1, i2, j1, j2 in matcher.get_opcodes():
+        if tag == "equal":
+            for k in range(i2 - i1):
+                corrected[i1 + k]["word"] = real_words[j1 + k]
+        elif tag in ("replace", "delete", "insert"):
+            span = i2 - i1
+            src = real_words[j1:j2]
+            if span and src:
+                # Spread the script words across the timed slots they correspond to.
+                for k in range(span):
+                    pick = src[min(int(k * len(src) / span), len(src) - 1)]
+                    corrected[i1 + k]["word"] = pick
+                    replaced += 1
+
+    print(f"[TTS] Captions corrected against the script "
+          f"({ratio:.0%} match, {replaced} word(s) repaired).")
+    return corrected
+
+
+def _transcribe_for_timing(audio_path: str, script: str = "") -> list:
+    """Word-level timings from faster-whisper, with the words corrected to the script."""
     from faster_whisper import WhisperModel
 
-    print("[TTS] Transcribing for word timing (Whisper tiny)...")
-    model = WhisperModel("tiny", device="cpu", compute_type="int8")
+    # "small", not "tiny". Tiny is the least accurate model there is and it was
+    # mis-hearing words that then appeared on screen. Transcribing ~45s of clean TTS
+    # costs seconds either way, and the run has a 50-minute budget.
+    print("[TTS] Transcribing for word timing (Whisper small)...")
+    model = WhisperModel("small", device="cpu", compute_type="int8")
     segments, _ = model.transcribe(
         audio_path,
         word_timestamps=True,
         language="en",
         vad_filter=True,
+        # Biasing the decoder with the real narration makes it far likelier to pick
+        # the right word for names and places, which is where tiny went wrong most.
+        initial_prompt=script[:900] if script else None,
     )
 
     word_timings = []
@@ -210,7 +271,8 @@ def _transcribe_for_timing(audio_path: str) -> list:
                     "duration": round(word.end - word.start, 3),
                 })
 
-    print(f"[TTS] {len(word_timings)} words timed accurately")
+    word_timings = _correct_against_script(word_timings, script)
+    print(f"[TTS] {len(word_timings)} words timed")
     return word_timings
 
 
@@ -255,7 +317,9 @@ def generate_tts(
         print(f"[TTS] edge-tts — voice: {_voice}")
         asyncio.run(_generate_audio_edge(text, audio_path, _voice, _rate, _pitch))
 
-    word_timings = _transcribe_for_timing(audio_path)
+    # Same here: the fallback engine knows the text too, so captions are
+    # corrected against it rather than trusted from the transcript.
+    word_timings = _transcribe_for_timing(audio_path, script=normalize_for_tts(text))
     duration = word_timings[-1]["end"] + 0.5 if word_timings else 30.0
 
     with open(timings_path, "w", encoding="utf-8") as f:

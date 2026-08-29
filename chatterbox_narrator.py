@@ -134,7 +134,9 @@ def generate(text: str, filename_prefix: str = "doc") -> dict:
 
     # Word timings come from Whisper transcribing the finished audio, exactly as
     # before — it is engine-agnostic, so captions stay in sync with no extra work.
-    word_timings = _transcribe_for_timing(audio_path)
+    # The script is handed over so captions show the words we wrote rather than
+    # whatever the speech model thought it heard.
+    word_timings = _transcribe_for_timing(audio_path, script=spoken)
 
     print(f"[Chatterbox] Done — {duration:.1f}s, {len(word_timings)} words timed.")
     return {
