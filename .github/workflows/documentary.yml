@@ -9,7 +9,7 @@ on:
   schedule:
     # Times are UTC; UK is BST (UTC+1) in summer, GMT in winter. tiktok_buffer.py
     # never posts outside 08:00-22:00 UK: a late run is queued for 08:30 next day.
-    # Times are UTC; UK is BST (UTC+1). Each run makes ONE video and delivers it to
+    # Each run makes ONE video and delivers it to
     # Telegram ~10-15 min after the cron fires (GitHub's scheduler isn't minute-exact).
     - cron: '15 8 * * *'     # ~09:30 UK (BST) / 08:30 (GMT) — video 1
     - cron: '45 11 * * *'    # ~13:00 UK — video 2
