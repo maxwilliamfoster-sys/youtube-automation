@@ -23,6 +23,8 @@ import shutil
 import subprocess
 import tempfile
 import time
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -30,6 +32,13 @@ BUFFER_API = "https://api.buffer.com"
 HANDLE = "buriedcasefiles"
 KEEP = 6                     # ~40 MB each; Pages sites cap at 1 GB
 MAX_HOST_MB = 95             # GitHub refuses files over 100 MB
+
+# Posts only go live while the (91% UK) audience is awake. The crons aim well inside
+# this, but GitHub can start a scheduled run hours late; a video finished outside the
+# window is queued in Buffer for the next morning instead of going out at 2am.
+UK = ZoneInfo("Europe/London")
+WINDOW = (8, 22)             # UK local hours: earliest post 08:00, latest 21:59
+MORNING_POST = (8, 30)       # where an out-of-window video lands
 
 
 class PublishError(RuntimeError):
@@ -159,28 +168,42 @@ def _get_post(post_id):
         id status externalLink error { message } } }""", {"i": {"id": post_id}})["post"]
 
 
+def post_time(now=None):
+    """None = post now (inside the UK window), else the UTC datetime to schedule for."""
+    now = (now or datetime.now(timezone.utc)).astimezone(UK)
+    if WINDOW[0] <= now.hour < WINDOW[1]:
+        return None
+    day = now.date() if now.hour < WINDOW[0] else now.date() + timedelta(days=1)
+    due = datetime(day.year, day.month, day.day, *MORNING_POST, tzinfo=UK)
+    return due.astimezone(timezone.utc)
+
+
 def post_video(video_path, caption, timeout=900):
     """
-    Host the MP4, share it to TikTok now, wait for TikTok to take it.
+    Host the MP4 and share it to TikTok: now if it's a sensible UK hour (then wait for
+    TikTok to take it), otherwise scheduled in Buffer for the next morning.
     Returns (ok, detail). Never raises.
     """
     try:
         chan = find_channel()
         if os.path.getsize(video_path) / 1048576 > MAX_HOST_MB:
             raise PublishError(f"video is over {MAX_HOST_MB} MB - too big to host on Pages")
+        due = post_time()
         filename = os.path.basename(video_path)
         url = host_video(video_path, filename)
         inp = {
             "text": caption,
             "channelId": chan["id"],
             "schedulingType": "automatic",
-            "mode": "shareNow",
+            "mode": "customScheduled" if due else "shareNow",
             "needsApproval": False,
             "assets": [{"video": {"url": url, "metadata": {"thumbnailOffset": 1500}}}],
             # The narration is an AI voice and the script is LLM-written, so the
             # AIGC label goes on. Undisclosed AI content is what TikTok penalises.
             "metadata": {"tiktok": {"isAiGenerated": True}},
         }
+        if due:
+            inp["dueAt"] = due.isoformat().replace("+00:00", "Z")
         data = _gql("""mutation($i: CreatePostInput!) { createPost(input: $i) {
             ... on PostActionSuccess { post { id status } }
             ... on MutationError { message } } }""", {"i": inp})
@@ -188,6 +211,10 @@ def post_video(video_path, caption, timeout=900):
         if "post" not in res:
             raise PublishError(f"Buffer rejected the post: {res.get('message')}")
         post_id = res["post"]["id"]
+        if due:
+            when = due.astimezone(UK).strftime("%a %d %b %H:%M")
+            print(f"[buffer] outside UK posting hours - scheduled {when} UK -> {chan['name']}: {post_id}")
+            return True, f"Scheduled for {when} UK (finished outside posting hours)"
         print(f"[buffer] shareNow -> {chan['name']}: {post_id}")
 
         deadline = time.time() + timeout
