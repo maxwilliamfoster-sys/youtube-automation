@@ -191,12 +191,52 @@ def _openrouter_call(**kwargs) -> object:
     raise RuntimeError(f"All OpenRouter free models unavailable. Last error: {last_err}")
 
 
+# Groq meters the daily token cap per MODEL, so when gpt-oss-120b runs dry (the key
+# is shared with four other pipelines) its siblings may still have budget left.
+# Checked live 2026-10-03; both return clean text. qwen3.8 is a reasoning model, so
+# its thinking is hidden (otherwise <think> blocks land in the script).
+GROQ_SIBLING_MODELS = [
+    ("qwen/qwen3.8-27b",   {"reasoning_format": "hidden"}),
+    ("openai/gpt-oss-20b", {"reasoning_effort": "low"}),
+]
+_dead_groq_siblings: set = set()
+
+
+def _groq_sibling_call(**kwargs) -> object:
+    """Same request on Groq's other free models. Raises if none answers."""
+    client = Groq(api_key=GROQ_API_KEY)
+    last = None
+    for model, extra in GROQ_SIBLING_MODELS:
+        if model in _dead_groq_siblings:
+            continue
+        try:
+            resp = client.chat.completions.create(**{**kwargs, "model": model, **extra})
+            if (resp.choices[0].message.content or "").strip():
+                return resp
+            last = "empty reply"
+        except RateLimitError as e:
+            last = e
+            if "tokens per day" in str(e).lower() or "tpd" in str(e).lower():
+                print(f"[LLM] Groq {model} daily cap reached too.")
+                _dead_groq_siblings.add(model)
+        except (APIStatusError, APIConnectionError) as e:
+            last = e
+            print(f"[LLM] Groq {model} failed ({str(e)[:100]}).")
+    raise RuntimeError(f"Groq sibling models unavailable: {str(last)[:160]}")
+
+
 def _fallback_call(**kwargs) -> object:
     """
-    Everything after Groq, in order of free headroom: Cerebras (1M tokens/day) first,
-    then OpenRouter's free pool (heavily rate-limited and its model list churns).
+    Everything after Groq's primary model: its sibling models first (separate daily
+    caps), then Cerebras, then OpenRouter's free pool (heavily rate-limited and its
+    model list churns). Cerebras' free tier has answered 402 since Sept 2026 and is
+    kept only in case it returns.
     """
     global _use_cerebras
+    try:
+        return _groq_sibling_call(**kwargs)
+    except Exception as e:
+        print(f"[LLM] {str(e)[:140]} - trying Cerebras/OpenRouter...")
     if CEREBRAS_API_KEY:
         try:
             if not _use_cerebras:
@@ -692,7 +732,7 @@ The single most important metric is how many people watch past the first 3 secon
 MANDATORY STRUCTURE (in this exact order):
 1. THE HOOK — sentence 1, maximum 14 words. The single most shocking, concrete, verifiable
    fact of the case. NO date, NO location, NO "In 1982" preamble — drop the viewer straight
-   into the most disturbing or impossible detail so they CANNOT scroll away. It must create an
+   into the most impossible or unexplained detail so they CANNOT scroll away. It must create an
    instant burning question that only watching on can answer.
    GOOD: "When they opened the freezer, they found seven years of his diaries — all dated after he died."
    GOOD: "Every passenger landed safely. There were three more people on the ground than had boarded."
@@ -708,6 +748,13 @@ MANDATORY STRUCTURE (in this exact order):
 4. THE ENDING — last 1-2 sentences land on the haunting, still-UNRESOLVED question, then a short
    open question plus an invitation to comment. e.g. "The case has never been solved. What do you think happened? Comment below."
    Ask what the viewer THINKS about the unanswered question and invite a comment. Do NOT ask them to name, guess or accuse a suspect, and do not frame the death itself as a quiz — a moderator reads that as sensationalising a real tragedy. This closing line is the ONLY meta line allowed.
+
+CONTENT SAFETY (TikTok - breaking this gets the video blocked before it is ever posted):
+- The shock comes from MYSTERY (what was never found, never explained, never solved), NEVER
+  from injuries. No wounds, blows, weapons striking, blood, the state of a body, how someone
+  died in physical terms, or anything sexual. "She was found dead" is the most detail allowed.
+- Never describe a child victim's death beyond the bare fact of it.
+- Respectful to victims and their families; never make the offender sound impressive.
 
 Style rules:
 - Cold, authoritative documentary-narrator tone — like a Netflix true crime voiceover.
@@ -1413,6 +1460,48 @@ def _write_caption(client: Groq, case: dict, script: str) -> str:
     return ""
 
 
+def _soften_for_guidelines(client: Groq, script: str, description: str, cta: str,
+                           title: str, verdict: dict):
+    """
+    Rewrite a blocked script/caption/card/title to remove what the reviewer objected
+    to. Removal only: no new facts may be added, so the fact-check still holds.
+    Returns (script, description, cta, title) or None if the rewrite is unusable.
+    """
+    reasons = "\n".join(f"- {r}" for r in verdict.get("reasons", [])[:5])
+    worst = verdict.get("worst_line") or ""
+    try:
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=1400, messages=[
+            {"role": "system", "content": (
+                "You edit true crime TikTok scripts so they pass TikTok's Community "
+                "Guidelines and stay eligible for the For You feed. Remove or neutralise "
+                "every graphic, gory, sexual or sensationalised detail: injuries, weapons "
+                "striking, blood, the state of a body, how a death physically happened. "
+                "'Was killed' / 'was found dead' is the most detail allowed. Keep the "
+                "mystery, the open questions and the structure (hook first, unresolved "
+                "question + invitation to comment last). Do NOT add any fact, name, date or "
+                "detail that is not already in the text. Keep the script 95-120 words.\n"
+                'Reply ONLY with JSON: {"script":"...","caption":"...","card":"...","title":"..."}')},
+            {"role": "user", "content": (
+                f"Moderator's objections:\n{reasons}\nWorst line: {worst}\n\n"
+                f"SCRIPT:\n{script}\n\nCAPTION:\n{description}\n\nCARD:\n{cta}\n\n"
+                f"TITLE (max 7 words):\n{title}")},
+        ])
+        out = _extract_json(resp.choices[0].message.content or "")
+    except Exception as e:
+        print(f"[Compliance] Softening failed ({str(e)[:100]}).")
+        return None
+    new_script = _sanitize_llm_text(str(out.get("script") or "")).strip()
+    n = len(new_script.split())
+    if not (MIN_SCRIPT_WORDS <= n <= MAX_SCRIPT_WORDS):
+        print(f"[Compliance] Softened script unusable ({n} words).")
+        return None
+    print(f"[Compliance] Softened script: {n} words.")
+    return (new_script,
+            str(out.get("caption") or description).strip() or description,
+            str(out.get("card") or cta).strip() or cta,
+            str(out.get("title") or title).strip().strip("\"'") or title)
+
+
 def generate_true_crime_story(max_attempts: int = 5) -> dict:
     """
     Research, write, and fact-check a true crime documentary script.
@@ -1598,6 +1687,23 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
 
         print("[Compliance] Reviewing against TikTok Community Guidelines...")
         verdict = compliance_review(client, script, caption, case, cta=cta)
+        if verdict["verdict"] != COMPLIANCE_OK and verdict["reasons"] and not any(
+                "review error" in r or "no usable verdict" in r for r in verdict["reasons"]):
+            # Most blocks were the WRITING, not the case: a gory phrase ("twenty-two
+            # hammer blows") or a sensational hook. Over Sept 2026 this gate discarded
+            # every case on a third of runs and no video was made. One rewrite that only
+            # removes material, then the same strict review again: the reviewer still
+            # has the final say, so nothing unsafe gets past it.
+            for r in verdict["reasons"][:3]:
+                print(f"[Compliance]   ! {r}")
+            print(f"[Compliance] {verdict['verdict']} - softening the script once and re-reviewing...")
+            soft = _soften_for_guidelines(client, script, description, cta, title, verdict)
+            if soft:
+                script, description, cta, title = soft
+                caption = f"{description}\n\n{tags}"
+                verdict = compliance_review(client, script, caption, case, cta=cta)
+                last_result.update(script=script, caption=caption, cta=cta, title=title,
+                                   hook=_extract_hook(script))
         last_result["compliance"] = verdict
         if verdict["verdict"] != COMPLIANCE_OK:
             for r in verdict["reasons"][:3]:
