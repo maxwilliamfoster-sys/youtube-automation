@@ -351,14 +351,20 @@ def _fit_telegram_limit(video_path: str, limit_mb: int = 48) -> str:
 
 def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc) -> None:
     """
-    Post the finished video to TikTok via Upload-Post, if auto-posting is switched on.
+    Post the finished video to TikTok, if auto-posting is switched on: Buffer when
+    BUFFER_API_KEY is set (free, official API), else Upload-Post (dormant, paid).
 
     Safety: this is only ever called after the guidelines gate returned OK, so nothing
     below the OK bar can reach TikTok. Re-checks the verdict once more as a backstop —
     the account's safety must not depend on the call site alone. Never raises.
     """
     try:
-        import tiktok_uploadpost as tp
+        import tiktok_buffer as tb
+        if tb.is_configured():
+            tp, via = tb, "Buffer"
+        else:
+            import tiktok_uploadpost as tp
+            via = "Upload-Post"
     except Exception as e:
         print(f"[TikTok] poster unavailable ({e}) — skipping.")
         return
@@ -371,7 +377,7 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
         print("[TikTok] Refusing to post — compliance verdict is not OK.")
         return
 
-    print("[TikTok] Auto-posting to TikTok via Upload-Post...")
+    print(f"[TikTok] Auto-posting to TikTok via {via}...")
     ok, detail = tp.post_video(video_path, caption)
     if ok:
         print(f"[TikTok] Posted: {detail}")
@@ -472,11 +478,17 @@ def run_cloud_deliver(count: int = 2) -> None:
             # Telegram renders <pre> as a code block with a copy button, so posting is
             # save video -> tap caption -> paste in TikTok. Caption cap is 1024 chars;
             # ours runs ~200, and send_video truncates as a backstop.
+            try:
+                import tiktok_buffer
+                auto = tiktok_buffer.is_configured()
+            except Exception:
+                auto = False
             video_caption = (
                 f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n"
                 f"✅ TikTok guidelines: passed — safe to post\n\n"
-                f"Tap the caption to copy it 👇\n"
-                f"<pre>{esc(caption)}</pre>"
+                + ("🤖 Posting to TikTok automatically — nothing to do.\n"
+                   if auto else "Tap the caption to copy it 👇\n")
+                + f"<pre>{esc(caption)}</pre>"
             )
             send_path = _fit_telegram_limit(video_path)
             if send_video(send_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
@@ -505,7 +517,7 @@ def run_cloud_deliver(count: int = 2) -> None:
         # just be a third message restating what is already on screen.
         send_alert(
             f"✅ <b>BuriedCasefiles — {delivered}/{count} video(s) ready</b>\n\n"
-            f"They're above this message — save each one and post it to TikTok whenever you like."
+            f"They're above this message."
         )
     elif not delivered:
         send_alert(

@@ -1,10 +1,9 @@
 name: BuriedCasefiles — Generate & Deliver
 
-# Fully cloud video GENERATION. TikTok posting is done by you, by hand, from your
-# phone — the most shadowban-proof method, and your PC never needs to be on. Each run
-# builds one video and sends it to Telegram with a ready-to-paste caption.
-# (Auto-posting via Upload-Post is wired but dormant: TikTok needs their paid plan,
-# so it stays off. It flips on with a paid upgrade — see tiktok_uploadpost.py.)
+# Fully cloud: each run builds one video, sends it to Telegram, then auto-posts it to
+# TikTok through Buffer (approved TikTok partner, official API — no browser, so no
+# shadowban risk; see tiktok_buffer.py). Without the BUFFER_API_KEY secret it falls
+# back to Telegram-only, and you post by hand as before. The PC never needs to be on.
 
 on:
   schedule:
@@ -19,9 +18,35 @@ on:
         description: 'How many videos to generate'
         default: '1'
         required: false
+      mode:
+        description: 'generate = make + post; check-buffer = only list the Buffer TikTok channels'
+        type: choice
+        options: [generate, check-buffer]
+        default: generate
+
+# Never two runs at once: both would force-push the `media` branch that hosts the MP4s.
+concurrency:
+  group: documentary
+  cancel-in-progress: false
 
 jobs:
+  check-buffer:
+    if: github.event.inputs.mode == 'check-buffer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install requests
+      - name: List Buffer TikTok channels (read-only)
+        run: python tiktok_buffer.py
+        env:
+          BUFFER_API_KEY:    ${{ secrets.BUFFER_API_KEY }}
+          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+
   generate:
+    if: github.event.inputs.mode != 'check-buffer'
     runs-on: ubuntu-latest
     timeout-minutes: 50
     permissions:
@@ -109,6 +134,10 @@ jobs:
         run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '1' }}
         env:
           PYTHONUNBUFFERED: "1"
+          # Auto-posting: Buffer key + the token that pushes MP4s to the Pages `media` branch.
+          BUFFER_API_KEY:    ${{ secrets.BUFFER_API_KEY }}
+          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+          GITHUB_TOKEN:      ${{ github.token }}
 
       # ── Persist used cases so future runs never repeat a case ─────────────────
       # case_pool.json rides along: rebuilding it costs ~60 rate-limited Wikipedia
