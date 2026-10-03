@@ -1460,6 +1460,49 @@ def _write_caption(client: Groq, case: dict, script: str) -> str:
     return ""
 
 
+def _legal_review(client: Groq, script: str, caption: str, cta: str, case: dict) -> dict:
+    """
+    Defamation / contempt review against the source. Fails closed (twice-tried).
+    Returns {"ok": bool, "reasons": [...]}.
+    """
+    source = (case.get("source_text") or "")[:6000]
+    messages = [
+        {"role": "system", "content": (
+            "You are a UK media lawyer clearing a true crime video before publication. "
+            "Be strict: a libel claim against a teenager's channel is ruinous.\n"
+            "BLOCK if ANY of these is true:\n"
+            "1. The text names, or makes identifiable (e.g. 'her foster father', 'the "
+            "neighbour'), any real person who was NOT finally convicted of the crime "
+            "(never charged, charged but acquitted, conviction quashed, suspect, witness, "
+            "relative) AND the text points suspicion at them in any way: evidence "
+            "'linked' to them, traces on their clothing, motives, odd behaviour, or "
+            "inviting viewers to guess about them.\n"
+            "2. The SOURCE records an acquittal, a quashed conviction or a later "
+            "exoneration that the text leaves out while still describing the case "
+            "against that person.\n"
+            "3. It states as fact something the SOURCE does not support about a real person.\n"
+            "4. It asks viewers who did it or invites accusations.\n"
+            "PASS only if every person connected to wrongdoing in the text was "
+            "convicted of it, or nobody is identified at all. A description of an "
+            "UNIDENTIFIED person that no viewer could link to a specific real individual "
+            "(e.g. 'a man seen in a white car', 'the killer') does not identify anyone.\n"
+            'Reply ONLY with JSON: {"verdict":"PASS|BLOCK","reasons":["..."]}')},
+        {"role": "user", "content": (
+            f"SOURCE (encyclopaedia entry):\n{source or '(none available)'}\n\n"
+            f"SCRIPT (spoken):\n{script}\n\nCAPTION:\n{caption}\n\nON-SCREEN CARD:\n{cta}")},
+    ]
+    for attempt in range(2):
+        try:
+            resp = _groq_call(client, model=GROQ_MODEL, max_tokens=1400, messages=messages)
+            out = _extract_json(resp.choices[0].message.content or "")
+            v = str(out.get("verdict", "")).upper().strip()
+            if v in ("PASS", "BLOCK"):
+                return {"ok": v == "PASS", "reasons": out.get("reasons") or []}
+        except Exception as e:
+            print(f"[Legal] Review error ({str(e)[:80]})" + (" — retrying..." if not attempt else ""))
+    return {"ok": False, "reasons": ["legal review returned no usable verdict"]}
+
+
 def _soften_for_guidelines(client: Groq, script: str, description: str, cta: str,
                            title: str, verdict: dict):
     """
@@ -1479,7 +1522,9 @@ def _soften_for_guidelines(client: Groq, script: str, description: str, cta: str
                 "'Was killed' / 'was found dead' is the most detail allowed. Keep the "
                 "mystery, the open questions and the structure (hook first, unresolved "
                 "question + invitation to comment last). Do NOT add any fact, name, date or "
-                "detail that is not already in the text. Keep the script 95-120 words.\n"
+                "detail that is not already in the text. NEVER remove a court outcome "
+                "(acquitted, conviction quashed, never charged) - that context is what "
+                "keeps the video from being defamatory. Keep the script 95-120 words.\n"
                 'Reply ONLY with JSON: {"script":"...","caption":"...","card":"...","title":"..."}')},
             {"role": "user", "content": (
                 f"Moderator's objections:\n{reasons}\nWorst line: {worst}\n\n"
@@ -1687,6 +1732,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
 
         print("[Compliance] Reviewing against TikTok Community Guidelines...")
         verdict = compliance_review(client, script, caption, case, cta=cta)
+        softened = False
         if verdict["verdict"] != COMPLIANCE_OK and verdict["reasons"] and not any(
                 "review error" in r or "no usable verdict" in r for r in verdict["reasons"]):
             # Most blocks were the WRITING, not the case: a gory phrase ("twenty-two
@@ -1698,6 +1744,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
                 print(f"[Compliance]   ! {r}")
             print(f"[Compliance] {verdict['verdict']} - softening the script once and re-reviewing...")
             soft = _soften_for_guidelines(client, script, description, cta, title, verdict)
+            softened = bool(soft)
             if soft:
                 script, description, cta, title = soft
                 caption = f"{description}\n\n{tags}"
@@ -1712,6 +1759,32 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             _USED_CASES.append(case_name)
             continue
         print(f"[Compliance] PASSED ({verdict['verdict']}) — eligible for the For You feed.")
+
+        # A softened script is a NEW script: the first live post (Billie-Jo Jenkins,
+        # 2026-10-03) lost the facts that her foster father's conviction was quashed and
+        # he was acquitted, and kept the evidence pointing at him. Fact-check it afresh.
+        if softened:
+            print("[TrueCrime] Re-fact-checking the softened script...")
+            check = _fact_check(client, case, script)
+            acc, interest = check["accuracy_score"], check["interest_score"]
+            sense, approved = check["makes_sense"], check["approved"]
+            last_result.update(accuracy_score=acc, interest_score=interest)
+            print(f"[TrueCrime] Softened: Accuracy {acc}/10 | Interest {interest}/10 | "
+                  f"Approved: {approved}")
+
+        # Legal gate: nothing may point suspicion at a real person a court has not
+        # convicted. Separate from compliance (TikTok rules) and from the regex check
+        # in publish_checks (which only catches words like "suspected").
+        legal = _legal_review(client, script, caption, cta, case)
+        last_result["legal"] = legal
+        if not legal["ok"]:
+            for r in legal["reasons"][:3]:
+                print(f"[Legal]   ! {r}")
+            print("[Legal] BLOCKED — implicates an unconvicted person or misstates the "
+                  "legal outcome. Trying another case.")
+            _USED_CASES.append(case_name)
+            continue
+        print("[Legal] PASSED — no unconvicted person implicated.")
 
         # Past this point the script is guidelines-safe. Only quality is left to judge.
         if approved and acc >= 7 and interest >= 7 and sense:
