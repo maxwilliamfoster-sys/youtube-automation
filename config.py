@@ -118,27 +118,28 @@ TTS_PITCH = "-5Hz"                           # Slightly lower = more ominous
 # from a reference clip and is far more expressive; it costs ~5 min/run on CPU.
 # Set CHATTERBOX_ENABLED=0 to fall straight back to Kokoro/edge-tts.
 CHATTERBOX_ENABLED     = os.getenv("CHATTERBOX_ENABLED", "1") not in ("0", "false", "False")
-CHATTERBOX_REFERENCE   = os.getenv("CHATTERBOX_REFERENCE", "assets/narrator_ref_energetic_ryan.wav")
-# 1.0 = top of Chatterbox's emotional range. Measured across five variants, this
-# was the only setting that meaningfully moved: 1.36x the pitch variation of the
-# previous voice and the widest range by a clear margin. The three middle
-# variants all landed within 7% of the old one — a livelier reference alone was
-# not enough, the exaggeration dial had to go with it.
-CHATTERBOX_EXAGGERATION = float(os.getenv("CHATTERBOX_EXAGGERATION", "1.0"))
-# Lower cfg_weight = slower, more deliberate delivery. The default 0.5 was too fast.
-# 0.42: 0.55 was hard to follow and 0.3 was flat, so this sits between them.
-# Pace and energy are separate dials — exaggeration stays at 1.0, so the delivery
-# is still lively, just clearer. Clarity wins over speed: a viewer who cannot
-# follow the story leaves regardless of how energetic it sounds.
-CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.42"))
-# A longer beat between sentences. Each one carries a new fact, and back-to-back
-# delivery gave the listener no moment to absorb it.
-CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.42"))
+# 2026-10-09 -> v3-calm. The previous voice (energetic reference, exaggeration 1.0,
+# cfg 0.42, gap 0.42) drew "sounds like a children's entertainer giving kids a quiz"
+# from a viewer and the owner judged the tone wrong for true crime. Voice test round 2
+# (voice_test.yml, same script, loudness-matched) measured:
+#   A energetic 1.0/0.42  2.58 words/s  145 Hz  pitch p10-p90 11.9 st  (excited)
+#   C sombre    0.45/0.5  2.22 words/s  131 Hz  pitch p10-p90  9.7 st  (chosen)
+# C keeps real pitch movement (not monotone) but is lower, slower and restrained.
+# The reference is an edge-tts Ryan read of a sombre passage at -12% rate / -6 Hz.
+# REVERT: CHATTERBOX_REFERENCE=assets/narrator_ref_energetic_ryan.wav,
+#         CHATTERBOX_EXAGGERATION=1.0, CHATTERBOX_CFG_WEIGHT=0.42, CHATTERBOX_SENTENCE_GAP=0.42
+CHATTERBOX_REFERENCE   = os.getenv("CHATTERBOX_REFERENCE", "assets/narrator_ref_sombre_ryan.wav")
+CHATTERBOX_EXAGGERATION = float(os.getenv("CHATTERBOX_EXAGGERATION", "0.45"))
+# Lower cfg_weight = slower, more deliberate delivery.
+CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.5"))
+# Beat between sentences, so each fact lands.
+CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.5"))
 
 # Tag written into analytics/posts_log.csv for every post, so scheduled reviews can
 # compare cohorts. Bump it whenever the format/narrator changes; see QUALITY_LOG.md.
-#   v2-energetic : 2026-08-28 .. 2026-10-09 (energetic ref, exaggeration 1.0)
-FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v2-energetic")
+#   v2-energetic : 2026-08-28 .. 2026-10-09 (energetic ref, exaggeration 1.0, night grade)
+#   v3-calm      : 2026-10-10 ..            (sombre ref 0.45/0.5, overcast grade, spoken numbers)
+FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v3-calm")
 
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
 TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)
