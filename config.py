@@ -135,6 +135,11 @@ CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.42"))
 # delivery gave the listener no moment to absorb it.
 CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.42"))
 
+# Tag written into analytics/posts_log.csv for every post, so scheduled reviews can
+# compare cohorts. Bump it whenever the format/narrator changes; see QUALITY_LOG.md.
+#   v2-energetic : 2026-08-28 .. 2026-10-09 (energetic ref, exaggeration 1.0)
+FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v2-energetic")
+
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
 TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)
 # Good alternatives: "am_michael" (American deep), "am_adam" (American natural)

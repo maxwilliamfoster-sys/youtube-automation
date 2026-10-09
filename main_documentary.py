@@ -349,6 +349,46 @@ def _fit_telegram_limit(video_path: str, limit_mb: int = 48) -> str:
     return video_path
 
 
+def _log_post(detail: str, story: dict, video_path: str) -> None:
+    """
+    One row per posted video in analytics/posts_log.csv: which format version and
+    narrator settings made it. The scheduled reviews group videos into test cohorts
+    from this file, so a format change can be judged on the videos it actually made.
+    """
+    import csv, re as _re
+    import config as C
+    try:
+        from video_composer import get_video_duration
+        dur = round(get_video_duration(video_path), 1)
+    except Exception:
+        dur = ""
+    m = _re.search(r"/video/(\d+)", detail or "")
+    row = {
+        "posted_utc":   datetime.utcnow().strftime("%Y-%m-%dT%H:%M"),
+        "video_id":     m.group(1) if m else "",
+        "format":       C.FORMAT_VERSION,
+        "narrator_ref": os.path.basename(C.CHATTERBOX_REFERENCE),
+        "exaggeration": C.CHATTERBOX_EXAGGERATION,
+        "cfg_weight":   C.CHATTERBOX_CFG_WEIGHT,
+        "grade":        os.getenv("VISUAL_GRADE", "overcast"),
+        "duration_s":   dur,
+        "case":         story.get("case_name", ""),
+        "softened":     bool(story.get("softened")),
+        "hook":         (story.get("hook") or "")[:120],
+    }
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analytics", "posts_log.csv")
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        new = not os.path.exists(path)
+        with open(path, "a", newline="", encoding="utf-8") as fh:
+            w = csv.DictWriter(fh, fieldnames=list(row))
+            if new:
+                w.writeheader()
+            w.writerow(row)
+    except Exception as e:
+        print(f"[TikTok] could not log the post ({e})")
+
+
 def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc) -> None:
     """
     Post the finished video to TikTok, if auto-posting is switched on: Buffer when
@@ -381,6 +421,7 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
     ok, detail = tp.post_video(video_path, caption)
     if ok:
         print(f"[TikTok] Posted: {detail}")
+        _log_post(detail, story, video_path)
         try:
             send_alert(f"🚀 <b>Posted to TikTok</b>\n\n{esc(story.get('title','?'))}\n{esc(detail)}")
         except Exception:

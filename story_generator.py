@@ -1777,6 +1777,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         # in publish_checks (which only catches words like "suspected").
         legal = _legal_review(client, script, caption, cta, case)
         last_result["legal"] = legal
+        last_result["softened"] = softened
         if not legal["ok"]:
             for r in legal["reasons"][:3]:
                 print(f"[Legal]   ! {r}")
