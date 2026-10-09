@@ -1,8 +1,10 @@
 name: Voice test — Chatterbox British narrator
 
-# Validates the narrator BEFORE wiring it into the pipeline: British male voice via
-# reference cloning, slower pacing, and sentence-chunked generation so long scripts
-# are not truncated. Outputs mp3 so the samples are actually playable.
+# Renders the SAME script through several narrator settings so they can be compared
+# by ear before the production default changes. 2026-10-09: the production voice
+# (energetic reference, exaggeration 1.0) drew "sounds like a children's entertainer
+# giving kids a quiz" from a viewer, so this round compares calmer registers against it.
+# The script goes through the production number normaliser, as real videos do.
 
 on:
   workflow_dispatch:
@@ -29,69 +31,65 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
-          pip install chatterbox-tts
+          pip install chatterbox-tts num2words
           sudo apt-get update -qq && sudo apt-get install -y ffmpeg
 
-      - name: Generate British narrator samples
+      - name: Generate narrator samples
         run: |
           python - <<'PY'
           import re, time, torch, torchaudio, subprocess
+
           from chatterbox.tts import ChatterboxTTS
 
-          # A real UK case in the channel's actual register, so the samples are judged
-          # on the content they will really carry.
-          SCRIPT = ("Andrew Gosden withdrew two hundred pounds, bought a single ticket to "
-                    "London, and walked out of King's Cross station. He was fourteen. "
-                    "That CCTV still is the last confirmed sighting of him. "
-                    "No bank card used. No phone signal. Nothing. "
-                    "So what actually happened to Andrew Gosden?")
+          SCRIPT = ("On the fourteenth of September, two thousand and seven, fourteen-year-old "
+                    "Andrew Gosden withdrew two hundred pounds and bought a single ticket to "
+                    "London. Cameras at King's Cross caught him walking out of the station. "
+                    "It is the last confirmed sighting. His bank card was never used again. "
+                    "There was no phone signal. Nothing. Eighteen years later, his family are "
+                    "still searching. What do you think happened to Andrew?")
 
           def sentences(text):
-              # Chatterbox truncates long input, so feed it one sentence at a time and
-              # stitch the results. Also gives natural breathing room between beats.
-              return [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
+              parts = [s.strip() for s in re.split(r'(?<=[.!?])\s+', text) if s.strip()]
+              out, buf = [], ""
+              for p in parts:                       # same merging as production
+                  buf = f"{buf} {p}".strip() if buf else p
+                  if len(buf.split()) >= 4:
+                      out.append(buf); buf = ""
+              if buf:
+                  out[-1] = f"{out[-1]} {buf}"
+              return out
 
           model = ChatterboxTTS.from_pretrained(device="cpu")
-          print("model loaded")
 
-          # cfg_weight controls pacing: lower = slower, more deliberate delivery.
-          # The default 0.5 was judged too fast, so 0.3 is the candidate.
-          # Chasing "more alive". exaggeration drives emotional intensity, cfg_weight
-          # drives pace (higher = quicker, less deliberate), and the reference clip
-          # sets the register the clone copies. The current production voice is
-          # ryan @ 0.6/0.3 read from a deliberately flat reference — these push all
-          # three levers toward the energetic delivery UK crime accounts use.
+          # (tag, reference clip, exaggeration, cfg_weight, gap between sentences)
           VARIANTS = [
-              ("A_current",        "assets/narrator_ref_ryan.wav",            0.6, 0.3),
-              ("B_energetic_ref",  "assets/narrator_ref_energetic_ryan.wav",  0.6, 0.4),
-              ("C_high_emotion",   "assets/narrator_ref_energetic_ryan.wav",  0.85, 0.5),
-              ("D_max_alive",      "assets/narrator_ref_energetic_ryan.wav",  1.0, 0.55),
-              ("E_thomas_lively",  "assets/narrator_ref_energetic_thomas.wav", 0.85, 0.5),
+              ("A_current_energetic", "assets/narrator_ref_energetic_ryan.wav", 1.0,  0.42, 0.42),
+              ("B_calm_ryan",         "assets/narrator_ref_ryan.wav",           0.45, 0.5,  0.5),
+              ("C_sombre_ryan",       "assets/narrator_ref_sombre_ryan.wav",    0.45, 0.5,  0.5),
+              ("D_sombre_ryan_still", "assets/narrator_ref_sombre_ryan.wav",    0.3,  0.55, 0.55),
+              ("E_sombre_thomas",     "assets/narrator_ref_sombre_thomas.wav",  0.45, 0.5,  0.5),
           ]
-          for tag, ref, exag, cfg in VARIANTS:
-              t0 = time.time()
-              chunks = []
-              for i, s in enumerate(sentences(SCRIPT)):
-                  wav = model.generate(s, audio_prompt_path=ref,
-                                       exaggeration=exag, cfg_weight=cfg)
-                  chunks.append(wav)
-                  # brief pause between sentences — documentary pacing
-                  chunks.append(torch.zeros(1, int(model.sr * 0.28)))
-              full = torch.cat(chunks, dim=-1)
-              raw = f"{tag}.wav"
-              torchaudio.save(raw, full, model.sr)
-              subprocess.run(["ffmpeg","-y","-i",raw,"-codec:a","libmp3lame",
-                              "-b:a","192k",f"{tag}.mp3"], capture_output=True)
-              dur = full.shape[-1]/model.sr
-              print(f"{tag}: {dur:.1f}s audio in {time.time()-t0:.0f}s "
-                    f"({(time.time()-t0)/dur:.1f}x realtime)")
+          for tag, ref, exag, cfg, gap in VARIANTS:
+              torch.manual_seed(7)
+              t0 = time.time(); chunks = []
+              for s in sentences(SCRIPT):
+                  chunks.append(model.generate(s, audio_prompt_path=ref,
+                                               exaggeration=exag, cfg_weight=cfg))
+                  chunks.append(torch.zeros(1, int(model.sr * gap)))
+              full = torch.cat(chunks[:-1], dim=-1)
+              torchaudio.save(f"{tag}.wav", full, model.sr)
+              # Same loudness for every sample, so they are compared on delivery alone.
+              subprocess.run(["ffmpeg", "-y", "-i", f"{tag}.wav", "-af",
+                              "loudnorm=I=-16:TP=-2:LRA=11", "-codec:a", "libmp3lame",
+                              "-b:a", "192k", f"{tag}.mp3"], capture_output=True)
+              print(f"{tag}: {full.shape[-1]/model.sr:.1f}s in {time.time()-t0:.0f}s")
           PY
 
       - name: Upload samples
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: british-narrator-samples
+          name: narrator-samples
           path: '*.mp3'
           if-no-files-found: warn
-          retention-days: 5
+          retention-days: 7

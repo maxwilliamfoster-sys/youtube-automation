@@ -58,6 +58,13 @@ _WRONG_PLACE = re.compile(
     r", va|, ma|, nh|, ct|, ny|"
     r"new zealand|ontario|jamaica|barbados|south africa|"
     r"ram lamb|ewe|sheep|breed|cattle|pig|poultry|"
+    # Off-topic subjects that matched the place name and broke the mood of a murder
+    # story (a blue tit and a white double-decker in the Nicola Bulley video, 2026-10).
+    r"\bbird|\btit\b|cyanistes|parus|robin|finch|warbler|heron|swan|duck|goose|gull|"
+    r"butterfly|moth|insect|bee\b|flower|orchid|fungus|fungi|lichen|"
+    r"\bbus\b|buses|coach|stagecoach|arriva|locomotive|railway station|train|tram|"
+    r"steam|fleet|livery|aircraft|airport|"
+    r"football|cricket|rugby|stadium|festival|carnival|parade|wedding|"
     r"coat of arms|flag of|logo|diagram)",
     re.I,
 )

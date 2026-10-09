@@ -70,27 +70,131 @@ def _year_to_words(y: int) -> str:
 
 def normalize_for_tts(text: str) -> str:
     """
-    Convert years, ordinals, times, and common abbreviations to spoken form
-    so TTS engines pronounce them correctly.
+    Rewrite everything numeric the way a British narrator would SAY it, so the voice
+    never has to guess. Chatterbox reads raw digits unpredictably ("13" as "one three",
+    "April 18" as "April eighteen", "1990s" spelled out, "£5,000" as "pound five
+    comma..."), which was the most obvious tell that the narrator wasn't human.
+
+    Order matters: money, decades, dates and clock times are matched as whole phrases
+    before the generic number pass, which would otherwise split them apart.
     """
-    # Ordinals: 1st, 2nd, 3rd, 4th … 31st
-    def _ord(m):
-        n = int(m.group(1))
-        return _ORDINALS.get(n, m.group(0))
-    text = re.sub(r'\b(\d{1,2})(st|nd|rd|th)\b', _ord, text, flags=re.IGNORECASE)
+    t = text.replace("‑", "-").replace("–", "-").replace("—", " - ")
+    t = re.sub(r"(?<=\d),(?=\d{3}\b)", "", t)           # 5,000 -> 5000
 
-    # Years in date context: "April 18, 2016" or standalone 4-digit years
-    text = re.sub(r'\b(1[0-9]{3}|20[0-9]{2})\b', lambda m: _year_to_words(int(m.group(0))), text)
+    # ── Money: £5000, £1.2 million, £50k, $3m ──────────────────────────────────
+    def _money(m):
+        sym, num, scale = m.group(1), m.group(2), (m.group(3) or "").lower()
+        unit = {"£": "pounds", "$": "dollars", "€": "euros"}[sym]
+        scale = {"m": "million", "k": "thousand", "bn": "billion"}.get(scale, scale)
+        if "." in num and not scale:                     # £4.50 -> four pounds fifty
+            whole, pence = num.split(".", 1)
+            pence = int((pence + "0")[:2])
+            words = _n2w(int(whole)) + " " + ("pound" if unit == "pounds" and whole == "1" else unit)
+            return words + (f" {_n2w(pence)}" if pence else "")
+        words = _n2w(float(num) if "." in num else int(num))
+        if scale:
+            return f"{words} {scale} {unit}"
+        return f"{words} {'pound' if unit == 'pounds' and num == '1' else unit}"
+    t = re.sub(r"([£$€])(\d+(?:\.\d+)?)(?:\s*(million|billion|thousand|bn|m|k)\b)?", _money, t,
+               flags=re.I)
 
-    # Times: "4 am" / "2 pm" → "four AM" / "two PM"
-    def _time(m):
-        h = int(m.group(1))
-        period = m.group(2).upper()
-        return f"{_ONES[h] if h <= 19 else _two_digit(h)} {period}"
-    text = re.sub(r'\b(\d{1,2})\s*(am|pm)\b', _time, text, flags=re.IGNORECASE)
+    # ── Decades: 1990s, '90s, 2000s ────────────────────────────────────────────
+    def _decade(y):
+        if y == 2000:
+            return "two thousands"
+        w = _year_to_words(y)
+        if w.endswith("y"):
+            return w[:-1] + "ies"                        # twenty -> twenties
+        return w + "s"
+    t = re.sub(r"\b(1[0-9]{2}0|20[0-9]0)s\b", lambda m: _decade(int(m.group(1))), t)
+    t = re.sub(r"(?<![\w])['’]([1-9]0)s\b",
+               lambda m: _decade(1900 + int(m.group(1))).split(" ", 1)[1], t)
 
-    # "62 miles" / "74 years" — keep as-is (spoken naturally as cardinals)
-    return text
+    # ── Dates → "the eighteenth of April, nineteen ninety-four" ────────────────
+    months = (r"(January|February|March|April|May|June|July|August|September|"
+              r"October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|"
+              r"Nov|Dec)\.?")
+    full = {m[:3].lower(): m for m in ["January", "February", "March", "April", "May",
+            "June", "July", "August", "September", "October", "November", "December"]}
+
+    def _date(day, month, year):
+        s = f"the {_n2w(int(day), to='ordinal')} of {full[month[:3].lower()]}"
+        return s + (f", {_year_to_words(int(year))}" if year else "")
+    # "18 April 1994", "18th of April"
+    t = re.sub(rf"\b(?:the\s+)?(\d{{1,2}})(?:st|nd|rd|th)?\s+(?:of\s+)?{months}(?:,?\s+(\d{{4}}))?\b",
+               lambda m: _date(m.group(1), m.group(2), m.group(3)), t)
+    # "April 18, 1994", "April 18th"
+    t = re.sub(rf"\b{months}\s+(?:the\s+)?(\d{{1,2}})(?:st|nd|rd|th)?\b(?:,?\s+(\d{{4}}))?",
+               lambda m: _date(m.group(2), m.group(1), m.group(3)), t)
+
+    # ── Clock times → "ten past two in the afternoon" ──────────────────────────
+    def _clock(h, mins, period):
+        if period:                                       # 12-hour with am/pm
+            h24 = (h % 12) + (12 if period == "pm" else 0)
+        elif h > 12 or m_lead:                           # 24-hour ("14:10", "07:30")
+            h24 = h
+        else:
+            h24 = None                                   # "2:10" - can't tell
+        h12 = h % 12 or 12
+        if mins == 0:
+            spoken = _n2w(h12) if period else f"{_n2w(h12)} o'clock"
+        elif mins == 15:
+            spoken = f"quarter past {_n2w(h12)}"
+        elif mins == 30:
+            spoken = f"half past {_n2w(h12)}"
+        elif mins == 45:
+            spoken = f"quarter to {_n2w(h12 % 12 + 1)}"
+        elif mins < 10:
+            spoken = f"{_n2w(h12)} oh {_n2w(mins)}"
+        else:
+            spoken = f"{_n2w(h12)} {_n2w(mins)}"
+        if h24 is None:
+            return spoken
+        if h24 == 0 and mins == 0:
+            return "midnight"
+        tail = ("at night" if h24 >= 21 else "in the morning" if h24 < 12
+                else "in the afternoon" if h24 < 18 else "in the evening")
+        return f"{spoken} {tail}"
+
+    def _clock_m(m):
+        nonlocal m_lead
+        h, mins = int(m.group(1)), int(m.group(2) or 0)
+        m_lead = m.group(1).startswith("0")
+        p = re.sub(r"[^ap]", "", (m.group(3) or "").lower())
+        p = {"a": "am", "p": "pm"}.get(p[:1]) if p else None
+        if h > 23 or mins > 59:
+            return m.group(0)
+        return _clock(h, mins, p)
+    m_lead = False
+    # The final dot of "p.m." is only eaten mid-sentence; at a sentence end it stays.
+    ampm = r"(a\.?\s?m|p\.?\s?m)\b(?:\.(?=\s+(?-i:[a-z])|[,;:]))?"
+    t = re.sub(r"\b(\d{1,2}):(\d{2})(?:\s*" + ampm + ")?", _clock_m, t, flags=re.I)
+    t = re.sub(r"\b(\d{1,2})\.(\d{2})\s*" + ampm, _clock_m, t, flags=re.I)
+    t = re.sub(r"\b(\d{1,2})()\s*" + ampm, _clock_m, t, flags=re.I)
+
+    # ── Percentages, ordinals, years, then every other number ──────────────────
+    t = re.sub(r"\b999\b", "nine nine nine", t)          # the UK emergency number
+    t = re.sub(r"\b(\d+(?:\.\d+)?)\s?(ft|feet)\b", lambda m: f"{m.group(1)} feet", t)
+    t = re.sub(r"\b(\d+(?:\.\d+)?)\s?%", lambda m: f"{_n2w(_num(m.group(1)))} per cent", t)
+    t = re.sub(r"\b(\d+)(st|nd|rd|th)\b", lambda m: _n2w(int(m.group(1)), to="ordinal"), t,
+               flags=re.I)
+    t = re.sub(r"\b(1[1-9][0-9]{2}|20[0-9]{2})\b(?![.,]\d)", lambda m: _year_to_words(int(m.group(0))), t)
+    t = re.sub(r"(?<![\w.])(\d+(?:\.\d+)?)\b", lambda m: _n2w(_num(m.group(1))), t)
+
+    t = re.sub(r"\bNo\.\s?(?=\w)", "number ", t)
+    t = re.sub(r"\bDr\.\s", "Doctor ", t)
+    # A sentence that opened with a digit now opens lower-case ("eighteen years later")
+    t = re.sub(r"(^|[.!?]\s+)([a-z])", lambda m: m.group(1) + m.group(2).upper(), t)
+    return re.sub(r"[ \t]{2,}", " ", t)
+
+
+def _num(s: str):
+    return float(s) if "." in s else int(s)
+
+
+def _n2w(n, to: str = "cardinal") -> str:
+    from num2words import num2words
+    return num2words(n, lang="en", to=to).replace(",", "")
 
 
 # ─── Kokoro engine (ONNX — lightweight, no PyTorch) ──────────────────────────

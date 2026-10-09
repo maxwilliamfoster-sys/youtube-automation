@@ -13,3 +13,4 @@ huggingface_hub
 requests
 playwright
 tiktok-uploader
+num2words>=0.5.13

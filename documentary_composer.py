@@ -472,12 +472,27 @@ def add_audio_and_captions(
     # near-black: this b-roll is ALREADY dark, so darkening it destroyed the brickwork
     # and parked cars entirely. Murky footage also does not catch the eye on a bright
     # feed. So the curve LIFTS the shadows (0/0.04) instead of sinking them.
-    grade = (
-        "curves=all='0/0.04 0.5/0.56 1/1',"     # lift blacks, gentle S in the mids
-        "eq=contrast=1.10:saturation=0.92,"      # a touch of punch, barely desaturated
-        "colorbalance=bs=0.05:rh=0.02,"          # cool shadows, warm highlights
-        "vignette=PI/7"                          # subtle — PI/4.2 was a black tunnel
-    )
+    #
+    # 2026-10-09: the visuals are now mostly BRIGHT daytime Wikimedia photos of the
+    # real place (sunny cottages, blue skies), not dark night b-roll, and the "night"
+    # grade left them looking like a tourism slideshow under a murder story. The
+    # "overcast" grade pulls highlights down, desaturates and cools — checked on real
+    # frames of the Nicola Bulley video. VISUAL_GRADE=night restores the old look.
+    grades = {
+        "night": (
+            "curves=all='0/0.04 0.5/0.56 1/1',"     # lift blacks, gentle S in the mids
+            "eq=contrast=1.10:saturation=0.92,"      # a touch of punch, barely desaturated
+            "colorbalance=bs=0.05:rh=0.02,"          # cool shadows, warm highlights
+            "vignette=PI/7"                          # subtle — PI/4.2 was a black tunnel
+        ),
+        "overcast": (
+            "curves=all='0/0.03 0.5/0.47 1/0.88',"  # tame bright skies, slightly lower mids
+            "eq=contrast=1.06:saturation=0.62:gamma=0.96,"
+            "colorbalance=bs=0.06:bm=0.03:rh=-0.02,"  # cool, grey-blue cast
+            "vignette=PI/5.5"
+        ),
+    }
+    grade = grades.get(os.getenv("VISUAL_GRADE", "overcast"), grades["overcast"])
     scale_pass = f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT},setsar=1,{grade}"
     vf_filter = build_filter_script(
         caption_segments, scale_pass,
