@@ -72,8 +72,8 @@ rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects 
 
 ## 3. Test plan
 
-### Test T1 — calm narrator + overcast grade + spoken numbers (format `v3-calm`)
-- **Start:** first post after the commit that sets `FORMAT_VERSION=v3-calm`
+### Test T1 — calm narrator + overcast grade + worldwide cases + occasional series (format `v3-calm-world`)
+- **Start:** first post after the commit that sets `FORMAT_VERSION=v3-calm-world`
   (expected 2026-10-10). The exact first video is in `analytics/posts_log.csv`.
 - **Changed together** (recorded as one bundle, so the effects can't be fully
   separated):
@@ -84,12 +84,22 @@ rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects 
   2. Grade: `overcast` (was `night`).
   3. Number normaliser (always-on correctness fix, not a stylistic variable).
   4. Off-topic photo filter (correctness fix).
+  5. Topics: cases worldwide (owner, 2026-10-09: "the most interesting ones
+     available"), not UK-only. Ranked by intrigue plus Wikipedia pageviews (0–6
+     bonus). Three scoring bonuses that had silently never applied since 2026-08-22
+     (backspace characters in the regexes) now work.
+  6. Series: some long, well-sourced cases (≥12k-char article, planner agrees, ≤1
+     series per 3 days) go out as 2–3 parts in consecutive slots. Every part passes
+     every gate before Part 1 posts.
 - **Exclude from both cohorts:** video 7694727875798306080 (Keith Lyon, 2026-10-09
   17:55 UTC). It was rendered with the old energetic narrator but the new overcast
   grade (the run checked out before the narrator commit). It is tagged v2-energetic in
   posts_log.csv.
-- **Unchanged:** script prompt and structure, hook card, captions, music, length
-  target (100–120 words), case source, posting schedule, gates.
+- **Unchanged:** single-video script prompt and structure, hook card, captions,
+  music, length target (100–120 words), posting schedule, gates.
+- **Analyse separately inside the cohort:** UK vs non-UK cases (`uk` = caption says
+  "UK crime story"), series parts vs single videos (`series_part` in posts_log), and
+  Part 1 vs later parts (later parts are mainly seen by people who saw Part 1).
 - **Baseline:** v2-energetic, figures in F2.
 - **Primary metric:** within-pushed like rate (videos ≥600 views) and within-pushed
   save rate, compared at a similar age (72–120 h).
@@ -106,7 +116,7 @@ rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects 
 ### Experiments queued (not defaults; need evidence first)
 - E1: a specific, case-linked comment question instead of the generic "What do you
   think? Comment below" (comment rate is 0.11%).
-- E2: two-part stories for cases with a lot of material (one "part 2 please").
+- E2: (promoted into T1 by the owner on 2026-10-09: occasional 2–3 part series.)
 - E3: shorter, quieter hook card vs none, once retention data is available.
 
 ## 4. Changelog
@@ -122,6 +132,10 @@ rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects 
 | 2026-10-09 | Daily public analytics + per-post format log | analytics/, analytics.yml, main_documentary.py | disable analytics.yml |
 | 2026-10-09 | Voice test round 2 (5 variants, same script, loudness-matched) | voice_test.yml, assets/narrator_ref_sombre_*.wav | n/a |
 | 2026-10-09 | **Narrator → calm (variant C)**: sombre_ryan ref, exag 1.0→0.45, cfg 0.42→0.5, gap 0.42→0.5; FORMAT_VERSION v2-energetic→v3-calm | config.py | env vars listed in config.py "REVERT" comment |
+| 2026-10-09 | Worldwide case pool + pageview popularity bonus; fixed 8 backspace-corrupted `` regexes in intrigue_score | case_source.py, case_pool.json | remove the worldwide roots from ROOT_CATEGORIES (pool rebuilds) |
+| 2026-10-09 | UK wording/hashtag/photo search only for UK cases | story_generator.py, uk_media.py, image_generator.py | n/a (correctness) |
+| 2026-10-09 | Multi-part series (2–3 parts, all pre-gated, queued in series_queue.json) | series_queue.py, story_generator.py (_try_series, _finalise), main_documentary.py | set SERIES_MIN_CHARS very high in series_queue.py |
+| 2026-10-09 | FORMAT_VERSION v3-calm → v3-calm-world (before any v3 post) | config.py | — |
 | 2026-10-09 | Weekly cloud review routine (Sat 09:00 UTC) following docs/REVIEW_PROMPT.md | claude.ai routine | pause at claude.ai/code/routines |
 
 ## 5. Review attempts

@@ -138,8 +138,10 @@ CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.5"))
 # Tag written into analytics/posts_log.csv for every post, so scheduled reviews can
 # compare cohorts. Bump it whenever the format/narrator changes; see QUALITY_LOG.md.
 #   v2-energetic : 2026-08-28 .. 2026-10-09 (energetic ref, exaggeration 1.0, night grade)
-#   v3-calm      : 2026-10-10 ..            (sombre ref 0.45/0.5, overcast grade, spoken numbers)
-FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v3-calm")
+#   v3-calm-world: 2026-10-10 ..            (sombre ref 0.45/0.5, overcast grade, spoken
+#                  numbers, worldwide cases ranked by intrigue + Wikipedia pageviews,
+#                  occasional 2-3 part series; series parts carry series_part in the log)
+FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v3-calm-world")
 
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
 TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)

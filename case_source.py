@@ -55,6 +55,18 @@ ROOT_CATEGORIES = [
     "Category:Kidnappings in the United Kingdom",
     "Category:Robberies in the United Kingdom",
     "Category:Miscarriage of justice cases in the United Kingdom",
+    # Worldwide (owner, 2026-10-09: "they don't all have to be UK crime stories - just
+    # the most interesting ones available"). These fan out by country into thousands
+    # of cases; pick_case ranks them by intrigue AND by how many people actually read
+    # about them (Wikipedia pageviews), which keeps obscure foreign cases with no hook
+    # for this audience from winning on keywords alone.
+    "Category:Unsolved deaths",
+    "Category:Unsolved murders by country",
+    "Category:Missing person cases by country",
+    "Category:Kidnappings by country",
+    "Category:Unidentified murder victims",
+    "Category:Cold cases",
+    "Category:Overturned convictions",
 ]
 # Deliberately NOT included: "Category:English gangsters" and the organised-crime
 # group categories. Those articles are biographies of named individuals, and a script
@@ -436,23 +448,25 @@ def intrigue_score(summary: dict) -> float:
     # viewing is British news. A case they could imagine happening near them lands;
     # one in an unfamiliar country with no cultural foothold does not, however
     # mysterious it is on paper.
-    if re.search(r"(england|scotland|wales|britain|british|uk|london|ireland|irish)", low):
-        score += 3.5
-    elif re.search(r"(united states|american|australia|australian|canada|canadian|new zealand)", low):
-        score += 2.0
+    # Since going worldwide (2026-10-09) every English-speaking country gets the same
+    # modest familiarity bonus; how gripping the case is matters more than where.
+    if re.search(r"\b(england|scotland|wales|britain|british|uk|london|ireland|irish|"
+                 r"united states|american|australia|australian|canada|canadian|"
+                 r"new zealand)\b", low):
+        score += 1.5
 
     # An ordinary victim is the whole appeal of the genre — it could have been anyone.
-    if re.search(r"(student|nurse|teacher|schoolgirl|schoolboy|mother|father|"
+    if re.search(r"\b(student|nurse|teacher|schoolgirl|schoolboy|mother|father|"
                  r"housewife|waitress|barmaid|shop assistant|teenager|child|"
-                 r"young woman|young man|girl|boy)", low):
+                 r"young woman|young man|girl|boy)\b", low):
         score += 2.0
 
     # A concrete, filmable discovery is what a hook is built from — the research is
     # explicit that a viral case needs "a specific, shocking detail that can open the
     # video". Without one there is nothing to put in the first three seconds.
-    if re.search(r"(body was found|remains were found|found (dead|buried|floating|"
+    if re.search(r"\b(body was found|remains were found|found (dead|buried|floating|"
                  r"in a|at the)|last seen|abandoned car|locked|footprints|"
-                 r"never arrived|failed to return|walked out)", low):
+                 r"never arrived|failed to return|walked out)\b", low):
         score += 2.5
 
     title = summary.get("title", "").lower()
@@ -467,6 +481,36 @@ def intrigue_score(summary: dict) -> float:
     # Needs enough substance to carry 60 seconds, but epics earn nothing extra.
     score += min(len(text) / 2000.0, 1.0)
     return score
+
+
+def monthly_pageviews(title: str) -> int:
+    """Average monthly English-Wikipedia views over the last 6 full months (0 if unknown)."""
+    import datetime as _dt
+    from urllib.parse import quote
+    today = _dt.date.today().replace(day=1)
+    end = today - _dt.timedelta(days=1)
+    start = (today - _dt.timedelta(days=185)).replace(day=1)
+    url = ("https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/"
+           f"en.wikipedia.org/all-access/user/{quote(title.replace(' ', '_'), safe='')}"
+           f"/monthly/{start:%Y%m%d}00/{end:%Y%m%d}00")
+    try:
+        r = requests.get(url, headers={"User-Agent": UA}, timeout=15)
+        items = r.json().get("items", []) if r.ok else []
+        return int(sum(i["views"] for i in items) / max(len(items), 1))
+    except Exception:
+        return 0
+
+
+def popularity_bonus(views: int) -> float:
+    """
+    0 at <=300 views/month, ~4.5 at 3,000, ~9 at 30,000, capped at 10. A case thousands of
+    people look up every month is one people already find gripping; an article
+    nobody reads rarely makes a video anyone finishes.
+    """
+    import math
+    if views <= 300:
+        return 0.0
+    return min(10.0, 4.5 * (math.log10(views) - math.log10(300)))
 
 
 def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12,
@@ -499,9 +543,14 @@ def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12,
         if not summary:
             continue
         summary["intrigue"] = intrigue_score(summary)
+        views = monthly_pageviews(title)
+        summary["monthly_views"] = views
+        summary["intrigue"] += popularity_bonus(views)
         scored.append(summary)
         # A standout is not worth spending more API calls on.
-        if summary["intrigue"] >= 12:
+        # (Raised 12 -> 26 on 2026-10-09: with the pageview bonus and the repaired
+        # relatability bonuses, good cases score 15-25 and 12 stopped after 2 looks.)
+        if summary["intrigue"] >= 26:
             break
 
     if not scored:
@@ -529,8 +578,8 @@ def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12,
 
     best = scored[0]
     runners_up = "; ".join(f"{s['title'][:28]} ({s['intrigue']:.0f})" for s in scored[1:4])
-    print(f"[CaseSource] Picked '{best['title']}' — intrigue {best['intrigue']:.1f}, "
-          f"best of {len(scored)}")
+    print(f"[CaseSource] Picked '{best['title']}' — score {best['intrigue']:.1f} "
+          f"({best.get('monthly_views', 0)} views/month), best of {len(scored)}")
     if runners_up:
         print(f"[CaseSource]   beat: {runners_up}")
     return best

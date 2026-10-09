@@ -368,7 +368,7 @@ def _create_dark_fallback(output_path: str):
 
 
 def _uk_location_image(place: str, scene_query: str, output_path: str,
-                       seen_ids: set, manifest: list) -> bool:
+                       seen_ids: set, manifest: list, uk: bool = True) -> bool:
     """
     Download a free-licensed photograph of the real UK place this case happened in.
 
@@ -395,7 +395,7 @@ def _uk_location_image(place: str, scene_query: str, output_path: str,
 
     for query in queries:
         try:
-            for img in uk_media.location_images(query, limit=8):
+            for img in uk_media.location_images(query, limit=8, uk=uk):
                 if img["url"] in seen_ids:
                     continue
                 # Wikimedia rejects downloads without a descriptive User-Agent —
@@ -426,6 +426,7 @@ def generate_story_images(
     output_dir: str,
     uk_place: str = "",
     num_images: int = 5,
+    uk: bool = True,
     delay: float = None,
 ) -> tuple:
     """
@@ -485,7 +486,8 @@ def generate_story_images(
         # through to Pexels when a place yields nothing usable.
         if UK_LOCATION_IMAGES and uk_place:
             q = pexels_queries[i] if i < len(pexels_queries) else ""
-            got = _uk_location_image(uk_place, q, output_path, seen_uk_ids, used_images)
+            got = _uk_location_image(uk_place, q, output_path, seen_uk_ids, used_images,
+                                     uk=uk)
             if got:
                 saved_paths.append(output_path)
                 continue

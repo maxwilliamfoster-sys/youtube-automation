@@ -117,7 +117,15 @@ def _generate_one() -> tuple:
     # graphic murders that land AGE_RESTRICTED or worse. A run that drew several dark
     # cases in a row could exhaust 5 attempts and produce nothing (as one 10am slot
     # did). 8 gives comfortable headroom; each rejected attempt is cheap.
-    story = generate_true_crime_story(max_attempts=8)
+    # A queued part of a multi-part series always goes out before any new case.
+    # It was fully written and passed every gate when Part 1 was made.
+    import series_queue
+    story = series_queue.next_part()
+    if story:
+        print(f"[Series] Posting queued part {story.get('series_part')}/"
+              f"{story.get('series_total')} of {story.get('case_name')}")
+    else:
+        story = generate_true_crime_story(max_attempts=8)
     print(f"  Case:     {story['case_name']}")
     print(f"  Title:    {story['title']}")
     print(f"  Hook:     {story.get('hook','')}")
@@ -163,6 +171,7 @@ def _generate_one() -> tuple:
         output_dir=image_dir,
         num_images=NUM_SCENE_IMAGES,
         uk_place=uk_place,
+        uk=story.get("uk", True),
     )
     # Licences travel with the story so the copyright gate can check them before send.
     story["images"] = used_images
@@ -373,17 +382,25 @@ def _log_post(detail: str, story: dict, video_path: str) -> None:
         "grade":        os.getenv("VISUAL_GRADE", "overcast"),
         "duration_s":   dur,
         "case":         story.get("case_name", ""),
+        "series_part":  f"{story['series_part']}/{story['series_total']}" if story.get("series_part") else "",
+        "uk":           story.get("uk", ""),
         "softened":     bool(story.get("softened")),
         "hook":         (story.get("hook") or "")[:120],
     }
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analytics", "posts_log.csv")
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        new = not os.path.exists(path)
-        with open(path, "a", newline="", encoding="utf-8") as fh:
+        old = []
+        if os.path.exists(path):
+            with open(path, newline="", encoding="utf-8") as fh:
+                old = list(csv.DictReader(fh))
+        # Rewrite in full: a column added later (e.g. series_part) must not shift
+        # the values of the rows already logged.
+        with open(path, "w", newline="", encoding="utf-8") as fh:
             w = csv.DictWriter(fh, fieldnames=list(row))
-            if new:
-                w.writeheader()
+            w.writeheader()
+            for r in old:
+                w.writerow({k: r.get(k, "") for k in row})
             w.writerow(row)
     except Exception as e:
         print(f"[TikTok] could not log the post ({e})")
@@ -540,6 +557,11 @@ def run_cloud_deliver(count: int = 2) -> None:
                 # Telegram. If posting fails, the Telegram copy is the fallback, so a
                 # bad post never means a lost video. Inert unless the owner opted in.
                 _autopost_tiktok(video_path, caption, story, send_alert, esc)
+                try:
+                    import series_queue
+                    series_queue.mark_delivered(story)
+                except Exception as e:
+                    print(f"[Series] queue update failed: {e}")
             else:
                 send_alert(
                     f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"

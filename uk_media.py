@@ -52,12 +52,17 @@ _MAX_BYTES = 14_000_000
 # UK place names are reused worldwide and are also breed/product names. A search for
 # "Ipswich, Suffolk" returned Ipswich QUEENSLAND, Downtown Suffolk VIRGINIA and a
 # Suffolk ram lamb — all of which reached a finished video about an Ipswich murder.
-_WRONG_PLACE = re.compile(
+# Only applied to UK cases: a US or Australian case legitimately wants those places.
+_WRONG_COUNTRY = re.compile(
     r"(queensland|australia|new south wales|victoria, au|"
     r"virginia|massachusetts|new hampshire|connecticut|vermont|"
     r", va|, ma|, nh|, ct|, ny|"
-    r"new zealand|ontario|jamaica|barbados|south africa|"
-    r"ram lamb|ewe|sheep|breed|cattle|pig|poultry|"
+    r"new zealand|ontario|jamaica|barbados|south africa)",
+    re.I,
+)
+# Applied to every case.
+_WRONG_PLACE = re.compile(
+    r"(ram lamb|ewe|sheep|breed|cattle|pig|poultry|"
     # Off-topic subjects that matched the place name and broke the mood of a murder
     # story (a blue tit and a white double-decker in the Nicola Bulley video, 2026-10).
     r"\bbird|\btit\b|cyanistes|parus|robin|finch|warbler|heron|swan|duck|goose|gull|"
@@ -163,7 +168,7 @@ def verified_person_image(person: str) -> dict:
         return {}
 
 
-def location_images(place: str, limit: int = 6) -> list:
+def location_images(place: str, limit: int = 6, uk: bool = True) -> list:
     """
     Free-licensed photographs of a real UK place.
 
@@ -174,16 +179,19 @@ def location_images(place: str, limit: int = 6) -> list:
     try:
         # Anchor the search to the UK. Without it Commons happily returns the
         # same place name in Australia or the United States.
+        # Non-UK cases (the channel went worldwide 2026-10-09) search the place as
+        # given, which already names its country.
         found = _get(COMMONS_API, {
             "action": "query", "list": "search",
-            "srsearch": f"{place} United Kingdom",
+            "srsearch": f"{place} United Kingdom" if uk else place,
             "srnamespace": 6, "srlimit": limit * 4,
         })
         titles = [h["title"] for h in found.get("query", {}).get("search", [])]
         details = _image_details(titles)
         # Then drop anything the anchor did not catch — wrong country, or a breed
         # of sheep that happens to share the county's name.
-        clean = [d for d in details if not _WRONG_PLACE.search(d["title"])]
+        clean = [d for d in details if not _WRONG_PLACE.search(d["title"])
+                 and not (uk and _WRONG_COUNTRY.search(d["title"]))]
         return clean[:limit]
     except Exception as e:
         print(f"[UKMedia] location search failed for {place!r}: {e}")

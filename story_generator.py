@@ -872,11 +872,14 @@ def _pick_fresh_case() -> dict:
         # while the articles run 4,000-7,000. Writing a 170-word script from 300
         # characters is what forced the model to invent relatives' names, autopsy
         # results and weather, and held fact-check accuracy at 3-4/10.
-        full = case_source.get_full_text(sourced["title"])
+        # Uncapped here (24k) so a long case can be considered for a multi-part series;
+        # single videos still only ever see the first 7,000 characters, as before.
+        full = case_source.get_full_text(sourced["title"], cap=24000)
         if len(full) > len(sourced.get("extract", "")):
             print(f"[TrueCrime] Source: {len(sourced['extract'])} -> {len(full)} chars "
                   f"(full article)")
-            sourced["extract"] = full
+            sourced["full_text"] = full
+            sourced["extract"] = full[:7000]
         print(f"[TrueCrime] Sourced: {sourced['title']}  ({sourced['url']})")
     return sourced
 
@@ -951,11 +954,46 @@ def _research_case(client: Groq, sourced: dict) -> dict:
         case["case_name"] = sourced["title"]
         case["source_url"] = sourced.get("url", "")
         case["source_text"] = sourced["extract"]
+        case["full_text"] = sourced.get("full_text") or sourced["extract"]
     return case
 
 
-def _write_script(client: Groq, case: dict) -> str:
-    """Write a documentary script based on the researched case."""
+SERIES_SOURCE_CHARS = 9000     # a series covers more of the article than one video
+
+
+def _part_instruction(part: dict) -> str:
+    k, n = part["k"], part["n"]
+    plan = "\n".join(f"  Part {i}: {b}" for i, b in enumerate(part["beats"], 1))
+    words = {1: "one", 2: "two", 3: "three"}
+    if k == 1:
+        opening = ("Open on the single most shocking verifiable detail of THIS part (the "
+                   "hook). Do not say 'part one'.")
+    else:
+        opening = (f"Open with 'Part {words[k]}.' and then ONE short sentence recapping "
+                   f"where the story stood, phrased as a hook, then move straight into "
+                   f"new material. Do not repeat facts from earlier parts beyond that line.")
+    if k < n:
+        ending = (f"End on an unresolved cliffhanger from THIS part's material, then the "
+                  f"exact line 'Part {words[k + 1]} next.' No comment request, and never "
+                  f"ask viewers to follow.")
+    else:
+        ending = ("End on the case's still-unresolved question, then a short invitation "
+                  "to comment on what viewers think happened (never ask them to accuse a "
+                  "named person).")
+    return (
+        f"This case is told in {n} parts. Series plan:\n{plan}\n\n"
+        f"Write PART {k} of {n} ONLY - cover only: {part['beat']}. 100-120 words (never "
+        f"fewer than 95). {opening} Keep an open loop running throughout. {ending}"
+    )
+
+
+def _write_script(client: Groq, case: dict, part: dict = None) -> str:
+    """
+    Write a documentary script based on the researched case.
+
+    `part` (series only): {"k": 2, "n": 3, "beat": "...", "beats": [...]} — write just
+    that part of a multi-part story, from the longer source.
+    """
     facts = "\n".join(f"- {f}" for f in case.get("key_facts", []))
 
     # Hand over the full encyclopaedia entry, not just the condensed summary. Working
@@ -964,9 +1002,11 @@ def _write_script(client: Groq, case: dict) -> str:
     # rejected the script at 6/10 for claims the source did not support, burning an
     # attempt each time. The source also carries far more real detail to draw on.
     source = case.get("source_text", "")
+    if part:
+        source = case.get("full_text") or source
     source_block = (
         f"SOURCE (the encyclopaedia entry — the ONLY permitted source of facts):\n"
-        f"{source[:SCRIPT_SOURCE_CHARS]}\n\n"
+        f"{source[:SERIES_SOURCE_CHARS if part else SCRIPT_SOURCE_CHARS]}\n\n"
         if source else ""
     )
     grounding = (
@@ -988,9 +1028,10 @@ def _write_script(client: Groq, case: dict) -> str:
                     f"Key facts:\n{facts}\n\n"
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
                     f"{grounding}"
-                    "Write the 100-120 word documentary script now (never fewer than 95). Open on the single most shocking "
-                    "verifiable detail (the hook), keep an open loop running throughout, add a retention-spike "
-                    "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA."
+                    + (_part_instruction(part) if part else
+                       "Write the 100-120 word documentary script now (never fewer than 95). Open on the single most shocking "
+                       "verifiable detail (the hook), keep an open loop running throughout, add a retention-spike "
+                       "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA.")
                 ),
             },
     ]
@@ -1283,7 +1324,7 @@ _STOPWORD_TAG = {
 }
 
 
-def build_hashtags(story_tags: str, case_name: str = "") -> str:
+def build_hashtags(story_tags: str, case_name: str = "", uk: bool = True) -> str:
     """
     Five tags: the true-crime communities first, then the case type, then one
     case-specific tag for search.
@@ -1295,7 +1336,8 @@ def build_hashtags(story_tags: str, case_name: str = "") -> str:
     only five slots without reaching anyone. The single specific tag is kept because
     ~1.7% of traffic arrives from search, on queries like "tara calico".
     """
-    picked = list(CORE_TAGS)
+    # #ukcrime only on UK cases; the channel covers cases worldwide since 2026-10-09.
+    picked = [t if uk or t != "#ukcrime" else "#crimestory" for t in CORE_TAGS]
     seen = {t.lower() for t in picked}
 
     candidates = []
@@ -1481,7 +1523,10 @@ def _legal_review(client: Groq, script: str, caption: str, cta: str, case: dict)
             "exoneration that the text leaves out while still describing the case "
             "against that person.\n"
             "3. It states as fact something the SOURCE does not support about a real person.\n"
-            "4. It asks viewers who did it or invites accusations.\n"
+            "4. It asks viewers to name or guess WHO did it, or to accuse an "
+            "identifiable person. (Asking what viewers think HAPPENED - accident or "
+            "crime, their theories about an unsolved event - is normal and fine when no "
+            "unconvicted person is identified.)\n"
             "PASS only if every person connected to wrongdoing in the text was "
             "convicted of it, or nobody is identified at all. A description of an "
             "UNIDENTIFIED person that no viewer could link to a specific real individual "
@@ -1547,6 +1592,265 @@ def _soften_for_guidelines(client: Groq, script: str, description: str, cta: str
             str(out.get("title") or title).strip().strip("\"'") or title)
 
 
+_UK_PLACE = re.compile(r"\b(england|scotland|wales|northern ireland|united kingdom|uk|"
+                       r"britain|london|manchester|birmingham|liverpool|leeds|glasgow|"
+                       r"edinburgh|cardiff|belfast|yorkshire|lancashire|kent|essex|"
+                       r"sussex|devon|cornwall)\b", re.I)
+
+
+def _is_uk(case: dict) -> bool:
+    return bool(_UK_PLACE.search(f"{case.get('location','')} {case.get('case_name','')}"))
+
+
+def _fit_length(script: str) -> str:
+    """
+    Bring a script into the allowed length, or return "" if it can't be.
+
+    Never let an empty or stunted script reach the fact-checker: a run once shipped
+    zero narration because gpt-oss returned an empty script and the fact-checker
+    scored the nothing 9/10. Over-long scripts are TRIMMED on sentence boundaries,
+    always keeping the last sentence (the closing question / "Part two next."), because
+    the model reliably ignores the word count and rejecting cost whole runs.
+    """
+    script = (script or "").strip()
+    word_count = len(script.split())
+    print(f"[TrueCrime] Script: {word_count} words")
+    if word_count < MIN_SCRIPT_WORDS:
+        print(f"[TrueCrime] Rejected — script too short ({word_count} words, "
+              f"need {MIN_SCRIPT_WORDS}).")
+        return ""
+    if word_count > TRIM_SCRIPT_WORDS:
+        sentences = re.split(r"(?<=[.!?])\s+", script)
+        if len(sentences) > 2:
+            closing = sentences[-1]
+            kept, running = [], len(closing.split())
+            for sent in sentences[:-1]:
+                n = len(sent.split())
+                if running + n > TRIM_SCRIPT_WORDS:
+                    break
+                kept.append(sent)
+                running += n
+            if kept:
+                trimmed = " ".join(kept + [closing])
+                # Only accept a trim that leaves a usable script: one long early
+                # sentence could otherwise cut a 300-word script to 27.
+                if len(trimmed.split()) >= MIN_SCRIPT_WORDS:
+                    script, word_count = trimmed, len(trimmed.split())
+                    print(f"[TrueCrime] Trimmed script to {word_count} words "
+                          f"(kept the closing line).")
+    if word_count > MAX_SCRIPT_WORDS:
+        print(f"[TrueCrime] Rejected — script too long ({word_count} words, "
+              f"max {MAX_SCRIPT_WORDS}).")
+        return ""
+    return script
+
+
+def _finalise(client: Groq, case: dict, case_name: str, script: str, part: tuple = None):
+    """
+    Everything after the script is written: fact-check, title, hashtags, caption,
+    end card, the TikTok compliance gate (with one soften), and the legal gate.
+
+    Returns (result, status): "approved" (safe and good), "safe_lowq" (safe and
+    factually sound but below the quality bar — usable as a fallback), or "rejected".
+    `part` = (k, n) for a series part.
+    """
+    k, n = part or (None, None)
+
+    # ── Fact-check ────────────────────────────────────────────────────────────
+    print("[TrueCrime] Fact-checking...")
+    check = _fact_check(client, case, script)
+    acc, interest = check["accuracy_score"], check["interest_score"]
+    sense, approved = check["makes_sense"], check["approved"]
+    tiktok_safe = check["tiktok_safe"]
+    print(f"[TrueCrime] Accuracy: {acc}/10 | Interest: {interest}/10 | "
+          f"Coherent: {sense} | TikTok-safe: {tiktok_safe} | Approved: {approved}")
+    for issue in check.get("issues", []):
+        print(f"[TrueCrime]   ! {issue}")
+
+    # ── Title, hashtags, caption, end card ───────────────────────────────────
+    title_resp = _groq_call(client, model=GROQ_MODEL, max_tokens=200, messages=[{
+        "role": "user",
+        "content": ("Write a short, gripping TikTok title for this true crime story "
+                    f"(max 7 words, no quotes, no hashtags):\n{script[:200]}"),
+    }])
+    title = title_resp.choices[0].message.content.strip().strip('"\'')
+    if k:
+        title = f"{title} (Part {k})"
+
+    uk = _is_uk(case)
+    hashtags = _generate_hashtags(client, case)
+    description = _write_caption(client, case, script) or title
+    # Title pattern from the best-performing crime accounts: the case name up front
+    # ("Ava White case. | Uk crime story.") is a search hook and sets expectations.
+    case_label = re.sub(r"^(the\s+)?(murder|murders|killing|death|disappearance)\s+of\s+",
+                        "", case_name, flags=re.I).strip()
+    part_label = f" Part {k}/{n}" if k else ""
+    tiktok_title = f"{case_label} case.{part_label} | {'UK crime' if uk else 'True crime'} story."
+    tags = build_hashtags(hashtags, case_name, uk=uk)
+    caption = f"{description}\n\n{tags}"
+    print(f"[TrueCrime] Hashtags: {tags}")
+    print(f"[TrueCrime] Caption: {description}")
+
+    if k and k < n:
+        cta = f"Part {k + 1} next."
+    else:
+        cta = _write_engagement_cta(client, case, script)
+    print(f"[TrueCrime] CTA card: {cta}")
+
+    result = {
+        "script":         script,
+        "title":          title,
+        "case_name":      case_name,
+        # The place the case happened: the image layer searches it for real
+        # photographs of the location.
+        "location":       (case.get("location") or "").strip(),
+        "year":           (str(case.get("year") or "")).strip(),
+        "uk":             uk,
+        "hashtags":       tags,
+        "caption":        caption,
+        "tiktok_title":   tiktok_title,
+        "cta":            cta,
+        "accuracy_score": acc,
+        "interest_score": interest,
+        "tiktok_safe":    tiktok_safe,
+        "hook":           _extract_hook(script),
+    }
+
+    # ── Guidelines gate — a HARD requirement ─────────────────────────────────
+    if not tiktok_safe:
+        print("[TrueCrime] Rejected (TikTok guidelines violation).")
+        return result, "rejected"
+
+    print("[Compliance] Reviewing against TikTok Community Guidelines...")
+    verdict = compliance_review(client, script, caption, case, cta=cta)
+    softened = False
+    if verdict["verdict"] != COMPLIANCE_OK and verdict["reasons"] and not any(
+            "review error" in r or "no usable verdict" in r for r in verdict["reasons"]):
+        # Most blocks were the WRITING, not the case: a gory phrase ("twenty-two
+        # hammer blows") or a sensational hook. One rewrite that only removes
+        # material, then the same strict review again: the reviewer has the final say.
+        for r in verdict["reasons"][:3]:
+            print(f"[Compliance]   ! {r}")
+        print(f"[Compliance] {verdict['verdict']} - softening the script once and re-reviewing...")
+        soft = _soften_for_guidelines(client, script, description, cta, title, verdict)
+        softened = bool(soft)
+        if soft:
+            script, description, new_cta, title = soft
+            if not (k and k < n):          # a series' "Part N next." card stays as is
+                cta = new_cta
+            caption = f"{description}\n\n{tags}"
+            verdict = compliance_review(client, script, caption, case, cta=cta)
+            result.update(script=script, caption=caption, cta=cta, title=title,
+                          hook=_extract_hook(script))
+    result["compliance"] = verdict
+    result["softened"] = softened
+    if verdict["verdict"] != COMPLIANCE_OK:
+        for r in verdict["reasons"][:3]:
+            print(f"[Compliance]   ! {r}")
+        print(f"[Compliance] BLOCKED — {verdict['verdict']}.")
+        return result, "rejected"
+    print(f"[Compliance] PASSED ({verdict['verdict']}) — eligible for the For You feed.")
+
+    # A softened script is a NEW script: the first live post (Billie-Jo Jenkins,
+    # 2026-10-03) lost the facts that her foster father's conviction was quashed and
+    # he was acquitted, and kept the evidence pointing at him. Fact-check it afresh.
+    if softened:
+        print("[TrueCrime] Re-fact-checking the softened script...")
+        check = _fact_check(client, case, script)
+        acc, interest = check["accuracy_score"], check["interest_score"]
+        sense, approved = check["makes_sense"], check["approved"]
+        result.update(accuracy_score=acc, interest_score=interest)
+        print(f"[TrueCrime] Softened: Accuracy {acc}/10 | Interest {interest}/10 | "
+              f"Approved: {approved}")
+
+    # Legal gate: nothing may point suspicion at a real person a court has not
+    # convicted. Separate from compliance (TikTok rules) and from the regex check
+    # in publish_checks (which only catches words like "suspected").
+    legal = _legal_review(client, script, caption, cta, case)
+    result["legal"] = legal
+    if not legal["ok"]:
+        for r in legal["reasons"][:3]:
+            print(f"[Legal]   ! {r}")
+        print("[Legal] BLOCKED — implicates an unconvicted person or misstates the "
+              "legal outcome.")
+        return result, "rejected"
+    print("[Legal] PASSED — no unconvicted person implicated.")
+
+    if approved and acc >= 7 and interest >= 7 and sense:
+        return result, "approved"
+    # Publishing fabrications about real people is worse than publishing nothing, so
+    # a weak-but-true script may be the fallback and a false one may never be.
+    reason = [f"accuracy {acc}/10"] if acc < 7 else []
+    reason += [f"interest {interest}/10"] if interest < 7 else []
+    reason += ["incoherent"] if not sense else []
+    print(f"[TrueCrime] Below the quality bar ({', '.join(reason) or 'not approved'}).")
+    return result, ("safe_lowq" if acc >= MIN_FALLBACK_ACCURACY else "rejected")
+
+
+def _plan_series(client: Groq, case: dict, max_parts: int):
+    """Ask whether this case genuinely carries a multi-part story; return its beats."""
+    source = (case.get("full_text") or "")[:SERIES_SOURCE_CHARS]
+    try:
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=1200, messages=[
+            {"role": "system", "content": (
+                "You plan short true crime TikTok series. Each part is a ~45-second "
+                "narration (100-120 words). Decide whether this case has enough DISTINCT, "
+                "well-documented developments in the source to fill 2 or 3 parts without "
+                "padding or repetition, each part with its own revelation and an "
+                "unresolved cliffhanger. Most cases do NOT - say no unless it clearly "
+                f"does. At most {max_parts} parts. Use only facts in the source.\n"
+                'Reply ONLY with JSON: {"worth_series": true|false, "beats": ["what part '
+                '1 covers", "what part 2 covers", ...], "why": "..."}')},
+            {"role": "user", "content": f"Case: {case.get('case_name','')}\n\nSOURCE:\n{source}"},
+        ])
+        plan = _extract_json(resp.choices[0].message.content or "")
+    except Exception as e:
+        print(f"[Series] Planning failed ({str(e)[:100]}).")
+        return None
+    beats = [str(b).strip() for b in (plan.get("beats") or []) if str(b).strip()]
+    if not plan.get("worth_series") or not (2 <= len(beats) <= max_parts):
+        print(f"[Series] Not a series: {str(plan.get('why') or 'planner said no')[:160]}")
+        return None
+    return beats
+
+
+def _try_series(client: Groq, case: dict, case_name: str):
+    """
+    Part 1 of a fully written and fully checked series, with Parts 2..N attached as
+    "series_rest" — or None to make a normal single video.
+    """
+    import series_queue
+    n_max = series_queue.parts_for(len(case.get("full_text") or ""))
+    if not n_max or not series_queue.can_start_new():
+        return None
+    print(f"[Series] Long source ({len(case['full_text'])} chars) — considering up to "
+          f"{n_max} parts...")
+    beats = _plan_series(client, case, n_max)
+    if not beats:
+        return None
+    n = len(beats)
+    print(f"[Series] Planned {n} parts: " + " | ".join(b[:60] for b in beats))
+    parts = []
+    for k in range(1, n + 1):
+        print(f"\n[Series] ── Writing part {k}/{n} ──")
+        script = _fit_length(_write_script(
+            client, case, part={"k": k, "n": n, "beat": beats[k - 1], "beats": beats}))
+        if not script:
+            print(f"[Series] Part {k} unusable — making a single video instead.")
+            return None
+        result, status = _finalise(client, case, case_name, script, part=(k, n))
+        if status != "approved":
+            # Every part must clear every gate before Part 1 goes out, so a series
+            # can never stall halfway.
+            print(f"[Series] Part {k} did not pass ({status}) — making a single video instead.")
+            return None
+        result.update(series_part=k, series_total=n)
+        parts.append(result)
+    parts[0]["series_rest"] = parts[1:]
+    print(f"[Series] APPROVED: {n}-part series on {case_name}.")
+    return parts[0]
+
+
 def generate_true_crime_story(max_attempts: int = 5) -> dict:
     """
     Research, write, and fact-check a true crime documentary script.
@@ -1596,226 +1900,34 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         _USED_CASES.append(case_name)  # never re-pick within this run either
         print(f"[TrueCrime] Case: {case_name} ({case.get('year','?')}, {case.get('location','?')})")
 
+        # ── Series: an occasional long, rich case is told in 2-3 parts ────────
+        series = _try_series(client, case, case_name)
+        if series:
+            _save_recent_case(case_name)
+            return series
+
         # ── Step 2: Write script ──────────────────────────────────────────────
         print("[TrueCrime] Writing script...")
-        script = _write_script(client, case)
-        word_count = len(script.split())
-        print(f"[TrueCrime] Script: {word_count} words")
-
-        # Never let an empty or stunted script reach the fact-checker. A run shipped
-        # with zero narration because gpt-oss returned an empty script, the
-        # fact-checker then scored the nothing it was given 9/10 and approved it, and
-        # the title call invented "The Midnight Bank Heist" for a disappearance case.
-        # Both voice engines then failed on empty text and the video was lost. Judge
-        # the script here, where it is cheap and certain, not downstream.
-        if word_count < MIN_SCRIPT_WORDS:
-            print(f"[TrueCrime] Rejected — script too short ({word_count} words, "
-                  f"need {MIN_SCRIPT_WORDS}). Trying another case.")
+        script = _fit_length(_write_script(client, case))
+        if not script:
             _USED_CASES.append(case_name)
             continue
 
-        # Trim rather than reject. The model reliably ignores the word count in the
-        # prompt — scripts came back at 309, 360 and 362 words against a 185 target —
-        # and the token ceiling cannot fix it, because gpt-oss needs headroom for
-        # hidden reasoning and any headroom it gets it spends on prose. Three of eight
-        # attempts in one run died on length alone, producing no video at all.
-        #
-        # Trimming on sentence boundaries and always keeping the LAST sentence
-        # preserves the structure that matters: the hook opens, the body builds, and
-        # the closing question is what drives comments.
-        if word_count > TRIM_SCRIPT_WORDS:
-            sentences = re.split(r"(?<=[.!?])\s+", script.strip())
-            if len(sentences) > 2:
-                closing = sentences[-1]
-                kept, running = [], len(closing.split())
-                for sent in sentences[:-1]:
-                    n = len(sent.split())
-                    if running + n > TRIM_SCRIPT_WORDS:
-                        break
-                    kept.append(sent)
-                    running += n
-                if kept:
-                    trimmed = " ".join(kept + [closing])
-                    trimmed_count = len(trimmed.split())
-                    # Only accept the trim if it left a usable script. The loop stops
-                    # at the first sentence that would breach the budget, so one long
-                    # sentence early on could cut a 300-word script to 27 — and the
-                    # minimum-length check runs BEFORE this, so those shipped.
-                    if trimmed_count >= MIN_SCRIPT_WORDS:
-                        script, word_count = trimmed, trimmed_count
-                        print(f"[TrueCrime] Trimmed script to {word_count} words "
-                              f"(kept the closing question).")
-                    else:
-                        print(f"[TrueCrime] Trim would leave only {trimmed_count} words "
-                              f"— keeping the full script instead.")
-
-        if word_count > MAX_SCRIPT_WORDS:
-            print(f"[TrueCrime] Rejected — script too long ({word_count} words, "
-                  f"max {MAX_SCRIPT_WORDS}). Trying another case.")
-            _USED_CASES.append(case_name)
-            continue
-
-        # ── Step 3: Fact-check ────────────────────────────────────────────────
-        print("[TrueCrime] Fact-checking...")
-        check = _fact_check(client, case, script)
-        acc     = check["accuracy_score"]
-        interest = check["interest_score"]
-        sense   = check["makes_sense"]
-        approved = check["approved"]
-
-        tiktok_safe = check["tiktok_safe"]
-        print(f"[TrueCrime] Accuracy: {acc}/10 | Interest: {interest}/10 | "
-              f"Coherent: {sense} | TikTok-safe: {tiktok_safe} | Approved: {approved}")
-        for issue in check.get("issues", []):
-            print(f"[TrueCrime]   ! {issue}")
-
-        # ── Step 4: Title ─────────────────────────────────────────────────────
-        title_resp = _groq_call(client,
-            model=GROQ_MODEL,
-            max_tokens=200,   # +reasoning headroom (see note below)
-            messages=[{
-                "role": "user",
-                "content": (
-                    f"Write a short, gripping TikTok title for this true crime story "
-                    f"(max 7 words, no quotes, no hashtags):\n{script[:200]}"
-                ),
-            }],
-        )
-        title = title_resp.choices[0].message.content.strip().strip('"\'')
-
-        # ── Step 5: Case-specific hashtags ────────────────────────────────────
-        hashtags = _generate_hashtags(client, case)
-
-        # ── Step 6: Ready-to-paste TikTok caption ─────────────────────────────
-        description = _write_caption(client, case, script) or title
-        # Title pattern copied from the best-performing UK crime accounts, which open
-        # every post with the case name: "Ava White case. | Uk crime story." Naming
-        # the case up front is a search hook and sets the expectation instantly.
-        case_label = re.sub(r"^(the\s+)?(murder|killing|death|disappearance)\s+of\s+",
-                            "", case_name, flags=re.I).strip()
-        tiktok_title = f"{case_label} case. | UK crime story."
-        tags = build_hashtags(hashtags, case_name)
-        caption = f"{description}\n\n{tags}"
-        print(f"[TrueCrime] Hashtags: {tags}")
-        print(f"[TrueCrime] Caption: {description}")
-
-        # ── Step 7: Final on-screen engagement card ───────────────────────────
-        cta = _write_engagement_cta(client, case, script)
-        print(f"[TrueCrime] CTA card: {cta}")
-
-        last_result = {
-            "script":         script,
-            "title":          title,
-            "case_name":      case_name,
-            # The place the case happened. Carried through because the image layer
-            # searches it for real UK photographs — without it that search ran on an
-            # empty string and every scene silently fell back to stock footage.
-            "location":       (case.get("location") or "").strip(),
-            "year":           (str(case.get("year") or "")).strip(),
-            "hashtags":       tags,
-            "caption":        caption,
-            "tiktok_title":   tiktok_title,
-            "cta":            cta,
-            "accuracy_score": acc,
-            "interest_score": interest,
-            "tiktok_safe":    tiktok_safe,
-            "hook":           _extract_hook(script),
-        }
-
-        # ── Guidelines gate — a HARD requirement, checked before anything else ────
-        # Quality is negotiable; a strike against the account is not. Nothing below is
-        # allowed to override this.
-        if not tiktok_safe:
-            print("[TrueCrime] Rejected (TikTok guidelines violation) — trying another case...")
-            _USED_CASES.append(case_name)
-            continue
-
-        print("[Compliance] Reviewing against TikTok Community Guidelines...")
-        verdict = compliance_review(client, script, caption, case, cta=cta)
-        softened = False
-        if verdict["verdict"] != COMPLIANCE_OK and verdict["reasons"] and not any(
-                "review error" in r or "no usable verdict" in r for r in verdict["reasons"]):
-            # Most blocks were the WRITING, not the case: a gory phrase ("twenty-two
-            # hammer blows") or a sensational hook. Over Sept 2026 this gate discarded
-            # every case on a third of runs and no video was made. One rewrite that only
-            # removes material, then the same strict review again: the reviewer still
-            # has the final say, so nothing unsafe gets past it.
-            for r in verdict["reasons"][:3]:
-                print(f"[Compliance]   ! {r}")
-            print(f"[Compliance] {verdict['verdict']} - softening the script once and re-reviewing...")
-            soft = _soften_for_guidelines(client, script, description, cta, title, verdict)
-            softened = bool(soft)
-            if soft:
-                script, description, cta, title = soft
-                caption = f"{description}\n\n{tags}"
-                verdict = compliance_review(client, script, caption, case, cta=cta)
-                last_result.update(script=script, caption=caption, cta=cta, title=title,
-                                   hook=_extract_hook(script))
-        last_result["compliance"] = verdict
-        if verdict["verdict"] != COMPLIANCE_OK:
-            for r in verdict["reasons"][:3]:
-                print(f"[Compliance]   ! {r}")
-            print(f"[Compliance] BLOCKED — {verdict['verdict']}. Trying another case.")
-            _USED_CASES.append(case_name)
-            continue
-        print(f"[Compliance] PASSED ({verdict['verdict']}) — eligible for the For You feed.")
-
-        # A softened script is a NEW script: the first live post (Billie-Jo Jenkins,
-        # 2026-10-03) lost the facts that her foster father's conviction was quashed and
-        # he was acquitted, and kept the evidence pointing at him. Fact-check it afresh.
-        if softened:
-            print("[TrueCrime] Re-fact-checking the softened script...")
-            check = _fact_check(client, case, script)
-            acc, interest = check["accuracy_score"], check["interest_score"]
-            sense, approved = check["makes_sense"], check["approved"]
-            last_result.update(accuracy_score=acc, interest_score=interest)
-            print(f"[TrueCrime] Softened: Accuracy {acc}/10 | Interest {interest}/10 | "
-                  f"Approved: {approved}")
-
-        # Legal gate: nothing may point suspicion at a real person a court has not
-        # convicted. Separate from compliance (TikTok rules) and from the regex check
-        # in publish_checks (which only catches words like "suspected").
-        legal = _legal_review(client, script, caption, cta, case)
-        last_result["legal"] = legal
-        last_result["softened"] = softened
-        if not legal["ok"]:
-            for r in legal["reasons"][:3]:
-                print(f"[Legal]   ! {r}")
-            print("[Legal] BLOCKED — implicates an unconvicted person or misstates the "
-                  "legal outcome. Trying another case.")
-            _USED_CASES.append(case_name)
-            continue
-        print("[Legal] PASSED — no unconvicted person implicated.")
-
-        # Past this point the script is guidelines-safe. Only quality is left to judge.
-        if approved and acc >= 7 and interest >= 7 and sense:
+        result, status = _finalise(client, case, case_name, script)
+        if status == "approved":
             _USED_CASES.append(case_name)
             _save_recent_case(case_name)
-            print(f"[TrueCrime] APPROVED: '{title}'")
-            return last_result
-
+            print(f"[TrueCrime] APPROVED: '{result['title']}'")
+            return result
+        if result:
+            last_result = result
         # Safe but below the quality bar. Keep the best one as a fallback so a run still
-        # ships something rather than nothing — but only ever from safe candidates.
-        # Only ever fall back to a script that is factually sound. Interest is a
-        # matter of taste; accuracy is not. A run shipped a video scoring 4/10 that
-        # the fact-checker had flagged for invented names, an invented autopsy result
-        # and invented forensic findings — about a real murder victim with a real
-        # family. Publishing fabrications about real people is worse than publishing
-        # nothing, so a weak-but-true script may be the fallback and a false one may
-        # never be.
-        if acc >= MIN_FALLBACK_ACCURACY:
-            score = acc + interest
+        # ships something rather than nothing — but only ever from safe, factually
+        # sound candidates (see _finalise).
+        if status == "safe_lowq":
+            score = result["accuracy_score"] + result["interest_score"]
             if score > best_safe_score:
-                best_safe, best_safe_score = last_result, score
-
-        reason = []
-        if acc < 7:
-            reason.append(f"accuracy {acc}/10")
-        if interest < 7:
-            reason.append(f"interest {interest}/10")
-        if not sense:
-            reason.append("incoherent")
-        print(f"[TrueCrime] Rejected ({', '.join(reason)}) — trying a different case...")
+                best_safe, best_safe_score = result, score
         _USED_CASES.append(case_name)  # avoid repeating it
 
     # Fall back only to a candidate that PASSED the guidelines gate. This previously
