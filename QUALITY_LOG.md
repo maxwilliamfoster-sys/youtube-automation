@@ -63,7 +63,12 @@ were off-topic: a blue tit, a white double-decker bus (Nicola Bulley video).
 evening). Sample sizes are small.
 
 **F8 — Reliability.** Sept: 23/30 scheduled runs produced no video (Groq daily cap
-plus the over-strict gate). Since 2026-10-03: 13 of 16 runs posted.
+plus the over-strict gate). Since 2026-10-03: 14 of 18 runs posted. Most misses are
+now the legal gate blocking scripts that name never-convicted people as possible
+suspects (e.g. 2026-10-09 15:18 UTC: Tattingstone Suitcase, Ameen family, Stuart
+Morgan). That is intended; a missed slot is better than a libel risk. Watch the miss
+rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects in
+`case_source.py` scoring rather than loosening the gate.
 
 ## 3. Test plan
 
@@ -79,6 +84,10 @@ plus the over-strict gate). Since 2026-10-03: 13 of 16 runs posted.
   2. Grade: `overcast` (was `night`).
   3. Number normaliser (always-on correctness fix, not a stylistic variable).
   4. Off-topic photo filter (correctness fix).
+- **Exclude from both cohorts:** video 7694727875798306080 (Keith Lyon, 2026-10-09
+  17:55 UTC). It was rendered with the old energetic narrator but the new overcast
+  grade (the run checked out before the narrator commit). It is tagged v2-energetic in
+  posts_log.csv.
 - **Unchanged:** script prompt and structure, hook card, captions, music, length
   target (100–120 words), case source, posting schedule, gates.
 - **Baseline:** v2-energetic, figures in F2.
