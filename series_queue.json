@@ -1,41 +1,4 @@
 {
- "pending": [
-  {
-   "script": "Part two. Police had a face, but no name. Within a week, detectives stopped over five hundred people on the street, hand-delivering color posters of the ruddy-faced man in every home on the estate. They even investigated the actor who played the killer in the 1994 Crimewatch reconstruction, after viewers mistook his likeness for the real suspect. Twenty-one years later, in 2015, investigators released a full DNA profile to the public. It’s the most precise forensic evidence in the case, yet it hasn't matched a single name in the national database. The killer has never been identified, and Julie’s watch remains missing. What do you think happened? Comment below.",
-   "title": "Police stopped 500 people (Part 2)",
-   "case_name": "Murder of Julie Pacey",
-   "location": "Grantham, Lincolnshire, England",
-   "year": "1994",
-   "uk": true,
-   "hashtags": "#ukcrime #crimetok #truecrime #fyp #murder",
-   "caption": "They searched every street but never found him. We still don't know his name or why he targeted her.\n\n#ukcrime #crimetok #truecrime #fyp #murder",
-   "tiktok_title": "Julie Pacey case. Part 2/2 | UK crime story.",
-   "cta": "What do you think? Comment below.",
-   "accuracy_score": 10,
-   "interest_score": 8,
-   "tiktok_safe": true,
-   "hook": "Part two.",
-   "compliance": {
-    "verdict": "OK",
-    "reasons": [
-     "The script deals with the investigation process and the unsolved nature of the case without providing graphic details of the murder itself.",
-     "It does not glorify the perpetrator, provide instructions for harm, or contain hate speech.",
-     "The content is factually oriented and respectful of the victim, fitting the criteria for general recommendation on TikTok's true crime channel, although the extreme age of the case (21+ years) keeps it from being the most sensitive fresh violent content.",
-     "Encouragement to comment is standard engagement practice and does not constitute harassment or doxxing in this context."
-    ],
-    "worst_line": "They even investigated the actor who played the killer in the 1994 Crimewatch reconstruction"
-   },
-   "softened": false,
-   "legal": {
-    "ok": true,
-    "reasons": [
-     "The text describes an unidentified suspect ('the killer', 'the ruddy-faced man') whom no viewer could link to a specific real individual, as the case is unsolved and the suspect is not named. The mention of the actor from the Crimewatch reconstruction is accurate according to the source (he was investigated due to viewer error but was not the suspect in the original crime, and the context clarifies he was mistaken for). The question 'What do you think happened?' asks for theories about the event, not for the identity of an unconvicted person, and does not identify any real person as the perpetrator."
-    ]
-   },
-   "series_part": 2,
-   "series_total": 2,
-   "queued_utc": "2026-10-11T17:05:53.131372+00:00"
-  }
- ],
+ "pending": [],
  "last_series_utc": "2026-10-11T17:05:53.131372+00:00"
 }
