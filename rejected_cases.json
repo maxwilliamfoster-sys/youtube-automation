@@ -166,5 +166,47 @@
   "reason": "The script identifies Ram Puneet Tiwary, who was ultimately acquitted, and attributes suspicion and motive to him, violating the rule against implicating unconvicted persons.",
   "date": "2026-10-12",
   "strikes": 1
+ },
+ "Murder of James Bulger": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Pottery Cottage murders": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Sally Anne Bowman": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Killing of Peter Connelly": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping of Jaycee Dugard": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case centers on the kidnapping and prolonged sexual assault of an 11‑year‑old child.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Killing of Scott Guy": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Helen Gorrie": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
  }
 }
