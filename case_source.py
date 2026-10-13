@@ -28,6 +28,8 @@ import time
 
 import requests
 
+import case_screen
+
 API = "https://en.wikipedia.org/w/api.php"
 UA = "BuriedCasefiles/1.0 (https://github.com/maxwilliamfoster-sys/youtube-automation)"
 
@@ -368,6 +370,15 @@ def get_summary(title: str) -> dict:
             if not _CRIME_WORDS.search(extract):
                 print(f"[CaseSource] Skipping {title!r} — intro describes no crime.")
                 return {}
+            # The same criteria the final compliance + legal gates apply (a killed
+            # child, sexual violence, gore, a named person never convicted, live
+            # proceedings), checked here for free instead of after ~8 LLM calls.
+            # Remembered, so the case is never fetched or tried again.
+            blocked = case_screen.screen_text(title, extract)
+            if blocked:
+                print(f"[CaseSource] Skipping {title!r} — pre-filter: {blocked}.")
+                case_screen.record_rejection(title, "prefilter", blocked)
+                return {}
             return {
                 "title":   page.get("title", title),
                 "extract": extract,
@@ -529,11 +540,16 @@ def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12,
     if not pool:
         return {}
 
-    candidates = [t for t in pool if not is_duplicate(t)]
+    # Cases an earlier run already rejected (pre-filter, compliance, legal) are
+    # never drawn again — before this, the same doomed cases came back every day.
+    def _usable(t):
+        return not is_duplicate(t) and not case_screen.is_rejected(t)
+
+    candidates = [t for t in pool if _usable(t)]
     if not candidates:
         print("[CaseSource] Every case in the pool has been used — refreshing pool.")
         pool = load_pool(force_refresh=True)
-        candidates = [t for t in pool if not is_duplicate(t)] or pool
+        candidates = [t for t in pool if _usable(t)] or pool
 
     random.shuffle(candidates)
 

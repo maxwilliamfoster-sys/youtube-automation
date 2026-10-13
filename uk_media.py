@@ -46,8 +46,17 @@ _NOT_A_PHOTO = re.compile(
     re.I,
 )
 # Wikimedia serves originals, and some are enormous (a 95MB scan appeared in testing).
-# Anything past this is skipped rather than downloaded.
+# Anything past this is skipped rather than downloaded — when no thumbnail exists.
 _MAX_BYTES = 14_000_000
+# Always download a server-side scaled thumbnail, never the original. On 2026-10-10 a
+# 14MB PNG passed the byte cap but decoded to 282 megapixels, and Pillow's
+# decompression-bomb guard killed the whole video. 1920px is one of Wikimedia's
+# standard thumbnail widths (cached, not rate-limited like arbitrary sizes) and is
+# already the long edge of the 1080x1920 frame.
+THUMB_WIDTH = 1920
+# Originals above this are skipped outright: Commons often cannot thumbnail them
+# (huge PNG/TIFF scans), and they are archive scans, not photographs, anyway.
+_MAX_ORIGINAL_PIXELS = 100_000_000
 
 # UK place names are reused worldwide and are also breed/product names. A search for
 # "Ipswich, Suffolk" returned Ipswich QUEENSLAND, Downtown Suffolk VIRGINIA and a
@@ -100,6 +109,7 @@ def _image_details(titles: list, min_width: int = 900) -> list:
     data = _get(COMMONS_API, {
         "action": "query", "titles": "|".join(titles[:40]),
         "prop": "imageinfo", "iiprop": "url|size|extmetadata",
+        "iiurlwidth": THUMB_WIDTH,
     })
     out = []
     for page in (data.get("query", {}).get("pages", {}) or {}).values():
@@ -113,14 +123,18 @@ def _image_details(titles: list, min_width: int = 900) -> list:
         name = page.get("title", "")[5:]
         if not name.lower().endswith(_PHOTO_EXT) or _NOT_A_PHOTO.search(name):
             continue
-        if info.get("size", 0) > _MAX_BYTES:
+        if info.get("width", 0) * info.get("height", 0) > _MAX_ORIGINAL_PIXELS:
+            continue
+        thumb = info.get("thumburl", "")
+        # Without a thumbnail we would be downloading the original: keep the old cap.
+        if not thumb and info.get("size", 0) > _MAX_BYTES:
             continue
         artist = re.sub(r"<[^>]+>", "", meta.get("Artist", {}).get("value", "") or "").strip()
         out.append({
             "title":   page.get("title", "")[5:],
-            "url":     info.get("url", ""),
-            "width":   info.get("width", 0),
-            "height":  info.get("height", 0),
+            "url":     thumb or info.get("url", ""),
+            "width":   info.get("thumbwidth") or info.get("width", 0),
+            "height":  info.get("thumbheight") or info.get("height", 0),
             "licence": meta.get("LicenseShortName", {}).get("value", licence),
             "credit":  artist[:80] or "Wikimedia Commons",
         })

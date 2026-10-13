@@ -12,6 +12,7 @@ import time
 import requests as _requests
 from groq import Groq, RateLimitError, APIStatusError, APIConnectionError
 
+import case_screen
 import case_source
 from config import (
     GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY,
@@ -1548,6 +1549,74 @@ def _legal_review(client: Groq, script: str, caption: str, cta: str, case: dict)
     return {"ok": False, "reasons": ["legal review returned no usable verdict"]}
 
 
+PRESCREEN_SOURCE_CHARS = 4500
+
+
+def _prescreen_case(client: Groq, sourced: dict) -> dict:
+    """
+    One short call, BEFORE any research or writing: would this case fail the final
+    compliance or legal gate however carefully it was written?
+
+    Same criteria as compliance_review and _legal_review, applied to the case rather
+    than to a script. It exists because those gates were rejecting cases for reasons
+    plain in the source (a murdered child, an acquitted suspect at the centre of the
+    story) only after ~8 calls had been spent on them.
+
+    Fails OPEN: an error or unparseable reply returns go=True. That is safe because
+    this is only an early filter — the fail-closed compliance and legal gates still
+    run on every script. Returns {"go": bool, "category": str, "reason": str}.
+    """
+    source = (sourced.get("full_text") or sourced.get("extract") or "")[:PRESCREEN_SOURCE_CHARS]
+    messages = [
+        {"role": "system", "content": (
+            "You screen real criminal cases for a respectful 45-second true crime TikTok "
+            "(factual, no graphic detail). Two strict reviewers check every finished "
+            "video: a TikTok Trust & Safety moderator and a UK media lawyer. Predict "
+            "whether this CASE would fail them even if the script were written carefully.\n"
+            "The script NEVER describes injuries, weapons striking or the body ('was "
+            "killed' / 'was found dead' at most), so a violent death alone is not a "
+            "problem. Judge what the story IS, not the source's level of detail.\n"
+            "SKIP only if one of these cannot be avoided in telling the case:\n"
+            "- minor_victim: a child or under-18 was KILLED - a confirmed murder or "
+            "killing (moderators age-restrict any child killing). NOT this category: a "
+            "missing child whose fate is unknown (e.g. a 14-year-old who vanished and was "
+            "never found) - that is GO.\n"
+            "- sexual_violence: rape, sexual assault or sexual abuse is part of what "
+            "happened to the victim, or any sexual abuse of a child.\n"
+            "- gore: the case is KNOWN FOR dismemberment, torture, mutilation or the "
+            "state of the body, so the story cannot be told without it. A stabbing, "
+            "shooting or beating is NOT gore.\n"
+            "- unconvicted_suspect: a named or identifiable real person who was NOT "
+            "finally convicted (suspect, arrested and released, acquitted, conviction "
+            "quashed) is the heart of the story, so it cannot be told without pointing "
+            "suspicion at them. A suspect who is only a side detail is fine (the script "
+            "can leave them out). Also fine if a different person was later convicted, "
+            "or if nobody is identified at all.\n"
+            "- active_proceedings: someone is currently charged, awaiting trial or "
+            "appeal, or the events are from the last two years.\n"
+            "- other: terrorism, a mass shooting, a political killing, or suicide as "
+            "the subject.\n"
+            "Otherwise GO. Most unsolved murders and disappearances, and cases resolved "
+            "by a conviction, are GO. When unsure, GO: stricter checks follow.\n"
+            'Reply ONLY with JSON: {"verdict":"GO|SKIP","category":"minor_victim|'
+            'sexual_violence|gore|unconvicted_suspect|active_proceedings|other|none",'
+            '"reason":"one sentence"}')},
+        {"role": "user", "content": f"Case: {sourced.get('title','')}\n\nSOURCE:\n{source}"},
+    ]
+    try:
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=600, messages=messages)
+        out = _extract_json(resp.choices[0].message.content or "")
+        v = str(out.get("verdict", "")).upper().strip()
+        if v in ("GO", "SKIP"):
+            return {"go": v == "GO",
+                    "category": str(out.get("category") or "").strip()[:40],
+                    "reason": str(out.get("reason") or "").strip()[:200]}
+        print("[Prescreen] Unparseable reply — letting the case through to the full gates.")
+    except Exception as e:
+        print(f"[Prescreen] Error ({str(e)[:80]}) — letting the case through to the full gates.")
+    return {"go": True, "category": "", "reason": ""}
+
+
 def _soften_for_guidelines(client: Groq, script: str, description: str, cta: str,
                            title: str, verdict: dict):
     """
@@ -1851,6 +1920,28 @@ def _try_series(client: Groq, case: dict, case_name: str):
     return parts[0]
 
 
+MAX_PRESCREEN_SKIPS = 10
+
+
+def _rejection_stage(result: dict) -> tuple:
+    """Which gate refused a script, for the rejected-case memory: (stage, reason)."""
+    result = result or {}
+    legal = result.get("legal")
+    if legal is not None and not legal.get("ok"):
+        return "legal", "; ".join(map(str, legal.get("reasons", [])[:1]))
+    verdict = result.get("compliance") or {}
+    if verdict and verdict.get("verdict") != COMPLIANCE_OK:
+        reasons = verdict.get("reasons", [])
+        # A review that errored says nothing about the case — only a soft strike.
+        if any("review error" in str(r) or "no usable verdict" in str(r) for r in reasons):
+            return "review_error", str(reasons[:1])
+        return "compliance", f"{verdict.get('verdict')}: " + "; ".join(map(str, reasons[:1]))
+    if result and result.get("tiktok_safe") is False:
+        # The fact-checker judges the SCRIPT's wording here; soft strike.
+        return "factcheck_unsafe", "fact-checker flagged the script as not TikTok-safe"
+    return "quality", f"accuracy {result.get('accuracy_score')}/10"
+
+
 def generate_true_crime_story(max_attempts: int = 5) -> dict:
     """
     Research, write, and fact-check a true crime documentary script.
@@ -1875,14 +1966,32 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
     best_safe = None          # best candidate that PASSED the guidelines gate
     best_safe_score = -1
 
-    for attempt in range(max_attempts):
-        print(f"\n[TrueCrime] Attempt {attempt + 1}/{max_attempts} — researching case...")
+    # A pre-screen skip costs one short call, not a whole attempt, so it does not use
+    # one up — but it is capped so a run can never loop forever.
+    attempt, prescreen_skips = 0, 0
+    while attempt < max_attempts:
+        attempt += 1
+        print(f"\n[TrueCrime] Attempt {attempt}/{max_attempts} — researching case...")
 
         # ── Step 1: Source a real, unused case, then research it ──────────────
         sourced = _pick_fresh_case()
         if not sourced:
             print("[TrueCrime] Could not source a fresh case from Wikipedia — retrying.")
             continue
+
+        # ── Step 1b: Pre-screen BEFORE spending calls on research and a script ─
+        if prescreen_skips < MAX_PRESCREEN_SKIPS:
+            screen = _prescreen_case(client, sourced)
+            if not screen["go"]:
+                prescreen_skips += 1
+                attempt -= 1
+                print(f"[Prescreen] SKIP '{sourced['title']}' — {screen['category']}: "
+                      f"{screen['reason'][:140]}")
+                case_screen.record_rejection(sourced["title"], "prescreen",
+                                             f"{screen['category']}: {screen['reason']}")
+                _USED_CASES.append(sourced["title"])
+                continue
+            print(f"[Prescreen] GO '{sourced['title']}'.")
 
         case = _research_case(client, sourced)
         case_name = (case.get("case_name") or "").strip()
@@ -1911,6 +2020,8 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         script = _fit_length(_write_script(client, case))
         if not script:
             _USED_CASES.append(case_name)
+            # Usually a flaky model reply, so a soft strike: excluded after two.
+            case_screen.record_rejection(case_name, "empty_script", "script unusable")
             continue
 
         result, status = _finalise(client, case, case_name, script)
@@ -1928,6 +2039,9 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
             score = result["accuracy_score"] + result["interest_score"]
             if score > best_safe_score:
                 best_safe, best_safe_score = result, score
+        else:
+            stage, why = _rejection_stage(result)
+            case_screen.record_rejection(case_name, stage, why)
         _USED_CASES.append(case_name)  # avoid repeating it
 
     # Fall back only to a candidate that PASSED the guidelines gate. This previously

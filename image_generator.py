@@ -17,6 +17,7 @@ from groq import Groq
 # Route Groq calls through the shared router so they fail over to Cerebras/OpenRouter
 # when Groq's daily token cap is hit. Calling client.chat.completions.create directly
 # here bypassed that and 429'd a whole run — after a valid story had already been made.
+import image_safety
 from story_generator import _groq_call
 from config import (GROQ_API_KEY, GROQ_MODEL, POLLINATIONS_DELAY, POLLINATIONS_MODEL,
                     SCENE_IMAGES_DIR, PEXELS_API_KEY, USE_VIDEO_BROLL,
@@ -408,6 +409,16 @@ def _uk_location_image(place: str, scene_query: str, output_path: str,
                 with open(output_path, "wb") as fh:
                     fh.write(r.content)
                 seen_ids.add(img["url"])
+                # Check the decoded size from the header before anything decodes it.
+                # One oversized Commons image used to crash the whole video.
+                too_big = image_safety.oversized_reason(output_path)
+                if too_big:
+                    print(f"[UK] Skipping {img['title'][:44]} — {too_big}")
+                    try:
+                        os.remove(output_path)
+                    except OSError:
+                        pass
+                    continue
                 manifest.append({
                     "title":   img["title"],
                     "licence": img["licence"],

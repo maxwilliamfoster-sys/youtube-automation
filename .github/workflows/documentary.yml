@@ -9,8 +9,9 @@ on:
   schedule:
     # Times are UTC; UK is BST (UTC+1) in summer, GMT in winter. tiktok_buffer.py
     # never posts outside 08:00-22:00 UK: a late run is queued for 08:30 next day.
-    # Each run makes ONE video and delivers it to
-    # Telegram ~10-15 min after the cron fires (GitHub's scheduler isn't minute-exact).
+    # Each run makes ONE video. GitHub starts scheduled runs late under load - in
+    # Oct 2026 typically 4-6 HOURS late (08:15 cron -> ~14:30 start). That is normal
+    # for free runners; the posting window above keeps late runs from posting at night.
     - cron: '15 8 * * *'     # ~09:30 UK (BST) / 08:30 (GMT) — video 1
     - cron: '45 11 * * *'    # ~13:00 UK — video 2
     - cron: '45 14 * * *'    # ~16:00 UK — video 3
@@ -103,8 +104,10 @@ jobs:
           pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
           pip install chatterbox-tts
 
-      - name: Download font + music assets
-        run: python setup_music.py
+      # Font only: the documentaries ship their own committed music (assets/calm_music/).
+      # The old music downloads 404'd on every run.
+      - name: Download caption font
+        run: python setup_music.py --font-only
 
       # ── Secrets → .env (generation keys + Telegram delivery) ──────────────────
       - name: Write .env
@@ -142,6 +145,7 @@ jobs:
           GITHUB_TOKEN:      ${{ github.token }}
 
       # ── Persist used cases so future runs never repeat a case ─────────────────
+      # rejected_cases.json = cases a gate refused, so no run ever retries them.
       # case_pool.json rides along: rebuilding it costs ~60 rate-limited Wikipedia
       # calls, so it is committed and only refetched when it expires.
       - name: Persist recent cases
@@ -149,7 +153,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recent_cases.json case_pool.json analytics/posts_log.csv series_queue.json || true
+          git add recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json || true
           if git diff --staged --quiet; then
             echo "No new case to persist."
           else

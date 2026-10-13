@@ -231,6 +231,13 @@ MUSIC_DIR       = os.path.join(os.path.dirname(os.path.abspath(__file__)), "musi
 MUSIC_VOLUME    = 0.12   # 12% relative to narration — subtle, not distracting
 MUSIC_ENABLED   = True   # Set False to disable background music
 
+# The true-crime documentaries use their OWN committed tracks (2026-10-12): soft,
+# warm public-domain guitar/piano (see assets/calm_music/LICENSES.txt). They used to
+# share music/ with the horror pipeline, filled by setup_music.py downloads that
+# 404'd every run and were horror drones anyway (owner: soft, warm, nothing sharp).
+DOC_MUSIC_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "calm_music")
+DOC_MUSIC_VOLUME = 0.10  # melodic, so a touch under the old drones' 12%
+
 # Integrated loudness target. TikTok/Instagram/YouTube all normalise playback to
 # roughly -14 LUFS; delivering quieter just means the platform turns everything up,
 # noise included. The old mix measured -28 LUFS.

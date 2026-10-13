@@ -83,40 +83,9 @@ TRACKS = [
         "license":     "CC BY 3.0",
         "attribution": '"Trepidation" Kevin MacLeod (incompetech.com) CC-BY-3.0',
     },
-    # ── HoliznaCC0 — CC0 Public Domain — eerie piano, zero attribution needed ─
-    {
-        "filename": "track_06_creepy_piano_1.mp3",
-        "name":     "Creepy Piano 1",
-        "artist":   "HoliznaCC0",
-        "urls": [
-            "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/HoliznaCC0/Background_Music/HoliznaCC0_-_01_-_Creepy_Piano_1.mp3",
-            "https://freemusicarchive.org/track/creepy-piano-1/download/",
-        ],
-        "license":     "CC0 Public Domain",
-        "attribution": None,
-    },
-    {
-        "filename": "track_07_creepy_piano_2.mp3",
-        "name":     "Creepy Piano 2",
-        "artist":   "HoliznaCC0",
-        "urls": [
-            "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/HoliznaCC0/Background_Music/HoliznaCC0_-_02_-_Creepy_Piano_2.mp3",
-            "https://freemusicarchive.org/track/creepy-piano-2/download/",
-        ],
-        "license":     "CC0 Public Domain",
-        "attribution": None,
-    },
-    {
-        "filename": "track_08_creepy_piano_3.mp3",
-        "name":     "Creepy Piano 3",
-        "artist":   "HoliznaCC0",
-        "urls": [
-            "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/HoliznaCC0/Background_Music/HoliznaCC0_-_03_-_Creepy_Piano_3.mp3",
-            "https://freemusicarchive.org/track/creepy-piano-3/download/",
-        ],
-        "license":     "CC0 Public Domain",
-        "attribution": None,
-    },
+    # HoliznaCC0 'Creepy Piano' 1-3 (freemusicarchive.org) removed 2026-10-12: every
+    # URL had returned 404 on every run for weeks. The true-crime documentaries no
+    # longer use this folder at all (see assets/calm_music/).
 ]
 
 # ── Caption font ───────────────────────────────────────────────────────────────
@@ -353,6 +322,8 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description="Download music tracks + caption font")
     p.add_argument("--force",    action="store_true", help="Re-download even if files exist")
     p.add_argument("--fallback", action="store_true", help="Generate procedural drones instead of downloading")
+    p.add_argument("--font-only", action="store_true",
+                   help="Only fetch the caption font (the documentary workflow ships its own music)")
     args = p.parse_args()
 
     print("=" * 60)
@@ -362,7 +333,9 @@ if __name__ == "__main__":
     # Always try to download / verify the font
     download_font(force=args.force)
 
-    if args.fallback:
+    if args.font_only:
+        print("\n[Setup] --font-only: skipping music (documentaries use assets/calm_music/).")
+    elif args.fallback:
         print("\n[Setup] Fallback mode — generating procedural drones...")
         generate_fallback_drones(force=args.force)
     else:
