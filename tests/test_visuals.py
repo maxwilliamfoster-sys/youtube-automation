@@ -46,6 +46,16 @@ class CommonsFilterTests(unittest.TestCase):
                       "City of Philadelphia from the top.jpg"]:
             self.assertFalse(uk_media._WRONG_PLACE.search(title), title)
 
+    def test_wrong_region_for_reused_place_names(self):
+        # Brianna Maitland (Montgomery, Vermont) got Montgomery, Alabama on 2026-10-12.
+        wr = uk_media.wrong_region
+        self.assertTrue(wr("Greetings from Montgomery, Alabama - Large Letter.jpg", "Montgomery, Vermont"))
+        self.assertTrue(wr("Ballpark of Vermont, Illinois.jpg", "Montgomery, Vermont"))
+        self.assertFalse(wr("Church Street, Burlington, Vermont United States.jpg", "Montgomery, Vermont"))
+        self.assertFalse(wr("Charleston, West Virginia skyline.jpg", "Charleston, West Virginia"))
+        self.assertFalse(wr("Ipswich docks, Suffolk, England - geograph.jpg", "Ipswich, Suffolk", uk=True))
+        self.assertTrue(wr("Ipswich, Queensland street.jpg", "Ipswich, Suffolk", uk=True))
+
     def test_geograph_ranked_first_and_wrong_place_dropped(self):
         found = {"query": {"search": [{"title": "File:a.jpg"}]}}
         details = [

@@ -84,7 +84,14 @@ _WRONG_PLACE = re.compile(
     # Commons results for other places: animals, museum paintings, shops and hotels.
     r"\brats?\b|rattus|mouse|mice|squirrel|\bcats?\b|\bdogs?\b|horse|\bfox\b|deer|\bcow|"
     r"painting|museum|gallery|portrait of|\(\d{4}\s*-\s*\d{4}\)|\bc\.\s?\d{4}|"
-    r"supermarket|morrisons|tesco|sainsbury|asda|aldi|lidl|\bibis\b|premier inn|travelodge|hotel)",
+    r"supermarket|morrisons|tesco|sainsbury|asda|aldi|lidl|\bibis\b|premier inn|travelodge|hotel|"
+    # Real, identifiable people (2026-10-13: "President Biden speaks in Philadelphia",
+    # a 1942 portrait of Field Marshal Montgomery). An unrelated person beside crime
+    # narration is a defamation risk, so anything that looks like a person/event goes.
+    # (No king/queen/prince: King's Cross, Queen Street, Princes Street are places.)
+    r"president|senator|governor|mayor|congress|minister|"
+    r"\bjr\b|\bsr\b|\bgen\.|general |speaks|speech|rally|campaign|\bvisits?\b|meets|ceremony|"
+    r"inaugurat|funeral|protest|march on|selfie|headshot|\bportrait|wedding|graduation)",
     re.I,
 )
 
@@ -101,6 +108,76 @@ def place_tokens(place: str) -> list:
     """The distinctive words of a place name ('Hemdean Road, Caversham' -> hemdean, caversham)."""
     words = re.findall(r"[a-z][a-z'\-]+", (place or "").lower())
     return [w for w in words if len(w) >= 4 and w not in _GENERIC_PLACE_WORDS]
+
+
+# Regions that place names get reused across. A title naming one of these that the
+# case's own location does not name is the wrong place: the Brianna Maitland video
+# (Montgomery, VERMONT, 2026-10-12) showed Montgomery, Alabama for 8 of 12 scenes,
+# including three copies of a "Greetings from Montgomery" postcard, and a ballpark in
+# Vermont, ILLINOIS. Those two US videos had the month's worst watch time (12-15%).
+_REGIONS = (
+    "alabama|alaska|arizona|arkansas|california|colorado|connecticut|delaware|florida|"
+    "hawaii|idaho|illinois|indiana|iowa|kansas|kentucky|louisiana|maine|maryland|"
+    "massachusetts|michigan|minnesota|mississippi|missouri|montana|nebraska|nevada|"
+    "new hampshire|new jersey|new mexico|new york|north carolina|north dakota|ohio|"
+    "oklahoma|oregon|pennsylvania|rhode island|south carolina|south dakota|tennessee|"
+    "texas|utah|vermont|virginia|west virginia|wisconsin|wyoming|"
+    "queensland|new south wales|tasmania|ontario|quebec|alberta|british columbia|"
+    "australia|canada|new zealand|ireland|scotland|wales|england|germany|france|spain|"
+    "mallorca|italy|sweden|norway|denmark|netherlands|belgium|austria|switzerland|"
+    "jamaica|mexico|south africa|india"
+)
+# Washington, Georgia and Jordan are left out: they are common street names.
+_REGION_RE = re.compile(rf"\b({_REGIONS})\b", re.I)
+_UK_NATIONS = {"england", "scotland", "wales", "ireland"}
+
+
+def wrong_region(title: str, case_place: str, uk: bool = False) -> bool:
+    """True when the title names a region the case's location does not."""
+    own = {m.lower() for m in _REGION_RE.findall(case_place or "")}
+    if uk:
+        own |= _UK_NATIONS
+    named = {m.lower() for m in _REGION_RE.findall(title.replace("_", " "))}
+    # "West Virginia" also contains "Virginia"; only count the longer name.
+    named = {n for n in named if not any(n != o and n in o for o in named)}
+    return bool(named - own) if (own or named) else False
+
+
+_US_ABBR = {
+    "alabama": "al", "alaska": "ak", "arizona": "az", "arkansas": "ar", "california": "ca",
+    "colorado": "co", "connecticut": "ct", "delaware": "de", "florida": "fl", "hawaii": "hi",
+    "idaho": "id", "illinois": "il", "indiana": "in", "iowa": "ia", "kansas": "ks",
+    "kentucky": "ky", "louisiana": "la", "maine": "me", "maryland": "md",
+    "massachusetts": "ma", "michigan": "mi", "minnesota": "mn", "mississippi": "ms",
+    "missouri": "mo", "montana": "mt", "nebraska": "ne", "nevada": "nv",
+    "new hampshire": "nh", "new jersey": "nj", "new mexico": "nm", "new york": "ny",
+    "north carolina": "nc", "north dakota": "nd", "ohio": "oh", "oklahoma": "ok",
+    "oregon": "or", "pennsylvania": "pa", "rhode island": "ri", "south carolina": "sc",
+    "south dakota": "sd", "tennessee": "tn", "texas": "tx", "utah": "ut", "vermont": "vt",
+    "virginia": "va", "west virginia": "wv", "wisconsin": "wi", "wyoming": "wy",
+}
+
+
+def names_region(title: str, case_place: str) -> bool:
+    """For a non-UK case whose location names a region: the title must name it too.
+
+    Commons full-text search matches descriptions, so a bare town name pulls in
+    namesakes and PEOPLE: "Montgomery Vermont" returned a 1942 portrait of Field
+    Marshal Montgomery and a photo of Martin Luther King Jr. in Montgomery, Alabama.
+    An unrelated real person in a crime video is a defamation risk, not just off-mood.
+    Requiring the region in the title ("Montgomery, Vermont", "@Montgomery,VT")
+    leaves fewer photos but right ones; the scene falls back to stock otherwise."""
+    regions = {m.lower() for m in _REGION_RE.findall(case_place or "")}
+    if not regions:
+        return True
+    t = title.replace("_", " ")
+    for r in regions:
+        if re.search(rf"\b{re.escape(r)}\b", t, re.I):
+            return True
+        ab = _US_ABBR.get(r)
+        if ab and re.search(rf"(,|\s|@)\s?{ab}\b", t, re.I):
+            return True
+    return False
 
 
 def names_place(title: str, place: str) -> bool:
@@ -212,7 +289,8 @@ def verified_person_image(person: str) -> dict:
         return {}
 
 
-def location_images(place: str, limit: int = 6, uk: bool = True, must_name: str = "") -> list:
+def location_images(place: str, limit: int = 6, uk: bool = True, must_name: str = "",
+                    case_place: str = "") -> list:
     """
     Free-licensed photographs of a real UK place.
 
@@ -236,7 +314,9 @@ def location_images(place: str, limit: int = 6, uk: bool = True, must_name: str 
         # of sheep that happens to share the county's name.
         clean = [d for d in details if not _WRONG_PLACE.search(d["title"])
                  and not (uk and _WRONG_COUNTRY.search(d["title"]))
-                 and names_place(d["title"], must_name or place)]
+                 and names_place(d["title"], must_name or place)
+                 and not wrong_region(d["title"], case_place or place, uk)
+                 and (uk or names_region(d["title"], case_place or place))]
         # Geograph is a project to photograph every grid square of Britain: plain,
         # documentary street photos, which is exactly the look these stories want.
         clean.sort(key=lambda d: "geograph" not in d["title"].lower())

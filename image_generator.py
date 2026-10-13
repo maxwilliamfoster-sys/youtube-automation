@@ -389,9 +389,17 @@ def _uk_location_image(place: str, scene_query: str, output_path: str,
     # Cross, London)"), which Commons matches nothing for. Split it into real place
     # names and try each, most specific first.
     candidates = uk_media.clean_place(place) or [place]
-    for cand, query in [(c, q) for c in candidates for q in (f"{c} {scene_query}".strip(), c)]:
+    # Outside the UK a bare town name finds its namesakes ("Montgomery" -> Alabama for
+    # a Vermont case), so the case's state/country goes into the search as well.
+    region = "" if uk else " ".join(dict.fromkeys(uk_media._REGION_RE.findall(place)))
+    searches = []
+    for c in candidates:
+        anchored = c if (not region or region.lower() in c.lower()) else f"{c} {region}"
+        searches += [(c, f"{anchored} {scene_query}".strip()), (c, anchored)]
+    for cand, query in searches:
         try:
-            for img in uk_media.location_images(query, limit=8, uk=uk, must_name=cand):
+            for img in uk_media.location_images(query, limit=8, uk=uk, must_name=cand,
+                                                case_place=place):
                 if img["url"] in seen_ids:
                     continue
                 # Wikimedia rejects downloads without a descriptive User-Agent —
