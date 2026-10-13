@@ -208,5 +208,389 @@
   "reason": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
+ },
+ "Murder of Claire Woolterton": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murders of Vanja Gjorchevska and Panche Zhezhovski": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Heshu Yones": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Xuzhou chained woman incident": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Jean McConville": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Kacie Woody": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Death of Katrien De Cuyper": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Prosper family murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Guaratuba child murders": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Jakob von Metzler": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of June Anne Devaney": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Isla Bryson case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Holly Bobo": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves rape/sexual assault allegations, which are prohibited.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping of Shelly Kittleson": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Marie Goudreau": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Battersea Mystery": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murders of Eve Stratford and Lynne Weedon": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Sara Sharif": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Rania Alayed": {
+  "stage": "legal",
+  "reason": "The script identifies Muhanned Al‑Khatib, who was acquitted of murder, and describes his involvement in the crime, which points suspicion at an unconvicted person.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping and killing of Anson Que": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Dawn Magyar": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Disappearance of Evelyn Hartley": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The video describes a real unsolved disappearance with detailed crime scene elements that could be sensationalized and distressing to viewers.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Rhys Jones": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Susana Morales": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Karmein Chan": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Julia Martha Thomas": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping of Ese Oruru": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Margaret Perry": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on named suspects who were never convicted, making it unsuitable.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Victoria Hall": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Nurbank murder case": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Mary-Ann Leneghan": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Stephanie Crowe": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Edward Drummond": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Megan Williams case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Disappearance of Nancy Guthrie": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Disappearance of Elizabeth Clarke": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on named individuals who are suspected but not convicted, which cannot be presented without implying guilt.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Susanne Lindholm": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Fanny Adams": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Green Bicycle Case": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Masego Kgomo": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Melbourne gangland killings": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The video discusses multiple murders and a long‑term gangland feud, which is a disturbing true‑crime topic.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Killing of Lizzie O'Neill": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping of Peggy McMath": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Disappearance of Anthonette Cayedito": {
+  "stage": "legal",
+  "reason": "The script identifies several real individuals (e.g., Emiliano Gardella, Ron Perry, John Allen, Amos Hinshaw) who have not been convicted of any crime and suggests they may be involved or have knowled",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Esther Brown": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Mary Margaret Moran": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Death of Niall Molloy": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on Richard Flynn, who was charged but never convicted, making him an unconvicted suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping of Debra Puglisi": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Killing of Lasa and Zabala": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Chloé Ansel": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping of Selsela Alikhil": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping and murder of Aldo Moro": {
+  "stage": "prescreen",
+  "reason": "other: The case is centered on political terrorism, which falls under the disallowed 'other' category.",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Vera Page": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Pamela Werner": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Kidnapping of Jayme Closs": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Disappearance of Aimee Semple McPherson": {
+  "stage": "legal",
+  "reason": "The script mentions Kenneth G. Ormiston, who was never convicted of any crime, and suggests he may have been involved in a romantic liaison or kidnapping, thereby identifying and implicating an unconv",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Beilis affair": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Death of Lim Shiow Rong": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Killing of Jamie Meah": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Simone Strobel": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: No one has been convicted and the story centers on named individuals who remain suspects",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Central Park jogger case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Robert Lee Stinson case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Becky O'Connell": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Killing of Charles Walton": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
  }
 }
