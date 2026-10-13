@@ -592,5 +592,23 @@
   "reason": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
+ },
+ "Death of Tina Fontaine": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Death of Manon Dubé": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-13",
+  "strikes": 1
+ },
+ "Murder of Segametsi Mogomotsi": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-13",
+  "strikes": 1
  }
 }
