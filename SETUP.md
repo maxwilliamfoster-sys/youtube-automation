@@ -38,7 +38,7 @@ FFmpeg is the video processing engine (free, open source).
 ## Step 3 — Run the Setup Script
 
 1. Open Command Prompt
-2. Navigate to this folder: `cd C:\Users\maxwi\youtube-automation`
+2. Navigate to this folder: `cd C:\Users\maxwi\Projects\Content-Bots\youtube-automation`
 3. Run: `setup_windows.bat`
 
 This installs all Python packages automatically.
@@ -49,7 +49,7 @@ This installs all Python packages automatically.
 
 1. Go to **https://console.anthropic.com/**
 2. Sign up / log in → **API Keys** → **Create Key**
-3. Open `C:\Users\maxwi\youtube-automation\.env`
+3. Open `C:\Users\maxwi\Projects\Content-Bots\youtube-automation\.env`
 4. Replace `sk-ant-PASTE-YOUR-KEY-HERE` with your actual key
 
 ---
@@ -77,7 +77,7 @@ This lets the script post directly to your YouTube channel.
    - Click **Create**
 5. Click **Download JSON** on the credential you just created
 6. **Rename** the downloaded file to `client_secrets.json`
-7. **Move** it to: `C:\Users\maxwi\youtube-automation\client_secrets.json`
+7. **Move** it to: `C:\Users\maxwi\Projects\Content-Bots\youtube-automation\client_secrets.json`
 
 ### 5c. First Upload (Browser Login)
 The first time you upload, a browser window will open asking you to log in with your Google account. After that, the token is saved and you won't need to log in again.
@@ -88,7 +88,7 @@ The first time you upload, a browser window will open asking you to log in with 
 
 ```bash
 # Activate virtual environment
-cd C:\Users\maxwi\youtube-automation
+cd C:\Users\maxwi\Projects\Content-Bots\youtube-automation
 venv\Scripts\activate
 
 # Test WITHOUT uploading first
@@ -108,9 +108,9 @@ python main.py
 3. Name: "YouTube Shorts Bot"
 4. Trigger: **Daily** at whatever time you want
 5. Action: **Start a program**
-   - Program: `C:\Users\maxwi\youtube-automation\venv\Scripts\python.exe`
+   - Program: `C:\Users\maxwi\Projects\Content-Bots\youtube-automation\venv\Scripts\python.exe`
    - Arguments: `main.py`
-   - Start in: `C:\Users\maxwi\youtube-automation`
+   - Start in: `C:\Users\maxwi\Projects\Content-Bots\youtube-automation`
 6. Finish!
 
 ---
