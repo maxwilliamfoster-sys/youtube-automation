@@ -21,7 +21,7 @@ import image_safety
 from story_generator import _groq_call
 from config import (GROQ_API_KEY, GROQ_MODEL, POLLINATIONS_DELAY, POLLINATIONS_MODEL,
                     SCENE_IMAGES_DIR, PEXELS_API_KEY, USE_VIDEO_BROLL,
-                    UK_LOCATION_IMAGES)
+                    UK_LOCATION_IMAGES, PLACE_SCENE_EVERY)
 
 IMAGE_BASE_URL = "https://image.pollinations.ai/prompt/"
 
@@ -389,14 +389,9 @@ def _uk_location_image(place: str, scene_query: str, output_path: str,
     # Cross, London)"), which Commons matches nothing for. Split it into real place
     # names and try each, most specific first.
     candidates = uk_media.clean_place(place) or [place]
-    queries = []
-    for cand in candidates:
-        queries.append(f"{cand} {scene_query}".strip())
-        queries.append(cand)
-
-    for query in queries:
+    for cand, query in [(c, q) for c in candidates for q in (f"{c} {scene_query}".strip(), c)]:
         try:
-            for img in uk_media.location_images(query, limit=8, uk=uk):
+            for img in uk_media.location_images(query, limit=8, uk=uk, must_name=cand):
                 if img["url"] in seen_ids:
                     continue
                 # Wikimedia rejects downloads without a descriptive User-Agent —
@@ -412,6 +407,9 @@ def _uk_location_image(place: str, scene_query: str, output_path: str,
                 # Check the decoded size from the header before anything decodes it.
                 # One oversized Commons image used to crash the whole video.
                 too_big = image_safety.oversized_reason(output_path)
+                # A bright, colourful photo (festival lighting, a painting, a shopfront)
+                # breaks the mood of a case and is a reason to swipe away.
+                too_big = too_big or image_safety.too_cheerful_reason(output_path)
                 if too_big:
                     print(f"[UK] Skipping {img['title'][:44]} — {too_big}")
                     try:
@@ -495,7 +493,11 @@ def generate_story_images(
         # actual streets, courts and towns these cases happened in, which is both
         # lawful and far more specific than interchangeable stock footage. Falls
         # through to Pexels when a place yields nothing usable.
-        if UK_LOCATION_IMAGES and uk_place:
+        # Only every PLACE_SCENE_EVERY-th scene, and never the opening one. Until
+        # 2026-10-13 the real place won EVERY scene, so the per-line mood queries the
+        # LLM writes were never used and the hook frame was whatever Commons ranked
+        # first for the city name. The hook now gets footage matched to its line.
+        if UK_LOCATION_IMAGES and uk_place and i % PLACE_SCENE_EVERY == PLACE_SCENE_EVERY - 1:
             q = pexels_queries[i] if i < len(pexels_queries) else ""
             got = _uk_location_image(uk_place, q, output_path, seen_uk_ids, used_images,
                                      uk=uk)

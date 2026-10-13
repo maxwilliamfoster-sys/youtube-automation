@@ -34,3 +34,33 @@ def oversized_reason(path: str, max_pixels: int = MAX_SOURCE_PIXELS) -> str:
     if w * h > max_pixels:
         return f"{w}x{h} = {w * h / 1e6:.0f}MP (limit {max_pixels / 1e6:.0f}MP)"
     return ""
+
+
+# Mood guard for real-place photographs. On 2026-10-12 the opening frame of a missing-
+# persons video was Philadelphia's 30th Street Station lit pink and blue for the 4th of
+# July; Commons searches also return Victorian paintings and supermarket fronts. All of
+# those are dominated by bright, saturated colour, while documentary street photos are
+# not. Measured share of vivid pixels (S > 140 and V > 110 of 255):
+#   festive station 0.47, Amman street 0.22, museum paintings 0.18-0.72, Morrisons 0.29
+#   geograph street photos 0.00-0.14, Philadelphia skyline / parkway 0.00
+MAX_VIVID_SHARE = 0.20
+
+
+def vivid_share(path: str) -> float:
+    """Fraction of pixels that are both strongly saturated and bright."""
+    with open(path, "rb") as fh, Image.open(fh) as im:
+        hsv = im.convert("RGB").resize((256, 256)).convert("HSV")
+    _, s, v = hsv.split()
+    hits = sum(1 for sp, vp in zip(s.tobytes(), v.tobytes()) if sp > 140 and vp > 110)
+    return hits / (256 * 256)
+
+
+def too_cheerful_reason(path: str, limit: float = MAX_VIVID_SHARE) -> str:
+    """'' if the photo suits a sombre case, otherwise a short reason to skip it."""
+    try:
+        share = vivid_share(path)
+    except Exception as e:
+        return f"unreadable image: {str(e)[:80]}"
+    if share > limit:
+        return f"too vivid for the mood ({share:.0%} vivid pixels, limit {limit:.0%})"
+    return ""

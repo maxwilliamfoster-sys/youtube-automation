@@ -22,6 +22,12 @@ Edit this file to change what the review does — the routine just says "follow 
     exaggeration / cfg, grade, duration, case, softened flag, hook. Cohorts come from
     the `format` column. Videos before posts_log existed are cohort `v2-energetic`
     (2026-08-29 .. 2026-10-09) or `v1` (before 2026-08-29).
+  - `analytics/buffer_metrics.csv` (from 2026-10-13) — Buffer's per-post
+    `averageTimeWatched` / `totalTimeWatched` / reach, one row per post per day. This is
+    the ONLY automatic retention measure: compare cohorts on averageTimeWatched ÷
+    duration_s (from snapshots.csv), at the same age, before views. Views sit in two
+    test-batch buckets (~300 / ~750) whatever the format, and both buckets get the
+    same ~19 likes, so view counts alone are a weak signal.
   - `analytics/studio_manual.csv` — TikTok Studio figures the owner typed in by hand
     (watch time, completion, retention, traffic, followers gained), if any. Studio data
     is NOT otherwise available: never invent it, say it is missing.

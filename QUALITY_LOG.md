@@ -137,6 +137,8 @@ rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects 
 | 2026-10-09 | Multi-part series (2–3 parts, all pre-gated, queued in series_queue.json) | series_queue.py, story_generator.py (_try_series, _finalise), main_documentary.py | set SERIES_MIN_CHARS very high in series_queue.py |
 | 2026-10-09 | FORMAT_VERSION v3-calm → v3-calm-world (before any v3 post) | config.py | — |
 | 2026-10-09 | Weekly cloud review routine (Sat 09:00 UTC) following docs/REVIEW_PROMPT.md | claude.ai routine | pause at claude.ai/code/routines |
+| 2026-10-13 | **Visuals → v4-mood-visuals.** Found in the 10-12 Imbo video: hook frame was a festive-lit station, then Amman (ancient 'Philadelphia'), two rat photos and a SIDEWAYS Parkway photo; the 12 per-line mood queries were never used because Commons place photos won every scene. Now: hook + 2/3 of scenes use mood footage, place photos only scenes 3/6/9/12, file title must name the place, animals/paintings/shops/hotels refused, vivid-pixel gate (>20% refused), geograph photos ranked first, EXIF orientation applied. tests/test_visuals.py | image_generator.py, uk_media.py, image_safety.py, documentary_composer.py, config.py | `PLACE_SCENE_EVERY = 1` restores places on every scene |
+| 2026-10-13 | Buffer watch-time metrics → analytics/buffer_metrics.csv | analytics/collect.py, docs/REVIEW_PROMPT.md | delete buffer_metrics() call |
 
 ## 5. Review attempts
 - 2026-10-10: gate not met. Newest cohort v3-calm (first post 2026-10-09 20:07 UTC) has 1 video, 0 aged 72h+, 0 days old (need 14 days and 8 videos aged 72h+). Earliest review about 2026-10-24.

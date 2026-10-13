@@ -12,7 +12,7 @@ import subprocess
 import threading
 from datetime import datetime
 from typing import List, Dict, Optional
-from PIL import Image
+from PIL import Image, ImageOps
 
 import image_safety
 from video_composer import FFMPEG, escape_ffmpeg_text, build_filter_script, get_video_duration
@@ -152,7 +152,10 @@ def make_ken_burns_clip(
               f"-- using a dark frame for this scene.")
         img = Image.new("RGB", (out_w, out_h), (10, 10, 10))
     else:
-        img = Image.open(image_path).convert("RGB")
+        # exif_transpose: some Commons originals store sideways pixels plus an EXIF
+        # "rotate 90" flag, which Pillow ignores unless asked. That is how the
+        # Benjamin Franklin Parkway photo appeared on its side on 2026-10-12.
+        img = ImageOps.exif_transpose(Image.open(image_path)).convert("RGB")
     iw, ih = img.size
 
     # Crop source to 9:16 aspect ratio

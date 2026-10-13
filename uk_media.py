@@ -79,9 +79,39 @@ _WRONG_PLACE = re.compile(
     r"\bbus\b|buses|coach|stagecoach|arriva|locomotive|railway station|train|tram|"
     r"steam|fleet|livery|aircraft|airport|"
     r"football|cricket|rugby|stadium|festival|carnival|parade|wedding|"
-    r"coat of arms|flag of|logo|diagram)",
+    r"coat of arms|flag of|logo|diagram|"
+    # Found in the 2026-10-12 Philadelphia video (two brown-rat photos) and in
+    # Commons results for other places: animals, museum paintings, shops and hotels.
+    r"\brats?\b|rattus|mouse|mice|squirrel|\bcats?\b|\bdogs?\b|horse|\bfox\b|deer|\bcow|"
+    r"painting|museum|gallery|portrait of|\(\d{4}\s*-\s*\d{4}\)|\bc\.\s?\d{4}|"
+    r"supermarket|morrisons|tesco|sainsbury|asda|aldi|lidl|\bibis\b|premier inn|travelodge|hotel)",
     re.I,
 )
+
+# Words that appear in many place names and so prove nothing about the photo.
+_GENERIC_PLACE_WORDS = {
+    "road", "street", "lane", "avenue", "county", "city", "town", "village", "united",
+    "kingdom", "north", "south", "east", "west", "upper", "lower", "great", "little",
+    "new", "saint", "park", "the", "and", "near", "borough", "district", "england",
+    "scotland", "wales", "state", "states", "america", "usa",
+}
+
+
+def place_tokens(place: str) -> list:
+    """The distinctive words of a place name ('Hemdean Road, Caversham' -> hemdean, caversham)."""
+    words = re.findall(r"[a-z][a-z'\-]+", (place or "").lower())
+    return [w for w in words if len(w) >= 4 and w not in _GENERIC_PLACE_WORDS]
+
+
+def names_place(title: str, place: str) -> bool:
+    """True when the file title names the place. Commons full-text search also matches
+    descriptions, which is how 'Philadelphia' returned Amman (its ancient name) and
+    rat photos whose description mentions the city."""
+    toks = place_tokens(place)
+    if not toks:
+        return True
+    t = title.lower()
+    return any(tok in t for tok in toks)
 
 _session = None
 _last = 0.0
@@ -182,7 +212,7 @@ def verified_person_image(person: str) -> dict:
         return {}
 
 
-def location_images(place: str, limit: int = 6, uk: bool = True) -> list:
+def location_images(place: str, limit: int = 6, uk: bool = True, must_name: str = "") -> list:
     """
     Free-licensed photographs of a real UK place.
 
@@ -205,7 +235,11 @@ def location_images(place: str, limit: int = 6, uk: bool = True) -> list:
         # Then drop anything the anchor did not catch — wrong country, or a breed
         # of sheep that happens to share the county's name.
         clean = [d for d in details if not _WRONG_PLACE.search(d["title"])
-                 and not (uk and _WRONG_COUNTRY.search(d["title"]))]
+                 and not (uk and _WRONG_COUNTRY.search(d["title"]))
+                 and names_place(d["title"], must_name or place)]
+        # Geograph is a project to photograph every grid square of Britain: plain,
+        # documentary street photos, which is exactly the look these stories want.
+        clean.sort(key=lambda d: "geograph" not in d["title"].lower())
         return clean[:limit]
     except Exception as e:
         print(f"[UKMedia] location search failed for {place!r}: {e}")

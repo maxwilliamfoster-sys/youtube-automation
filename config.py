@@ -141,7 +141,10 @@ CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.5"))
 #   v3-calm-world: 2026-10-10 ..            (sombre ref 0.45/0.5, overcast grade, spoken
 #                  numbers, worldwide cases ranked by intrigue + Wikipedia pageviews,
 #                  occasional 2-3 part series; series parts carry series_part in the log)
-FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v3-calm-world")
+#   v4-mood-visuals: 2026-10-13 .. (hook + 2/3 of scenes use per-line mood footage, real-
+#                  place photos only every 3rd scene, title must name the place, vivid/
+#                  animal/painting/shop photos refused, EXIF rotation applied)
+FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v4-mood-visuals")
 
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
 TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)
@@ -217,6 +220,10 @@ USE_VIDEO_BROLL     = True
 # copyright gate) and far more specific — the actual street, the actual Old Bailey.
 # Falls through to Pexels when a place yields nothing usable.
 UK_LOCATION_IMAGES  = True
+# Real-place photos fill every Nth scene (3, 6, 9, 12 of 12); the rest, including the
+# opening hook, use footage matched to that line's mood query. 2026-10-13: when places
+# took every scene, the hook frame was e.g. a festive-lit station or a rat.
+PLACE_SCENE_EVERY   = 3
 
 NUM_SCENE_IMAGES    = 12       # Atmospheric scenes per video — more scenes = faster cuts = better retention
                                # At 7, scenes held for 8-12s each and the video read as a

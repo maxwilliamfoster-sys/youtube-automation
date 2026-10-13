@@ -103,7 +103,53 @@ def comments(vid, session):
     return out
 
 
+BUFFER_FILE = os.path.join(HERE, "buffer_metrics.csv")
+BUFFER_FIELDS = ["snapshot_utc", "video_id", "views", "averageTimeWatched",
+                 "totalTimeWatched", "reach", "reactions", "comments", "shares"]
+
+
+def buffer_metrics():
+    """Average watch time per post, from Buffer (added 2026-10-13).
+
+    The public page has no watch time, so before this the weekly review could not see
+    retention at all. Escape Cup has read the same Buffer fields since 2026-10-08.
+    Kept apart from load_ids() so a Buffer schema change can never stop new IDs being
+    found. Appends one row per sent post per run to buffer_metrics.csv."""
+    try:
+        sys.path.insert(0, os.path.dirname(HERE))
+        import tiktok_buffer as tb
+        if not tb.is_configured():
+            return 0
+        chan = tb.find_channel()
+        data = tb._gql("""query($o: OrganizationId!, $c: [ChannelId!]) {
+          posts(first: 50, input: {organizationId: $o, filter: {status: [sent], channelIds: $c}}) {
+            edges { node { externalLink metrics { type value } } } } }""",
+                       {"o": chan["org"], "c": [chan["id"]]})
+    except Exception as e:
+        print(f"[analytics] Buffer metrics skipped ({str(e)[:160]})")
+        return 0
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M")
+    rows = []
+    for e in data["posts"]["edges"]:
+        node = e["node"]
+        m = re.search(r"/video/(\d+)", node.get("externalLink") or "")
+        if not m:
+            continue
+        met = {x["type"]: x["value"] for x in (node.get("metrics") or [])}
+        rows.append({"snapshot_utc": now, "video_id": m.group(1),
+                     **{k: met.get(k) for k in BUFFER_FIELDS[2:]}})
+    new = not os.path.exists(BUFFER_FILE)
+    with open(BUFFER_FILE, "a", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=BUFFER_FIELDS)
+        if new:
+            w.writeheader()
+        w.writerows(rows)
+    print(f"[analytics] Buffer metrics for {len(rows)} posts")
+    return len(rows)
+
+
 def collect():
+    buffer_metrics()
     ids = load_ids()
     now = datetime.now(timezone.utc)
     s = requests.Session()
