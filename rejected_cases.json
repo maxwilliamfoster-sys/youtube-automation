@@ -700,5 +700,125 @@
   "reason": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
+ },
+ "Killing of Naomi Irion": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Kalinka Bamberski case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Killing of Shosei Koda": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Shakilus Townsend": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Tina Harmon": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Arlene Arkinson": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Soujanya rape and murder case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Disappearance of Beverly Potts": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The video discusses the disappearance of a real nine‑year‑old child, which is a distressing and sensitive true‑crime topic.",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Shooting of Gold Dagal": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Jessica Ridgeway": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Raonaid Murray": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Ross Parker": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Stanley Park)": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Anthony Walker": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The video discusses a real murder without graphic detail, but it sensationalises the tragedy by inviting speculation and comments, which may be distressing for viewers.",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Ellie Gould": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Daniel Handley": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Noor Mukadam": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "House of Blood murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Kidnapping of Shannon Matthews": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Henry Nowak": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-14",
+  "strikes": 1
  }
 }
