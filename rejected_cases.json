@@ -664,5 +664,41 @@
   "reason": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
+ },
+ "Murders of Jacqueline Ansell-Lamb and Barbara Mayo": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Oklahoma Girl Scout murders": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Disappearance of Suzanne Lyall": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The boyfriend is a named, unconvicted suspect central to the case, which cannot be discussed without implying guilt.",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Kirsty Jones": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Denise McGregor": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Alesha MacPhail": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
  }
 }
