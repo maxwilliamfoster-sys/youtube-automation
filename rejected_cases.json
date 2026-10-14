@@ -610,5 +610,59 @@
   "reason": "gore",
   "date": "2026-10-13",
   "strikes": 1
+ },
+ "Murder of Peggy Hettrick": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Amanda Duffy": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Jane Clouson": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Disappearance of Fiona Pender": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a named suspect who has never been convicted",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Bear Brook murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Lundy murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Simon Levy case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Murder of Tanvir Muhammad Taqi": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-14",
+  "strikes": 1
+ },
+ "Killing of Dot King": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-14",
+  "strikes": 1
  }
 }
