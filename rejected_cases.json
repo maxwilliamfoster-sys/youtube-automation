@@ -958,5 +958,29 @@
   "reason": "gore",
   "date": "2026-10-15",
   "strikes": 1
+ },
+ "Disappearance of Alex Sloley": {
+  "stage": "quality",
+  "reason": "accuracy 4/10",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Sara Anne Wood": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Disappearance of Helena Andersson": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Abduction of Waliullah and Al Muqaddas": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
  }
 }
