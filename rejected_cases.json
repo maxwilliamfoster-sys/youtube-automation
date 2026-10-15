@@ -820,5 +820,23 @@
   "reason": "active_proceedings",
   "date": "2026-10-14",
   "strikes": 1
+ },
+ "Murder of Santosh Deshmukh": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Lesley Molseed": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Kriss Donald": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
  }
 }
