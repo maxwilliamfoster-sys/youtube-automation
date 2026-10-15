@@ -148,11 +148,40 @@ def buffer_metrics():
     return len(rows)
 
 
+ACCOUNT_FILE = os.path.join(HERE, "account.csv")
+ACCOUNT_FIELDS = ["snapshot_utc", "followers", "likes_total", "videos"]
+
+
+def account_stats(session):
+    """Daily follower count from the public profile page (added 2026-10-15, growth-lab):
+    followers gained per 1k views is the conversion metric, and nothing else records it."""
+    try:
+        r = session.get(f"https://www.tiktok.com/@{HANDLE}", headers=UA, timeout=30)
+        m = re.search(r'<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>(.*?)</script>',
+                      r.text, re.S)
+        st = json.loads(m.group(1))["__DEFAULT_SCOPE__"]["webapp.user-detail"]["userInfo"]["stats"]
+        row = {"snapshot_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M"),
+               "followers": int(st["followerCount"]), "likes_total": int(st["heartCount"]),
+               "videos": int(st["videoCount"])}
+    except Exception as e:
+        print(f"[analytics] account stats skipped ({str(e)[:100]})")
+        return None
+    new = not os.path.exists(ACCOUNT_FILE)
+    with open(ACCOUNT_FILE, "a", newline="", encoding="utf-8") as fh:
+        w = csv.DictWriter(fh, fieldnames=ACCOUNT_FIELDS)
+        if new:
+            w.writeheader()
+        w.writerow(row)
+    print(f"[analytics] account: {row['followers']} followers, {row['videos']} videos")
+    return row
+
+
 def collect():
     buffer_metrics()
     ids = load_ids()
     now = datetime.now(timezone.utc)
     s = requests.Session()
+    account_stats(s)
     rows, allc = [], []
     for vid in ids:
         try:
