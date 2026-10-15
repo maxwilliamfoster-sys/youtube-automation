@@ -838,5 +838,125 @@
   "reason": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
+ },
+ "Murder of Elianne Andam": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Bowraville murders": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Zoe Parker": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Mueller family murders": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Abduction of Russian diplomats in Iraq": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Karen Price": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Lindsay Buziak": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Suzanne Capper": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Katarzyna Zowada": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Kelsey Smith": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case includes a sexual assault of the victim.",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Tia Sharp": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Brianna Denison": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Mark Tildesley": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Wendy Sewell": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Death of Noah Donohoe": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the death of a 14‑year‑old child, which triggers the minor_victim restriction.",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Jaidyn Leskie": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Killing of Melanie Carpenter": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Wendy Albano": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Sophie Hook": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-15",
+  "strikes": 1
+ },
+ "Murder of Becky Watts": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-15",
+  "strikes": 1
  }
 }
