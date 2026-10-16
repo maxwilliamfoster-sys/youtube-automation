@@ -646,6 +646,11 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                            width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
                 send_alert(upload_gate.block_message(gate_v, story.get("title", "?")))
                 print("[Cloud] BLOCKED by the upload gate.")
+                if all(f.startswith("AI review unavailable") for f in gate_v["failures"]):
+                    # Nothing wrong with the video; the review couldn't run (quota/outage).
+                    # A spare render would hit the same wall, and it's not the part's fault.
+                    print("[Cloud] AI review unavailable - not spending the spare render.")
+                    break
                 if not sample:
                     import series_queue
                     series_queue.mark_blocked(story)
