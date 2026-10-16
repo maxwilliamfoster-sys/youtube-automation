@@ -57,6 +57,35 @@
     "summary": null,
     "tokens": null
    }
+  },
+  {
+   "checked_at": "2026-10-16T15:51:18+00:00",
+   "platform": "tiktok",
+   "file": "The_van_she_ignored_killed_her_20261016_154549.mp4",
+   "sha256": "4e579d30b8856d7176c9e0795fb84fce4b8fae7c71a27bd325c3fa6edd420dd9",
+   "head": "Cherrie Mahan case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked due to a garbled text rendering error ('V/AFTER:D') and the inclusion of unverified investigative claims about the suspect van's location. | Unverified claims stated as fact: The narration and visuals assert that the van was 'later seen in New Kensington' (labeled 'KENSINGTON' on screen). This is a specific investigative detail not established in court and implies a connection to the suspect vehicle without proof, violating the rule against unverified claims in true crime content.; Garbled on-screen text: In the third contact sheet, the word 'AFTER' is rendered as 'V/AFTER:D' with a slash and colon, indicating a text rendering error or glitch.; Visual inconsistency: The video depicts a snowy scene (narration mentions 'snow', 'footprints'), but the B-roll footage shows a cornfield in summer (green leaves) and a field with dry stalks, which contradicts the winter setting described in the script."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 54.43,
+    "lufs": -15.1,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "summary": "The video is blocked due to a garbled text rendering error ('V/AFTER:D') and the inclusion of unverified investigative claims about the suspect van's location.",
+    "tokens": 4369
+   }
   }
  ]
 }

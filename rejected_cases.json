@@ -1198,5 +1198,47 @@
   "reason": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
+ },
+ "Rainham Mystery": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Bijan Ebrahimi": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Lynsey Quy": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Roy Tutill": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Marion Crofts": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Killing of Savannah Graziano": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Ilan Halimi": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
  }
 }
