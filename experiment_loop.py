@@ -150,8 +150,14 @@ def evaluate(ledger, levers, config, posts, today, data_ok=True):
         views = _arm_values(posts, e["id"], "views72")
         e["control_metrics"] = dict(_summ(hold["control"]), views72=_summ(views["control"]).get("median"))
         e["variant_metrics"] = dict(_summ(hold["variant"]), views72=_summ(views["variant"]).get("median"))
-        res = gs.judge(hold["control"], hold["variant"], e_min, e_max,
-                       guardrails={"views@72h": (views["control"], views["variant"], True)})
+        if lever.get("primary") == "views72":
+            # e.g. a length lever: a shorter video gets a higher % watched for free,
+            # so it is judged on views and the hold metric only guards
+            res = gs.judge(views["control"], views["variant"], e_min, e_max,
+                           guardrails={"hold": (hold["control"], hold["variant"], True)})
+        else:
+            res = gs.judge(hold["control"], hold["variant"], e_min, e_max,
+                           guardrails={"views@72h": (views["control"], views["variant"], True)})
         e["verdict"] = res["verdict"]
         e["last_judged"] = today
         e["result"] = gs.format_result(e["id"], e.get("metric", "hold"), res).replace("**", "")
@@ -189,7 +195,9 @@ def evaluate(ledger, levers, config, posts, today, data_ok=True):
                      "lever": lever["lever"], "kind": lever.get("kind", ""),
                      "hypothesis": lever.get("hypothesis", ""), "control": control,
                      "variant": variant, "start_date": today, "status": "running",
-                     "min_n": min_n, "max_n": max_n, "metric": levers.get("metric", "hold"),
+                     "min_n": min_n, "max_n": max_n,
+                     "metric": ("views@72h" if lever.get("primary") == "views72"
+                                else levers.get("metric", "hold")),
                      "control_metrics": {}, "variant_metrics": {}}
                 ledger["experiments"].append(e)
                 actions.append(f"{channel}: STARTED {e['id']}: {e['lever']} {control!r} -> "
