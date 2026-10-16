@@ -1,0 +1,17 @@
+{
+ "_doc": "Allowed levers for the nightly experiment loop (experiment_loop.py). ONLY these levers and values can ever be applied. Order = test queue. Every value must render cleanly (hook/cta '' = no card; music_volume is the documentary music bed, default config.DOC_MUSIC_VOLUME 0.10).",
+ "channel": "buriedcasefiles",
+ "metric": "avg % watched at 72h",
+ "min_n": 15,
+ "max_n": 30,
+ "max_days": 42,
+ "not_before": "2026-10-25",
+ "levers": [
+  {"lever": "hook_card", "kind": "hook style", "control": true, "variants": [false],
+   "hypothesis": "Dropping the 1.8s hook title card (straight into the spoken cold open) raises avg % watched; research says a cold open beats a title card."},
+  {"lever": "cta_card", "kind": "length", "control": true, "variants": [false],
+   "hypothesis": "Ending on the payoff line with no end card raises avg % watched (viewers leave at the outro)."},
+  {"lever": "music_volume", "kind": "sound", "control": 0.10, "variants": [0.05],
+   "hypothesis": "A quieter music bed makes the narration clearer and raises avg % watched."}
+ ]
+}

@@ -87,6 +87,30 @@ def _ensure_ffmpeg_on_path():
         os.environ["PATH"] = ffmpeg_fallback + os.pathsep + os.environ.get("PATH", "")
 
 
+def _loop_values():
+    """Lever values for this post from the nightly experiment loop, and its arms.
+
+    Allowed levers: levers.json (hook_card, cta_card, music_volume). Missing or
+    broken loop files give ({}, {}) and the video renders exactly as before.
+    LOOP_FORCE_VALUES (JSON) previews a queued value; LOOP_FORCE_ARM pins the arm.
+    """
+    try:
+        here = os.path.dirname(os.path.abspath(__file__))
+        sys.path.insert(0, os.path.join(here, "analytics"))   # growth_stats lives there
+        import experiment_loop
+        led, _, cfg = experiment_loop.load_repo(here)
+        vals, arms = experiment_loop.values_for_post(
+            led, cfg, force_arm=os.environ.get("LOOP_FORCE_ARM") or None)
+        if os.environ.get("LOOP_FORCE_VALUES"):
+            vals.update(json.loads(os.environ["LOOP_FORCE_VALUES"]))
+        if vals or arms:
+            print(f"[LOOP] arms {arms} values {vals}")
+        return vals, arms
+    except Exception as e:
+        print(f"[LOOP] off ({e})")
+        return {}, {}
+
+
 def _generate_one() -> tuple:
     """
     Research → script → voice → captions → images → compose ONE video.
@@ -186,6 +210,14 @@ def _generate_one() -> tuple:
 
     # ── 5. Compose ────────────────────────────────────────────────────────────
     print("\n--- STEP 5: Composing Video ---")
+    loop_vals, story["loop_arms"] = _loop_values()
+    import documentary_composer
+    if "music_volume" in loop_vals:
+        documentary_composer.DOC_MUSIC_VOLUME = float(loop_vals["music_volume"])
+    hook_text = story.get("hook", "") if loop_vals.get("hook_card", True) else ""
+    # Never wired up before, so every video fell back to the composer's default
+    # "Follow for more unsolved cases" — the same generic ask on every post.
+    cta_text = (story.get("cta") or None) if loop_vals.get("cta_card", True) else ""
     video_path = compose_documentary(
         image_paths=image_paths,
         audio_path=tts["audio_path"],
@@ -193,10 +225,8 @@ def _generate_one() -> tuple:
         title=story["title"],
         audio_duration=tts["duration"],
         word_segments=word_segments,
-        hook_text=story.get("hook", ""),
-        # Never wired up before, so every video fell back to the composer's default
-        # "Follow for more unsolved cases" — the same generic ask on every post.
-        cta_text=story.get("cta") or None,
+        hook_text=hook_text,
+        cta_text=cta_text,
     )
 
     # ── 6. Log ────────────────────────────────────────────────────────────────
@@ -386,6 +416,7 @@ def _log_post(detail: str, story: dict, video_path: str) -> None:
         "uk":           story.get("uk", ""),
         "softened":     bool(story.get("softened")),
         "hook":         (story.get("hook") or "")[:120],
+        "loop":         json.dumps(story.get("loop_arms") or {}),
     }
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analytics", "posts_log.csv")
     try:
