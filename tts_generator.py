@@ -318,30 +318,57 @@ def _correct_against_script(word_timings: list, script: str) -> list:
         return word_timings
 
     matcher = difflib.SequenceMatcher(a=heard, b=real, autojunk=False)
-    ratio = matcher.ratio()
-    if ratio < 0.45:
-        # Too different to trust the mapping — a garbled take, or the wrong audio.
-        print(f"[TTS] Caption correction skipped (only {ratio:.0%} match to script).")
+    matched = sum(b.size for b in matcher.get_matching_blocks())
+    ratio = matched / max(1, len([w for w in real if w]))      # share of the script heard
+    if matched < 0.5 * len(heard) or matched < 3:
+        # Most of what Whisper heard isn't in the script: a garbled take or the wrong
+        # audio. Don't force-fit; the upload gate's speech check blocks such a video.
+        print(f"[TTS] Caption correction skipped (only {matched}/{len(heard)} heard words are in the script).")
         return word_timings
 
-    corrected = list(word_timings)
-    replaced = 0
+    # ONE caption per SCRIPT word (2026-10-16). The old version only relabelled the
+    # words Whisper heard, so every word it missed had no caption at all: CI logged
+    # "52% match, 46 words timed" for a 107-word script and the Ricky Reel video showed
+    # no captions for its first 29 seconds. Now matched words keep Whisper's times,
+    # mismatched runs share the time span of the heard words they replace, and words
+    # Whisper never heard are spread across the gap between their timed neighbours.
+    keep = [k for k, w in enumerate(real) if w]
+    real_words = [real_words[k] for k in keep]
+    real = [real[k] for k in keep]
+    matcher = difflib.SequenceMatcher(a=heard, b=real, autojunk=False)
+    times = [None] * len(real)
     for tag, i1, i2, j1, j2 in matcher.get_opcodes():
         if tag == "equal":
             for k in range(i2 - i1):
-                corrected[i1 + k]["word"] = real_words[j1 + k]
-        elif tag in ("replace", "delete", "insert"):
-            span = i2 - i1
-            src = real_words[j1:j2]
-            if span and src:
-                # Spread the script words across the timed slots they correspond to.
-                for k in range(span):
-                    pick = src[min(int(k * len(src) / span), len(src) - 1)]
-                    corrected[i1 + k]["word"] = pick
-                    replaced += 1
+                times[j1 + k] = (word_timings[i1 + k]["start"], word_timings[i1 + k]["end"])
+        elif tag == "replace" and (j2 - j1) <= (i2 - i1) + 1:
+            # similar-sized run: misheard words, so their times are right
+            t0, t1 = word_timings[i1]["start"], word_timings[i2 - 1]["end"]
+            n = j2 - j1
+            for k in range(n):
+                times[j1 + k] = (t0 + (t1 - t0) * k / n, t0 + (t1 - t0) * (k + 1) / n)
+    total = max(w["end"] for w in word_timings)
+    k = 0
+    filled = 0
+    while k < len(times):                       # "insert" runs: never heard by Whisper
+        if times[k] is not None:
+            k += 1
+            continue
+        end_k = k
+        while end_k < len(times) and times[end_k] is None:
+            end_k += 1
+        t0 = times[k - 1][1] if k > 0 else 0.0
+        t1 = times[end_k][0] if end_k < len(times) else total
+        n = end_k - k
+        for m in range(n):
+            times[k + m] = (t0 + (t1 - t0) * m / n, t0 + (t1 - t0) * (m + 1) / n)
+        filled += n
+        k = end_k
+    corrected = [{"word": w, "start": round(a, 3), "end": round(max(b, a + 0.05), 3),
+                  "duration": round(max(b - a, 0.05), 3)} for w, (a, b) in zip(real_words, times)]
 
-    print(f"[TTS] Captions corrected against the script "
-          f"({ratio:.0%} match, {replaced} word(s) repaired).")
+    print(f"[TTS] Captions aligned to the script ({ratio:.0%} heard, {filled} unheard word(s) "
+          f"interpolated, {len(corrected)} words).")
     return corrected
 
 
@@ -354,26 +381,31 @@ def _transcribe_for_timing(audio_path: str, script: str = "") -> list:
     # costs seconds either way, and the run has a 50-minute budget.
     print("[TTS] Transcribing for word timing (Whisper small)...")
     model = WhisperModel("small", device="cpu", compute_type="int8")
-    segments, _ = model.transcribe(
-        audio_path,
-        word_timestamps=True,
-        language="en",
-        vad_filter=True,
-        # Biasing the decoder with the real narration makes it far likelier to pick
-        # the right word for names and places, which is where tiny went wrong most.
-        initial_prompt=script[:900] if script else None,
-    )
 
-    word_timings = []
-    for segment in segments:
-        if segment.words:
-            for word in segment.words:
-                word_timings.append({
+    def _run(**kw):
+        segments, _ = model.transcribe(audio_path, word_timestamps=True, language="en", **kw)
+        out = []
+        for segment in segments:
+            for word in (segment.words or []):
+                out.append({
                     "word":     word.word.strip(),
                     "start":    round(word.start, 3),
                     "end":      round(word.end,   3),
                     "duration": round(word.end - word.start, 3),
                 })
+        return out
+
+    # Plain decoding first. The old settings (script as initial_prompt + VAD) made
+    # Whisper skip whole sentences on Chatterbox audio in CI (46 of 107 words heard),
+    # a known failure of prompted decoding. The prompted pass is kept only as a
+    # second try, and whichever hears more of the script wins.
+    n_script = max(1, len(script.split())) if script else 0
+    word_timings = _run(vad_filter=False, condition_on_previous_text=False)
+    if script and len(word_timings) < 0.9 * n_script:
+        alt = _run(vad_filter=False, initial_prompt=script[:900])
+        print(f"[TTS] Whisper heard {len(word_timings)}/{n_script} words; prompted retry heard {len(alt)}.")
+        if len(alt) > len(word_timings) and len(alt) <= 1.2 * n_script:
+            word_timings = alt
 
     word_timings = _correct_against_script(word_timings, script)
     print(f"[TTS] {len(word_timings)} words timed")

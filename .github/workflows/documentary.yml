@@ -12,9 +12,16 @@ on:
     # Each run makes ONE video. GitHub starts scheduled runs late under load - in
     # Oct 2026 typically 4-6 HOURS late (08:15 cron -> ~14:30 start). That is normal
     # for free runners; the posting window above keeps late runs from posting at night.
-    - cron: '15 8 * * *'     # ~09:30 UK (BST) / 08:30 (GMT) — video 1
-    - cron: '45 11 * * *'    # ~13:00 UK — video 2
-    - cron: '45 14 * * *'    # ~16:00 UK — video 3
+    #
+    # Each slot is listed for BOTH UK clock settings; the `slot` job below keeps only
+    # the one matching today's UK offset (github.event.schedule names the cron that
+    # fired, however late it starts). So the clock change needs no manual edit.
+    - cron: '15 8 * * *'     # video 1 (BST) — 09:15 UK
+    - cron: '15 9 * * *'     # video 1 (GMT) — 09:15 UK
+    - cron: '45 11 * * *'    # video 2 (BST) — 12:45 UK
+    - cron: '45 12 * * *'    # video 2 (GMT)
+    - cron: '45 14 * * *'    # video 3 (BST) — 15:45 UK
+    - cron: '45 15 * * *'    # video 3 (GMT)
   workflow_dispatch:          # "Run workflow" button — generate on demand
     inputs:
       count:
@@ -22,9 +29,9 @@ on:
         default: '1'
         required: false
       mode:
-        description: 'generate = make + post; check-buffer = only list the Buffer TikTok channels'
+        description: 'generate = make + post; sample = make + gate + Telegram only (never posts, commits nothing); check-buffer = only list the Buffer TikTok channels'
         type: choice
-        options: [generate, check-buffer]
+        options: [generate, sample, check-buffer]
         default: generate
 
 # Never two runs at once: both would force-push the `media` branch that hosts the MP4s.
@@ -48,8 +55,34 @@ jobs:
           BUFFER_API_KEY:    ${{ secrets.BUFFER_API_KEY }}
           BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
 
+  slot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      run: ${{ steps.s.outputs.run }}
+    steps:
+      - id: s
+        env:
+          SCHED: ${{ github.event.schedule }}
+        run: |
+          python3 - <<'PY'
+          import os
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          sched = os.environ.get("SCHED", "").strip()
+          bst = datetime.now(ZoneInfo("Europe/London")).utcoffset().total_seconds() == 3600
+          run = True
+          if sched:                      # manual runs always go
+              hour = int(sched.split()[1])
+              run = hour in ({8, 11, 14} if bst else {9, 12, 15})
+          print(f"schedule={sched!r} uk_bst={bst} -> run={run}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
+              fh.write(f"run={'true' if run else 'false'}\n")
+          PY
+
   generate:
-    if: github.event.inputs.mode != 'check-buffer'
+    needs: slot
+    if: needs.slot.outputs.run == 'true' && github.event.inputs.mode != 'check-buffer'
     runs-on: ubuntu-latest
     timeout-minutes: 50
     permissions:
@@ -80,7 +113,9 @@ jobs:
             assets/
             music/
             ~/.cache/huggingface
-          key: assets-v3
+          # keyed on the committed assets: a fixed key restored stale copies OVER newer
+          # committed files (narrator reference, music) after checkout
+          key: assets-v4-${{ hashFiles('assets/**') }}
 
       # ── System deps: only FFmpeg + audio libs. No browser, no Xvfb. ───────────
       - name: Install system packages
@@ -136,7 +171,7 @@ jobs:
 
       # ── Generate videos and deliver them to Telegram ──────────────────────────
       - name: Generate & deliver
-        run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '1' }}
+        run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '1' }} ${{ github.event.inputs.mode == 'sample' && '--sample' || '' }}
         env:
           PYTHONUNBUFFERED: "1"
           # Auto-posting: Buffer key + the token that pushes MP4s to the Pages `media` branch.
@@ -149,11 +184,13 @@ jobs:
       # case_pool.json rides along: rebuilding it costs ~60 rate-limited Wikipedia
       # calls, so it is committed and only refetched when it expires.
       - name: Persist recent cases
-        if: always()
+        if: always() && github.event.inputs.mode != 'sample'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json || true
+          for f in recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json upload_gate_log.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if git diff --staged --quiet; then
             echo "No new case to persist."
           else

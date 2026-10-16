@@ -237,13 +237,17 @@ def _image_details(titles: list, min_width: int = 900) -> list:
         if not thumb and info.get("size", 0) > _MAX_BYTES:
             continue
         artist = re.sub(r"<[^>]+>", "", meta.get("Artist", {}).get("value", "") or "").strip()
+        if not artist and "by" in licence:
+            # CC BY / BY-SA need the author credited; "Wikimedia Commons" is not the
+            # author, and the fallback made publish_checks' attribution check dead.
+            continue
         out.append({
             "title":   page.get("title", "")[5:],
             "url":     thumb or info.get("url", ""),
             "width":   info.get("thumbwidth") or info.get("width", 0),
             "height":  info.get("thumbheight") or info.get("height", 0),
             "licence": meta.get("LicenseShortName", {}).get("value", licence),
-            "credit":  artist[:80] or "Wikimedia Commons",
+            "credit":  artist[:80] or "public domain",
         })
     return out
 

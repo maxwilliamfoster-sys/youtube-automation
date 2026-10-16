@@ -61,6 +61,11 @@ def post_video(video_path: str, caption: str) -> tuple[bool, str]:
 
     if not os.path.exists(video_path):
         return False, f"video not found: {video_path}"
+    import upload_gate
+    try:
+        upload_gate.require(video_path, "tiktok")     # only gate-approved files go out
+    except upload_gate.GateBlocked as e:
+        return False, f"BLOCKED by upload gate: {e}"
 
     data = {
         "user":          UPLOADPOST_USER,

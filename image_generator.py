@@ -7,6 +7,7 @@ TIP: Register free at https://auth.pollinations.ai to suppress watermarks.
 """
 
 import os
+import re
 import time
 import urllib.parse
 import subprocess
@@ -114,35 +115,50 @@ def generate_image_prompts(
 
 # ─── Pexels stock photo search ───────────────────────────────────────────────
 
+# Curated mood footage (2026-10-16). Free-text LLM queries were taken literally:
+# "Sunday afternoon" / "family meal" lines put a roast dinner, a sandwich, a sheep
+# close-up and a cart into a child-murder video, and other cases got a marching band
+# and abseilers. The upload gate's AI review blocked all three recent videos for it.
+# Every query below was checked on Pexels portrait video (top results are sombre,
+# case-neutral scenes with no identifiable people doing anything). Scene text picks
+# the theme by keyword; nothing repeats within a video.
+MOOD_THEMES = [
+    (r"\b(court|trial|jury|judge|convict|sentenc|acquit|verdict|appeal|inquest|charged|prosecut)",
+     ["courthouse", "documents on desk"]),
+    (r"\b(police|investigat|detective|officer|search|inquiry|evidence|forensic|suspect|arrest)",
+     ["police tape", "documents on desk", "empty corridor"]),
+    (r"\b(missing|vanish|disappear|last seen|never seen|never returned|never came home)",
+     ["empty street at night", "foggy road at night", "empty corridor"]),
+    (r"\b(car|drove|driv|road|motorway|vehicle|lorry|van|bus|taxi)", ["car headlights at night", "motorway at night"]),
+    (r"\b(train|station|railway|platform)", ["train station at night"]),
+    (r"\b(sea|coast|beach|cliff|harbour|shore|boat)", ["stormy sea"]),
+    (r"\b(field|farm|rural|countryside|village|moor|woods|forest|park|path)", ["misty field"]),
+    (r"\b(house|home|flat|bedroom|door|room|building)", ["abandoned house", "empty corridor"]),
+    (r"\b(years|decades|hours|minutes|days|weeks|time|clock|still)", ["clock ticking"]),
+    (r"\b(rain|storm|weather|cold|winter)", ["rain on window at night", "storm clouds"]),
+    (r"\b(memor|mourn|funeral|vigil|grief|family|mother|father|parents|remember)", ["candle in the dark"]),
+    (r"\b(night|dark|evening|midnight|late)", ["streetlight at night", "wet pavement at night"]),
+]
+MOOD_DEFAULT = ["storm clouds", "foggy road at night", "rain on window at night", "empty street at night",
+                "candle in the dark", "misty field", "streetlight at night", "wet pavement at night"]
+
+
 def _generate_pexels_queries(story_title: str, segments: list) -> list:
-    """Use Groq to turn story segments into short Pexels search queries."""
-    client = Groq(api_key=GROQ_API_KEY)
-    seg_lines = "\n".join(f"Scene {i+1}: {seg[:200]}" for i, seg in enumerate(segments))
-    response = _groq_call(client,
-        model=GROQ_MODEL,
-        max_tokens=200,
-        messages=[
-            {
-                "role": "system",
-                "content": (
-                    "Generate ONE short Pexels stock photo search query per scene. "
-                    "Dark, atmospheric, cinematic. 2-5 words each. "
-                    "No names of people, no gore. One query per line, no numbering."
-                ),
-            },
-            {
-                "role": "user",
-                "content": f"True crime story: {story_title}\n\nScenes:\n{seg_lines}",
-            },
-        ],
-    )
-    raw = response.choices[0].message.content.strip()
-    queries = [
-        line.strip().lstrip("0123456789.-) ")
-        for line in raw.split("\n")
-        if line.strip()
-    ]
-    return queries
+    """One curated mood query per scene (no LLM: see MOOD_THEMES)."""
+    used, out = set(), []
+    for seg in segments:
+        text = (seg or "").lower()
+        pick = None
+        for pat, queries in MOOD_THEMES:
+            if re.search(pat, text):
+                pick = next((q for q in queries if q not in used), None)
+                if pick:
+                    break
+        if pick is None:
+            pick = next((q for q in MOOD_DEFAULT if q not in used), MOOD_DEFAULT[len(out) % len(MOOD_DEFAULT)])
+        used.add(pick)
+        out.append(pick)
+    return out
 
 
 def fetch_pexels_video(

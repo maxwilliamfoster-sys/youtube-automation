@@ -22,6 +22,7 @@ Each run:
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -169,6 +170,7 @@ def _generate_one() -> tuple:
     except Exception as e:
         print(f"[Voice] Chatterbox failed ({str(e)[:160]}) — falling back to Kokoro.")
 
+    story["voice_engine"] = "chatterbox" if tts is not None else "kokoro"
     if tts is None:
         tts = generate_tts(
             story["script"],
@@ -211,6 +213,11 @@ def _generate_one() -> tuple:
     # ── 5. Compose ────────────────────────────────────────────────────────────
     print("\n--- STEP 5: Composing Video ---")
     loop_vals, story["loop_arms"] = _loop_values()
+    if story.get("series_part") and "cta_card" in loop_vals:
+        # A series part's closing card is "Part N next" - never drop it, and keep
+        # these posts out of the cta test so they can't confound it.
+        loop_vals.pop("cta_card")
+        story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "cta" not in k}
     import documentary_composer
     if "music_volume" in loop_vals:
         documentary_composer.DOC_MUSIC_VOLUME = float(loop_vals["music_volume"])
@@ -417,6 +424,8 @@ def _log_post(detail: str, story: dict, video_path: str) -> None:
         "softened":     bool(story.get("softened")),
         "hook":         (story.get("hook") or "")[:120],
         "loop":         json.dumps(story.get("loop_arms") or {}),
+        # the engine that ACTUALLY spoke (narrator_ref etc. are only Chatterbox settings)
+        "voice":        story.get("voice_engine", ""),
     }
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analytics", "posts_log.csv")
     try:
@@ -437,7 +446,7 @@ def _log_post(detail: str, story: dict, video_path: str) -> None:
         print(f"[TikTok] could not log the post ({e})")
 
 
-def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc) -> None:
+def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc) -> bool:
     """
     Post the finished video to TikTok, if auto-posting is switched on: Buffer when
     BUFFER_API_KEY is set (free, official API), else Upload-Post (dormant, paid).
@@ -455,15 +464,19 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
             via = "Upload-Post"
     except Exception as e:
         print(f"[TikTok] poster unavailable ({e}) — skipping.")
-        return
+        return False
 
     if not tp.is_configured():
-        return  # owner hasn't opted in; Telegram-only, exactly as before
+        return False  # owner hasn't opted in; Telegram-only, exactly as before
 
-    # Backstop guardrail: only OK-verdict videos may be posted, no exceptions.
+    # Backstop guardrail: only videos that passed BOTH the guidelines and the legal
+    # review may be posted, no exceptions (the upload gate is enforced inside post_video).
     if (story.get("compliance") or {}).get("verdict") != "OK":
         print("[TikTok] Refusing to post — compliance verdict is not OK.")
-        return
+        return False
+    if (story.get("legal") or {}).get("ok") is not True:
+        print("[TikTok] Refusing to post — no passing legal review on record.")
+        return False
 
     print(f"[TikTok] Auto-posting to TikTok via {via}...")
     ok, detail = tp.post_video(video_path, caption)
@@ -476,21 +489,65 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
             pass
     else:
         print(f"[TikTok] Post failed: {detail}")
+        if str(detail).startswith("BLOCKED by upload gate"):
+            advice = "It was NOT posted. Don't post it by hand either."
+        elif "timed out" in str(detail):
+            advice = ("Buffer may still publish it - check TikTok before posting anything "
+                      "by hand, or it goes up twice.")
+        else:
+            advice = "The video is in Telegram — post it manually this time."
         try:
             send_alert(
                 f"⚠️ <b>TikTok auto-post failed</b>\n\n"
-                f"{esc(story.get('title','?'))}\n<b>Reason:</b> {esc(detail[:300])}\n\n"
-                f"The video is above in Telegram — post it manually this time."
+                f"{esc(story.get('title','?'))}\n<b>Reason:</b> {esc(detail[:300])}\n\n{advice}"
             )
         except Exception:
             pass
+    return ok
 
 
-def run_cloud_deliver(count: int = 2) -> None:
+def _credit_line(images, limit=400) -> str:
+    """CC BY / BY-SA photos must credit their author; TikTok has no credits screen, so
+    the caption carries it (publish_checks used to compute this and drop it)."""
+    seen, parts = set(), []
+    for img in images or []:
+        lic, who = (img.get("licence") or "").strip(), (img.get("credit") or "").strip()
+        if not who or who.lower() == "public domain" or not re.search(r"cc[ -]?by", lic, re.I):
+            continue
+        key = (who, lic)
+        if key not in seen:
+            seen.add(key)
+            parts.append(f"{who} ({lic})")
+    if not parts:
+        return ""
+    line = "📷 Photos: " + "; ".join(parts) + " via Wikimedia Commons"
+    return line if len(line) <= limit else line[:limit - 1] + "…"
+
+
+def _gate_profile(sample=False):
+    """Upload-gate settings for the documentaries (see upload_gate.DEFAULT_PROFILE)."""
+    return {
+        "width": 1080, "height": 1920, "fps": 30, "seconds": (15, 180),
+        "min_video_kbps": 1000,
+        "max_silence": 3.0,
+        "speech_min": 0.7,               # Whisper tiny on clean narration measures ~0.9+
+        "whisper_model": "tiny",
+        "ai_review": "required",         # no coherence review = no post
+        "ai_realistic": True,            # AI narrator over real places -> TikTok AI label
+        "ai_context": ("BuriedCasefiles: calm, factual true-crime documentaries about real cases. "
+                       "An AI narrator reads the script over sombre mood footage (fog, rain, empty "
+                       "streets, police tape), photos of the real place, and archive images; a hook "
+                       "card opens the video and a closing card asks viewers what they think."),
+        "ledger": None if sample else os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                                   "upload_gate_log.json"),
+    }
+
+
+def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     """
-    GENERATE-ONLY cloud mode (for GitHub Actions): make `count` videos and send each
-    to Telegram with a ready-to-paste caption, so the user posts them manually from
-    their phone. Never touches TikTok — zero bot/shadowban risk, no PC required.
+    Cloud mode (GitHub Actions): make `count` videos, run every gate, send each to
+    Telegram, then auto-post it to TikTok via Buffer when configured.
+    sample=True: same video and gates, Telegram only - never posts.
     """
     from notify import send_alert, send_video, esc
     from config import TIKTOK_HASHTAGS, TIKTOK_CAPTION_TEMPLATE, VIDEO_WIDTH, VIDEO_HEIGHT
@@ -498,7 +555,10 @@ def run_cloud_deliver(count: int = 2) -> None:
 
     print(f"[Cloud] Generating {count} video(s) for manual posting...")
     delivered = 0
-    for i in range(1, count + 1):
+    # One spare render: a video blocked by a gate used to leave the slot empty.
+    for i in range(1, count + 2):
+        if delivered >= count:
+            break
         print(f"\n[Cloud] ===== Video {i}/{count} =====")
         try:
             story, video_path = _generate_one()
@@ -531,10 +591,13 @@ def run_cloud_deliver(count: int = 2) -> None:
                     print("[Cloud] BLOCKED by publish checks:")
                     for b in gate["blocking"]:
                         print(f"    ! {b}")
+                    import series_queue
+                    series_queue.mark_blocked(story, permanent=True)   # regex checks repeat
                     continue
                 story["attribution"] = gate["attribution"]
-            except ImportError:
-                print("[Cloud] publish_checks unavailable — falling back to the guidelines gate only.")
+            except ImportError as e:
+                # Fail closed: the copyright/defamation checks are not optional.
+                raise RuntimeError(f"publish_checks could not be imported ({e}) - not delivering")
 
             if verdict != "OK":
                 reasons = "; ".join((story.get("compliance") or {}).get("reasons", []))
@@ -558,49 +621,81 @@ def run_cloud_deliver(count: int = 2) -> None:
                 hashtags=TIKTOK_HASHTAGS,
                 story_hashtags=story.get("hashtags", ""),
             )
+            credits = _credit_line(story.get("images", []))
+            if credits:
+                caption = caption + "\n" + credits
             size_mb = os.path.getsize(video_path) / (1024 * 1024)
             try:
                 dur = int(round(get_video_duration(video_path)))
             except Exception:
                 dur = None
+
+            # ── Upload gate (growth-lab upload_gate.py) ────────────────────────
+            # TikTok's limits and guidelines on the caption, technical quality,
+            # narration vs script, and an AI review of the frames for coherence
+            # (required: no review = no post). tiktok_buffer.post_video refuses any
+            # file this did not approve.
+            import upload_gate
+            gate_v = upload_gate.check(
+                video_path, "tiktok", profile=_gate_profile(sample), caption=caption,
+                script=story.get("script", ""), ai_label=True)
+            if not gate_v["ok"]:
+                send_path = _fit_telegram_limit(video_path)
+                send_video(send_path, f"🛑 <b>NOT posted</b> — {esc(story.get('title', '?'))}\n"
+                                      f"(blocked by the upload gate, reasons below)",
+                           width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
+                send_alert(upload_gate.block_message(gate_v, story.get("title", "?")))
+                print("[Cloud] BLOCKED by the upload gate.")
+                if not sample:
+                    import series_queue
+                    series_queue.mark_blocked(story)
+                continue
+
             # Everything in ONE message: the video and its ready-to-paste caption.
             # Telegram renders <pre> as a code block with a copy button, so posting is
             # save video -> tap caption -> paste in TikTok. Caption cap is 1024 chars;
             # ours runs ~200, and send_video truncates as a backstop.
             try:
                 import tiktok_buffer
-                auto = tiktok_buffer.is_configured()
+                auto = tiktok_buffer.is_configured() and not sample
             except Exception:
                 auto = False
             video_caption = (
-                f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n"
-                f"✅ TikTok guidelines: passed — safe to post\n\n"
+                (f"🧪 <b>SAMPLE — not posted</b>\n" if sample else "")
+                + f"🎬 <b>{esc(story['title'])}</b>  •  {dur}s  •  9:16\n"
+                f"✅ TikTok guidelines: passed\n{esc(upload_gate.summary(gate_v))}\n\n"
                 + ("🤖 Posting to TikTok automatically — nothing to do.\n"
-                   if auto else "Tap the caption to copy it 👇\n")
+                   if auto else ("" if sample else "Tap the caption to copy it 👇\n"))
                 + f"<pre>{esc(caption)}</pre>"
             )
             send_path = _fit_telegram_limit(video_path)
-            if send_video(send_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur):
+            sent = send_video(send_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
+            if sent:
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
                 delivered += 1
-                # Auto-post to TikTok — only reachable here, i.e. AFTER the guidelines
-                # gate passed (verdict OK) and the video was safely delivered to
-                # Telegram. If posting fails, the Telegram copy is the fallback, so a
-                # bad post never means a lost video. Inert unless the owner opted in.
-                _autopost_tiktok(video_path, caption, story, send_alert, esc)
+            else:
+                send_alert(
+                    f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"
+                    f"{esc(story['title'])} ({size_mb:.0f} MB).\n"
+                    + ("It is still being posted to TikTok automatically." if auto else
+                       "Grab it from the GitHub Actions run page → Artifacts, if that run "
+                       "still has one.")
+                )
+                print(f"[Cloud] Telegram delivery failed for {story['title']}")
+            if sample:
+                continue
+            # Auto-post to TikTok — only reachable AFTER the guidelines, legal and
+            # upload gates passed. Independent of Telegram: a Telegram outage used to
+            # mean a fully checked video was never posted. Inert unless opted in.
+            posted = _autopost_tiktok(video_path, caption, story, send_alert, esc)
+            if posted and not sent:
+                delivered += 1
+            if sent or posted:
                 try:
                     import series_queue
                     series_queue.mark_delivered(story)
                 except Exception as e:
                     print(f"[Series] queue update failed: {e}")
-            else:
-                send_alert(
-                    f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"
-                    f"{esc(story['title'])} ({size_mb:.0f} MB).\n"
-                    f"Grab it from the GitHub Actions run page → Artifacts, if that run "
-                    f"still has one."
-                )
-                print(f"[Cloud] Telegram delivery failed for {story['title']}")
         except Exception as exc:
             print(f"[Cloud] Video {i} errored: {exc}")
             _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
@@ -711,6 +806,8 @@ def main():
                         help="Generate-only: make videos and deliver to Telegram for manual posting (GitHub Actions)")
     parser.add_argument("--count",    type=int, default=2,
                         help="How many videos to generate in --cloud mode (default: 2)")
+    parser.add_argument("--sample",   action="store_true",
+                        help="With --cloud: make + gate + Telegram only, never post")
     parser.add_argument("--batch",    action="store_true",
                         help="Generate all of today's videos and schedule them via TikTok (one wake)")
     parser.add_argument("--loop",     action="store_true",
@@ -734,7 +831,7 @@ def main():
         return
 
     if args.cloud:
-        run_cloud_deliver(count=args.count)
+        run_cloud_deliver(count=args.count, sample=args.sample)
         return
 
     if args.batch:

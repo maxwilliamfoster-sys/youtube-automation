@@ -63,6 +63,18 @@ def _pages_base():
     return f"https://{owner.lower()}.github.io/{name}"
 
 
+def prune_plan(present, order, filename, keep=None):
+    """(files to delete, new upload order ending with filename). Oldest uploads go
+    first; files missing from the manifest (pre-manifest uploads) count as oldest."""
+    keep = keep or KEEP
+    order = sorted(set(present) - set(order) - {filename}) + \
+        [f for f in order if f in present and f != filename]
+    delete = []
+    while len(order) > keep - 1:
+        delete.append(order.pop(0))
+    return delete, order + [filename]
+
+
 def host_video(path, filename):
     token = os.environ.get("GITHUB_TOKEN")
     repo = os.environ.get("GITHUB_REPOSITORY")
@@ -79,10 +91,21 @@ def host_video(path, filename):
                           capture_output=True).returncode == 0:
             subprocess.run(["git", "checkout", "-q", "FETCH_HEAD", "--", "."], cwd=tmp,
                            capture_output=True)
-        old = sorted(f for f in os.listdir(os.path.join(tmp, "v")) if f.endswith(".mp4"))
-        for f in old[: max(0, len(old) - (KEEP - 1))]:
-            os.remove(os.path.join(tmp, "v", f))
-        shutil.copy(path, os.path.join(tmp, "v", filename))
+        # Prune by UPLOAD ORDER (v/order.txt), not by name: names start with the
+        # title, so sorting deleted e.g. a video still queued for 08:30 next morning.
+        vdir = os.path.join(tmp, "v")
+        manifest = os.path.join(vdir, "order.txt")
+        order = []
+        if os.path.exists(manifest):
+            with open(manifest, encoding="utf-8") as fh:
+                order = [ln.strip() for ln in fh if ln.strip()]
+        present = {f for f in os.listdir(vdir) if f.endswith(".mp4")}
+        delete, order = prune_plan(present, order, filename)
+        for f in delete:
+            os.remove(os.path.join(vdir, f))
+        shutil.copy(path, os.path.join(vdir, filename))
+        with open(manifest, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(order) + "\n")
         open(os.path.join(tmp, ".nojekyll"), "w").close()
         with open(os.path.join(tmp, "index.html"), "w") as fh:
             fh.write("<!doctype html><title>BuriedCasefiles media</title>")
@@ -185,6 +208,11 @@ def post_video(video_path, caption, timeout=900):
     Returns (ok, detail). Never raises.
     """
     try:
+        import upload_gate
+        try:
+            upload_gate.require(video_path, "tiktok")     # only gate-approved files go out
+        except upload_gate.GateBlocked as e:
+            return False, f"BLOCKED by upload gate: {e}"
         chan = find_channel()
         if os.path.getsize(video_path) / 1048576 > MAX_HOST_MB:
             raise PublishError(f"video is over {MAX_HOST_MB} MB - too big to host on Pages")
@@ -225,6 +253,10 @@ def post_video(video_path, caption, timeout=900):
             print(f"[buffer] {post_id}: {post['status']}")
         if post["status"] == "sent":
             return True, post.get("externalLink") or f"Buffer post {post_id}"
+        if post["status"] in ("scheduled", "sending"):
+            # Still in flight: it may yet publish, so the caller must NOT say "post it
+            # by hand" (that double-posted risk). The analytics run picks it up later.
+            return False, f"Buffer post {post_id} timed out while {post['status']} - it may still publish"
         err = (post.get("error") or {}).get("message") or post["status"]
         return False, f"Buffer post {post_id} ended {post['status']}: {err}"
     except Exception as e:

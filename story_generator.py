@@ -1508,7 +1508,9 @@ def _legal_review(client: Groq, script: str, caption: str, cta: str, case: dict)
     Defamation / contempt review against the source. Fails closed (twice-tried).
     Returns {"ok": bool, "reasons": [...]}.
     """
-    source = (case.get("source_text") or "")[:6000]
+    # Series scripts are written from up to 9000 chars (SERIES_SOURCE_CHARS); an
+    # acquittal or quashed conviction past char 6000 used to be invisible here.
+    source = (case.get("source_text") or "")[:9500]
     messages = [
         {"role": "system", "content": (
             "You are a UK media lawyer clearing a true crime video before publication. "
@@ -1928,7 +1930,12 @@ def _rejection_stage(result: dict) -> tuple:
     result = result or {}
     legal = result.get("legal")
     if legal is not None and not legal.get("ok"):
-        return "legal", "; ".join(map(str, legal.get("reasons", [])[:1]))
+        reasons = legal.get("reasons", [])
+        # A legal review that errored (Groq outage, bad JSON) says nothing about the
+        # case; a hard "legal" strike would blacklist it forever. Soft strike instead.
+        if any("no usable verdict" in str(r) or "review error" in str(r) for r in reasons):
+            return "review_error", str(reasons[:1])
+        return "legal", "; ".join(map(str, reasons[:1]))
     verdict = result.get("compliance") or {}
     if verdict and verdict.get("verdict") != COMPLIANCE_OK:
         reasons = verdict.get("reasons", [])

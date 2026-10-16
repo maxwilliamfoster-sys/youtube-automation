@@ -80,6 +80,29 @@ def next_part():
     return part
 
 
+def mark_blocked(story: dict, permanent: bool = False, max_blocks: int = 2) -> None:
+    """
+    A queued part was blocked by a gate. next_part() never removes the head, so a
+    part that always fails blocked every run until it went stale (~12 red runs).
+    A permanent block (deterministic check) or the 2nd block drops the rest of the
+    series: later parts make no sense without the missing one.
+    """
+    if not story.get("from_series_queue"):
+        return
+    state = _load()
+    pending = state.get("pending") or []
+    if not pending or pending[0].get("series_part") != story.get("series_part") \
+            or pending[0].get("case_name") != story.get("case_name"):
+        return
+    pending[0]["blocks"] = pending[0].get("blocks", 0) + 1
+    if permanent or pending[0]["blocks"] >= max_blocks:
+        print(f"[Series] Dropping the rest of {story.get('case_name')!r}: part "
+              f"{story.get('series_part')} was blocked.")
+        pending = []
+    state["pending"] = pending
+    _save(state)
+
+
 def mark_delivered(story: dict) -> None:
     """
     Call after a video has been delivered. Part 1 of a new series queues the rest;

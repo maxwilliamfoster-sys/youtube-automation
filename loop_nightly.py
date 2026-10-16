@@ -35,23 +35,16 @@ def collect(now=None):
     vids = compare.load_videos()
     if not vids:
         raise RuntimeError("analytics/snapshots.csv is empty or missing")
-    log = compare._read("posts_log.csv")
-    arms_by_id = {}
-    for r in log:
-        try:
-            arms = json.loads(r.get("loop") or "{}")
-        except ValueError:
-            arms = {}
-        if r.get("video_id") and isinstance(arms, dict) and arms:
-            arms_by_id[r["video_id"]] = arms
-
+    # Arms come from compare.load_videos' posts_log join, which also matches rows
+    # logged without a TikTok id (a post scheduled for the next morning has none yet)
+    # by case name / post time. Matching on video_id alone lost those posts' arms.
     posts = []
     cutoff = (now - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M")
     week_views, week_watch, week_posts = 0, [], 0
     for vid, v in vids.items():
         s = compare.score(v)
-        posts.append({"id": vid, "arms": arms_by_id.get(vid, {}),
-                      "hold": s["watch"], "views72": s["views"]})
+        arms = v.get("loop") if isinstance(v.get("loop"), dict) else {}
+        posts.append({"id": vid, "arms": arms, "hold": s["watch"], "views72": s["views"]})
         if v["posted"] >= cutoff:
             week_posts += 1
             week_views += max((x for _, x in v["views"]), default=0)

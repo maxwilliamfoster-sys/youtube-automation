@@ -91,6 +91,10 @@ def load_videos():
             v["exp"] = json.loads(row.get("exp") or "{}")
         except ValueError:
             v["exp"] = {}
+        try:                                   # experiment-loop arms (loop_nightly.py)
+            v["loop"] = json.loads(row.get("loop") or "{}")
+        except ValueError:
+            v["loop"] = {}
         v["watch"] = []
 
     for r in _read("buffer_metrics.csv"):
