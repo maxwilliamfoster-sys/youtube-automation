@@ -86,6 +86,35 @@
     "summary": "The video is blocked due to a garbled text rendering error ('V/AFTER:D') and the inclusion of unverified investigative claims about the suspect van's location.",
     "tokens": 4369
    }
+  },
+  {
+   "checked_at": "2026-10-16T18:40:44+00:00",
+   "platform": "tiktok",
+   "file": "Stalking_Mystery_and_a_Tragic_End_20261016_183607.mp4",
+   "sha256": "b689390f20301755c6d71d3d689f894b01779ee716299a85f1545d436c6a73ca",
+   "head": "Shana Grice case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review skipped: the free daily AI quota is used up (it refills over the next 24h)"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 39.53,
+    "lufs": -14.9,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
   }
  ]
 }

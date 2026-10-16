@@ -1240,5 +1240,155 @@
   "reason": "gore",
   "date": "2026-10-16",
   "strikes": 1
+ },
+ "Murder of Catrine da Costa": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Michael Gilbert": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Hannah Williams": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Dana Bradley": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Jennifer Odom": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Lina Khil": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The content discusses the disappearance of a real three‑year‑old child, which is highly distressing and could be sensationalised for shock value.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Freda Burnell": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Bertha Schippan": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Lisa Marie Young": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The narrative focuses on a named suspect who was never convicted, which violates the unconvicted suspect rule.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "The Family Murders": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Kidnapping of Peggy Ann Bradnick": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Arlene Fraser": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Florence Little": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Manacled Mormon case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Maggie de la Riva rape case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Brighton trunk murders": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Janet Chandler": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Zelimkhan Murdalov": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Rocío Wanninkhof": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The convicted perpetrator, Tony Alexander King, was a serial sex offender whose criminal history and modus operandi involved sexual violence, which is integral to the story of the mas",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Death of Wilma Montesi": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: Contains a real-life death and discussion of a potentially violent crime involving a named victim, which is considered mature content appropriate for 18+ audiences.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Inokashira Park dismemberment incident": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Anesha Murnane": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Kern County child abuse cases": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Philip Cairns": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the disappearance and presumed murder of a child under 18.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Killing of Phillip Esposito and Louis Allen": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-16",
+  "strikes": 1
  }
 }
