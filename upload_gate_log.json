@@ -1,0 +1,62 @@
+{
+ "entries": [
+  {
+   "checked_at": "2026-10-16T13:35:33+00:00",
+   "platform": "tiktok",
+   "file": "Vanished_at_Twelve_Teens_Silent_Disappea_20261016_133112.mp4",
+   "sha256": "30ca2c7e1c6ac4aaaee28dd3d00efaef91dfbac64f45dcb4686f94aa242ff0f4",
+   "head": "Alex Sloley case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked due to the use of unrelated stock footage (a police officer from a drama) and a significant rendering error in the opening frame. | The video uses stock footage of a female police officer (likely from a TV drama) which is jarringly unrelated to the specific UK case and misrepresents the investigation, violating the rule against misleading content or unoriginal stock footage that doesn't fit the subject.; The opening frame (Image 1) is a vertical video placed on a white background with large empty white bars on the right, indicating a rendering or aspect ratio error.; The visual narrative is disjointed, jumping between unrelated locations (a dilapidated building, a church, a random house) that do not appear to be the actual crime scene or relevant locations for the Alex Sloley case."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 48.77,
+    "lufs": -14.8,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "summary": "The video is blocked due to the use of unrelated stock footage (a police officer from a drama) and a significant rendering error in the opening frame.",
+    "tokens": 4367
+   }
+  },
+  {
+   "checked_at": "2026-10-16T13:50:28+00:00",
+   "platform": "tiktok",
+   "file": "Luke_Durbin_vanished_at_4AM_silver_Volvo_20261016_134611.mp4",
+   "sha256": "678d495c410fd61e683b44df637f65286f59656c638a3c2c51c01bd3e380affe",
+   "head": "Luke Durbin case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review skipped: the free daily AI quota is used up (it refills over the next 24h)"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 49.23,
+    "lufs": -15.1,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  }
+ ]
+}

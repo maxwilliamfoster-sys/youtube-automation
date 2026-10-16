@@ -982,5 +982,221 @@
   "reason": "gore",
   "date": "2026-10-15",
   "strikes": 1
+ },
+ "Babes in the Wood murders (Epping Forest)": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "North Kanto serial kidnappings and murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Arianna Fitts": {
+  "stage": "legal",
+  "reason": "The script identifies Helena Martin, Devin Martin, and Siolo Hearne as persons of interest and implies suspicion toward them, but they have not been convicted of any crime. This violates the policy th",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Ashleigh Hall": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Kidnapping and murder of James Foley": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Bobbie Jo Stinnett": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Death of Nolan Wells": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Amber McFarland": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The narrative centers on named individuals (Garrioch and Saxon) who have never been convicted, which violates the unconvicted suspect rule.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Paiche Onyemaechi": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Anna McGurk": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Willington Quay child abduction case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Beenham murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Angie Dodge": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Madeleine McCann": {
+  "stage": "prescreen",
+  "reason": "active_proceedings: The case remains under active investigation with a suspect named but not yet charged, making it a currently ongoing legal matter.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Jodi Jones": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Kidnapping of Jalal Sharafi": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Death of Hanna Lalango": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Bain family murders": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on David Bain, who was acquitted and thus an unconvicted suspect is the focus",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance and murder of Gannon Stauch": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Elizabeth McCabe": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Maria Ridulph": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murder of a 7‑year‑old child, which is disallowed.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Zoe Nelson": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Naomi Smith": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Disappearance of Martin Allen": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Jodi Parrack": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Diane Sindall": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Abduction of Jody Plauché": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Death of Paula Hounslea": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on named suspects who were never convicted.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Shirley Banks": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "2013 Kamduni gang rape and murder case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Death of Linda Chua": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Kerry babies case": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Kidnapping of Melissa Brannen": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves a child whose disappearance is linked to an abduction with intent to defile, indicating sexual violence.",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Yasuko Watanabe": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Tair Rada": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
+ },
+ "Murder of Ann Maguire": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-16",
+  "strikes": 1
  }
 }
