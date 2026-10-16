@@ -641,11 +641,12 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                 script=story.get("script", ""), ai_label=True)
             if not gate_v["ok"]:
                 send_path = _fit_telegram_limit(video_path)
-                send_video(send_path, f"🛑 <b>NOT posted</b> — {esc(story.get('title', '?'))}\n"
-                                      f"(blocked by the upload gate, reasons below)",
-                           width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
-                send_alert(upload_gate.block_message(gate_v, story.get("title", "?")))
-                print("[Cloud] BLOCKED by the upload gate.")
+                v_ok = send_video(send_path, f"🛑 <b>NOT posted</b> — {esc(story.get('title', '?'))}\n"
+                                             f"(blocked by the upload gate, reasons below)",
+                                  width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
+                a_ok = send_alert(upload_gate.block_message(gate_v, story.get("title", "?")))
+                print(f"[Cloud] BLOCKED by the upload gate (Telegram: video "
+                      f"{'sent' if v_ok else 'FAILED'}, reasons {'sent' if a_ok else 'FAILED'}).")
                 if all(f.startswith("AI review unavailable") for f in gate_v["failures"]):
                     # Nothing wrong with the video; the review couldn't run (quota/outage).
                     # A spare render would hit the same wall, and it's not the part's fault.

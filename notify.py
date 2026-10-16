@@ -30,8 +30,11 @@ def send_alert(message: str) -> bool:
             json={"chat_id": _CHAT_ID, "text": message, "parse_mode": "HTML"},
             timeout=15,
         )
+        if not resp.ok:     # e.g. 400 on bad HTML: say so in the run log, never raise
+            print(f"[Notify] send_alert failed: HTTP {resp.status_code} {resp.text[:200]}")
         return resp.ok
-    except Exception:
+    except Exception as e:
+        print(f"[Notify] send_alert failed: {e}")
         return False
 
 
@@ -62,6 +65,8 @@ def send_video(video_path: str, caption: str = "",
                 files={"video": f},
                 timeout=300,
             )
+        if not resp.ok:
+            print(f"[Notify] send_video failed: HTTP {resp.status_code} {resp.text[:200]}")
         return resp.ok
     except Exception as e:
         print(f"[Notify] send_video failed: {e}")
