@@ -231,6 +231,64 @@
     "summary": "The video is blocked due to a jarring, out-of-place live-action shot of a man in the final frame that contradicts the channel's format, and a garbled caption.",
     "tokens": 4434
    }
+  },
+  {
+   "checked_at": "2026-10-17T17:45:15+00:00",
+   "platform": "tiktok",
+   "file": "MileLong_Trail_Turns_Deadly_20261017_174217.mp4",
+   "sha256": "8a20e3f3f3bc9158b076f8343e420257d11e5475b1e53de2e633c25f1da249e6",
+   "head": "Helen Fleet case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "link in a TikTok caption (www.mikepeel.net) - off-platform diversion"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 48.17,
+    "lufs": -14.8,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": null,
+    "ok": null,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-17T17:57:06+00:00",
+   "platform": "tiktok",
+   "file": "Pregnant_Woman_Vanishes_in_Beetle_20261017_175416.mp4",
+   "sha256": "52340162c200dccfd67bd2e9653a8f9ef363567fc037f100b6cf90030de6091b",
+   "head": "Münsterland murders case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because it presents unverified details as fact for an unsolved case and uses jarringly unrelated stock footage (maps, currency) that breaks the narrative coherence. | Unverified claims stated as fact: The narration asserts specific details (e.g., 'no signs of sexual abuse', 'body was posed', 'personal belongings were taken') that are not established facts for an unsolved case and are not supported by the visuals.; Missing AI Label: The video uses AI narration but does not include the required label for realistic AI content.; Jarringly unrelated stock footage: The video includes images of a map of Luxembourg, a 1948 Deutsche Mark banknote, and a bridge that appear completely unrelated to the Münsterland murders case.; Visual clutter: The closing card has overlapping text ('WHAT' and 'WHAT DO YOU THINK?') which looks like a rendering error."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 46.1,
+    "lufs": -15.0,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 4,
+    "summary": "The video is blocked because it presents unverified details as fact for an unsolved case and uses jarringly unrelated stock footage (maps, currency) that breaks the narrative coherence.",
+    "tokens": 4341
+   }
   }
  ]
 }

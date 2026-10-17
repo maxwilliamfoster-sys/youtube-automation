@@ -1624,5 +1624,83 @@
   "reason": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
+ },
+ "Murder of Rikki Neave": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Killing of Nick Berg": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Favoriten Girl Murders": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Joanna Yeates": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Lynda Farrow": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Deborah Linsley": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The video explicitly invites commenters to 'help us discuss' in a real-world 'solved' or 'open' murder case where no suspect has been charged, which promotes speculative harassment and",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Geeta and Sanjay Chopra kidnapping case": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The victims were 16 and 14 years old at the time they were kidnapped and murdered, which triggers the strict rule against depicting the killing of children.",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Jane Thurgood-Dove": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Ava White": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Terry Bowers Jr.": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The victim, Terry Bowers Jr., was a child (11 years old) who was murdered, which triggers the strict prohibition against covering confirmed child killings.",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Tulay Goren": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Rosie Palmer": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Hannah Foster": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
  }
 }
