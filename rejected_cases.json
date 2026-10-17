@@ -1390,5 +1390,125 @@
   "reason": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
+ },
+ "Murder of Carol Wilkinson": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Kidnapping of Carlina White": {
+  "stage": "quality",
+  "reason": "accuracy 5/10",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Denise Amber Lee": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Gail Shollar": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Sukhovo-Kobylin affair": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Disappearance of Suzy Lamplugh": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story hinges on John Cannan, a real person identified as the prime suspect but never convicted for Lamplugh's disappearance.",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Sigrid Giskegjerde Schjetne": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Bus 300 affair": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Jeffrey Howe": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Killing of Maria Colwell": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the killing of a child under 18, which triggers age-restriction policies.",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Sherry Ann Duncan": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Kidnapping of George Gill Jamieson": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Ben Kinsella": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Kidnapping and murder of Eloá Cristina Pimentel": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Carteron murders": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on a named individual who was never convicted and is central to the story",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Huntington, West Virginia prom night murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Leanne Holland": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Konitz affair": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Diao Aiqing": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Killing of Kirsty Bentley": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murder of a 15‑year‑old teenager, which triggers age‑restriction policies.",
+  "date": "2026-10-17",
+  "strikes": 1
  }
 }

@@ -115,6 +115,64 @@
     "summary": null,
     "tokens": null
    }
+  },
+  {
+   "checked_at": "2026-10-17T12:32:16+00:00",
+   "platform": "tiktok",
+   "file": "Father_Leaves_Infant_Alone_Returns_to_Em_20261017_122711.mp4",
+   "sha256": "b4ff7cb10a474a274a9b6bb77f567cb9c37d6a11bceb05044b81823fcd4da896",
+   "head": "Ames Glover case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "video check could not run: could not decode a frame at 47.5s"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": null,
+    "lufs": null,
+    "speech_match": 0.92,
+    "longest_freeze": null
+   },
+   "ai": {
+    "available": null,
+    "ok": null,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-17T12:48:05+00:00",
+   "platform": "tiktok",
+   "file": "Vanished_Without_a_Trace_Myra_Lewis_Myst_20261017_124221.mp4",
+   "sha256": "d2a5216dc37fde90dedde91756fcc945d3774fbf6830a976c8344cd490008dc5",
+   "head": "Myra Lewis case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because it uses a generic, unrelated map of Mississippi to represent the specific case location, creating a misleading visual narrative that does not match the factual details of the story. | The video uses a generic, unrelated map of Mississippi (showing counties and a population legend) to represent the specific location of the case, which is misleading and factually incorrect for the visual narrative.; The caption asks 'why did no footprints appear?', which implies a mystery or anomaly regarding the lack of evidence, potentially violating the rule against unverified claims or misleading the audience about the nature of the investigation (lack of footprints is a standard search result, not necessarily a mystery element in itself without context).; The visual assets are disjointed and generic (stock police footage, random maps, unrelated street scenes) rather than specific to the case location or events.; The map shown is clearly a generic state map of Mississippi, not a search radius map or a map of the specific neighborhood, making the visual evidence weak and confusing."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 49.7,
+    "lufs": -15.1,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "summary": "The video is blocked because it uses a generic, unrelated map of Mississippi to represent the specific case location, creating a misleading visual narrative that does not match the factual details of the story.",
+    "tokens": 4397
+   }
   }
  ]
 }
