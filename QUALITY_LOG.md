@@ -143,3 +143,4 @@ rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects 
 
 ## 5. Review attempts
 - 2026-10-10: gate not met. Newest cohort v3-calm (first post 2026-10-09 20:07 UTC) has 1 video, 0 aged 72h+, 0 days old (need 14 days and 8 videos aged 72h+). Earliest review about 2026-10-24.
+- 2026-10-17: gate not met. Newest cohort v4-mood-visuals (first post 2026-10-13 16:24 UTC) has 8 videos, 3 aged 72h+, 4 days old (need 14 days and 8 videos aged 72h+). Earliest review about 2026-10-27; the 2026-10-24 run will also be too early.
