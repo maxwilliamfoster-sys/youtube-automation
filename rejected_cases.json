@@ -1510,5 +1510,119 @@
   "reason": "minor_victim: The case involves the murder of a 15‑year‑old teenager, which triggers age‑restriction policies.",
   "date": "2026-10-17",
   "strikes": 1
+ },
+ "Porn Murders": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: Dwelling on a series of real, unsolved homicides to generate shock value and engagement ('Comment below'), which is deemed too distressing and sensationalised for the general For You f",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Jayne MacDonald": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Lisa Rene": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Kelly Anne Bates": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Brian King": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Marine Boisseranc": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The source explicitly links the convicted killer of another child to this case and details witness testimonies sightings of him, making it impossible to tell the story without poi",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Richard Everitt": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Harmony Montgomery": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Killing of Shanquella Robinson": {
+  "stage": "prescreen",
+  "reason": "active_proceedings: The case involves an ongoing transnational criminal inquiry where the suspects have not yet been convicted, and the events occurred in October 2022 (within the last two-year window",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Gitchie Manitou murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Death of Winnifred Teo": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The victim was sexually assaulted prior to death, which is an integral part of the case narrative and triggers the sexual violence exclusion.",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Allen Redston": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Louisa Dunne": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Marion Parker": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Disappearance of Claudia Lawrence": {
+  "stage": "legal",
+  "reason": "The text identifies a real person, Claudia Elizabeth Lawrence, and references arrests of several individuals from her social circle without stating that any of them were convicted of her disappearance",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "1991 Austin yogurt shop murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Turpin case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Wanda Beach murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-17",
+  "strikes": 1
+ },
+ "Murder of Zainab Ansari": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-17",
+  "strikes": 1
  }
 }

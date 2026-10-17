@@ -173,6 +173,64 @@
     "summary": "The video is blocked because it uses a generic, unrelated map of Mississippi to represent the specific case location, creating a misleading visual narrative that does not match the factual details of the story.",
     "tokens": 4397
    }
+  },
+  {
+   "checked_at": "2026-10-17T14:50:29+00:00",
+   "platform": "tiktok",
+   "file": "Valet_saw_them_leave_never_see_20261017_144447.mp4",
+   "sha256": "a7ec453f97035e0b5213b595b2085452e4c677da81016705269ffc774f3b9036",
+   "head": "Edward and Stephania Andrews case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked due to the use of a stock police officer image (unoriginal/misleading) and a garbled text rendering error ('NORLANEUND'). | The video uses a stock image of a police officer (likely from a film or TV show) to represent the investigation. This constitutes unoriginal content and potentially misleading imagery, as it implies a specific real person or official presence that is not factual to the 1970 case.; The on-screen text 'NORLANEUND' in the second contact sheet is garbled and unreadable, likely a rendering error for 'NORTHBOUND LANE' or similar.; The visual of a train station (Image 3) is jarringly unrelated to a story about a car vanishing into a river, breaking the visual narrative."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 51.8,
+    "lufs": -15.1,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "summary": "The video is blocked due to the use of a stock police officer image (unoriginal/misleading) and a garbled text rendering error ('NORLANEUND').",
+    "tokens": 4358
+   }
+  },
+  {
+   "checked_at": "2026-10-17T15:06:47+00:00",
+   "platform": "tiktok",
+   "file": "Men_in_suits_found_dead_20261017_150049.mp4",
+   "sha256": "9cf4e9e06e3bbc941a22a1d25ab7779fb48b1b836643059c8a927175096556e0",
+   "head": "Lead masks case case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked due to a jarring, out-of-place live-action shot of a man in the final frame that contradicts the channel's format, and a garbled caption. | The closing card (Image 3, bottom right) features a live-action video of a man's face. This violates the channel's stated format of using 'sombre mood footage... photos... and archive images' and 'AI narrator'. The presence of a real person in a true-crime context without clear context or labeling is a policy risk and a coherence failure.; The caption 'Lead masks case case' is garbled and unprofessional, failing the quality standard for a finished video.; The caption contains a typo/repetition: 'Lead masks case case.'; The visual of a man in a t-shirt in the final frame is jarringly out of place with the sombre, atmospheric tone of the rest of the video (fog, rain, dark streets).; The painting in Image 3 (top right) appears to be a generic historical or mythological scene that does not clearly relate to the specific 1966 Brazilian case, making it a weak visual choice."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 54.9,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "summary": "The video is blocked due to a jarring, out-of-place live-action shot of a man in the final frame that contradicts the channel's format, and a garbled caption.",
+    "tokens": 4434
+   }
   }
  ]
 }
