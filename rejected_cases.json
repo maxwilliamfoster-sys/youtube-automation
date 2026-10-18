@@ -1702,5 +1702,275 @@
   "reason": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
+ },
+ "Disappearance of Carmen Bueno and Jorge Müller": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Hunt family murders": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves rape of a victim, which is prohibited.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Rajan case": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murders of Annette Cooper and Todd Schultz": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Assassination of Benazir Bhutto": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on an assassination with no final conviction, making a named suspect unavoidable.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Soham murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Michaela Garecht": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on a charged but not yet convicted suspect, David Misch, whose identity cannot be omitted.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Omar Carrasco": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Tracie McBride": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murders of Harry and Megan Tooze": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Cheltenham torso mystery": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Peng Shuai": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The core of the story is an alleged sexual assault/pressure involving a public figure",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Chohan family murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "2008 Noida double murder case": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Dyatlov Pass incident": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: The video discusses a fatal incident with multiple deaths and mentions knives and extreme conditions, which are mature themes involving violence and death.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Elsie Frost": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Hamdania incident": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Colette Aram": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Kissimmee carjacking murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Francis Imbard affair": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Elizabeth Parravincina": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Killing of Timothy Wiltsey": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Genette Tate": {
+  "stage": "legal",
+  "reason": "The script names Robert Black, a real person who was never convicted of Genette Tate's disappearance, and presents him as the prime suspect, implying suspicion of involvement.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Shawn Seesahai": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Wineville Chicken Coop murders": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murder of multiple children, including a 9‑year‑old, which triggers the minor victim restriction.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Suzanne Bombardier": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Redhead murders": {
+  "stage": "legal",
+  "reason": "The script identifies Jerry Leon Johns as the man who killed Tina Farmer, but he was never convicted of that murder (only convicted of other crimes). He is an unconvicted suspect, and the text points ",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Reagan Tokes": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Ashlynne Mike": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Mona Blades": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Kidnapping of Hannah Anderson": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the killing of a child victim (Ethan Anderson) under 18.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Brianna Ghey": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Sheila Fox (1944)": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a named individual, Richard Ryan, who was never convicted for Sheila Fox's disappearance",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Killing of Damilola Taylor": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Killing of Palmira Silva": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Barbara Tucker": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Geylang Bahru family murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Francis Saville Kent": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Robert McCartney": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on alleged IRA perpetrators who were never convicted, pointing suspicion at identifiable individuals",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Martine Vik Magnussen": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Rohit Duggal": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murders of Katherine and Sheila Lyon": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Sasha Marsden": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Kidnapping of Elliot Eastman": {
+  "stage": "prescreen",
+  "reason": "active_proceedings: The case involves ongoing investigations and arrests with no final conviction yet.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "2012 Alps killings": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
  }
 }

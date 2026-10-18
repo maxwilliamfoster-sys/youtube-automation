@@ -289,6 +289,33 @@
     "summary": "The video is blocked because it presents unverified details as fact for an unsolved case and uses jarringly unrelated stock footage (maps, currency) that breaks the narrative coherence.",
     "tokens": 4341
    }
+  },
+  {
+   "checked_at": "2026-10-18T13:01:28+00:00",
+   "platform": "tiktok",
+   "file": "Who_Was_He_20261018_125617.mp4",
+   "sha256": "8d61f3cb06d3bc1e1bac6ae401435fc77b6fc193b676e257737fd0ca466dd632",
+   "head": "Peter Bergmann case case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 39.27,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "summary": "The video presents a coherent, high-quality true-crime narrative with consistent visuals and text that aligns perfectly with the narration and caption, containing no policy violations.",
+    "tokens": 4157
+   }
   }
  ]
 }
