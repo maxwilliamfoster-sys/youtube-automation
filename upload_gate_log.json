@@ -374,6 +374,33 @@
     "summary": "The video contains unverified claims about police records and warnings that violate platform rules, and the mix of modern and historical visuals creates a disjointed narrative.",
     "tokens": 4424
    }
+  },
+  {
+   "checked_at": "2026-10-18T17:53:44+00:00",
+   "platform": "tiktok",
+   "file": "Kid_vanished_in_2005_20261018_174840.mp4",
+   "sha256": "057d656b610417f0356dab80450db19920ae9d2abf4638a5eb6d5bc46a0fd0f1",
+   "head": "Rahul Raju case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 44.1,
+    "lufs": -15.1,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "summary": "The video presents a coherent, high-quality true-crime narrative with consistent sombre visuals and text that aligns perfectly with the narration and caption, containing no policy violations.",
+    "tokens": 4157
+   }
   }
  ]
 }

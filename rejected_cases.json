@@ -1397,12 +1397,6 @@
   "date": "2026-10-17",
   "strikes": 1
  },
- "Kidnapping of Carlina White": {
-  "stage": "quality",
-  "reason": "accuracy 5/10",
-  "date": "2026-10-17",
-  "strikes": 1
- },
  "Murder of Denise Amber Lee": {
   "stage": "prefilter",
   "reason": "sexual_violence",
@@ -2144,6 +2138,36 @@
  "Murder of Junko Kobayashi": {
   "stage": "prescreen",
   "reason": "active_proceedings: The case is explicitly described as having an investigation that continues to this day, meaning it falls under the category of active proceedings.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Kidnapping of Carlina White": {
+  "stage": "legal",
+  "reason": "The text contains a factual inaccuracy regarding Annugetta Pettway: it states she 'had no children of her own,' whereas the source explicitly states she gave birth to a son, Trevon Teele, in 1998. Thi",
+  "date": "2026-10-18",
+  "strikes": 2
+ },
+ "Murder of Olivia Pratt-Korbel": {
+  "stage": "prescreen",
+  "reason": "active_proceedings: The events of the case occurred in August 2022, which is within the last two years, triggering the active proceedings/sensitive timeline rule for strict moderation contexts.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Amy Lynn Bradley": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The video primarily serves to generate engagement by highlighting the sensational and unresolved aspects of a real tragedy (the disappearance of a minor), which fits the 'dwelling on a",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murders of Channon Christian and Christopher Newsom": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Death of Sonja Engelbrecht": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  }
