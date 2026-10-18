@@ -316,6 +316,64 @@
     "summary": "The video presents a coherent, high-quality true-crime narrative with consistent visuals and text that aligns perfectly with the narration and caption, containing no policy violations.",
     "tokens": 4157
    }
+  },
+  {
+   "checked_at": "2026-10-18T15:10:01+00:00",
+   "platform": "tiktok",
+   "file": "A_5_Block_Walk_to_Nowhere_20261018_150241.mp4",
+   "sha256": "8301d2ca527df067beff9f01b121fad6e9c3a2108bcad58ed3600eb2b1049ab3",
+   "head": "Etan Patz case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because the narration presents future dates (2025/2026) as established historical facts regarding the legal status of the case, which constitutes an unverified claim. | Unverified claims stated as fact: The narration asserts that in 2025 the conviction was overturned and in 2026 the Supreme Court stepped in to make the verdict stand. These are future dates relative to the current time and are not established historical facts, violating the rule against unverified claims.; Visuals are generic stock footage (modern apartment buildings, random street scenes) that do not depict the specific locations (SoHo, 1979) mentioned in the narration, creating a disjointed viewing experience."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 62.27,
+    "lufs": -15.1,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "summary": "The video is blocked because the narration presents future dates (2025/2026) as established historical facts regarding the legal status of the case, which constitutes an unverified claim.",
+    "tokens": 4353
+   }
+  },
+  {
+   "checked_at": "2026-10-18T15:36:10+00:00",
+   "platform": "tiktok",
+   "file": "A_stranger_returned_her_jewelry_20261018_152922.mp4",
+   "sha256": "5348ccbd3458812b9193d9c649953f21e16855ce6a71eb9d604be77f64acced4",
+   "head": "Jean McConville case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video contains unverified claims about police records and warnings that violate platform rules, and the mix of modern and historical visuals creates a disjointed narrative. | Unverified claims stated as fact: The narration asserts 'Police records show Jean had reported an attack days earlier' and 'She claimed she was warned to stop informing.' These specific details are not established facts in the public record for this case and violate the rule against unverified claims.; Potential misleading content: The caption states 'Jean McConville case. | UK crime story.' While the case is from Northern Ireland (UK), the visuals include a vintage print explicitly labeled 'BELFAST' and a modern building that appears to be in Dublin (e.g., the General Post Office or similar architecture), which could be misleading regarding the specific location of the events.; Visual inconsistency: The video uses a mix of modern stock footage (rain, clock, abstract shapes) and historical images (vintage Belfast print) without clear context, which can be confusing.; Text overlay issues: Some text overlays (e.g., 'SECRETS', 'CLAIMED') are placed over busy backgrounds, reducing readability."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 55.6,
+    "lufs": -14.7,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "summary": "The video contains unverified claims about police records and warnings that violate platform rules, and the mix of modern and historical visuals creates a disjointed narrative.",
+    "tokens": 4424
+   }
   }
  ]
 }

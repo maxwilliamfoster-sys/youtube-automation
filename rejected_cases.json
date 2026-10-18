@@ -1877,12 +1877,6 @@
   "date": "2026-10-18",
   "strikes": 1
  },
- "Disappearance of Mona Blades": {
-  "stage": "empty_script",
-  "reason": "script unusable",
-  "date": "2026-10-18",
-  "strikes": 1
- },
  "Kidnapping of Hannah Anderson": {
   "stage": "prescreen",
   "reason": "minor_victim: The case involves the killing of a child victim (Ethan Anderson) under 18.",
@@ -1970,6 +1964,186 @@
  "2012 Alps killings": {
   "stage": "prefilter",
   "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Jimmy Mizen": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Heather Elvis": {
+  "stage": "quality",
+  "reason": "accuracy 2/10",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Romona Moore": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Mona Blades": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story heavily centers on named individuals like Charlie Hughes and Derrick Hinton who are described as suspects or persons of interest without criminal convictions, making it ",
+  "date": "2026-10-18",
+  "strikes": 2
+ },
+ "Disappearance of Relisha Rudd": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story relies heavily on Kahlil Tatum, who is accused of kidnapping and is legally unconvicted (having died before standing trial), making him a named, identifiable individual ",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "D.C. mansion murders": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Aw Teck Boon": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Death of Lamduan Armitage": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The husband, David Armitage, was only arrested in 2025, so he is an unconvicted suspect who forms the current heart of the story, and the case may also involve active proceedings.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Linda Goldstone": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Solange Grabenheimer": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Mary Theresa Simpson": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Hello Kitty murder case": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Muriel Drinkwater": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The 2022 inquest explicitly noted that the victim 'possibly' been sexually assaulted, making sexual abuse or assault a definitive part of the case's official record.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Zara Aleena": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Carrie Brown": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Krystal Fraser": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on Peter Jenkinson, who was identified by the coroner as involved in the disappearance but was never charged or convicted, making it impossible to tell the story ",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Jacob Wetterling": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Paul Quinn": {
+  "stage": "prescreen",
+  "reason": "active_proceedings: The source explicitly states that ongoing inquiries into the murder were still active as of October 2021, which falls within the last two years.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Killing of Leah Croucher": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The inquest concluded the victim was killed by a sex offender in an 'unwarranted sex attack', making sexual violence a core, unavoidable part of the narrative.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Jessica Lunsford": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The victim, a 9-year-old girl, was sexually abused by the perpetrator, which is a mandatory skip criterion.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Elizabeth Parravicini": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Clare Morrison": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Dulce Maria Alavez": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The content involves the disappearance of a minor, which is inherently distressing and sensitive.",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Victoria Climbié": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Bernadette Walker": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Killing of Corryn Rayney": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Countess of Chester Hospital baby murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Disappearance of Robert Levinson": {
+  "stage": "quality",
+  "reason": "accuracy 5/10",
+  "date": "2026-10-18",
+  "strikes": 1
+ },
+ "Murder of Junko Kobayashi": {
+  "stage": "prescreen",
+  "reason": "active_proceedings: The case is explicitly described as having an investigation that continues to this day, meaning it falls under the category of active proceedings.",
   "date": "2026-10-18",
   "strikes": 1
  }
