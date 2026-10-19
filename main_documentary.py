@@ -512,6 +512,11 @@ def _credit_line(images, limit=400) -> str:
     seen, parts = set(), []
     for img in images or []:
         lic, who = (img.get("licence") or "").strip(), (img.get("credit") or "").strip()
+        # Authors often sign as "Name (www.site.net)": a link in a TikTok caption is
+        # an off-platform diversion and the upload gate blocks the whole video for it.
+        who = re.sub(r"\s*[(\[]?\s*(?:https?://|www\.)\S+?\s*[)\]]?(?=\s|$)", "", who)
+        who = re.sub(r"\s*[(\[]?\b[\w-]+\.(?:com|net|org|co\.uk|uk|de|fr|info)\b\S*[)\]]?", "", who).strip(" ,;-") or (
+            "a Commons contributor" if (img.get("credit") or "").strip() else "")
         if not who or who.lower() == "public domain" or not re.search(r"cc[ -]?by", lic, re.I):
             continue
         key = (who, lic)
@@ -543,6 +548,26 @@ def _gate_profile(sample=False):
     }
 
 
+CLOUD_BUDGET_S = 125 * 60      # keep making videos until one passes, for this long
+CLOUD_FIRST_RENDER_S = 18 * 60 # assumed render time until one has been measured
+CLOUD_MAX_ATTEMPTS = 10        # safety cap on renders per run (+count)
+AI_OUTAGE_RECHECKS = 2         # re-ask the AI reviewer about the same video after an outage
+AI_OUTAGE_WAIT_S = 90
+
+
+def _only_ai_unavailable(gate_v) -> bool:
+    """The gate's only objections are that the AI review couldn't run."""
+    return bool(gate_v["failures"]) and all(f.startswith("AI review unavailable")
+                                            for f in gate_v["failures"])
+
+
+def _github_output(name: str, value: str) -> None:
+    path = os.environ.get("GITHUB_OUTPUT")
+    if path:
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(f"{name}={value}\n")
+
+
 def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     """
     Cloud mode (GitHub Actions): make `count` videos, run every gate, send each to
@@ -555,11 +580,20 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
 
     print(f"[Cloud] Generating {count} video(s) for manual posting...")
     delivered = 0
-    # One spare render: a video blocked by a gate used to leave the slot empty.
-    for i in range(1, count + 2):
-        if delivered >= count:
+    # A video blocked by a gate never ends the run: new videos are made until `count`
+    # pass every gate, while the time budget lasts (one render ~12-16 min on CI; the
+    # job's timeout is 150 min). Only a spent daily AI-review quota stops early, since
+    # every new video would hit the same wall. If the budget runs out, the workflow
+    # starts a catch-up run (see documentary.yml).
+    started, slowest, i, quota_out = time.monotonic(), CLOUD_FIRST_RENDER_S, 0, False
+    while delivered < count:
+        i += 1
+        if i > 1 and (i > CLOUD_MAX_ATTEMPTS + count
+                      or time.monotonic() - started + slowest > CLOUD_BUDGET_S):
+            print(f"[Cloud] Out of time/attempts after {i - 1} video(s).")
             break
-        print(f"\n[Cloud] ===== Video {i}/{count} =====")
+        print(f"\n[Cloud] ===== Video {i} (need {count - delivered} more) =====")
+        t0 = time.monotonic()
         try:
             story, video_path = _generate_one()
 
@@ -636,22 +670,38 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             # (required: no review = no post). tiktok_buffer.post_video refuses any
             # file this did not approve.
             import upload_gate
-            gate_v = upload_gate.check(
-                video_path, "tiktok", profile=_gate_profile(sample), caption=caption,
-                script=story.get("script", ""), ai_label=True)
+
+            def _gate():
+                return upload_gate.check(
+                    video_path, "tiktok", profile=_gate_profile(sample), caption=caption,
+                    script=story.get("script", ""), ai_label=True)
+            gate_v = _gate()
+            for _ in range(AI_OUTAGE_RECHECKS):
+                if gate_v["ok"] or not _only_ai_unavailable(gate_v) or (gate_v.get("ai") or {}).get("quota"):
+                    break
+                # Nothing wrong with the video; the review couldn't run (outage). Ask
+                # again about the SAME video rather than throwing it away.
+                print(f"[Cloud] AI review unavailable - re-checking in {AI_OUTAGE_WAIT_S}s.")
+                time.sleep(AI_OUTAGE_WAIT_S)
+                gate_v = _gate()
             if not gate_v["ok"]:
+                quota_out = _only_ai_unavailable(gate_v) and bool((gate_v.get("ai") or {}).get("quota"))
+                next_step = ("The daily AI-review quota is used up, so no new video can pass today."
+                             if quota_out else "Making another video now.")
                 send_path = _fit_telegram_limit(video_path)
                 v_ok = send_video(send_path, f"🛑 <b>NOT posted</b> — {esc(story.get('title', '?'))}\n"
-                                             f"(blocked by the upload gate, reasons below)",
+                                             f"(blocked by the upload gate, reasons below). {next_step}",
                                   width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
                 a_ok = send_alert(upload_gate.block_message(gate_v, story.get("title", "?")))
                 print(f"[Cloud] BLOCKED by the upload gate (Telegram: video "
                       f"{'sent' if v_ok else 'FAILED'}, reasons {'sent' if a_ok else 'FAILED'}).")
-                if all(f.startswith("AI review unavailable") for f in gate_v["failures"]):
-                    # Nothing wrong with the video; the review couldn't run (quota/outage).
-                    # A spare render would hit the same wall, and it's not the part's fault.
-                    print("[Cloud] AI review unavailable - not spending the spare render.")
+                slowest = max(slowest, time.monotonic() - t0)
+                if quota_out:
+                    # Every new video would hit the same wall.
+                    print("[Cloud] AI review quota used up - stopping.")
                     break
+                if _only_ai_unavailable(gate_v):
+                    continue                     # the video was fine: don't mark the case blocked
                 if not sample:
                     import series_queue
                     series_queue.mark_blocked(story)
@@ -706,6 +756,11 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             print(f"[Cloud] Video {i} errored: {exc}")
             _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
                   "status": "error", "error": str(exc)})
+            time.sleep(60)                       # LLM/API outages: don't hammer them
+        slowest = max(slowest, time.monotonic() - t0)
+
+    # Tells documentary.yml whether a catch-up run is worth starting.
+    _github_output("catchup", "true" if (delivered < count and not quota_out and not sample) else "false")
 
     if delivered and count > 1:
         # Only worth a summary for a batch. For the usual single-video run it would
@@ -717,7 +772,11 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     elif not delivered:
         send_alert(
             f"❌ <b>BuriedCasefiles — no videos made</b>\n\n"
-            f"All {count} attempt(s) failed. Check the GitHub Actions log."
+            f"All {i} attempt(s) failed. "
+            + ("The daily AI-review quota is used up; nothing can pass until it refills."
+               if quota_out else
+               "A catch-up run starts automatically (up to 2 in a row) — nothing to do.")
+            + " Details in the GitHub Actions log."
         )
     print(f"\n[Cloud] Done — {delivered}/{count} delivered to Telegram.")
 

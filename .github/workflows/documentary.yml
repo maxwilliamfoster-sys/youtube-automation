@@ -33,11 +33,10 @@ on:
         type: choice
         options: [generate, sample, check-buffer]
         default: generate
-
-# Never two runs at once: both would force-push the `media` branch that hosts the MP4s.
-concurrency:
-  group: documentary
-  cancel-in-progress: false
+      catchup:
+        description: 'Internal: catch-up round (set by a run whose videos were all blocked)'
+        default: '0'
+        required: false
 
 jobs:
   check-buffer:
@@ -84,9 +83,16 @@ jobs:
     needs: slot
     if: needs.slot.outputs.run == 'true' && github.event.inputs.mode != 'check-buffer'
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    # main_documentary.py keeps making videos until one passes every gate (125 min budget)
+    timeout-minutes: 150
+    # Never two runs at once: both would force-push the `media` branch that hosts the MP4s.
+    # (Job level, so the off-season duplicate crons, which skip this job, queue nothing.)
+    concurrency:
+      group: documentary
+      cancel-in-progress: false
     permissions:
       contents: write   # to commit recent_cases.json back so cases never repeat
+      actions: write    # to start a catch-up run when every video was blocked
 
     steps:
       - name: Checkout
@@ -171,6 +177,7 @@ jobs:
 
       # ── Generate videos and deliver them to Telegram ──────────────────────────
       - name: Generate & deliver
+        id: make
         run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '1' }} ${{ github.event.inputs.mode == 'sample' && '--sample' || '' }}
         env:
           PYTHONUNBUFFERED: "1"
@@ -198,6 +205,23 @@ jobs:
             git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
+
+      # ── Catch-up: every video this run made was blocked and time ran out ───────
+      # Starts a fresh run for the same slot (max 2 in a row, so a broken pipeline
+      # can't loop forever). Not after a spent AI-review quota: that can't pass today.
+      # workflow_dispatch is the one event GITHUB_TOKEN may trigger.
+      - name: Start a catch-up run
+        # 'true' = all blocked; also a crash before the script could say (no output at all)
+        if: >-
+          always() && github.event.inputs.mode != 'sample'
+          && (steps.make.outputs.catchup == 'true' || (steps.make.outcome == 'failure' && steps.make.outputs.catchup == ''))
+          && fromJSON(github.event.inputs.catchup || '0') < 2
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NEXT: ${{ fromJSON(github.event.inputs.catchup || '0') + 1 }}
+        run: |
+          gh workflow run documentary.yml --ref "${GITHUB_REF_NAME}"             -f mode=generate -f count=${{ github.event.inputs.count || '1' }} -f catchup="$NEXT"
+          echo "Catch-up run $NEXT/2 started."
 
       # ── Backup copy: downloadable from the run page for 2 days ─────────────────
       # Telegram is the real delivery path; this is only a fallback. It is allowed to
