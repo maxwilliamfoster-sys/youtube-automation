@@ -549,11 +549,18 @@ def _gate_profile(sample=False):
     }
 
 
-CLOUD_BUDGET_S = 125 * 60      # keep making videos until one passes, for this long
+# Time budget, from the start of run_cloud_deliver. A new render starts only if it can
+# finish AND still leave POST_RESERVE_S to post (hosting waits up to 600s, Buffer up
+# to 900s). Worst case: ~4 min setup + 105 min rendering + 25 min posting = 134 min,
+# inside documentary.yml's timeout-minutes: 150.
+CLOUD_BUDGET_S = 130 * 60
+POST_RESERVE_S = 25 * 60
 CLOUD_FIRST_RENDER_S = 18 * 60 # assumed render time until one has been measured
 CLOUD_MAX_ATTEMPTS = 10        # safety cap on renders per run (+count)
-AI_OUTAGE_RECHECKS = 2         # re-ask the AI reviewer about the same video after an outage
-AI_OUTAGE_WAIT_S = 90
+# An AI-review outage blocks every new video too, so the SAME video is re-checked
+# (every 5 min, up to 1h) instead of spending a new case and writer tokens on it.
+AI_OUTAGE_WAIT_S = 300
+AI_OUTAGE_MAX_RECHECKS = 12
 # Real AI reviews per UTC day for this bot. The free Groq quota is shared by 3 bots
 # (chess 10, Escape 8, BCF 20 = ~165k of 200k tokens; growth-lab PLAN_2026-10-19).
 # Reaching it behaves like Groq's own "quota used up" answer: no post, stop.
@@ -593,11 +600,11 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     # starts a catch-up run (see documentary.yml).
     started, slowest, i, quota_out = time.monotonic(), CLOUD_FIRST_RENDER_S, 0, False
     import upload_gate
-    keys, broken = [], False              # infrastructure-failure keys (upload_gate.failure_key)
+    keys, broken, ai_down = [], False, False  # infrastructure-failure keys (upload_gate.failure_key)
     while delivered < count:
         i += 1
-        if i > 1 and (i > CLOUD_MAX_ATTEMPTS + count
-                      or time.monotonic() - started + slowest > CLOUD_BUDGET_S):
+        if (i > CLOUD_MAX_ATTEMPTS + count
+                or time.monotonic() - started + slowest + POST_RESERVE_S > CLOUD_BUDGET_S):
             print(f"[Cloud] Out of time/attempts after {i - 1} video(s).")
             break
         print(f"\n[Cloud] ===== Video {i} (need {count - delivered} more) =====")
@@ -683,14 +690,26 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                     video_path, "tiktok", profile=_gate_profile(sample), caption=caption,
                     script=story.get("script", ""), ai_label=True)
             gate_v = _gate()
-            for _ in range(AI_OUTAGE_RECHECKS):
-                if gate_v["ok"] or not _only_ai_unavailable(gate_v) or (gate_v.get("ai") or {}).get("quota"):
-                    break
+            rechecks = 0
+            while (not gate_v["ok"] and _only_ai_unavailable(gate_v)
+                   and not (gate_v.get("ai") or {}).get("quota")
+                   and rechecks < AI_OUTAGE_MAX_RECHECKS
+                   and time.monotonic() - started + AI_OUTAGE_WAIT_S + POST_RESERVE_S <= CLOUD_BUDGET_S):
                 # Nothing wrong with the video; the review couldn't run (outage). Ask
                 # again about the SAME video rather than throwing it away.
-                print(f"[Cloud] AI review unavailable - re-checking in {AI_OUTAGE_WAIT_S}s.")
+                rechecks += 1
+                print(f"[Cloud] AI review unavailable - re-checking in {AI_OUTAGE_WAIT_S}s "
+                      f"({rechecks}/{AI_OUTAGE_MAX_RECHECKS}).")
                 time.sleep(AI_OUTAGE_WAIT_S)
                 gate_v = _gate()
+            if (not gate_v["ok"] and _only_ai_unavailable(gate_v)
+                    and not (gate_v.get("ai") or {}).get("quota")):
+                send_alert(f"⚠️ <b>BuriedCasefiles: AI reviewer still down after {rechecks} "
+                           f"re-checks</b> (up to 1h)\n\n{esc(story.get('title', '?'))} was not posted. "
+                           "A catch-up run tries again later — nothing to do unless this repeats.")
+                print("[Cloud] AI review still unavailable - stopping (catch-up run retries).")
+                ai_down = True
+                break
             if not gate_v["ok"]:
                 quota_out = _only_ai_unavailable(gate_v) and bool((gate_v.get("ai") or {}).get("quota"))
                 next_step = ("The daily AI-review quota is used up, so no new video can pass today."

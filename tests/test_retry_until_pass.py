@@ -70,7 +70,7 @@ class TestRetryUntilPass(unittest.TestCase):
 
     def test_ai_outage_rechecks_the_same_video(self):
         down = {"ok": False, "failures": ["AI review unavailable: HTTP 503"], "ai": {"available": False}}
-        self._gate_seq([down, {"ok": True, "failures": []}])
+        self._gate_seq([down] * 3 + [{"ok": True, "failures": []}])
         md.run_cloud_deliver(count=1)
         self.assertEqual(self.made, 1)              # same video, asked again
         self.assertEqual(self.posted, ["Case 1"])
@@ -89,8 +89,27 @@ class TestRetryUntilPass(unittest.TestCase):
         self._gate_seq([block] * 50)
         with mock.patch.object(md, "CLOUD_BUDGET_S", 0), self.assertRaises(SystemExit):
             md.run_cloud_deliver(count=1)
-        self.assertEqual(self.made, 1)
+        self.assertEqual(self.made, 0)          # no render that couldn't finish posting
         self.assertIn("catchup=true", self._output())
+
+    def test_budget_reserves_posting_time(self):
+        late = md.CLOUD_BUDGET_S - md.POST_RESERVE_S - 60
+        clock = iter([0.0] + [float(late)] * 50)
+        self._gate_seq([{"ok": True, "failures": []}] * 5)
+        with mock.patch.object(md.time, "monotonic", lambda: next(clock)),                 mock.patch.object(md, "CLOUD_FIRST_RENDER_S", 120), self.assertRaises(SystemExit):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(self.made, 0)
+        self.assertIn("catchup=true", self._output())
+
+    def test_long_ai_outage_stops_and_asks_for_catchup(self):
+        down = {"ok": False, "failures": ["AI review unavailable: HTTP 503"], "ai": {"available": False}}
+        self._gate_seq([down] * 50)
+        alerts = []
+        with mock.patch.object(notify, "send_alert", lambda t, **k: alerts.append(t) or True),                 self.assertRaises(SystemExit):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(self.made, 1)          # the same video, re-checked; no new renders
+        self.assertIn("catchup=true", self._output())
+        self.assertTrue(any("AI reviewer" in a for a in alerts))
 
     def test_attempt_cap_bounds_a_broken_pipeline(self):
         block = {"ok": False, "failures": ["video check: black frames"], "ai": None}
@@ -122,7 +141,7 @@ class TestRetryUntilPass(unittest.TestCase):
         self._gate_seq([{"ok": True, "failures": []}] * 50)
         with mock.patch.object(tiktok_buffer, "is_configured", lambda: True), \
                 mock.patch.object(md, "_autopost_tiktok", lambda *a: False), \
-                mock.patch.object(md, "CLOUD_BUDGET_S", 0), self.assertRaises(SystemExit):
+                mock.patch.object(md, "CLOUD_MAX_ATTEMPTS", 0), self.assertRaises(SystemExit):
             md.run_cloud_deliver(count=1)
         self.assertTrue(self.sent)                  # Telegram got it...
         self.assertIn("catchup=true", self._output())   # ...but nothing was posted
