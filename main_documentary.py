@@ -538,6 +538,7 @@ def _gate_profile(sample=False):
         "speech_min": 0.7,               # Whisper tiny on clean narration measures ~0.9+
         "whisper_model": "tiny",
         "ai_review": "required",         # no coherence review = no post
+        "ai_daily_cap": AI_DAILY_CAP,
         "ai_realistic": True,            # AI narrator over real places -> TikTok AI label
         "ai_context": ("BuriedCasefiles: calm, factual true-crime documentaries about real cases. "
                        "An AI narrator reads the script over sombre mood footage (fog, rain, empty "
@@ -553,6 +554,11 @@ CLOUD_FIRST_RENDER_S = 18 * 60 # assumed render time until one has been measured
 CLOUD_MAX_ATTEMPTS = 10        # safety cap on renders per run (+count)
 AI_OUTAGE_RECHECKS = 2         # re-ask the AI reviewer about the same video after an outage
 AI_OUTAGE_WAIT_S = 90
+# Real AI reviews per UTC day for this bot. The free Groq quota is shared by 3 bots
+# (chess 10, Escape 8, BCF 20 = ~165k of 200k tokens; growth-lab PLAN_2026-10-19).
+# Reaching it behaves like Groq's own "quota used up" answer: no post, stop.
+AI_DAILY_CAP = 20
+SYSTEMIC_STOP = "same failure 3 times in a row - stopping (not a content problem; check the log)"
 
 
 def _only_ai_unavailable(gate_v) -> bool:
@@ -586,6 +592,8 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     # every new video would hit the same wall. If the budget runs out, the workflow
     # starts a catch-up run (see documentary.yml).
     started, slowest, i, quota_out = time.monotonic(), CLOUD_FIRST_RENDER_S, 0, False
+    import upload_gate
+    keys, broken = [], False              # infrastructure-failure keys (upload_gate.failure_key)
     while delivered < count:
         i += 1
         if i > 1 and (i > CLOUD_MAX_ATTEMPTS + count
@@ -669,7 +677,6 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             # narration vs script, and an AI review of the frames for coherence
             # (required: no review = no post). tiktok_buffer.post_video refuses any
             # file this did not approve.
-            import upload_gate
 
             def _gate():
                 return upload_gate.check(
@@ -699,6 +706,12 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                 if quota_out:
                     # Every new video would hit the same wall.
                     print("[Cloud] AI review quota used up - stopping.")
+                    break
+                keys.append(upload_gate.failure_key(gate_v["failures"]))
+                if upload_gate.systemic(keys):
+                    # A broken tool or secret fails every video the same way.
+                    print(f"[Cloud] {SYSTEMIC_STOP}")
+                    broken = True
                     break
                 if _only_ai_unavailable(gate_v):
                     continue                     # the video was fine: don't mark the case blocked
@@ -756,11 +769,17 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             print(f"[Cloud] Video {i} errored: {exc}")
             _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
                   "status": "error", "error": str(exc)})
+            keys.append(upload_gate.failure_key([f"pipeline step could not run: {exc}"]))
+            if upload_gate.systemic(keys):
+                print(f"[Cloud] {SYSTEMIC_STOP}")
+                broken = True
+                break
             time.sleep(60)                       # LLM/API outages: don't hammer them
         slowest = max(slowest, time.monotonic() - t0)
 
     # Tells documentary.yml whether a catch-up run is worth starting.
-    _github_output("catchup", "true" if (delivered < count and not quota_out and not sample) else "false")
+    _github_output("catchup", "true" if (delivered < count and not quota_out and not broken
+                                         and not sample) else "false")
 
     if delivered and count > 1:
         # Only worth a summary for a batch. For the usual single-video run it would
@@ -775,6 +794,8 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             f"All {i} attempt(s) failed. "
             + ("The daily AI-review quota is used up; nothing can pass until it refills."
                if quota_out else
+               "The same technical failure hit 3 videos in a row, so the run stopped - "
+               "something is broken (no catch-up run)." if broken else
                "A catch-up run starts automatically (up to 2 in a row) — nothing to do.")
             + " Details in the GitHub Actions log."
         )

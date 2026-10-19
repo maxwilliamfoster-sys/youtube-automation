@@ -99,6 +99,27 @@ class TestRetryUntilPass(unittest.TestCase):
             md.run_cloud_deliver(count=1)
         self.assertEqual(self.made, md.CLOUD_MAX_ATTEMPTS + 1)
 
+    def test_same_infrastructure_failure_three_times_stops(self):
+        broken = {"ok": False, "failures": ["Video check could not run: ffprobe missing"], "ai": None}
+        self._gate_seq([broken] * 50)
+        with mock.patch.object(md, "CLOUD_FIRST_RENDER_S", 0), self.assertRaises(SystemExit):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(self.made, 3)
+        self.assertIn("catchup=false", self._output())
+
+    def test_same_crash_three_times_stops(self):
+        def boom():
+            self.made += 1
+            raise RuntimeError("No such file or directory: 'ffmpeg'")
+        with mock.patch.object(md, "_generate_one", boom), \
+                mock.patch.object(md, "CLOUD_FIRST_RENDER_S", 0), self.assertRaises(SystemExit):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(self.made, 3)
+        self.assertIn("catchup=false", self._output())
+
+    def test_gate_profile_caps_daily_ai_reviews(self):
+        self.assertEqual(md._gate_profile()["ai_daily_cap"], 20)
+
 
 if __name__ == "__main__":
     unittest.main()

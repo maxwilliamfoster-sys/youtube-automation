@@ -81,7 +81,7 @@ class TestNightly(Sandbox):
         with mock.patch.object(ln, "collect", return_value=([], {})):
             ln.main([])
         eid = self.read("experiments.json")["experiments"][0]["id"]
-        self.on((2026, 11, 20))
+        self.on((2026, 11, 22))                  # verdicts apply on Sundays
         with mock.patch.object(ln, "collect", return_value=(fake_posts(eid, 16, 30, 45), {})):
             ln.main([])
         exps = self.read("experiments.json")["experiments"]
