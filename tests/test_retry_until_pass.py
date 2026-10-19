@@ -146,6 +146,32 @@ class TestRetryUntilPass(unittest.TestCase):
         self.assertTrue(self.sent)                  # Telegram got it...
         self.assertIn("catchup=true", self._output())   # ...but nothing was posted
 
+    def test_buffer_failure_stops_the_run_for_catch_up(self):
+        # A Buffer outage used to re-render (and re-send to Telegram, and re-review)
+        # video after video. One failure ends the run; the catch-up run tries again.
+        import tiktok_buffer
+        self._gate_seq([{"ok": True, "failures": []}] * 50)
+        marked = []
+        with mock.patch.object(tiktok_buffer, "is_configured", lambda: True), \
+                mock.patch.object(md, "_autopost_tiktok", lambda *a: False), \
+                mock.patch.object(series_queue, "mark_delivered", lambda st: marked.append(st)), \
+                self.assertRaises(SystemExit):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(self.made, 1)
+        self.assertIn("catchup=true", self._output())
+        self.assertEqual(marked, [])                 # a series part TikTok never got stays queued
+
+    def test_buffer_timeout_counts_as_delivered(self):
+        # Buffer took it but was still sending at the timeout: it may still publish,
+        # so making another video could put two up in one slot.
+        import tiktok_buffer
+        self._gate_seq([{"ok": True, "failures": []}] * 50)
+        with mock.patch.object(tiktok_buffer, "is_configured", lambda: True), \
+                mock.patch.object(md, "_autopost_tiktok", lambda *a: md.POST_PENDING):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(self.made, 1)
+        self.assertIn("catchup=false", self._output())
+
     def test_telegram_only_mode_counts_telegram_delivery(self):
         import tiktok_buffer
         self._gate_seq([{"ok": True, "failures": []}])
@@ -165,6 +191,29 @@ class TestRetryUntilPass(unittest.TestCase):
 
     def test_gate_profile_caps_daily_ai_reviews(self):
         self.assertEqual(md._gate_profile()["ai_daily_cap"], 20)
+
+
+class TestAutopostResult(unittest.TestCase):
+    """_autopost_tiktok tells a timed-out post (may still publish) from a failure."""
+
+    def _post(self, result):
+        import tiktok_buffer
+        alerts = []
+        with mock.patch.object(tiktok_buffer, "is_configured", lambda: True), \
+                mock.patch.object(tiktok_buffer, "post_video", lambda *a, **k: result):
+            out = md._autopost_tiktok("v.mp4", "cap", _story(1), alerts.append, lambda t: t)
+        return out, alerts
+
+    def test_timeout_is_pending(self):
+        out, alerts = self._post((False, "Buffer post 1 timed out while sending - it may still publish"))
+        self.assertEqual(out, md.POST_PENDING)
+        self.assertIn("check TikTok", alerts[0])
+
+    def test_failure_advice_points_to_catch_up(self):
+        out, alerts = self._post((False, "Buffer HTTP 500"))
+        self.assertFalse(out)
+        self.assertIn("catch-up run", alerts[0])
+        self.assertNotIn("post it manually", alerts[0])
 
 
 if __name__ == "__main__":

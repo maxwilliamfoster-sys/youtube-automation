@@ -446,7 +446,13 @@ def _log_post(detail: str, story: dict, video_path: str) -> None:
         print(f"[TikTok] could not log the post ({e})")
 
 
-def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc) -> bool:
+# _autopost_tiktok result when Buffer accepted the post but it was still sending at the
+# timeout. Truthy: it counts as delivered, because making another video could put two
+# up in one slot.
+POST_PENDING = "pending"
+
+
+def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc):
     """
     Post the finished video to TikTok, if auto-posting is switched on: Buffer when
     BUFFER_API_KEY is set (free, official API), else Upload-Post (dormant, paid).
@@ -495,7 +501,8 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
             advice = ("Buffer may still publish it - check TikTok before posting anything "
                       "by hand, or it goes up twice.")
         else:
-            advice = "The video is in Telegram — post it manually this time."
+            advice = ("A catch-up run will make and post a replacement, so don't post this "
+                      "one by hand (the slot would get two).")
         try:
             send_alert(
                 f"⚠️ <b>TikTok auto-post failed</b>\n\n"
@@ -503,6 +510,8 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
             )
         except Exception:
             pass
+        if "timed out" in str(detail):
+            return POST_PENDING      # Buffer has it and may still publish: not a failure
     return ok
 
 
@@ -788,14 +797,18 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             # with no catch-up and the slot stayed empty.
             if posted or (sent and not auto):
                 delivered += 1
-            elif auto:
-                print("[Cloud] Buffer did not take the video - not counted as delivered.")
-            if sent or posted:
                 try:
                     import series_queue
                     series_queue.mark_delivered(story)
                 except Exception as e:
                     print(f"[Series] queue update failed: {e}")
+            elif auto:
+                # A Buffer failure is not about this video: re-rendering here only
+                # re-sent videos to Telegram and spent the shared AI quota while Buffer
+                # was down. Stop; the catch-up run (catchup=true) tries again.
+                print("[Cloud] Buffer did not take the video - not counted as delivered; "
+                      "leaving it to the catch-up run.")
+                break
         except Exception as exc:
             print(f"[Cloud] Video {i} errored: {exc}")
             _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
