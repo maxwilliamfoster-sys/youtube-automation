@@ -741,7 +741,6 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             sent = send_video(send_path, video_caption, width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
             if sent:
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
-                delivered += 1
             else:
                 send_alert(
                     f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"
@@ -752,13 +751,19 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                 )
                 print(f"[Cloud] Telegram delivery failed for {story['title']}")
             if sample:
+                delivered += bool(sent)
                 continue
             # Auto-post to TikTok — only reachable AFTER the guidelines, legal and
             # upload gates passed. Independent of Telegram: a Telegram outage used to
             # mean a fully checked video was never posted. Inert unless opted in.
             posted = _autopost_tiktok(video_path, caption, story, send_alert, esc)
-            if posted and not sent:
+            # With auto-posting on, "delivered" means TikTok has it: a video that only
+            # reached Telegram used to count, so a Buffer failure ended the run green
+            # with no catch-up and the slot stayed empty.
+            if posted or (sent and not auto):
                 delivered += 1
+            elif auto:
+                print("[Cloud] Buffer did not take the video - not counted as delivered.")
             if sent or posted:
                 try:
                     import series_queue

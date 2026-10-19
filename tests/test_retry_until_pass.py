@@ -117,6 +117,24 @@ class TestRetryUntilPass(unittest.TestCase):
         self.assertEqual(self.made, 3)
         self.assertIn("catchup=false", self._output())
 
+    def test_buffer_failure_is_not_delivered(self):
+        import tiktok_buffer
+        self._gate_seq([{"ok": True, "failures": []}] * 50)
+        with mock.patch.object(tiktok_buffer, "is_configured", lambda: True), \
+                mock.patch.object(md, "_autopost_tiktok", lambda *a: False), \
+                mock.patch.object(md, "CLOUD_BUDGET_S", 0), self.assertRaises(SystemExit):
+            md.run_cloud_deliver(count=1)
+        self.assertTrue(self.sent)                  # Telegram got it...
+        self.assertIn("catchup=true", self._output())   # ...but nothing was posted
+
+    def test_telegram_only_mode_counts_telegram_delivery(self):
+        import tiktok_buffer
+        self._gate_seq([{"ok": True, "failures": []}])
+        with mock.patch.object(tiktok_buffer, "is_configured", lambda: False), \
+                mock.patch.object(md, "_autopost_tiktok", lambda *a: False):
+            md.run_cloud_deliver(count=1)
+        self.assertIn("catchup=false", self._output())
+
     def test_gate_profile_caps_daily_ai_reviews(self):
         self.assertEqual(md._gate_profile()["ai_daily_cap"], 20)
 
