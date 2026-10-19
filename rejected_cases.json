@@ -2170,5 +2170,131 @@
   "reason": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
+ },
+ "Murder of Dini Haryati": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of Joey Fischer": {
+  "stage": "legal",
+  "reason": "The script names Israel Olivarez Cepeda and Heriberto Puentes Pizaña as the hitmen who killed Fischer, but they were never convicted or tried for the murder, and the text points suspicion at them as t",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of Karin Grech": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Death of Chan Yin-lam": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murders of Helen and Margaret Lynch": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Disappearance of Ruth Wilson": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Killing of Shani Louk": {
+  "stage": "quality",
+  "reason": "accuracy 4/10",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Ashikaga murder case": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Lambeth Mystery": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Disappearance of Cédrika Provencher": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murder of a 9‑year‑old child, which triggers age‑restricted content rules.",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of Logan Mwangi": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Killing of Louise Jensen": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of Tia Rigg": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Marković affair": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story hinges on named individuals (Delon, Marcantonini) who were never convicted, violating the unconvicted suspect rule.",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Death of Luis Andres Colmenares": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on Laura Moreno and Jessy Quintero, who were arrested but never convicted, making the story point to unconvicted suspects.",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of Ang May Hong": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of Helen McCourt": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves sexual assault of the victim, which is prohibited.",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of the Lowe family": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Pimlico Mystery": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Killing of Amy Joyner-Francis": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-19",
+  "strikes": 1
+ },
+ "Murder of Mona Tinsley": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-19",
+  "strikes": 1
  }
 }

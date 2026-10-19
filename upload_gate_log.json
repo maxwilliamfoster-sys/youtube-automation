@@ -401,6 +401,91 @@
     "summary": "The video presents a coherent, high-quality true-crime narrative with consistent sombre visuals and text that aligns perfectly with the narration and caption, containing no policy violations.",
     "tokens": 4157
    }
+  },
+  {
+   "checked_at": "2026-10-19T20:41:18+00:00",
+   "platform": "tiktok",
+   "file": "Mathematicians_Body_Locked_in_Red_Bag_20261019_203620.mp4",
+   "sha256": "77e94f9c8442fa4ebcd8cf9bbe7350f1c265615f28984473750939bf3ad8cc8b",
+   "head": "Gareth Williams case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because it uses jarringly unrelated and inappropriate stock footage (a damaged non-UK building) for a specific London true-crime case, violating the requirement for relevant visual context. | The video uses stock footage that is jarringly unrelated and inappropriate for the subject matter, specifically showing a dilapidated, damaged building with broken windows and a police officer in a non-UK context (likely Middle Eastern or South Asian architecture) for a case that took place in a Pimlico flat in London. This violates the rule against using footage that is inappropriate for the subject.; The visual narrative is disjointed; the transition from a London street scene to a damaged, non-UK building is confusing and breaks the immersion of the documentary style.; The use of generic stock footage (rainy roads, random buildings) rather than specific location footage or relevant archive material makes the video feel like a low-effort placeholder."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 43.27,
+    "lufs": -15.1,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 4,
+    "summary": "The video is blocked because it uses jarringly unrelated and inappropriate stock footage (a damaged non-UK building) for a specific London true-crime case, violating the requirement for relevant visual context.",
+    "tokens": 4397
+   }
+  },
+  {
+   "checked_at": "2026-10-19T20:56:29+00:00",
+   "platform": "tiktok",
+   "file": "Kazakh_Hikers_Mystery_on_the_Ridge_20261019_205105.mp4",
+   "sha256": "6b319313c2a9371dee86d70839df3e9a424edd69187adb02319b916a7a607929",
+   "head": "Khamar-Daban incident case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because it relies on jarringly unrelated and inappropriate stock footage (including a duck and random men in suits) that fails to depict the mountain hiking story, resulting in a nonsensical and low-quality presentation. | The video uses stock footage of a bald man in a suit (appearing to be a politician or official) and a man in a suit looking at a phone, which are completely unrelated to the story of hikers in the mountains. This constitutes misleading content and unoriginal stock usage that does not fit the subject matter.; The visual narrative is disjointed and nonsensical; it cuts between storm clouds, a car in the rain, a close-up of a blue rock, and random stock footage of men in suits.; The closing card features a duck swimming in a pond, which is jarringly inappropriate and comedic for a true-crime story about a deadly incident.; The on-screen text words (e.g., 'THOUSAND', 'SUDEN') appear randomly over unrelated images, failing to create a coherent visual story."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 48.3,
+    "lufs": -15.1,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 4,
+    "summary": "The video is blocked because it relies on jarringly unrelated and inappropriate stock footage (including a duck and random men in suits) that fails to depict the mountain hiking story, resulting in a nonsensical and low-quality presentation.",
+    "tokens": 4448
+   }
+  },
+  {
+   "checked_at": "2026-10-19T21:12:49+00:00",
+   "platform": "tiktok",
+   "file": "River_Body_Mysterious_Note_20261019_210804.mp4",
+   "sha256": "985f751a29e912926a324b9b5744ca112c9912885e1732496c809176e12b89c9",
+   "head": "Great Basin Murders case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 44.1,
+    "lufs": -15.0,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "summary": "The video presents a coherent and factual true-crime narrative with appropriate sombre mood footage and clear, readable text overlays that align with the narration.",
+    "tokens": 4229
+   }
   }
  ]
 }
