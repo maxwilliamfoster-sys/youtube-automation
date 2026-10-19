@@ -306,3 +306,20 @@ class WriterModelTests(unittest.TestCase):
         self.assertFalse([u for u in urls if "cerebras.ai" in u or "openrouter.ai" in u])
         models = [c.kwargs.get("model") for c in client.chat.completions.create.call_args_list]
         self.assertFalse([m for m in models if m and m.startswith("qwen/")])
+
+
+class PrescreenPromptTests(unittest.TestCase):
+    def test_prescreen_prompt_has_date_and_cold_case_rule(self):
+        from datetime import datetime, timezone
+        import story_generator as sg
+        seen = {}
+
+        def fake(client, **kw):
+            seen["messages"] = kw["messages"]
+            raise RuntimeError("stop")
+        with mock.patch.object(sg, "_groq_call", side_effect=fake):
+            sg._prescreen_case(None, {"title": "X", "extract": "y"})
+        system = seen["messages"][0]["content"]
+        self.assertIn(f"{datetime.now(timezone.utc):%d %B %Y}", system)
+        self.assertIn("An open police investigation with nobody charged is NOT active proceedings",
+                      system)

@@ -198,13 +198,17 @@ jobs:
           for f in recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json upload_gate_log.json; do
             if [ -f "$f" ]; then git add "$f"; fi
           done
-          if git diff --staged --quiet; then
-            echo "No new case to persist."
-          else
-            git commit -m "chore: update recent cases [skip ci]"
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
+          git diff --staged --quiet && { echo "No new case to persist."; exit 0; }
+          git commit -m "chore: update recent cases [skip ci]"
+          for i in 1 2 3; do
+            if git pull --rebase --autostash -q origin "${GITHUB_REF_NAME:-main}"; then
+              git push origin "HEAD:${GITHUB_REF_NAME:-main}" && exit 0
+            else
+              git rebase --abort 2>/dev/null || true
+            fi
+            sleep $((i * 5))
+          done
+          echo "::error::could not push state after 3 tries"; exit 1
 
       # ── Catch-up: every video this run made was blocked and time ran out ───────
       # Starts a fresh run for the same slot (max 2 in a row, so a broken pipeline

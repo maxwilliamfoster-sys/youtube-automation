@@ -9,6 +9,7 @@ import json
 import os
 import random
 import time
+from datetime import datetime, timezone
 import requests as _requests
 from groq import Groq, RateLimitError, APIStatusError, APIConnectionError
 
@@ -1387,6 +1388,8 @@ def _prescreen_case(client: Groq, sourced: dict) -> dict:
     source = (sourced.get("full_text") or sourced.get("extract") or "")[:PRESCREEN_SOURCE_CHARS]
     messages = [
         {"role": "system", "content": (
+            # Without the date the model can't apply "the last two years" below.
+            f"Today's date is {datetime.now(timezone.utc):%d %B %Y}.\n"
             "You screen real criminal cases for a respectful 45-second true crime TikTok "
             "(factual, no graphic detail). Two strict reviewers check every finished "
             "video: a TikTok Trust & Safety moderator and a UK media lawyer. Predict "
@@ -1411,7 +1414,8 @@ def _prescreen_case(client: Groq, sourced: dict) -> dict:
             "can leave them out). Also fine if a different person was later convicted, "
             "or if nobody is identified at all.\n"
             "- active_proceedings: someone is currently charged, awaiting trial or "
-            "appeal, or the events are from the last two years.\n"
+            "appeal, or the events are from the last two years. An open police "
+            "investigation with nobody charged is NOT active proceedings (cold cases are GO).\n"
             "- other: terrorism, a mass shooting, a political killing, or suicide as "
             "the subject.\n"
             "Otherwise GO. Most unsolved murders and disappearances, and cases resolved "
