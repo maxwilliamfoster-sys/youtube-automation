@@ -452,6 +452,17 @@ def _log_post(detail: str, story: dict, video_path: str) -> None:
 POST_PENDING = "pending"
 
 
+def _app(kind, severity, title, body="", **data):
+    """Also tell Bot HQ (the phone app). Telegram alerts are unchanged."""
+    try:
+        import app_events
+        short = " ".join(str(title).split())
+        app_events.emit("bcf", kind, severity, short if len(short) <= 80 else short[:79] + "…",
+                        body, data=data or None)
+    except Exception as e:
+        print(f"[BotHQ] emit failed: {e}")
+
+
 def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc):
     """
     Post the finished video to TikTok, if auto-posting is switched on: Buffer when
@@ -489,6 +500,8 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
     if ok:
         print(f"[TikTok] Posted: {detail}")
         _log_post(detail, story, video_path)
+        _app("posted", "info", f"BuriedCasefiles posted: {story.get('title', '?')}", str(detail),
+             buffer_id=str(detail))
         try:
             send_alert(f"🚀 <b>Posted to TikTok</b>\n\n{esc(story.get('title','?'))}\n{esc(detail)}")
         except Exception:
@@ -503,6 +516,8 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
         else:
             advice = ("A catch-up run will make and post a replacement, so don't post this "
                       "one by hand (the slot would get two).")
+        _app("post_failed", "warn", "BuriedCasefiles: TikTok post failed",
+             f"{story.get('title', '?')}\nReason: {str(detail)[:300]}\n\n{advice}")
         try:
             send_alert(
                 f"⚠️ <b>TikTok auto-post failed</b>\n\n"
@@ -642,6 +657,8 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                 )
                 if not gate["ok"]:
                     reasons = chr(10).join(f"• {b}" for b in gate["blocking"][:5])
+                    _app("gate_blocked", "warn", "BuriedCasefiles: publish checks held a video back",
+                         f"{story.get('title', '?')}\n\n{reasons}\n\nNot sent.")
                     send_alert(
                         "🛑 <b>Video blocked before sending</b>" + chr(10)*2
                         + esc(story.get("title", "?")) + chr(10)*2
@@ -660,6 +677,9 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
 
             if verdict != "OK":
                 reasons = "; ".join((story.get("compliance") or {}).get("reasons", []))
+                _app("gate_blocked", "warn", "BuriedCasefiles: TikTok guidelines review held a video back",
+                     f"{story.get('title', '?')}\nVerdict: {verdict or 'unreviewed'}\nWhy: "
+                     f"{reasons[:300] or 'no compliance review attached'}\n\nNot sent.")
                 send_alert(
                     f"🛑 <b>Video blocked — TikTok guidelines</b>\n\n"
                     f"{esc(story.get('title', '?'))}\n"
@@ -714,6 +734,9 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                 gate_v = _gate()
             if (not gate_v["ok"] and _only_ai_unavailable(gate_v)
                     and not (gate_v.get("ai") or {}).get("quota")):
+                _app("ai_down", "warn", "BuriedCasefiles: AI reviewer down, video not posted",
+                     f"{story.get('title', '?')} was not posted after {rechecks} re-checks. A catch-up "
+                     "run tries again later - nothing to do unless this repeats.")
                 send_alert(f"⚠️ <b>BuriedCasefiles: AI reviewer still down after {rechecks} "
                            f"re-checks</b> (up to 1h)\n\n{esc(story.get('title', '?'))} was not posted. "
                            "A catch-up run tries again later — nothing to do unless this repeats.")
@@ -733,6 +756,9 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                                                  f"(blocked by the upload gate, reasons below). {next_step}",
                                       width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
                     blocked_sent = True
+                _app("gate_blocked", "warn", "BuriedCasefiles: upload gate held a video back",
+                     f"{story.get('title', '?')}\n" + "\n".join(f"- {f}" for f in gate_v.get("failures", [])[:6])
+                     + f"\n\n{next_step}")
                 a_ok = send_alert(upload_gate.block_message(gate_v, story.get("title", "?")))
                 print(f"[Cloud] BLOCKED by the upload gate (Telegram: video "
                       f"{'not sent (one per run)' if v_ok is None else 'sent' if v_ok else 'FAILED'}, "
@@ -777,6 +803,10 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             if sent:
                 print(f"[Cloud] Delivered to Telegram: {story['title']}")
             else:
+                _app("delivery_failed", "warn", "BuriedCasefiles: video made but Telegram didn't get it",
+                     f"{story['title']} ({size_mb:.0f} MB). "
+                     + ("It is still being posted to TikTok automatically." if auto else
+                        "Grab it from the GitHub Actions run page > Artifacts."))
                 send_alert(
                     f"⚠️ <b>Video made but Telegram delivery failed</b>\n\n"
                     f"{esc(story['title'])} ({size_mb:.0f} MB).\n"
@@ -833,6 +863,10 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             f"They're above this message."
         )
     elif not delivered:
+        _app("no_videos", "action", "BuriedCasefiles: no videos made this run",
+             f"All {i} attempt(s) failed. "
+             + ("The daily AI-review quota is used up; nothing can pass until it refills."
+                if quota_out else "Check the run log (Bot HQ attaches it to the run alert)."))
         send_alert(
             f"❌ <b>BuriedCasefiles — no videos made</b>\n\n"
             f"All {i} attempt(s) failed. "

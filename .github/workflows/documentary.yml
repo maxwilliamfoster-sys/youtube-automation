@@ -185,6 +185,9 @@ jobs:
           BUFFER_API_KEY:    ${{ secrets.BUFFER_API_KEY }}
           BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
           GITHUB_TOKEN:      ${{ github.token }}
+          # Bot HQ (phone app) alerts; Telegram keeps the videos.
+          APP_URL:           https://bot-hq.maxwilliamfoster.workers.dev
+          APP_EVENTS_TOKEN:  ${{ secrets.APP_EVENTS_TOKEN }}
 
       # ── Persist used cases so future runs never repeat a case ─────────────────
       # rejected_cases.json = cases a gate refused, so no run ever retries them.
