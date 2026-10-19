@@ -220,6 +220,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           ROUND: ${{ github.event.inputs.catchup || '0' }}
         run: |
+          # A queued run in the same concurrency group would be CANCELLED by a new one
+          # (GitHub keeps one pending run per group), losing that run's slot.
+          OTHERS=$(gh run list -R "$GITHUB_REPOSITORY" -w documentary.yml --json databaseId,status \
+            -q "[.[] | select(.databaseId != ${GITHUB_RUN_ID} and (.status==\"queued\" or .status==\"in_progress\" or .status==\"waiting\" or .status==\"pending\"))] | length")
+          if [ "$OTHERS" != "0" ]; then echo "Another documentary run is queued or running - it will fill the next slot; no catch-up (it would cancel that run)."; exit 0; fi
           NEXT=$((ROUND + 1))
           gh workflow run documentary.yml --ref "${GITHUB_REF_NAME}" -f mode=generate -f count=${{ github.event.inputs.count || '1' }} -f catchup="$NEXT"
           echo "Catch-up run $NEXT/2 started."

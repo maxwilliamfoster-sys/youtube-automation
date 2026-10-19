@@ -54,7 +54,11 @@ def is_configured() -> bool:
 def _git(args, cwd):
     r = subprocess.run(["git"] + args, cwd=cwd, capture_output=True, text=True)
     if r.returncode != 0:
-        raise PublishError(f"git {' '.join(args[:2])} failed: {r.stderr.strip()[:300]}")
+        err = r.stderr.strip()
+        token = os.environ.get("GITHUB_TOKEN")
+        if token:                        # public repo: never print the token in a log
+            err = err.replace(token, "***")
+        raise PublishError(f"git {' '.join(args[:2])} failed: {err[:300]}")
     return r.stdout
 
 

@@ -600,6 +600,7 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     # starts a catch-up run (see documentary.yml).
     started, slowest, i, quota_out = time.monotonic(), CLOUD_FIRST_RENDER_S, 0, False
     import upload_gate
+    blocked_sent = False
     keys, broken, ai_down = [], False, False  # infrastructure-failure keys (upload_gate.failure_key)
     while delivered < count:
         i += 1
@@ -714,13 +715,19 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                 quota_out = _only_ai_unavailable(gate_v) and bool((gate_v.get("ai") or {}).get("quota"))
                 next_step = ("The daily AI-review quota is used up, so no new video can pass today."
                              if quota_out else "Making another video now.")
-                send_path = _fit_telegram_limit(video_path)
-                v_ok = send_video(send_path, f"🛑 <b>NOT posted</b> — {esc(story.get('title', '?'))}\n"
-                                             f"(blocked by the upload gate, reasons below). {next_step}",
-                                  width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
+                v_ok = None
+                if not blocked_sent:
+                    # One blocked video per run is enough to see what the gate saw; a
+                    # long retry run used to flood Telegram with ~50 MB videos.
+                    send_path = _fit_telegram_limit(video_path)
+                    v_ok = send_video(send_path, f"🛑 <b>NOT posted</b> — {esc(story.get('title', '?'))}\n"
+                                                 f"(blocked by the upload gate, reasons below). {next_step}",
+                                      width=VIDEO_WIDTH, height=VIDEO_HEIGHT, duration=dur)
+                    blocked_sent = True
                 a_ok = send_alert(upload_gate.block_message(gate_v, story.get("title", "?")))
                 print(f"[Cloud] BLOCKED by the upload gate (Telegram: video "
-                      f"{'sent' if v_ok else 'FAILED'}, reasons {'sent' if a_ok else 'FAILED'}).")
+                      f"{'not sent (one per run)' if v_ok is None else 'sent' if v_ok else 'FAILED'}, "
+                      f"reasons {'sent' if a_ok else 'FAILED'}).")
                 slowest = max(slowest, time.monotonic() - t0)
                 if quota_out:
                     # Every new video would hit the same wall.

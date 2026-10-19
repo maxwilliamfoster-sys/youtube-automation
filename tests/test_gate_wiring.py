@@ -134,3 +134,15 @@ class TestHostingAndGate(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestGitErrors(unittest.TestCase):
+    def test_git_error_hides_token(self):
+        bad = mock.Mock(returncode=1, stdout="",
+                        stderr="fatal: https://x-access-token:SECRET123@github.com/o/r.git denied")
+        with mock.patch.object(tiktok_buffer.subprocess, "run", return_value=bad), \
+                mock.patch.dict(os.environ, {"GITHUB_TOKEN": "SECRET123"}):
+            with self.assertRaises(tiktok_buffer.PublishError) as cm:
+                tiktok_buffer._git(["push", "origin", "media"], ".")
+        self.assertNotIn("SECRET123", str(cm.exception))
+        self.assertIn("***", str(cm.exception))

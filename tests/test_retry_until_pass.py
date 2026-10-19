@@ -154,6 +154,15 @@ class TestRetryUntilPass(unittest.TestCase):
             md.run_cloud_deliver(count=1)
         self.assertIn("catchup=false", self._output())
 
+    def test_only_first_block_sends_video(self):
+        block = {"ok": False, "failures": ["AI review: unrelated footage"], "ai": {"available": True}}
+        self._gate_seq([block] * 3 + [{"ok": True, "failures": []}])
+        alerts = []
+        with mock.patch.object(notify, "send_alert", lambda t, **k: alerts.append(t) or True):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(len(self.sent), 2)          # first block + the posted video
+        self.assertEqual(alerts.count("blocked"), 3)  # every block still explained
+
     def test_gate_profile_caps_daily_ai_reviews(self):
         self.assertEqual(md._gate_profile()["ai_daily_cap"], 20)
 
