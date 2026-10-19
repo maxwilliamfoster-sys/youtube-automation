@@ -218,9 +218,10 @@ jobs:
           && fromJSON(github.event.inputs.catchup || '0') < 2
         env:
           GH_TOKEN: ${{ github.token }}
-          NEXT: ${{ fromJSON(github.event.inputs.catchup || '0') + 1 }}
+          ROUND: ${{ github.event.inputs.catchup || '0' }}
         run: |
-          gh workflow run documentary.yml --ref "${GITHUB_REF_NAME}"             -f mode=generate -f count=${{ github.event.inputs.count || '1' }} -f catchup="$NEXT"
+          NEXT=$((ROUND + 1))
+          gh workflow run documentary.yml --ref "${GITHUB_REF_NAME}" -f mode=generate -f count=${{ github.event.inputs.count || '1' }} -f catchup="$NEXT"
           echo "Catch-up run $NEXT/2 started."
 
       # ── Backup copy: downloadable from the run page for 2 days ─────────────────
