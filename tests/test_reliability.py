@@ -321,5 +321,7 @@ class PrescreenPromptTests(unittest.TestCase):
             sg._prescreen_case(None, {"title": "X", "extract": "y"})
         system = seen["messages"][0]["content"]
         self.assertIn(f"{datetime.now(timezone.utc):%d %B %Y}", system)
-        self.assertIn("An open police investigation with nobody charged is NOT active proceedings",
-                      system)
+        # UK contempt law: proceedings are active from an arrest or a warrant, not only a charge
+        self.assertIn("someone is under arrest, wanted on a warrant, charged", system)
+        self.assertIn("An open police investigation with nobody arrested, wanted or charged is "
+                      "NOT active proceedings", system)
