@@ -15,8 +15,8 @@ from groq import Groq, RateLimitError, APIStatusError, APIConnectionError
 import case_screen
 import case_source
 from config import (
-    GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT, OPENROUTER_API_KEY,
-    STORY_WORD_MIN, STORY_WORD_MAX, CEREBRAS_API_KEY, GROQ_REASONING_EFFORT,
+    GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT,
+    STORY_WORD_MIN, STORY_WORD_MAX, GROQ_REASONING_EFFORT,
 )
 
 # ── LLM backend constants ─────────────────────────────────────────────────────
@@ -24,180 +24,21 @@ from config import (
 # Nothing referenced this constant, so it broke nothing — but leaving a decommissioned
 # model id lying around is a trap for whoever wires up a cheap-tier call next.
 GROQ_FALLBACK_MODEL   = "openai/gpt-oss-20b"   # currently unused; Groq's 8b-instant successor
-OPENROUTER_BASE_URL   = "https://openrouter.ai/api/v1/chat/completions"
 
-# ── Cerebras: the second free pool ────────────────────────────────────────────
-# Groq's free tier is 100,000 tokens/DAY. One video costs roughly 9k tokens per
-# attempt, so 3 videos/day with retries runs at 60-80k — close enough to the ceiling
-# that a few extra retries tip it over, and the whole run degrades. Cerebras gives
-# another 1,000,000 tokens/day free with no card, which is ~10x Groq's allowance and
-# far beyond anything this pipeline can spend.
-#
-# Two caveats that shape the code below:
-#   * Free tier is 5 requests/MINUTE (not 30), so calls must be spaced ~13s apart.
-#   * It offers gpt-oss-120b, zai-glm-4.7 and gemma-4-31b. gpt-oss-120b is a reasoning
-#     model — the same class that leaked chain-of-thought into a script — so only the
-#     instruct-tuned gemma-4-31b is used here.
-#
-#     Groq now runs gpt-oss-120b as its primary (Llama 3.3 was retired and gpt-oss is
-#     the recommended replacement), which is not the contradiction it looks like: Groq
-#     returns gpt-oss reasoning in a separate `reasoning` field, so it cannot reach
-#     `message.content`. That guarantee is Groq-specific and has not been verified for
-#     this endpoint, so the conservative instruct-only choice stands on Cerebras.
-CEREBRAS_BASE_URL     = "https://api.cerebras.ai/v1/chat/completions"
-CEREBRAS_MODEL        = "gemma-4-31b"
-CEREBRAS_MIN_INTERVAL = 13.0     # 5 req/min free tier
-_cerebras_last_call   = 0.0
-_use_cerebras         = False    # flips on once Groq's daily cap is hit
-
-# OpenRouter free models, tried in order. Last resort: the free pool is aggressively
-# rate-limited (429s are routine) and the catalogue churns without notice.
-# Instruct-tuned models ONLY, checked against OpenRouter's live catalogue.
-#
-# Three entries here were dead (404 — removed from OpenRouter): llama-3.1-70b-instruct,
-# qwen-2.5-72b-instruct and gpt-oss-120b. With those gone and the rest rate-limited,
-# every call fell through to the reasoning model at the bottom — which answered a
-# request for a 5-word question with "Okay, the user has given me a specific case:".
-# That is the chain-of-thought leak this file's own history blames for a garbled video.
-#
-# So no reasoning models at all. A "last resort" that emits its own monologue into a
-# script is worse than no fallback: the run now fails loudly and alerts, which is the
-# correct outcome. Never add an uncensored model here either (OpenRouter lists a few
-# free ones) — they would quietly undercut the Community Guidelines gate.
-# Verified live 2026-08-21. The previous slugs (llama-3.3-70b-instruct:free,
-# qwen-2.5-72b-instruct:free, hermes-3-405b:free) now 404 with "unavailable for
-# free", which left this failover dead — it looked fine until Groq's daily cap
-# was hit, then went dark rather than failing over. Re-check these if failover
-# ever stops working; OpenRouter retires free slugs often.
-# Plain-output models only: several free models return an empty `content` with
-# everything in `reasoning`, and content-safety classifiers reply "User Safety: safe".
-OPENROUTER_FREE_MODELS = [
-    # Probed live 2026-08-28: of 18 :free models listed, this was the ONLY one
-    # answering — everything else returned 429 (the account's free-models-per-day
-    # cap) or 403. Worth re-probing when failover breaks; OpenRouter's free
-    # catalogue turns over constantly and slugs are retired without notice.
-    #
-    # It is also a better fit than the Groq primary for this pipeline: asked for
-    # 150-185 words it returned 182, where gpt-oss-120b returns 309-620 and has to
-    # be trimmed in code, and its JSON parses first time.
-    "minimax/minimax-m3:free",
-    "google/gemma-4-31b-it:free",
-    "google/gemma-4-26b-a4b-it:free",
-    "nvidia/nemotron-3-ultra-550b-a55b:free",
-]
-
-# Shared state — flip to OpenRouter the moment Groq's daily limit is hit
-_use_openrouter: bool = False
+# Cerebras (402 since Sept 2026) and OpenRouter (free models withdrawn) were removed
+# 2026-10-19: dead fallbacks only hid outages. Groq's sibling model is the fallback.
+_use_fallback: bool = False      # flips on once Groq's primary model is unusable
 
 
-class _FakeResponse:
-    """Wraps any plain-text LLM response to look like a Groq/OpenAI response object."""
-    class _Choice:
-        def __init__(self, text: str):
-            class _Msg:
-                pass
-            self.message = _Msg()
-            self.message.content = text
-    def __init__(self, text: str):
-        self.choices = [self._Choice(text)]
-
-
-def _cerebras_call(**kwargs) -> object:
-    """
-    Call Cerebras' OpenAI-compatible endpoint. Raises on any failure so the caller can
-    drop through to OpenRouter.
-
-    Note the two API differences from Groq/OpenAI: the parameter is
-    `max_completion_tokens`, not `max_tokens`, and the free tier allows only 5
-    requests/minute, so calls are spaced out here rather than failing.
-    """
-    global _cerebras_last_call
-    if not CEREBRAS_API_KEY:
-        raise RuntimeError("CEREBRAS_API_KEY not set")
-
-    gap = time.time() - _cerebras_last_call
-    if gap < CEREBRAS_MIN_INTERVAL:
-        wait = CEREBRAS_MIN_INTERVAL - gap
-        print(f"[LLM] Cerebras 5 req/min — waiting {wait:.0f}s...")
-        time.sleep(wait)
-
-    payload = {
-        "model":       CEREBRAS_MODEL,
-        "messages":    kwargs.get("messages", []),
-        "temperature": 0.8,
-        "max_completion_tokens": kwargs.get("max_tokens", 1024),
-    }
-    resp = _requests.post(
-        CEREBRAS_BASE_URL, json=payload,
-        headers={"Authorization": f"Bearer {CEREBRAS_API_KEY}",
-                 "Content-Type": "application/json"},
-        timeout=90,
-    )
-    _cerebras_last_call = time.time()
-    if resp.status_code != 200:
-        raise RuntimeError(f"Cerebras HTTP {resp.status_code}: {resp.text[:200]}")
-    text = resp.json()["choices"][0]["message"]["content"]
-    return _FakeResponse(_sanitize_llm_text(text))
-
-
-def _openrouter_call(**kwargs) -> object:
-    """
-    Call OpenRouter with an OpenAI-style messages dict.
-    Tries each free model in OPENROUTER_FREE_MODELS until one succeeds.
-    Uses the requests library — no extra SDK needed.
-    Free models (`:free` suffix) have no daily token cap.
-    """
-    if not OPENROUTER_API_KEY:
-        raise RuntimeError(
-            "Groq daily token limit hit and OPENROUTER_API_KEY is not set.\n"
-            "Get a FREE key (no card needed) in 60 seconds:\n"
-            "  1. Go to https://openrouter.ai/\n"
-            "  2. Sign up with Google / GitHub / email\n"
-            "  3. Dashboard -> Keys -> Create Key\n"
-            "  4. Copy the key and add it to your .env:  OPENROUTER_API_KEY=sk-or-...\n"
-        )
-
-    headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-        "Content-Type":  "application/json",
-        "HTTP-Referer":  "https://github.com/buriedcasefiles",
-        "X-Title":       "BuriedCaseFiles",
-    }
-
-    last_err = None
-    for model in OPENROUTER_FREE_MODELS:
-        payload = {
-            "model":       model,
-            "messages":    kwargs.get("messages", []),
-            "max_tokens":  kwargs.get("max_tokens", 1024),
-            "temperature": 0.8,
-        }
-        try:
-            resp = _requests.post(
-                OPENROUTER_BASE_URL, json=payload,
-                headers=headers, timeout=90
-            )
-            if resp.status_code == 200:
-                text = resp.json()["choices"][0]["message"]["content"]
-                print(f"[LLM] OpenRouter -> {model}")
-                return _FakeResponse(text)
-            # 429 / 402 = upstream overloaded — try next model
-            err_msg = resp.json().get("error", {}).get("message", str(resp.status_code))
-            print(f"[LLM] OpenRouter {model} unavailable ({resp.status_code}) — trying next...")
-            last_err = err_msg
-        except Exception as e:
-            print(f"[LLM] OpenRouter {model} error: {e} — trying next...")
-            last_err = str(e)
-
-    raise RuntimeError(f"All OpenRouter free models unavailable. Last error: {last_err}")
 
 
 # Groq meters the daily token cap per MODEL, so when gpt-oss-120b runs dry (the key
-# is shared with four other pipelines) its siblings may still have budget left.
-# Checked live 2026-10-03; both return clean text. qwen3.8 is a reasoning model, so
-# its thinking is hidden (otherwise <think> blocks land in the script).
+# is shared with other pipelines) a sibling may still have budget left. NEVER the
+# upload gate's review model: its free quota (200k tokens/day) is shared by all 3
+# bots' AI reviews, and a writer falling back to it starved the reviews (audit
+# 2026-10-19). Of the key's models on 2026-10-19 only gpt-oss-20b is a usable sibling.
+REVIEW_ONLY_MODELS = {"qwen/qwen3.8-27b"}
 GROQ_SIBLING_MODELS = [
-    ("qwen/qwen3.8-27b",   {"reasoning_format": "hidden"}),
     ("openai/gpt-oss-20b", {"reasoning_effort": "low"}),
 ]
 _dead_groq_siblings: set = set()
@@ -208,7 +49,7 @@ def _groq_sibling_call(**kwargs) -> object:
     client = Groq(api_key=GROQ_API_KEY)
     last = None
     for model, extra in GROQ_SIBLING_MODELS:
-        if model in _dead_groq_siblings:
+        if model in _dead_groq_siblings or model in REVIEW_ONLY_MODELS:
             continue
         try:
             resp = client.chat.completions.create(**{**kwargs, "model": model, **extra})
@@ -227,33 +68,14 @@ def _groq_sibling_call(**kwargs) -> object:
 
 
 def _fallback_call(**kwargs) -> object:
-    """
-    Everything after Groq's primary model: its sibling models first (separate daily
-    caps), then Cerebras, then OpenRouter's free pool (heavily rate-limited and its
-    model list churns). Cerebras' free tier has answered 402 since Sept 2026 and is
-    kept only in case it returns.
-    """
-    global _use_cerebras
-    try:
-        return _groq_sibling_call(**kwargs)
-    except Exception as e:
-        print(f"[LLM] {str(e)[:140]} - trying Cerebras/OpenRouter...")
-    if CEREBRAS_API_KEY:
-        try:
-            if not _use_cerebras:
-                print(f"[LLM] Switching to Cerebras ({CEREBRAS_MODEL}, 1M tokens/day free).")
-                _use_cerebras = True
-            return _cerebras_call(**kwargs)
-        except Exception as e:
-            print(f"[LLM] Cerebras failed ({str(e)[:120]}) — trying OpenRouter...")
-    return _openrouter_call(**kwargs)
+    """Everything after Groq's primary model: its sibling models (separate daily
+    caps). Raises when none answers, so the run fails loudly and alerts."""
+    return _groq_sibling_call(**kwargs)
 
 
 def _groq_kwargs(**kwargs) -> dict:
     """
-    Groq-only request tweaks. Kept separate from the kwargs handed to _fallback_call so
-    a Groq-specific parameter can never be forwarded to Cerebras or OpenRouter, which
-    reject unknown fields.
+    Request tweaks for the primary Groq model only (siblings carry their own extras).
 
     gpt-oss is a reasoning model and reasoning tokens are billed against the same
     100k/day free allowance the scripts need, so effort is pinned low. Groq accepts
@@ -267,31 +89,25 @@ def _groq_kwargs(**kwargs) -> dict:
 
 def _groq_call(client: Groq, **kwargs) -> object:
     """
-    Smart LLM router, ordered by how much free headroom each backend has:
-      1. Groq — fastest and best quality (gpt-oss-120b), but only 100k tokens/DAY.
-      2. Cerebras — 1M tokens/day free, so ~10x the room. Slower (5 req/min) and a
-         smaller model, but it means a Groq cap is a non-event rather than a dead run.
-      3. OpenRouter free pool — last resort; its free models are often 429 and the
-         catalogue changes without notice.
+    LLM router: Groq's primary model, then its sibling models (_fallback_call).
     Only a DAILY cap (or a Groq backend that has stopped answering entirely) retires
-    Groq for the session. A per-minute throttle is waited out and retried, because it
-    clears in seconds and the fallbacks below are far weaker — and currently dead. The same applies to a Groq backend that has
-    stopped answering at all (retired model, outage): see the APIStatusError branch.
+    the primary for the session. A per-minute throttle is waited out and retried,
+    because it clears in seconds.
     """
-    global _use_openrouter
+    global _use_fallback
 
-    if _use_openrouter:
+    if _use_fallback:
         return _fallback_call(**kwargs)
 
     try:
         return client.chat.completions.create(**_groq_kwargs(**kwargs))
     except RateLimitError as e:
         msg = str(e)
-        # Hard daily token cap — switch permanently to OpenRouter (no wait)
+        # Hard daily token cap — switch permanently to the fallback (no wait)
         is_daily = "tokens per day" in msg.lower() or "tpd" in msg.lower()
         if is_daily:
-            print("[LLM] Groq daily token limit reached — switching to OpenRouter (free, no cap).")
-            _use_openrouter = True
+            print("[LLM] Groq daily token limit reached — switching to the sibling model.")
+            _use_fallback = True
             return _fallback_call(**kwargs)
         # A per-minute throttle is temporary and says nothing about the day's budget,
         # so it must NOT retire Groq for the session. It used to: one blip flipped the
@@ -311,7 +127,7 @@ def _groq_call(client: Groq, **kwargs) -> object:
                 msg = str(again)
                 if "tokens per day" in msg.lower() or "tpd" in msg.lower():
                     print("[LLM] Groq daily cap reached — switching to the fallback chain.")
-                    _use_openrouter = True
+                    _use_fallback = True
                     return _fallback_call(**kwargs)
                 continue
             except (APIStatusError, APIConnectionError):
@@ -334,7 +150,7 @@ def _groq_call(client: Groq, **kwargs) -> object:
         # mid-run, and neither will an outage worth re-probing on every call.
         print(f"[LLM] Groq unavailable ({type(e).__name__}: {str(e)[:160]}) — "
               f"switching to the fallback chain for the rest of this run.")
-        _use_openrouter = True
+        _use_fallback = True
         return _fallback_call(**kwargs)
 
 

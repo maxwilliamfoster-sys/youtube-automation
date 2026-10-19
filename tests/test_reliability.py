@@ -264,3 +264,45 @@ class RejectionStageTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class WriterModelTests(unittest.TestCase):
+    """Audit 2026-10-19 (X1, B1): the writer must never spend the upload gate's AI
+    review model (its free daily quota is shared by all 3 bots), and the dead
+    Cerebras/OpenRouter fallbacks are gone."""
+
+    def test_writer_never_uses_reviewer_model(self):
+        import story_generator as sg
+        self.assertFalse(any(m.startswith("qwen/") for m, _ in sg.GROQ_SIBLING_MODELS))
+
+    def test_no_dead_providers_in_chain(self):
+        import httpx
+        import story_generator as sg
+        req = httpx.Request("POST", "https://api.groq.com/openai/v1/chat/completions")
+        daily = sg.RateLimitError("Rate limit reached: tokens per day (TPD)",
+                                  response=httpx.Response(429, request=req), body=None)
+        client = mock.Mock()
+        client.chat.completions.create.side_effect = daily
+        urls = []
+
+        def post(url, **kw):
+            urls.append(url)
+            return mock.Mock(status_code=429, json=lambda: {"error": {"message": "x"}}, text="x")
+        with mock.patch.object(sg, "Groq", return_value=client), \
+                mock.patch.object(sg._requests, "post", side_effect=post), \
+                mock.patch.object(sg, "_dead_groq_siblings", set()), \
+                mock.patch.object(sg, "CEREBRAS_API_KEY", "k", create=True), \
+                mock.patch.object(sg, "OPENROUTER_API_KEY", "k", create=True), \
+                mock.patch.object(sg.time, "sleep", lambda s: None):
+            for flag in ("_use_openrouter", "_use_fallback", "_use_cerebras"):
+                if hasattr(sg, flag):
+                    mock.patch.object(sg, flag, False).start()
+            try:
+                with self.assertRaises(RuntimeError):
+                    sg._groq_call(client, model="openai/gpt-oss-120b",
+                                  messages=[{"role": "user", "content": "hi"}])
+            finally:
+                mock.patch.stopall()
+        self.assertFalse([u for u in urls if "cerebras.ai" in u or "openrouter.ai" in u])
+        models = [c.kwargs.get("model") for c in client.chat.completions.create.call_args_list]
+        self.assertFalse([m for m in models if m and m.startswith("qwen/")])
