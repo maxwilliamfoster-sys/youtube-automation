@@ -2296,5 +2296,89 @@
   "reason": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
+ },
+ "Murder of Olly Stephens": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Disappearance of Andrew Gosden": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Mandy Lemaire": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Anne Noblett": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murders of Lorraine McNab and Peter Sopow": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a named individual, Wally Sparks, who was arrested but never convicted.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Whitehall Mystery": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murders of John and Lois McCullough": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: The content discusses a murder and the concealment of bodies over a prolonged period, involving lethal drug use and burial, which is violent and potentially distressing. While it does ",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Janie Perrin": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Vizconde murders": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves rape, which falls under the sexual_violence category that must be skipped.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Preston Davey": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Gatton murders": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: Contains graphic detail of violent deaths (bound bodies, headshot), which is disallowed for general audience; suitable only for adults. The content does not glorify the crime, but the ",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Simon Dale": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Killing of Marian Beattie": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The central suspect is named and has not yet been convicted, making the story rely on unproven allegations.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Hena Akhter": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
  }
 }

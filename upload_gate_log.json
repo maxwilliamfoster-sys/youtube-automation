@@ -486,6 +486,33 @@
     "summary": "The video presents a coherent and factual true-crime narrative with appropriate sombre mood footage and clear, readable text overlays that align with the narration.",
     "tokens": 4229
    }
+  },
+  {
+   "checked_at": "2026-10-20T14:00:25+00:00",
+   "platform": "tiktok",
+   "file": "Vanished_Black_Camera_Missing_Teen_Cowes_20261020_135457.mp4",
+   "sha256": "5405c6efbb18f6c834036d545b9e15e516e5fc5a83773b16685e67677b79aa1a",
+   "head": "Damien Nettles case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 48.73,
+    "lufs": -15.0,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "summary": "The video is a coherent, high-quality true-crime documentary that uses appropriate mood footage and factual narration without violating any platform policies.",
+    "tokens": 4260
+   }
   }
  ]
 }
