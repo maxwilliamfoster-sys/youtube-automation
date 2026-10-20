@@ -22,6 +22,12 @@ on:
     - cron: '45 12 * * *'    # video 2 (GMT)
     - cron: '45 14 * * *'    # video 3 (BST) — 15:45 UK
     - cron: '45 15 * * *'    # video 3 (GMT)
+    # Backups: GitHub sometimes drops a scheduled run altogether (19 Oct: 2 of 3). A backup
+    # makes a video only when the day is behind (1 by 13:20, 2 by 16:20, 3 by 19:20 UTC,
+    # counted in analytics/posts_log.csv) and does nothing otherwise. See slot_logic.py.
+    - cron: '20 13 * * *'
+    - cron: '20 16 * * *'
+    - cron: '20 19 * * *'
   workflow_dispatch:          # "Run workflow" button — generate on demand
     inputs:
       count:
@@ -60,24 +66,16 @@ jobs:
     outputs:
       run: ${{ steps.s.outputs.run }}
     steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            slot_logic.py
+            analytics/posts_log.csv
+          sparse-checkout-cone-mode: false
       - id: s
         env:
           SCHED: ${{ github.event.schedule }}
-        run: |
-          python3 - <<'PY'
-          import os
-          from datetime import datetime
-          from zoneinfo import ZoneInfo
-          sched = os.environ.get("SCHED", "").strip()
-          bst = datetime.now(ZoneInfo("Europe/London")).utcoffset().total_seconds() == 3600
-          run = True
-          if sched:                      # manual runs always go
-              hour = int(sched.split()[1])
-              run = hour in ({8, 11, 14} if bst else {9, 12, 15})
-          print(f"schedule={sched!r} uk_bst={bst} -> run={run}")
-          with open(os.environ["GITHUB_OUTPUT"], "a") as fh:
-              fh.write(f"run={'true' if run else 'false'}\n")
-          PY
+        run: python3 slot_logic.py
 
   generate:
     needs: slot

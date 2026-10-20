@@ -615,6 +615,14 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     from config import TIKTOK_HASHTAGS, TIKTOK_CAPTION_TEMPLATE, VIDEO_WIDTH, VIDEO_HEIGHT
     from video_composer import get_video_duration
 
+    if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and not sample:
+        # Runs queue behind each other, so the slot job's check can be stale by now.
+        import slot_logic
+        if slot_logic.day_is_full():
+            print(f"[Cloud] Today already has {slot_logic.DAILY_TARGET} videos - nothing to make.")
+            _github_output("catchup", "false")
+            return
+
     print(f"[Cloud] Generating {count} video(s) for manual posting...")
     delivered = 0
     # A video blocked by a gate never ends the run: new videos are made until `count`
