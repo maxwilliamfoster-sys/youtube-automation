@@ -308,6 +308,28 @@ class WriterModelTests(unittest.TestCase):
         self.assertFalse([m for m in models if m and m.startswith("qwen/")])
 
 
+class DeadSiblingKeepsItsReason(unittest.TestCase):
+    """Run 39464392079: once gpt-oss-20b hit its daily cap it was skipped on later calls and the
+    error became "Groq sibling models unavailable: None", hiding why the compliance review failed."""
+
+    def test_second_call_still_says_why(self):
+        import httpx
+        import story_generator as sg
+        req = httpx.Request("POST", "https://api.groq.com/openai/v1/chat/completions")
+        daily = sg.RateLimitError("Rate limit reached: tokens per day (TPD)",
+                                  response=httpx.Response(429, request=req), body=None)
+        client = mock.Mock()
+        client.chat.completions.create.side_effect = daily
+        with mock.patch.object(sg, "Groq", return_value=client),                 mock.patch.object(sg, "_dead_groq_siblings", set()),                 mock.patch.object(sg, "_last_sibling_error", None, create=True):
+            msgs = []
+            for _ in range(2):
+                with self.assertRaises(RuntimeError) as cm:
+                    sg._groq_sibling_call(model="x", messages=[])
+                msgs.append(str(cm.exception))
+        self.assertNotIn("None", msgs[1])
+        self.assertIn("tokens per day", msgs[1].lower())
+
+
 class PrescreenPromptTests(unittest.TestCase):
     def test_prescreen_prompt_has_date_and_cold_case_rule(self):
         from datetime import datetime, timezone

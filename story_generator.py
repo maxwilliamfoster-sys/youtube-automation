@@ -43,12 +43,14 @@ GROQ_SIBLING_MODELS = [
     ("openai/gpt-oss-20b", {"reasoning_effort": "low"}),
 ]
 _dead_groq_siblings: set = set()
+_last_sibling_error = None     # kept so a later call still says WHY the siblings are unusable
 
 
 def _groq_sibling_call(**kwargs) -> object:
     """Same request on Groq's other free models. Raises if none answers."""
+    global _last_sibling_error
     client = Groq(api_key=GROQ_API_KEY)
-    last = None
+    last = _last_sibling_error
     for model, extra in GROQ_SIBLING_MODELS:
         if model in _dead_groq_siblings or model in REVIEW_ONLY_MODELS:
             continue
@@ -65,6 +67,7 @@ def _groq_sibling_call(**kwargs) -> object:
         except (APIStatusError, APIConnectionError) as e:
             last = e
             print(f"[LLM] Groq {model} failed ({str(e)[:100]}).")
+    _last_sibling_error = last
     raise RuntimeError(f"Groq sibling models unavailable: {str(last)[:160]}")
 
 
