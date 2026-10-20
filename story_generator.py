@@ -17,7 +17,7 @@ import case_screen
 import case_source
 from config import (
     GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT,
-    STORY_WORD_MIN, STORY_WORD_MAX, GROQ_REASONING_EFFORT,
+    STORY_WORD_MIN, STORY_WORD_MAX, GROQ_REASONING_EFFORT, GOOGLE_API_KEY,
 )
 
 # ── LLM backend constants ─────────────────────────────────────────────────────
@@ -71,10 +71,44 @@ def _groq_sibling_call(**kwargs) -> object:
     raise RuntimeError(f"Groq sibling models unavailable: {str(last)[:160]}")
 
 
+GEMINI_MODEL = "gemini-2.5-flash"      # free tier on Google AI Studio (separate quota from Groq)
+GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+
+
+def _gemini_call(**kwargs) -> object:
+    """Same request on Gemini's free OpenAI-compatible endpoint. Raises RuntimeError on any failure."""
+    from types import SimpleNamespace
+    body = {"model": GEMINI_MODEL, "messages": kwargs.get("messages", []),
+            "max_tokens": kwargs.get("max_tokens", 1400)}
+    if "temperature" in kwargs:
+        body["temperature"] = kwargs["temperature"]
+    try:
+        r = _requests.post(GEMINI_URL, json=body, timeout=90,
+                           headers={"Authorization": f"Bearer {GOOGLE_API_KEY}"})
+        if r.status_code != 200:
+            raise RuntimeError(f"HTTP {r.status_code}: {r.text[:120]}")
+        text = (r.json()["choices"][0]["message"]["content"] or "").strip()
+    except Exception as e:
+        raise RuntimeError(f"Gemini backup failed: {str(e)[:160]}") from e
+    if not text:
+        raise RuntimeError("Gemini backup failed: empty reply")
+    return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=text))])
+
+
 def _fallback_call(**kwargs) -> object:
     """Everything after Groq's primary model: its sibling models (separate daily
-    caps). Raises when none answers, so the run fails loudly and alerts."""
-    return _groq_sibling_call(**kwargs)
+    caps), then Gemini's free tier if GOOGLE_API_KEY is set. Raises when none
+    answers, so the run fails loudly and alerts (the gates still fail closed)."""
+    try:
+        return _groq_sibling_call(**kwargs)
+    except RuntimeError as groq_err:
+        if not GOOGLE_API_KEY:
+            raise
+        print(f"[LLM] Groq exhausted ({str(groq_err)[:80]}) - trying the Gemini backup.")
+        try:
+            return _gemini_call(**kwargs)
+        except RuntimeError as g:
+            raise RuntimeError(f"{groq_err}; {g}") from g
 
 
 def _groq_kwargs(**kwargs) -> dict:

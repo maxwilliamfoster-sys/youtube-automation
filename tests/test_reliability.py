@@ -330,6 +330,53 @@ class DeadSiblingKeepsItsReason(unittest.TestCase):
         self.assertIn("tokens per day", msgs[1].lower())
 
 
+class GeminiBackupReviewer(unittest.TestCase):
+    """Free backup when every Groq model is out of daily tokens. Dormant without GOOGLE_API_KEY,
+    so a run still fails closed exactly as before."""
+
+    def _reply(self, text="APPROVED", status=200):
+        return mock.Mock(status_code=status, text=text,
+                         json=lambda: {"choices": [{"message": {"content": text}}]})
+
+    def _groq_dead(self, sg):
+        return mock.patch.object(sg, "_groq_sibling_call", side_effect=RuntimeError("tokens per day"))
+
+    def test_used_when_groq_is_out_and_a_key_is_set(self):
+        import story_generator as sg
+        seen = {}
+
+        def post(url, **kw):
+            seen.update(url=url, **kw)
+            return self._reply("VERDICT")
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", side_effect=post):
+            resp = sg._fallback_call(model="openai/gpt-oss-120b", max_tokens=50,
+                                     messages=[{"role": "user", "content": "hi"}])
+        self.assertEqual(resp.choices[0].message.content, "VERDICT")
+        self.assertIn("generativelanguage.googleapis.com", seen["url"])
+        self.assertEqual(seen["json"]["model"], sg.GEMINI_MODEL)
+        self.assertNotIn("k", seen["url"])                      # key travels in a header, not the URL
+
+    def test_not_used_without_a_key_so_the_run_still_fails_closed(self):
+        import story_generator as sg
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "", create=True),                 mock.patch.object(sg._requests, "post") as post:
+            with self.assertRaises(RuntimeError):
+                sg._fallback_call(model="m", messages=[])
+        post.assert_not_called()
+
+    def test_a_failing_or_empty_gemini_still_raises(self):
+        import story_generator as sg
+        for bad in (self._reply("x", status=429), self._reply("   ")):
+            with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                     mock.patch.object(sg._requests, "post", return_value=bad):
+                with self.assertRaises(RuntimeError):
+                    sg._fallback_call(model="m", messages=[])
+
+    def test_network_error_raises_runtimeerror_not_a_crash_type(self):
+        import story_generator as sg
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", side_effect=OSError("down")):
+            with self.assertRaises(RuntimeError):
+                sg._fallback_call(model="m", messages=[])
+
+
 class PrescreenPromptTests(unittest.TestCase):
     def test_prescreen_prompt_has_date_and_cold_case_rule(self):
         from datetime import datetime, timezone
