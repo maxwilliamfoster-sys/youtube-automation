@@ -2596,5 +2596,41 @@
   "reason": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
+ },
+ "Murder of Byron Carr": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a named individual who has not been convicted and is awaiting trial",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Eastburn family murders": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Danielle Jones": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Disappearance of Crystal Rogers": {
+  "stage": "legal",
+  "reason": "The text identifies unconvicted individuals such as Nick Houck and Anna Whitesides and implicates them in the alleged wrongdoing, thereby breaching the strict libel policy.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Judith Roberts": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Disappearance of Patrick Warren and David Spencer": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
  }
 }
