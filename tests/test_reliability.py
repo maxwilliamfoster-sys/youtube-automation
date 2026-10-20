@@ -353,8 +353,21 @@ class GeminiBackupReviewer(unittest.TestCase):
                                      messages=[{"role": "user", "content": "hi"}])
         self.assertEqual(resp.choices[0].message.content, "VERDICT")
         self.assertIn("generativelanguage.googleapis.com", seen["url"])
-        self.assertEqual(seen["json"]["model"], sg.GEMINI_MODEL)
+        self.assertEqual(seen["json"]["model"], sg.GEMINI_MODELS[0])
         self.assertNotIn("k", seen["url"])                      # key travels in a header, not the URL
+
+    def test_a_retired_model_falls_through_to_the_next_one(self):
+        """Run 39488228312: gemini-2.5-flash answered 404 'no longer available', which killed the backup."""
+        import story_generator as sg
+        tried = []
+
+        def post(url, **kw):
+            tried.append(kw["json"]["model"])
+            return self._reply("x", status=404) if len(tried) == 1 else self._reply("VERDICT")
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", side_effect=post):
+            resp = sg._fallback_call(model="m", messages=[])
+        self.assertEqual(resp.choices[0].message.content, "VERDICT")
+        self.assertEqual(tried, list(sg.GEMINI_MODELS[:2]))
 
     def test_not_used_without_a_key_so_the_run_still_fails_closed(self):
         import story_generator as sg

@@ -496,6 +496,7 @@ def ai_review(path, platform, profile, *, title="", caption="", transcript="", s
             "response_format": {"type": "json_object"},
             "messages": [{"role": "user", "content": content}]}
     last, res, tokens = None, {}, None
+    script, tlimit = (transcript or "(no narration)"), 2500
     for attempt in range(3):
         try:
             req = urllib.request.Request(AI_URL, data=json.dumps(body).encode(), headers={
@@ -516,6 +517,13 @@ def ai_review(path, platform, profile, *, title="", caption="", transcript="", s
                 return {"ok": False, "available": False, "quota": True,
                         "problems": ["AI review skipped: the free daily AI quota is used up "
                                      "(it refills over the next 24h)"]}
+            if e.code == 413 and attempt < 2 and len(script) > tlimit // 2:
+                # A hard per-request token cap (Groq ITPM 7000): waiting cannot help, so send a
+                # shorter narration excerpt. Same frames, same rules, same verdict bar.
+                text = body["messages"][0]["content"][0]["text"]
+                body["messages"][0]["content"][0]["text"] = text.replace(script[:tlimit], script[:tlimit // 2], 1)
+                tlimit //= 2
+                continue
             if e.code in (429, 500, 502, 503) and attempt < 2:
                 time.sleep(min(65, float(e.headers.get("retry-after") or 30)))
                 continue

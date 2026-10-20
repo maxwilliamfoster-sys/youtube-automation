@@ -71,28 +71,36 @@ def _groq_sibling_call(**kwargs) -> object:
     raise RuntimeError(f"Groq sibling models unavailable: {str(last)[:160]}")
 
 
-GEMINI_MODEL = "gemini-2.5-flash"      # free tier on Google AI Studio (separate quota from Groq)
+# Google retires Gemini models on a schedule (gemini-2.5-flash answered 404 "no longer available"
+# on 2026-10-20), so use the rolling -latest aliases first and fall through on 404.
+GEMINI_MODELS = ("gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.1-flash-lite")
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
 
 
 def _gemini_call(**kwargs) -> object:
     """Same request on Gemini's free OpenAI-compatible endpoint. Raises RuntimeError on any failure."""
     from types import SimpleNamespace
-    body = {"model": GEMINI_MODEL, "messages": kwargs.get("messages", []),
-            "max_tokens": kwargs.get("max_tokens", 1400)}
-    if "temperature" in kwargs:
-        body["temperature"] = kwargs["temperature"]
-    try:
-        r = _requests.post(GEMINI_URL, json=body, timeout=90,
-                           headers={"Authorization": f"Bearer {GOOGLE_API_KEY}"})
-        if r.status_code != 200:
-            raise RuntimeError(f"HTTP {r.status_code}: {r.text[:120]}")
-        text = (r.json()["choices"][0]["message"]["content"] or "").strip()
-    except Exception as e:
-        raise RuntimeError(f"Gemini backup failed: {str(e)[:160]}") from e
-    if not text:
-        raise RuntimeError("Gemini backup failed: empty reply")
-    return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=text))])
+    last = "no model tried"
+    for model in GEMINI_MODELS:
+        body = {"model": model, "messages": kwargs.get("messages", []),
+                "max_tokens": kwargs.get("max_tokens", 1400)}
+        if "temperature" in kwargs:
+            body["temperature"] = kwargs["temperature"]
+        try:
+            r = _requests.post(GEMINI_URL, json=body, timeout=90,
+                               headers={"Authorization": f"Bearer {GOOGLE_API_KEY}"})
+            if r.status_code == 404:                     # model retired: try the next one
+                last = f"{model}: HTTP 404"
+                continue
+            if r.status_code != 200:
+                raise RuntimeError(f"HTTP {r.status_code}: {r.text[:120]}")
+            text = (r.json()["choices"][0]["message"]["content"] or "").strip()
+        except Exception as e:
+            raise RuntimeError(f"Gemini backup failed: {str(e)[:160]}") from e
+        if not text:
+            raise RuntimeError("Gemini backup failed: empty reply")
+        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=text))])
+    raise RuntimeError(f"Gemini backup failed: every model unavailable ({last})")
 
 
 def _fallback_call(**kwargs) -> object:

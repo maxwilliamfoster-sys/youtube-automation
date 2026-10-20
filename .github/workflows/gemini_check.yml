@@ -1,0 +1,22 @@
+name: Gemini backup check
+# Manual health check for the free Gemini backup reviewer: one tiny real call, no video, no posting.
+on: workflow_dispatch
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests groq python-dotenv
+      - name: Call Gemini
+        env:
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        run: |
+          python - <<'PY'
+          import story_generator as sg
+          r = sg._gemini_call(messages=[{"role": "user", "content": "Reply with exactly: OK"}], max_tokens=20)
+          print("[check] Gemini answered:", r.choices[0].message.content[:40])
+          PY
