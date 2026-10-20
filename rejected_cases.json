@@ -1307,12 +1307,6 @@
   "date": "2026-10-16",
   "strikes": 1
  },
- "Murder of Arlene Fraser": {
-  "stage": "empty_script",
-  "reason": "script unusable",
-  "date": "2026-10-16",
-  "strikes": 1
- },
  "Murder of Florence Little": {
   "stage": "prefilter",
   "reason": "minor_victim",
@@ -2398,5 +2392,197 @@
   "reason": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
+ },
+ "Murder of Kayleigh Haywood": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Amber Hagerman": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Jean Townsend": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: Content involves a real murder with mention of body discovery and strangulation method, depicting violence and death. The script and caption discuss the crime in a manner suitable for ",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Jeanine Nicarico": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Jennifer Fairgate case": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: The content discusses a real-life violent death involving a head wound and a pistol, which falls under the policy’s definition of significant violence and the mention of a real named v",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Brian McDermott": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Peter Weinberger": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Patsy Morris": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Jaclyn Dowaliby": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Killing of Paul Byrne": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on an unresolved murder with five suspects arrested but no convictions, making the suspect identity essential to the story.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Bedford Square Mystery": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "White House Farm murders": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the killing of two 6‑year‑old children, which is a protected minor victim scenario.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Ratcliff Highway murders": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Killing of Gianfranco Cuccuini": {
+  "stage": "legal",
+  "reason": "The script and accompanying text name an identifiable woman (the umbrella owner) and discuss her as a suspect, despite her being dismissed and no conviction having occurred. This references an unconvi",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Kidnapping of Elizabeth Smart": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves documented rape of a minor, which violates TikTok’s policy on sexual violence.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Rachael Anderson": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Killing of Salwan Momika": {
+  "stage": "prefilter",
+  "reason": "active_proceedings",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Shafilea Ahmed": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The victim was a 17‑year‑old minor who was murdered.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Cannock Chase murders": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murders of children aged 5–7, which falls under the minor victim restriction.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Lillelid murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Disappearance of Immaculate Basil": {
+  "stage": "legal",
+  "reason": "Text names and implicates Victor and Keith as suspects in a disappearance without any evidence of conviction or charges. The description encourages viewers to suspect or guess their involvement, which",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Samaira Nazir": {
+  "stage": "quality",
+  "reason": "accuracy 5/10",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "2006 Noida serial murders": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves confirmed sexual assault and murder of children, a prohibited content category.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Death of Paulette Gebara Farah": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the death of a four‑year‑old girl, a child victim, which triggers an automatic age‑restriction on TikTok.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Killing of Julie Ward": {
+  "stage": "prescreen",
+  "reason": "gore: The case is known for dismemberment and burning of the body, which constitutes gore and requires skipping the video.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Renee and Andrew MacRae": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Clement De La Haye": {
+  "stage": "legal",
+  "reason": "The text identifies the heir to the Singampatti estate (referred to as \"Kadambur\") as a suspect, yet he was acquitted in the case. This violates the requirement that any identifiable person who was no",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Disappearance of Lee Boxell": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves allegations of sexual abuse and possible death of a minor, which triggers the sexual_violence category for TikTok Trust & Safety and UK media law review.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Disappearance of Heimnot Kassau": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the disappearance of a nine‑year‑old girl, a minor victim.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Shakira Spencer": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Caroline Glachan": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murder of a 14‑year‑old girl, a child victim.",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Arlene Fraser": {
+  "stage": "legal",
+  "reason": "The text references Hector Dick and Glenn Lucas, who were charged and indicted for murder but were never convicted of the crime. The content describes their alleged involvement and the Crown’s intent ",
+  "date": "2026-10-20",
+  "strikes": 2
  }
 }

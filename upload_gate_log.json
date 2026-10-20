@@ -890,6 +890,35 @@
     "summary": null,
     "tokens": null
    }
+  },
+  {
+   "checked_at": "2026-10-20T17:39:39+00:00",
+   "platform": "tiktok",
+   "file": "Army_buses_disappear2009_Tamil_priests_d_20261020_173317.mp4",
+   "sha256": "7eb0d7fabd0cf00b93b320620ad6badc25623c731b957faf81eaa5bb278ffc34",
+   "head": "Father Francis case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because it uses jarringly unrelated and inappropriate stock footage, such as a woman smoking and a moth, which undermines the coherence and quality of the true-crime narrative. | The video contains jarringly unrelated and inappropriate stock footage for a true-crime story about a priest's disappearance, specifically a woman smoking a pipe and a close-up of a moth, which violates the guideline against footage that is jarringly unrelated to the subject.; The visual narrative is disjointed and confusing, featuring random images (a moth, a woman smoking) that do not match the narration or the sombre tone of the documentary.; The use of a woman smoking a pipe as B-roll for a story about a Catholic priest is tonally and contextually incoherent."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.43,
+    "lufs": -15.1,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 4,
+    "summary": "The video is blocked because it uses jarringly unrelated and inappropriate stock footage, such as a woman smoking and a moth, which undermines the coherence and quality of the true-crime narrative.",
+    "tokens": 4392
+   }
   }
  ]
 }
