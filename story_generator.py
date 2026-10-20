@@ -83,7 +83,8 @@ def _gemini_call(**kwargs) -> object:
     last = "no model tried"
     for model in GEMINI_MODELS:
         body = {"model": model, "messages": kwargs.get("messages", []),
-                "max_tokens": kwargs.get("max_tokens", 1400)}
+                "max_tokens": max(kwargs.get("max_tokens", 1400), 1024),
+                "reasoning_effort": "low"}     # thinking tokens share max_tokens; a low effort leaves room to answer
         if "temperature" in kwargs:
             body["temperature"] = kwargs["temperature"]
         try:
@@ -94,7 +95,7 @@ def _gemini_call(**kwargs) -> object:
                 continue
             if r.status_code != 200:
                 raise RuntimeError(f"HTTP {r.status_code}: {r.text[:120]}")
-            text = (r.json()["choices"][0]["message"]["content"] or "").strip()
+            text = (r.json()["choices"][0]["message"].get("content") or "").strip()
         except Exception as e:
             raise RuntimeError(f"Gemini backup failed: {str(e)[:160]}") from e
         if not text:

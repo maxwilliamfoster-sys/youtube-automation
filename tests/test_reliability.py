@@ -369,6 +369,24 @@ class GeminiBackupReviewer(unittest.TestCase):
         self.assertEqual(resp.choices[0].message.content, "VERDICT")
         self.assertEqual(tried, list(sg.GEMINI_MODELS[:2]))
 
+    def test_a_reply_with_no_content_field_is_a_clean_failure(self):
+        """Live check 2026-10-20: a thinking model that ran out of tokens returned a message with no 'content'."""
+        import story_generator as sg
+        bare = mock.Mock(status_code=200, text="", json=lambda: {"choices": [{"message": {"role": "assistant"}}]})
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", return_value=bare):
+            with self.assertRaises(RuntimeError) as cm:
+                sg._fallback_call(model="m", messages=[])
+        self.assertIn("empty reply", str(cm.exception))
+
+    def test_leaves_room_to_answer_after_thinking(self):
+        import story_generator as sg
+        seen = {}
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post",
+                                  side_effect=lambda u, **kw: seen.update(kw) or self._reply("ok")):
+            sg._fallback_call(model="m", messages=[], max_tokens=20)
+        self.assertGreaterEqual(seen["json"]["max_tokens"], 1024)
+        self.assertEqual(seen["json"]["reasoning_effort"], "low")
+
     def test_not_used_without_a_key_so_the_run_still_fails_closed(self):
         import story_generator as sg
         with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "", create=True),                 mock.patch.object(sg._requests, "post") as post:
