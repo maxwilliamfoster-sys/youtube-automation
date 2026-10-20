@@ -2584,5 +2584,17 @@
   "reason": "The text references Hector Dick and Glenn Lucas, who were charged and indicted for murder but were never convicted of the crime. The content describes their alleged involvement and the Crown’s intent ",
   "date": "2026-10-20",
   "strikes": 2
+ },
+ "Killing of Lyhanna Rameau Bernard": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Alexis Murphy": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
  }
 }

@@ -919,6 +919,35 @@
     "summary": "The video is blocked because it uses jarringly unrelated and inappropriate stock footage, such as a woman smoking and a moth, which undermines the coherence and quality of the true-crime narrative.",
     "tokens": 4392
    }
+  },
+  {
+   "checked_at": "2026-10-20T19:01:05+00:00",
+   "platform": "tiktok",
+   "file": "RainSlick_Trail_Ruth_Wilsons_Vanishing_M_20261020_185742.mp4",
+   "sha256": "d21a13e3dd4574c88ac38f888bc157c54195cec836e9667693b9a277eb34e532",
+   "head": "Ruth Wilson case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "video check could not run: could not decode a frame at 39.0s"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": null,
+    "lufs": null,
+    "speech_match": 0.89,
+    "longest_freeze": null
+   },
+   "ai": {
+    "available": null,
+    "ok": null,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
   }
  ]
 }
