@@ -513,6 +513,383 @@
     "summary": "The video is a coherent, high-quality true-crime documentary that uses appropriate mood footage and factual narration without violating any platform policies.",
     "tokens": 4260
    }
+  },
+  {
+   "checked_at": "2026-10-20T16:11:13+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:16:30+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:21:46+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:27:02+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:32:18+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:37:35+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:42:51+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:48:07+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:53:23+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T16:58:39+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T17:03:55+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T17:09:11+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-20T17:14:27+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
+   "head": "Zane Plemmons case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 53.77,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
   }
  ]
 }

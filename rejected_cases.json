@@ -2380,5 +2380,23 @@
   "reason": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
+ },
+ "Murder of Leanne Tiernan": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Murder of Grégory Villemin": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the confirmed murder of a four‑year‑old child",
+  "date": "2026-10-20",
+  "strikes": 1
+ },
+ "Lake Bodom murders": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-20",
+  "strikes": 1
  }
 }
