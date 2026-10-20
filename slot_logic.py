@@ -66,7 +66,8 @@ def main() -> None:
     sched = os.environ.get("SCHED", "")
     made = videos_made(LOG_PATH, now)
     run = decide(sched, bst, made, now)
-    print(f"schedule={sched!r} uk_bst={bst} made_today={made} -> run={run}")
+    print(f"schedule={sched!r} uk_bst={bst} log_found={os.path.exists(LOG_PATH)} "
+          f"made_today={made} -> run={run}")
     out = os.environ.get("GITHUB_OUTPUT")
     if out:
         with open(out, "a", encoding="utf-8") as fh:
