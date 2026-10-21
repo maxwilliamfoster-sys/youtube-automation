@@ -2656,5 +2656,11 @@
   "reason": "gore",
   "date": "2026-10-21",
   "strikes": 1
+ },
+ "Murder of Meredith Kercher": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-21",
+  "strikes": 1
  }
 }

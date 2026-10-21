@@ -1031,6 +1031,33 @@
     "summary": "The video presents a coherent, high-quality true-crime narrative with appropriate sombre mood footage and clear, readable text overlays that align perfectly with the narration and caption.",
     "tokens": 4245
    }
+  },
+  {
+   "checked_at": "2026-10-21T19:18:38+00:00",
+   "platform": "tiktok",
+   "file": "Ambers_Vanish_Gold_Mazda_Mystery_Unravel_20261021_191303.mp4",
+   "sha256": "627d5851e87367b764b5e67d84db50007987eef8a50737fdb8c7b2af4d99002f",
+   "head": "Amber Cates case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 49.43,
+    "lufs": -14.8,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "summary": "The video presents a coherent and professionally edited true-crime narrative with consistent sombre visuals, readable text overlays, and no policy violations.",
+    "tokens": 4243
+   }
   }
  ]
 }
