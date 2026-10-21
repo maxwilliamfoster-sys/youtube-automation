@@ -2632,5 +2632,11 @@
   "reason": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
+ },
+ "Murder of Alison Shaughnessy": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on suspects who were never finally convicted",
+  "date": "2026-10-21",
+  "strikes": 1
  }
 }

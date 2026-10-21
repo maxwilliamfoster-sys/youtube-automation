@@ -948,6 +948,62 @@
     "summary": null,
     "tokens": null
    }
+  },
+  {
+   "checked_at": "2026-10-21T14:02:49+00:00",
+   "platform": "tiktok",
+   "file": "Vending_Machine_Poison_Mystery_20261021_135747.mp4",
+   "sha256": "6ec7112bd5382bf0f599a8ceb65d9b064f66f627c7d8d8b3475fd6ef83ed7b53",
+   "head": "Paraquat murders case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because it uses jarringly unrelated stock footage, such as a camel and a view of Earth, which is inappropriate for a true-crime documentary about a poisoning case. | The video contains jarringly unrelated and inappropriate stock footage (a camel and a view of Earth from space) for a true-crime story about a poisoning in Japan, violating the guideline against using footage that is jarringly unrelated to the subject.; The visual narrative is disjointed, jumping between unrelated images like a camel, a space view, and a mountain, which detracts from the serious tone of the documentary.; The use of a camel in a video about a Japanese urban crime is a significant visual error that breaks immersion."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 44.03,
+    "lufs": -14.9,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 4,
+    "summary": "The video is blocked because it uses jarringly unrelated stock footage, such as a camel and a view of Earth, which is inappropriate for a true-crime documentary about a poisoning case.",
+    "tokens": 4350
+   }
+  },
+  {
+   "checked_at": "2026-10-21T14:18:31+00:00",
+   "platform": "tiktok",
+   "file": "Lock_Clicked_Life_Ended_20261021_141303.mp4",
+   "sha256": "38065b8de207e90cbd074b3ba8b3a4ac6adb023e2c604ea0059ad0c1d6206541",
+   "head": "Matthew Kitandwe case. | UK crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.4,
+    "lufs": -14.9,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "summary": "The video is a coherent, high-quality true-crime documentary that uses appropriate sombre mood footage and factual narration without violating any platform policies.",
+    "tokens": 4225
+   }
   }
  ]
 }
