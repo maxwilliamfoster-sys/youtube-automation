@@ -2638,5 +2638,23 @@
   "reason": "unconvicted_suspect: The story centers on suspects who were never finally convicted",
   "date": "2026-10-21",
   "strikes": 1
+ },
+ "Disappearance of Don Banfield": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-21",
+  "strikes": 1
+ },
+ "Murder of Udin": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-21",
+  "strikes": 1
+ },
+ "Whitechapel murders": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-21",
+  "strikes": 1
  }
 }

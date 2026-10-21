@@ -1004,6 +1004,33 @@
     "summary": "The video is a coherent, high-quality true-crime documentary that uses appropriate sombre mood footage and factual narration without violating any platform policies.",
     "tokens": 4225
    }
+  },
+  {
+   "checked_at": "2026-10-21T16:23:22+00:00",
+   "platform": "tiktok",
+   "file": "Mystery_Red_Car_on_CarFree_Promenade_20261021_162020.mp4",
+   "sha256": "3cc695f5a3d351e5b02d61cc3c9f5828d4dc20280db8ade184760842b78258f2",
+   "head": "Sheila Anderson case. | UK crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 47.77,
+    "lufs": -14.9,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "summary": "The video presents a coherent, high-quality true-crime narrative with appropriate sombre mood footage and clear, readable text overlays that align perfectly with the narration and caption.",
+    "tokens": 4245
+   }
   }
  ]
 }
