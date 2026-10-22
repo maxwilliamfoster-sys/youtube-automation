@@ -2860,5 +2860,17 @@
   "reason": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
+ },
+ "Murders of Margaret and Seana Tapp": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murder of a nine-year-old child.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Joy Morgan": {
+  "stage": "review_error",
+  "reason": "['legal review returned no usable verdict']",
+  "date": "2026-10-22",
+  "strikes": 1
  }
 }
