@@ -209,16 +209,87 @@ def is_rejected(title: str) -> bool:
     return int(entry.get("strikes", 1)) >= SOFT_STRIKES
 
 
+# rejected_cases.json is committed to a PUBLIC repo. A reviewer's free-text reason
+# ("The script identifies Terri Moulton ... implicates her in alleged wrongdoing")
+# restates the very allegation the gate refused to publish, about people who were
+# acquitted or never charged (audit 2026-10-21 F12). Only the stage and a short code
+# are stored; the full reason goes to the run log at most.
+_CODE_RE = re.compile(r"^[a-z][a-z_]{1,39}$")
+_LEGAL_SPECULATION = re.compile(r"speculat|invit\w* viewers|guess|theor(y|ies)|ask\w* (the )?viewers", re.I)
+_LEGAL_PERSON = re.compile(
+    r"convict|acquit|charged|suspect|implicat|person\w* of interest|identif|names?\b|named|"
+    r"accus|guilt|blame|attribut|hitm[ae]n|perpetrator|killer|wrongdoing", re.I)
+_LEGAL_PROCEEDINGS = re.compile(r"contempt|active proceedings|ongoing|awaiting trial|sub judice", re.I)
+
+
+# Codes the pre-filter, pre-screen and compliance review already speak in.
+KNOWN_CODES = {"sexual_violence", "gore", "minor_victim", "active_proceedings",
+               "unconvicted_suspect", "other", "none", "fyf_ineligible", "age_restricted", "banned"}
+
+
+def _known(code: str) -> bool:
+    return bool(_CODE_RE.match(code)) and (code in KNOWN_CODES or "_" in code)
+
+
+def reason_code(stage: str, reason: str = "") -> str:
+    """A short lowercase code for why a case failed - never names or allegations."""
+    text = str(reason or "").strip()
+    head = re.split(r"[:;\s]", text, maxsplit=1)[0].strip().lower() if text else ""
+    if text == text.lower() and _known(text):
+        return text                                   # already a code ("gore", "minor_victim")
+    if stage in ("prescreen", "compliance") and _known(head):
+        return head                                   # "unconvicted_suspect: ...", "AGE_RESTRICTED: ..."
+    if stage == "legal":
+        if _LEGAL_PROCEEDINGS.search(text):
+            return "active_proceedings"
+        if _LEGAL_PERSON.search(text):
+            return "unconvicted_suspect"
+        if _LEGAL_SPECULATION.search(text):
+            return "invites_speculation"
+        return "legal_risk"
+    return {"quality": "low_accuracy", "empty_script": "script_unusable",
+            "review_error": "review_error", "factcheck_unsafe": "factcheck_unsafe",
+            "prefilter": "prefilter", "prescreen": "prescreen_other",
+            "compliance": "compliance_other"}.get(stage, "other")
+
+
+def _public_entry(entry: dict) -> dict:
+    """Stage, code, date and strike count only. Old entries' free text is converted."""
+    stage = str(entry.get("stage") or "other")
+    code = entry.get("code")
+    if not (isinstance(code, str) and _CODE_RE.match(code)):
+        code = reason_code(stage, entry.get("reason", ""))
+    out = {"stage": stage, "code": code}
+    if entry.get("date"):
+        out["date"] = str(entry["date"])[:10]
+    out["strikes"] = int(entry.get("strikes", 1) or 1)
+    return out
+
+
+def scrub_store(store: dict) -> dict:
+    """Rewrite every entry to the public shape (used on save and by the one-off rewrite)."""
+    return {title: _public_entry(e if isinstance(e, dict) else {}) for title, e in store.items()}
+
+
+def save_rejected(store: dict) -> None:
+    try:
+        with open(REJECTED_FILE, "w", encoding="utf-8") as f:
+            json.dump(scrub_store(store), f, indent=1, ensure_ascii=False)
+    except Exception as e:
+        print(f"[Screen] Could not save {REJECTED_FILE}: {e}")
+
+
 def record_rejection(title: str, stage: str, reason: str = "") -> None:
-    """Remember why a case failed. Hard stages exclude it at once; others after 2 strikes."""
+    """Remember why a case failed. Hard stages exclude it at once; others after 2 strikes.
+    `reason` is reduced to a short code before anything is stored."""
     if not title:
         return
     store = _store()
     prev = store.get(title, {})
+    keep_prev = stage not in HARD_STAGES and prev.get("stage") in HARD_STAGES
     entry = {
-        "stage":   stage if stage in HARD_STAGES or prev.get("stage") not in HARD_STAGES
-                   else prev["stage"],
-        "reason":  str(reason)[:200],
+        "stage":   prev["stage"] if keep_prev else stage,
+        "code":    _public_entry(prev)["code"] if keep_prev else reason_code(stage, reason),
         "date":    _dt.date.today().isoformat(),
         "strikes": int(prev.get("strikes", 0)) + 1,
     }
@@ -226,8 +297,4 @@ def record_rejection(title: str, stage: str, reason: str = "") -> None:
     store[title] = entry                      # re-insert so the newest is last
     while len(store) > MAX_REMEMBERED:        # drop the oldest
         store.pop(next(iter(store)))
-    try:
-        with open(REJECTED_FILE, "w", encoding="utf-8") as f:
-            json.dump(store, f, indent=1, ensure_ascii=False)
-    except Exception as e:
-        print(f"[Screen] Could not save {REJECTED_FILE}: {e}")
+    save_rejected(store)

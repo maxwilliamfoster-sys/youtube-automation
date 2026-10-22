@@ -408,9 +408,14 @@ def _uk_location_image(place: str, scene_query: str, output_path: str,
     # Outside the UK a bare town name finds its namesakes ("Montgomery" -> Alabama for
     # a Vermont case), so the case's state/country goes into the search as well.
     region = "" if uk else " ".join(dict.fromkeys(uk_media._REGION_RE.findall(place)))
+    # A bare street name finds namesake villages ("Wayford Street" -> a cottage in
+    # Wayford, Somerset, 2026-10-21), so a street is searched with its district.
+    district = next((c for c in candidates if not uk_media.street_parts(c)), "")
     searches = []
     for c in candidates:
         anchored = c if (not region or region.lower() in c.lower()) else f"{c} {region}"
+        if uk_media.street_parts(c) and district and district.lower() not in anchored.lower():
+            anchored = f"{anchored} {district}"
         searches += [(c, f"{anchored} {scene_query}".strip()), (c, anchored)]
     for cand, query in searches:
         try:

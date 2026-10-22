@@ -72,5 +72,78 @@ class AiReview413(unittest.TestCase):
         self.assertEqual(len(bodies), 1)                                    # nothing to trim: fail at once
 
 
+def http(code, body=b'{"error":{"message":"busy"}}'):
+    return urllib.error.HTTPError("u", code, "err", {}, io.BytesIO(body))
+
+
+class RetryableFlag(unittest.TestCase):
+    """Audit 2026-10-21 #2: run 39789555396 re-checked a 413 twelve times, 5 min apart.
+    Only an outage that waiting can fix may be re-checked."""
+    run_review = AiReview413.run_review
+
+    def test_413_is_not_retryable(self):
+        r, _ = self.run_review([too_large()] * 4, transcript="short " * 100)
+        self.assertFalse(r["available"])
+        self.assertFalse(r.get("retryable"))
+        self.assertTrue(r.get("too_large"))
+
+    def test_daily_quota_is_not_retryable(self):
+        r, _ = self.run_review([http(429, b'{"error":{"message":"tokens per day (TPD)"}}')])
+        self.assertFalse(r.get("retryable"))
+
+    def test_server_errors_and_rate_limits_are_retryable(self):
+        for code in (429, 500, 503):
+            r, _ = self.run_review([http(code)] * 3)
+            self.assertFalse(r["available"])
+            self.assertTrue(r.get("retryable"), code)
+
+    def test_network_failure_is_retryable(self):
+        r, _ = self.run_review([OSError("timed out")] * 3)
+        self.assertTrue(r.get("retryable"))
+
+
+class BotRecheck(unittest.TestCase):
+    def test_bot_rechecks_only_retryable_outages(self):
+        import main_documentary as md
+        down = {"ok": False, "failures": ["AI review unavailable: AI review failed: HTTP 503"],
+                "ai": {"available": False, "retryable": True}}
+        big = {"ok": False, "failures": ["AI review unavailable: AI review failed: HTTP 413"],
+               "ai": {"available": False, "retryable": False, "too_large": True}}
+        quota = {"ok": False, "failures": ["AI review unavailable: quota"],
+                 "ai": {"available": False, "quota": True}}
+        legacy = {"ok": False, "failures": ["AI review unavailable: x"], "ai": {"available": False}}
+        self.assertTrue(md._ai_outage_retryable(down))
+        self.assertFalse(md._ai_outage_retryable(big))
+        self.assertFalse(md._ai_outage_retryable(quota))
+        self.assertFalse(md._ai_outage_retryable(legacy))
+        self.assertFalse(md._ai_outage_retryable({**down, "ok": True}))
+
+
+class LedgerScrub(unittest.TestCase):
+    """Audit F12: upload_gate_log.json is public; AI summaries restated allegations."""
+
+    def test_allegation_text_is_withheld_from_the_public_ledger(self):
+        import tempfile
+        verdict = {"checked_at": "t", "platform": "tiktok", "file": "f.mp4", "sha256": "x",
+                   "head": "Theresa Allore case.", "ok": False, "gate_version": "v",
+                   "failures": ["AI review: The narration implies the guilt of an uncharged suspect, "
+                                "John Example | names John Example as the killer",
+                                "AI review: garbled on-screen text 'V/AFTER:D'"],
+                   "warnings": [], "report": {"seconds": 40},
+                   "ai": {"available": True, "ok": False, "coherence": 4, "quality": 6,
+                          "summary": "Blocked: it implicates John Example, who was acquitted.",
+                          "tokens": 10}}
+        with tempfile.TemporaryDirectory() as tmp:
+            p = os.path.join(tmp, "log.json")
+            ug.record(verdict, p)
+            with open(p, encoding="utf-8") as fh:
+                raw = fh.read()
+        self.assertNotIn("John Example", raw)
+        self.assertNotIn("acquitted", raw)
+        self.assertIn("V/AFTER:D", raw)                     # unrelated detail is kept
+        self.assertIn("withheld", raw)
+        self.assertIn("John Example", verdict["failures"][0])  # in-memory verdict untouched
+
+
 if __name__ == "__main__":
     unittest.main()

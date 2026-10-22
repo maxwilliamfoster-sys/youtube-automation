@@ -1,2893 +1,2893 @@
 {
  "Killing of Sean Brown": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: While it does not include graphic gore or explicit victim injury descriptions, the subject matter is disturbing and suitable only for viewers 18+.",
+  "code": "age_restricted",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Penny Bell": {
   "stage": "compliance",
-  "reason": "BANNED: Targeted harassment of a real identifiable living person",
+  "code": "banned",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Esther Soper": {
   "stage": "legal",
-  "reason": "The script and caption name 'Clifford Sparks' and suggest he was scheduled to view the house and was investigated, implying suspicion, while he has never been convicted or charged. This identifies a r",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Bernard Oliver": {
   "stage": "legal",
-  "reason": "It invites viewers to speculate and comment on who was involved, effectively asking for accusations against non‑convicted persons.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Lambeth slavery case": {
   "stage": "legal",
-  "reason": "The text identifies Aravindan Balakrishnan, a suspect who was arrested but not reported as convicted, and attributes serious wrongdoing to him, which violates the libel policy.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Mary Speir Gunn": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: While not containing explicit graphic detail, the video focuses on a tragic death and could be upsetting to viewers.",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Daniel Morgan": {
   "stage": "legal",
-  "reason": "The text identifies real persons who were not convicted (e.g., 'his business partner' [Jonathan Rees], 'a detective sergeant' [Sid Fillery], 'the police' / Met Police) and contextualizes them within a",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Thames Torso Murders": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: While not necessarily age-restricted due to lack of gore or explicit perpetrator glorification, the combination of missing body parts and unresolved violent deaths makes it too dis",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Keith Blakelock": {
   "stage": "legal",
-  "reason": "The script invites viewers to comment their thoughts and theories, effectively asking the audience to speculate on who was responsible, which is prohibited under rule 4.",
+  "code": "invites_speculation",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Killing of Helen Bailey": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: While it does not include graphic details, the focus on a real child victim and the speculation about a possible murderer may be too shocking for general audiences on the For You f",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Ann Heron": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: While it does not contain graphic details, it dwells on a real tragedy for shock value and invites speculation, making it unsuitable for the general For You feed.",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of George Murdoch": {
   "stage": "legal",
-  "reason": "The script describes a specific real individual (the man seen in Wilson's Sports Bar wearing an Iron Maiden T-shirt) who was never convicted of the crime and the content invites viewers to speculate a",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Rita Ellis": {
   "stage": "legal",
-  "reason": "The script implicitly suggests a perpetrator exists ('a stranger offered to drive her home... Who could have taken her'), but the case is unsolved and no one has been convicted. While Rule 1 focuses o",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Killing of Rachel Nickell": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The content is appropriate for mature audiences but not suitable for the general For You feed.",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murders of John Greenwood and Gary Miller": {
   "stage": "legal",
-  "reason": "The script identifies a real person, John Cheeseman, who was acquitted and not convicted of the murders. It presents allegations of confession, details of the crime, and invites viewers to speculate a",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Killing of Mark Duggan": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: This falls under the category of 'dwelling on a real tragedy for shock value' or stirring controversy around a sensitive, high-profile incident, making it unsuitable for the genera",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Mee Kuen Chong": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: While it does not contain graphic gore or explicit detail, the focus on the murder and the invitation to theorize may be too intense for the For You feed.",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Disappearance of the Ameen family": {
   "stage": "legal",
-  "reason": "The content points suspicion at these persons, inviting viewers to guess what happened and to comment, which violates the requirement that only convicted individuals may be identified in wrongdoing.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Céline Figard": {
   "stage": "legal",
-  "reason": "The script and on-screen card invite viewers to speculate about Stuart William Morgan's motive and innocence, effectively encouraging public accusations and discussion of guilt, which violates the pol",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Hinterkaifeck murders": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: While no graphic gore or explicit details of injuries are shown, the content involves significant violence and death, making it unsuitable for younger audiences.",
+  "code": "age_restricted",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Babes in the Wood murders (Brighton)": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: While no graphic gore is described, the subject matter is unsuitable for general audiences and should be limited to viewers 18+.",
+  "code": "age_restricted",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Lakshmikanthan murder case": {
   "stage": "legal",
-  "reason": "The script identifies M. K. Thyagaraja Bhagavathar and N. S. Krishnan, who were ultimately acquitted by the Privy Council, and presents them as suspects in the murder, which points suspicion at unconv",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Disappearance of Sarah MacDiarmid": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: No graphic or explicit content is present, but the subject matter is sensitive and could be triggering for viewers.",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Death of Amber Tuccaro": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: TikTok's guidelines place such content behind the For You feed to avoid sensationalising a real loss.",
+  "code": "fyf_ineligible",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Disappearance of Kyron Horman": {
   "stage": "legal",
-  "reason": "The script identifies Terri Moulton, a real person who has not been convicted of any crime, and implicates her in alleged wrongdoing (offering a landscaper money to kill her husband) without a convict",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Disappearance of Morgan Nick": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: Although no graphic or sexual details are provided, the topic is sensitive and appropriate only for viewers 18+.",
+  "code": "age_restricted",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of Jeanne Van Calck": {
   "stage": "legal",
-  "reason": "The script names several individuals (a Spaniard, an Algerian, Jean Many, Dr Nyssens) who were arrested or considered persons of interest but were never convicted, and it presents them in a way that p",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murders of Tay Chow Lyang and Tony Tan Poh Chuan": {
   "stage": "legal",
-  "reason": "The script identifies Ram Puneet Tiwary, who was ultimately acquitted, and attributes suspicion and motive to him, violating the rule against implicating unconvicted persons.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-12",
   "strikes": 1
  },
  "Murder of James Bulger": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Pottery Cottage murders": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Sally Anne Bowman": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Killing of Peter Connelly": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping of Jaycee Dugard": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case centers on the kidnapping and prolonged sexual assault of an 11‑year‑old child.",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Killing of Scott Guy": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Helen Gorrie": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Claire Woolterton": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murders of Vanja Gjorchevska and Panche Zhezhovski": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Heshu Yones": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Xuzhou chained woman incident": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Jean McConville": {
   "stage": "empty_script",
-  "reason": "script unusable",
+  "code": "script_unusable",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Kacie Woody": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Death of Katrien De Cuyper": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Prosper family murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Guaratuba child murders": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Jakob von Metzler": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of June Anne Devaney": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Isla Bryson case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Holly Bobo": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves rape/sexual assault allegations, which are prohibited.",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping of Shelly Kittleson": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Marie Goudreau": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Battersea Mystery": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murders of Eve Stratford and Lynne Weedon": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Sara Sharif": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Rania Alayed": {
   "stage": "legal",
-  "reason": "The script identifies Muhanned Al‑Khatib, who was acquitted of murder, and describes his involvement in the crime, which points suspicion at an unconvicted person.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping and killing of Anson Que": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Dawn Magyar": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Disappearance of Evelyn Hartley": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The video describes a real unsolved disappearance with detailed crime scene elements that could be sensationalized and distressing to viewers.",
+  "code": "fyf_ineligible",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Rhys Jones": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Susana Morales": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Karmein Chan": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Julia Martha Thomas": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping of Ese Oruru": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Margaret Perry": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on named suspects who were never convicted, making it unsuitable.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Victoria Hall": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Nurbank murder case": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Mary-Ann Leneghan": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Stephanie Crowe": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Edward Drummond": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Megan Williams case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Disappearance of Nancy Guthrie": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Disappearance of Elizabeth Clarke": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on named individuals who are suspected but not convicted, which cannot be presented without implying guilt.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Susanne Lindholm": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Fanny Adams": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Green Bicycle Case": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Masego Kgomo": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Melbourne gangland killings": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The video discusses multiple murders and a long‑term gangland feud, which is a disturbing true‑crime topic.",
+  "code": "fyf_ineligible",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Killing of Lizzie O'Neill": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping of Peggy McMath": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Disappearance of Anthonette Cayedito": {
   "stage": "legal",
-  "reason": "The script identifies several real individuals (e.g., Emiliano Gardella, Ron Perry, John Allen, Amos Hinshaw) who have not been convicted of any crime and suggests they may be involved or have knowled",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Esther Brown": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Mary Margaret Moran": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Death of Niall Molloy": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on Richard Flynn, who was charged but never convicted, making him an unconvicted suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping of Debra Puglisi": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Killing of Lasa and Zabala": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Chloé Ansel": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping of Selsela Alikhil": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping and murder of Aldo Moro": {
   "stage": "prescreen",
-  "reason": "other: The case is centered on political terrorism, which falls under the disallowed 'other' category.",
+  "code": "other",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Vera Page": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Pamela Werner": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Kidnapping of Jayme Closs": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Disappearance of Aimee Semple McPherson": {
   "stage": "legal",
-  "reason": "The script mentions Kenneth G. Ormiston, who was never convicted of any crime, and suggests he may have been involved in a romantic liaison or kidnapping, thereby identifying and implicating an unconv",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Beilis affair": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Death of Lim Shiow Rong": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Killing of Jamie Meah": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Simone Strobel": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: No one has been convicted and the story centers on named individuals who remain suspects",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Central Park jogger case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Robert Lee Stinson case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Becky O'Connell": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Killing of Charles Walton": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Death of Tina Fontaine": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Death of Manon Dubé": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Segametsi Mogomotsi": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-13",
   "strikes": 1
  },
  "Murder of Peggy Hettrick": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Amanda Duffy": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Jane Clouson": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Disappearance of Fiona Pender": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a named suspect who has never been convicted",
+  "code": "unconvicted_suspect",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Bear Brook murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Lundy murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Simon Levy case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Tanvir Muhammad Taqi": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Killing of Dot King": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murders of Jacqueline Ansell-Lamb and Barbara Mayo": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Oklahoma Girl Scout murders": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Disappearance of Suzanne Lyall": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The boyfriend is a named, unconvicted suspect central to the case, which cannot be discussed without implying guilt.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Kirsty Jones": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Denise McGregor": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Alesha MacPhail": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Killing of Naomi Irion": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Kalinka Bamberski case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Killing of Shosei Koda": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Shakilus Townsend": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Tina Harmon": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Arlene Arkinson": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Soujanya rape and murder case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Disappearance of Beverly Potts": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The video discusses the disappearance of a real nine‑year‑old child, which is a distressing and sensitive true‑crime topic.",
+  "code": "fyf_ineligible",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Shooting of Gold Dagal": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Jessica Ridgeway": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Raonaid Murray": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Ross Parker": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Babes in the Wood murders (Stanley Park)": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Anthony Walker": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The video discusses a real murder without graphic detail, but it sensationalises the tragedy by inviting speculation and comments, which may be distressing for viewers.",
+  "code": "fyf_ineligible",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Ellie Gould": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Daniel Handley": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Noor Mukadam": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-14",
   "strikes": 1
  },
  "House of Blood murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Kidnapping of Shannon Matthews": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Henry Nowak": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-14",
   "strikes": 1
  },
  "Murder of Santosh Deshmukh": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Lesley Molseed": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Kriss Donald": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Elianne Andam": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Bowraville murders": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Zoe Parker": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Mueller family murders": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Abduction of Russian diplomats in Iraq": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Karen Price": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Suzanne Capper": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Katarzyna Zowada": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Kelsey Smith": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case includes a sexual assault of the victim.",
+  "code": "sexual_violence",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Tia Sharp": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Brianna Denison": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Mark Tildesley": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Wendy Sewell": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Death of Noah Donohoe": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the death of a 14‑year‑old child, which triggers the minor_victim restriction.",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Jaidyn Leskie": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Killing of Melanie Carpenter": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Wendy Albano": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Sophie Hook": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Becky Watts": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Disappearance of Alex Sloley": {
   "stage": "quality",
-  "reason": "accuracy 4/10",
+  "code": "low_accuracy",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Murder of Sara Anne Wood": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Disappearance of Helena Andersson": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Abduction of Waliullah and Al Muqaddas": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-15",
   "strikes": 1
  },
  "Babes in the Wood murders (Epping Forest)": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "North Kanto serial kidnappings and murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Arianna Fitts": {
   "stage": "legal",
-  "reason": "The script identifies Helena Martin, Devin Martin, and Siolo Hearne as persons of interest and implies suspicion toward them, but they have not been convicted of any crime. This violates the policy th",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Ashleigh Hall": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Kidnapping and murder of James Foley": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Bobbie Jo Stinnett": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Death of Nolan Wells": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Amber McFarland": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The narrative centers on named individuals (Garrioch and Saxon) who have never been convicted, which violates the unconvicted suspect rule.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Paiche Onyemaechi": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Anna McGurk": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Willington Quay child abduction case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Beenham murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Angie Dodge": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Madeleine McCann": {
   "stage": "prescreen",
-  "reason": "active_proceedings: The case remains under active investigation with a suspect named but not yet charged, making it a currently ongoing legal matter.",
+  "code": "active_proceedings",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Jodi Jones": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Kidnapping of Jalal Sharafi": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Death of Hanna Lalango": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Bain family murders": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on David Bain, who was acquitted and thus an unconvicted suspect is the focus",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance and murder of Gannon Stauch": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Elizabeth McCabe": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Maria Ridulph": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murder of a 7‑year‑old child, which is disallowed.",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Zoe Nelson": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Naomi Smith": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Martin Allen": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Jodi Parrack": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Diane Sindall": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Abduction of Jody Plauché": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Death of Paula Hounslea": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on named suspects who were never convicted.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Shirley Banks": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "2013 Kamduni gang rape and murder case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Death of Linda Chua": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Kerry babies case": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Kidnapping of Melissa Brannen": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves a child whose disappearance is linked to an abduction with intent to defile, indicating sexual violence.",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Yasuko Watanabe": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Tair Rada": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Ann Maguire": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Rainham Mystery": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Bijan Ebrahimi": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Lynsey Quy": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Roy Tutill": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Marion Crofts": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Killing of Savannah Graziano": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Ilan Halimi": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Catrine da Costa": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Michael Gilbert": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Hannah Williams": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Dana Bradley": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Jennifer Odom": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Lina Khil": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The content discusses the disappearance of a real three‑year‑old child, which is highly distressing and could be sensationalised for shock value.",
+  "code": "fyf_ineligible",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Freda Burnell": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Bertha Schippan": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Lisa Marie Young": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The narrative focuses on a named suspect who was never convicted, which violates the unconvicted suspect rule.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "The Family Murders": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Kidnapping of Peggy Ann Bradnick": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Florence Little": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Manacled Mormon case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Maggie de la Riva rape case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Brighton trunk murders": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Janet Chandler": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Zelimkhan Murdalov": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Rocío Wanninkhof": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The convicted perpetrator, Tony Alexander King, was a serial sex offender whose criminal history and modus operandi involved sexual violence, which is integral to the story of the mas",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Death of Wilma Montesi": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: Contains a real-life death and discussion of a potentially violent crime involving a named victim, which is considered mature content appropriate for 18+ audiences.",
+  "code": "age_restricted",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Inokashira Park dismemberment incident": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Anesha Murnane": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Kern County child abuse cases": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Disappearance of Philip Cairns": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the disappearance and presumed murder of a child under 18.",
+  "code": "minor_victim",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Killing of Phillip Esposito and Louis Allen": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-16",
   "strikes": 1
  },
  "Murder of Carol Wilkinson": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Denise Amber Lee": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Gail Shollar": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Sukhovo-Kobylin affair": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Disappearance of Suzy Lamplugh": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story hinges on John Cannan, a real person identified as the prime suspect but never convicted for Lamplugh's disappearance.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Sigrid Giskegjerde Schjetne": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Bus 300 affair": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Jeffrey Howe": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Killing of Maria Colwell": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the killing of a child under 18, which triggers age-restriction policies.",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Sherry Ann Duncan": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Kidnapping of George Gill Jamieson": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Ben Kinsella": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Kidnapping and murder of Eloá Cristina Pimentel": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Carteron murders": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on a named individual who was never convicted and is central to the story",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Huntington, West Virginia prom night murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Leanne Holland": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Konitz affair": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Diao Aiqing": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Killing of Kirsty Bentley": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murder of a 15‑year‑old teenager, which triggers age‑restriction policies.",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Porn Murders": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: Dwelling on a series of real, unsolved homicides to generate shock value and engagement ('Comment below'), which is deemed too distressing and sensationalised for the general For You f",
+  "code": "fyf_ineligible",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Jayne MacDonald": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Lisa Rene": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Kelly Anne Bates": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Brian King": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Marine Boisseranc": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The source explicitly links the convicted killer of another child to this case and details witness testimonies sightings of him, making it impossible to tell the story without poi",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Richard Everitt": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Harmony Montgomery": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Killing of Shanquella Robinson": {
   "stage": "prescreen",
-  "reason": "active_proceedings: The case involves an ongoing transnational criminal inquiry where the suspects have not yet been convicted, and the events occurred in October 2022 (within the last two-year window",
+  "code": "active_proceedings",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Gitchie Manitou murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Death of Winnifred Teo": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The victim was sexually assaulted prior to death, which is an integral part of the case narrative and triggers the sexual violence exclusion.",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Allen Redston": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Louisa Dunne": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Marion Parker": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Disappearance of Claudia Lawrence": {
   "stage": "legal",
-  "reason": "The text identifies a real person, Claudia Elizabeth Lawrence, and references arrests of several individuals from her social circle without stating that any of them were convicted of her disappearance",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "1991 Austin yogurt shop murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Turpin case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Wanda Beach murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Zainab Ansari": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Rikki Neave": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Killing of Nick Berg": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Favoriten Girl Murders": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Joanna Yeates": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Lynda Farrow": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Deborah Linsley": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The video explicitly invites commenters to 'help us discuss' in a real-world 'solved' or 'open' murder case where no suspect has been charged, which promotes speculative harassment and",
+  "code": "fyf_ineligible",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Geeta and Sanjay Chopra kidnapping case": {
   "stage": "prescreen",
-  "reason": "minor_victim: The victims were 16 and 14 years old at the time they were kidnapped and murdered, which triggers the strict rule against depicting the killing of children.",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Jane Thurgood-Dove": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Ava White": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Terry Bowers Jr.": {
   "stage": "prescreen",
-  "reason": "minor_victim: The victim, Terry Bowers Jr., was a child (11 years old) who was murdered, which triggers the strict prohibition against covering confirmed child killings.",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Tulay Goren": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Rosie Palmer": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Murder of Hannah Foster": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-17",
   "strikes": 1
  },
  "Disappearance of Carmen Bueno and Jorge Müller": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Hunt family murders": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves rape of a victim, which is prohibited.",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Rajan case": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murders of Annette Cooper and Todd Schultz": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Assassination of Benazir Bhutto": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on an assassination with no final conviction, making a named suspect unavoidable.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Soham murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Michaela Garecht": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on a charged but not yet convicted suspect, David Misch, whose identity cannot be omitted.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Omar Carrasco": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Tracie McBride": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murders of Harry and Megan Tooze": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Cheltenham torso mystery": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Peng Shuai": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The core of the story is an alleged sexual assault/pressure involving a public figure",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Chohan family murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "2008 Noida double murder case": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Dyatlov Pass incident": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: The video discusses a fatal incident with multiple deaths and mentions knives and extreme conditions, which are mature themes involving violence and death.",
+  "code": "age_restricted",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Elsie Frost": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Hamdania incident": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Colette Aram": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Kissimmee carjacking murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Francis Imbard affair": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Elizabeth Parravincina": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Killing of Timothy Wiltsey": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Genette Tate": {
   "stage": "legal",
-  "reason": "The script names Robert Black, a real person who was never convicted of Genette Tate's disappearance, and presents him as the prime suspect, implying suspicion of involvement.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Shawn Seesahai": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Wineville Chicken Coop murders": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murder of multiple children, including a 9‑year‑old, which triggers the minor victim restriction.",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Suzanne Bombardier": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Redhead murders": {
   "stage": "legal",
-  "reason": "The script identifies Jerry Leon Johns as the man who killed Tina Farmer, but he was never convicted of that murder (only convicted of other crimes). He is an unconvicted suspect, and the text points ",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Reagan Tokes": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Ashlynne Mike": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Kidnapping of Hannah Anderson": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the killing of a child victim (Ethan Anderson) under 18.",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Brianna Ghey": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Sheila Fox (1944)": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a named individual, Richard Ryan, who was never convicted for Sheila Fox's disappearance",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Killing of Damilola Taylor": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Killing of Palmira Silva": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Barbara Tucker": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Geylang Bahru family murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Francis Saville Kent": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Robert McCartney": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on alleged IRA perpetrators who were never convicted, pointing suspicion at identifiable individuals",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Martine Vik Magnussen": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Rohit Duggal": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murders of Katherine and Sheila Lyon": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Sasha Marsden": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Kidnapping of Elliot Eastman": {
   "stage": "prescreen",
-  "reason": "active_proceedings: The case involves ongoing investigations and arrests with no final conviction yet.",
+  "code": "active_proceedings",
   "date": "2026-10-18",
   "strikes": 1
  },
  "2012 Alps killings": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Jimmy Mizen": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Heather Elvis": {
   "stage": "quality",
-  "reason": "accuracy 2/10",
+  "code": "low_accuracy",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Romona Moore": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Mona Blades": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story heavily centers on named individuals like Charlie Hughes and Derrick Hinton who are described as suspects or persons of interest without criminal convictions, making it ",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 2
  },
  "Disappearance of Relisha Rudd": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story relies heavily on Kahlil Tatum, who is accused of kidnapping and is legally unconvicted (having died before standing trial), making him a named, identifiable individual ",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "D.C. mansion murders": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Aw Teck Boon": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Death of Lamduan Armitage": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The husband, David Armitage, was only arrested in 2025, so he is an unconvicted suspect who forms the current heart of the story, and the case may also involve active proceedings.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Linda Goldstone": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Solange Grabenheimer": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Mary Theresa Simpson": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Hello Kitty murder case": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Muriel Drinkwater": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Zara Aleena": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Carrie Brown": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Krystal Fraser": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on Peter Jenkinson, who was identified by the coroner as involved in the disappearance but was never charged or convicted, making it impossible to tell the story ",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Jacob Wetterling": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Paul Quinn": {
   "stage": "prescreen",
-  "reason": "active_proceedings: The source explicitly states that ongoing inquiries into the murder were still active as of October 2021, which falls within the last two years.",
+  "code": "active_proceedings",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Killing of Leah Croucher": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The inquest concluded the victim was killed by a sex offender in an 'unwarranted sex attack', making sexual violence a core, unavoidable part of the narrative.",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Jessica Lunsford": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The victim, a 9-year-old girl, was sexually abused by the perpetrator, which is a mandatory skip criterion.",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Elizabeth Parravicini": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Clare Morrison": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Dulce Maria Alavez": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The content involves the disappearance of a minor, which is inherently distressing and sensitive.",
+  "code": "fyf_ineligible",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Victoria Climbié": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Bernadette Walker": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Killing of Corryn Rayney": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Countess of Chester Hospital baby murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Robert Levinson": {
   "stage": "quality",
-  "reason": "accuracy 5/10",
+  "code": "low_accuracy",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Junko Kobayashi": {
   "stage": "prescreen",
-  "reason": "active_proceedings: The case is explicitly described as having an investigation that continues to this day, meaning it falls under the category of active proceedings.",
+  "code": "active_proceedings",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Kidnapping of Carlina White": {
   "stage": "legal",
-  "reason": "The text contains a factual inaccuracy regarding Annugetta Pettway: it states she 'had no children of her own,' whereas the source explicitly states she gave birth to a son, Trevon Teele, in 1998. Thi",
+  "code": "legal_risk",
   "date": "2026-10-18",
   "strikes": 2
  },
  "Murder of Olivia Pratt-Korbel": {
   "stage": "prescreen",
-  "reason": "active_proceedings: The events of the case occurred in August 2022, which is within the last two years, triggering the active proceedings/sensitive timeline rule for strict moderation contexts.",
+  "code": "active_proceedings",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Disappearance of Amy Lynn Bradley": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The video primarily serves to generate engagement by highlighting the sensational and unresolved aspects of a real tragedy (the disappearance of a minor), which fits the 'dwelling on a",
+  "code": "fyf_ineligible",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murders of Channon Christian and Christopher Newsom": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Death of Sonja Engelbrecht": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-18",
   "strikes": 1
  },
  "Murder of Dini Haryati": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Joey Fischer": {
   "stage": "legal",
-  "reason": "The script names Israel Olivarez Cepeda and Heriberto Puentes Pizaña as the hitmen who killed Fischer, but they were never convicted or tried for the murder, and the text points suspicion at them as t",
+  "code": "unconvicted_suspect",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Karin Grech": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Death of Chan Yin-lam": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murders of Helen and Margaret Lynch": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Disappearance of Ruth Wilson": {
   "stage": "empty_script",
-  "reason": "script unusable",
+  "code": "script_unusable",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Killing of Shani Louk": {
   "stage": "quality",
-  "reason": "accuracy 4/10",
+  "code": "low_accuracy",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Ashikaga murder case": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Lambeth Mystery": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Disappearance of Cédrika Provencher": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murder of a 9‑year‑old child, which triggers age‑restricted content rules.",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Logan Mwangi": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Killing of Louise Jensen": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Tia Rigg": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Marković affair": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story hinges on named individuals (Delon, Marcantonini) who were never convicted, violating the unconvicted suspect rule.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Death of Luis Andres Colmenares": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on Laura Moreno and Jessy Quintero, who were arrested but never convicted, making the story point to unconvicted suspects.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Ang May Hong": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Helen McCourt": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves sexual assault of the victim, which is prohibited.",
+  "code": "sexual_violence",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of the Lowe family": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Pimlico Mystery": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Killing of Amy Joyner-Francis": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Mona Tinsley": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-19",
   "strikes": 1
  },
  "Murder of Olly Stephens": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Disappearance of Andrew Gosden": {
   "stage": "empty_script",
-  "reason": "script unusable",
+  "code": "script_unusable",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Mandy Lemaire": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Anne Noblett": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murders of Lorraine McNab and Peter Sopow": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a named individual, Wally Sparks, who was arrested but never convicted.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Whitehall Mystery": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murders of John and Lois McCullough": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: The content discusses a murder and the concealment of bodies over a prolonged period, involving lethal drug use and burial, which is violent and potentially distressing. While it does ",
+  "code": "age_restricted",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Janie Perrin": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Vizconde murders": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves rape, which falls under the sexual_violence category that must be skipped.",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Preston Davey": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Gatton murders": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: Contains graphic detail of violent deaths (bound bodies, headshot), which is disallowed for general audience; suitable only for adults. The content does not glorify the crime, but the ",
+  "code": "age_restricted",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Simon Dale": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Killing of Marian Beattie": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The central suspect is named and has not yet been convicted, making the story rely on unproven allegations.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Hena Akhter": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Leanne Tiernan": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Grégory Villemin": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the confirmed murder of a four‑year‑old child",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Lake Bodom murders": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Kayleigh Haywood": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Amber Hagerman": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Jean Townsend": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: Content involves a real murder with mention of body discovery and strangulation method, depicting violence and death. The script and caption discuss the crime in a manner suitable for ",
+  "code": "age_restricted",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Jeanine Nicarico": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Jennifer Fairgate case": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: The content discusses a real-life violent death involving a head wound and a pistol, which falls under the policy’s definition of significant violence and the mention of a real named v",
+  "code": "age_restricted",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Brian McDermott": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Peter Weinberger": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Patsy Morris": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Jaclyn Dowaliby": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Killing of Paul Byrne": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on an unresolved murder with five suspects arrested but no convictions, making the suspect identity essential to the story.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Bedford Square Mystery": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-20",
   "strikes": 1
  },
  "White House Farm murders": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the killing of two 6‑year‑old children, which is a protected minor victim scenario.",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Ratcliff Highway murders": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Killing of Gianfranco Cuccuini": {
   "stage": "legal",
-  "reason": "The script and accompanying text name an identifiable woman (the umbrella owner) and discuss her as a suspect, despite her being dismissed and no conviction having occurred. This references an unconvi",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Kidnapping of Elizabeth Smart": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves documented rape of a minor, which violates TikTok’s policy on sexual violence.",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Rachael Anderson": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Killing of Salwan Momika": {
   "stage": "prefilter",
-  "reason": "active_proceedings",
+  "code": "active_proceedings",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Shafilea Ahmed": {
   "stage": "prescreen",
-  "reason": "minor_victim: The victim was a 17‑year‑old minor who was murdered.",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Cannock Chase murders": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murders of children aged 5–7, which falls under the minor victim restriction.",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Lillelid murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Disappearance of Immaculate Basil": {
   "stage": "legal",
-  "reason": "Text names and implicates Victor and Keith as suspects in a disappearance without any evidence of conviction or charges. The description encourages viewers to suspect or guess their involvement, which",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Samaira Nazir": {
   "stage": "quality",
-  "reason": "accuracy 5/10",
+  "code": "low_accuracy",
   "date": "2026-10-20",
   "strikes": 1
  },
  "2006 Noida serial murders": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves confirmed sexual assault and murder of children, a prohibited content category.",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Death of Paulette Gebara Farah": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the death of a four‑year‑old girl, a child victim, which triggers an automatic age‑restriction on TikTok.",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Killing of Julie Ward": {
   "stage": "prescreen",
-  "reason": "gore: The case is known for dismemberment and burning of the body, which constitutes gore and requires skipping the video.",
+  "code": "gore",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Renee and Andrew MacRae": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Clement De La Haye": {
   "stage": "legal",
-  "reason": "The text identifies the heir to the Singampatti estate (referred to as \"Kadambur\") as a suspect, yet he was acquitted in the case. This violates the requirement that any identifiable person who was no",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Disappearance of Lee Boxell": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves allegations of sexual abuse and possible death of a minor, which triggers the sexual_violence category for TikTok Trust & Safety and UK media law review.",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Disappearance of Heimnot Kassau": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the disappearance of a nine‑year‑old girl, a minor victim.",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Shakira Spencer": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Caroline Glachan": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murder of a 14‑year‑old girl, a child victim.",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Arlene Fraser": {
   "stage": "legal",
-  "reason": "The text references Hector Dick and Glenn Lucas, who were charged and indicted for murder but were never convicted of the crime. The content describes their alleged involvement and the Crown’s intent ",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 2
  },
  "Killing of Lyhanna Rameau Bernard": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Alexis Murphy": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Byron Carr": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a named individual who has not been convicted and is awaiting trial",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Eastburn family murders": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Danielle Jones": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Disappearance of Crystal Rogers": {
   "stage": "legal",
-  "reason": "The text identifies unconvicted individuals such as Nick Houck and Anna Whitesides and implicates them in the alleged wrongdoing, thereby breaching the strict libel policy.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Judith Roberts": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Disappearance of Patrick Warren and David Spencer": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-20",
   "strikes": 1
  },
  "Murder of Alison Shaughnessy": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on suspects who were never finally convicted",
+  "code": "unconvicted_suspect",
   "date": "2026-10-21",
   "strikes": 1
  },
  "Murder of Udin": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-21",
   "strikes": 1
  },
  "Whitechapel murders": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-21",
   "strikes": 1
  },
  "Murder of Meredith Kercher": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-21",
   "strikes": 1
  },
  "Disappearance of Mary Flanagan": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a named, unconvicted suspect (Tom McGinty) without a conviction, which violates the policy.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Daniel Pełka": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Milly Dowler": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Gordon Sanderson": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves sexual mutilation of the victim, which is prohibited.",
+  "code": "sexual_violence",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Killing of Chris Kaba": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a police officer who was charged but acquitted, an unconvicted suspect.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murders of William Redmond and Helen Phelps": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The video discusses real murders and includes graphic context (binding, gagging, death) without graphic gore, but the content is disturbing and sensationalized, making it unsuitable fo",
+  "code": "fyf_ineligible",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Linda Cook": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Lindsay Buziak": {
   "stage": "empty_script",
-  "reason": "script unusable",
+  "code": "script_unusable",
   "date": "2026-10-22",
   "strikes": 2
  },
  "Tottenham Court Road Mystery": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Disappearance of John Favara": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on John Gotti, a real person never convicted for Favara's disappearance",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Death of Kuang Zhijun": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Villisca axe murders": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the killing of multiple children, which triggers the minor_victim restriction.",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Setiabudi 13 case": {
   "stage": "prefilter",
-  "reason": "gore",
+  "code": "gore",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Hammersmith nude murders": {
   "stage": "quality",
-  "reason": "accuracy 5/10",
+  "code": "low_accuracy",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Disappearance of Steven Clark": {
   "stage": "prefilter",
-  "reason": "unconvicted_suspect",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Ellie Butler": {
   "stage": "prescreen",
-  "reason": "minor_victim: the victim was a child under 18 who was killed",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Kidnapping of Katie Beers": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The victim was sexually abused during her captivity.",
+  "code": "sexual_violence",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Death of Linda Norgrove": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: The content discusses a real person's death with details about the circumstances and fatal injuries, which falls under mature themes suitable only for audiences 18 and older. It does n",
+  "code": "age_restricted",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of the monks of Tibhirine": {
   "stage": "prescreen",
-  "reason": "gore: The case is known for the monks’ beheading, a dismemberment that is considered gore and cannot be omitted from a factual account.",
+  "code": "gore",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Andrea Scherpf and Bernd Göricke": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a named suspect, Andy Rose, who was convicted but later exonerated, making him an unconvicted suspect in the context of the case.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Mariam Peters": {
   "stage": "prescreen",
-  "reason": "minor_victim: The victim Mariam Peters was a minor who was murdered.",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Jonathan Coulom": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Disappearance of Charlene Downes": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Karen Buckley": {
   "stage": "prescreen",
-  "reason": "gore: The case is known for the victim’s body being concealed in a caustic soda barrel, which involves dismemberment/mutilation and is considered gore.",
+  "code": "gore",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Rachel McLean": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: Contains graphic detail of a murder (body hidden under floorboards and discovered behind a cupboard) that is likely to be disturbing to a general audience. The content discusses real c",
+  "code": "age_restricted",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Disappearance of Don Banfield": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on the murder conviction of the wife and daughter being quashed, and they are named suspects who are not finally convicted of murder.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 2
  },
  "Jordan Brown case": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on Jordan Brown, a named individual who was never finally convicted, making the story dependent on an unconvicted suspect.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Disappearance of Deirdre Jacob": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The case centers on a named suspect, Larry Murphy, who has not been convicted of the disappearance/murder, making the story dependent on an unconvicted individual.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Easey Street murders": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves confirmed sexual assault of the victims, which disqualifies it for a 45‑second TikTok.",
+  "code": "sexual_violence",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Arthur Labinjo-Hughes": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murder of a six‑year‑old child, which falls under the disallowed minor victim category.",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Jessie Earl": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: Peter Tobin is a named suspect not convicted for this case, making the story dependent on an unconvicted individual.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 2
  },
  "Killing of David Byrne": {
   "stage": "compliance",
-  "reason": "AGE_RESTRICTED: The content discusses a real violent crime and a real victim’s death, includes a call to comment on motives for the crime, and falls under mature themes suitable only for adults.",
+  "code": "age_restricted",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Disappearance of Owen Harding": {
   "stage": "compliance",
-  "reason": "FYF_INELIGIBLE: The content references a real, ongoing missing person case involving a minor, and it sensationalizes the circumstances and speculation about the disappearance. While it does not contai",
+  "code": "fyf_ineligible",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Janet Brown": {
   "stage": "prescreen",
-  "reason": "active_proceedings: The investigation remains open and the killer has not been convicted, so the case is currently under active proceedings.",
+  "code": "active_proceedings",
   "date": "2026-10-22",
   "strikes": 2
  },
  "Murder of Jacqueline Montgomery": {
   "stage": "prefilter",
-  "reason": "sexual_violence",
+  "code": "sexual_violence",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Trinity murders": {
   "stage": "prefilter",
-  "reason": "minor_victim",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murders of Margaret and Seana Tapp": {
   "stage": "prescreen",
-  "reason": "minor_victim: The case involves the murder of a nine-year-old child.",
+  "code": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Joy Morgan": {
   "stage": "review_error",
-  "reason": "['legal review returned no usable verdict']",
+  "code": "review_error",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Sarah Everard": {
   "stage": "prescreen",
-  "reason": "sexual_violence: The case involves rape, which is prohibited content for the TikTok format.",
+  "code": "sexual_violence",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Murder of Sian O'Callaghan": {
   "stage": "empty_script",
-  "reason": "script unusable",
+  "code": "script_unusable",
   "date": "2026-10-22",
   "strikes": 1
  },
  "Death of Peter Farquhar": {
   "stage": "prescreen",
-  "reason": "unconvicted_suspect: The story centers on a named real person who was convicted and then had his conviction overturned, making his identity and alleged guilt essential to the narrative.",
+  "code": "unconvicted_suspect",
   "date": "2026-10-22",
   "strikes": 1
  }

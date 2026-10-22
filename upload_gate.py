@@ -457,9 +457,12 @@ def _redact(s):
 def ai_review(path, platform, profile, *, title="", caption="", transcript="", seconds=None):
     """Ask a free vision model to watch the video as a strict pre-publication reviewer.
     Returns {"ok": bool, "available": bool, "coherence", "quality", "problems": [...], "summary"}."""
+    # "retryable" (S1 contract): True only for an outage that waiting can fix (a 429
+    # without "per day", a 5xx, a timeout). A 413 or a spent daily quota never is, so
+    # callers must not sleep and re-check on those (run 39789555396 lost ~95 min).
     key = os.environ.get("GROQ_API_KEY", "").strip()
     if not key:
-        return {"ok": False, "available": False, "problems": ["GROQ_API_KEY not set"]}
+        return {"ok": False, "available": False, "retryable": False, "problems": ["GROQ_API_KEY not set"]}
     dur = seconds or float(probe(path)["format"]["duration"])
     images = _images_b64(path, dur)
     content = [{"type": "text", "text": (
@@ -484,6 +487,10 @@ def ai_review(path, platform, profile, *, title="", caption="", transcript="", s
         "or mood footage is fine when its mood fits the story; flag footage that is jarringly "
         "unrelated or inappropriate for the subject (e.g. food, animals, parties, sport, "
         "celebrations in a story about a death).\n"
+        "PRIVACY (always BLOCK, list it under policy_issues): any frame that shows a real "
+        "private home (a house, cottage, front door or driveway of a residence) or a vehicle "
+        "number plate that can be read. Viewers take a home beside crime narration as the "
+        "crime scene or a suspect's house, which harms uninvolved owners.\n"
         "Only BLOCK for a concrete problem you can point to in the frames or text, not for style.\n"
         'Reply with JSON only: {"verdict":"PASS" or "BLOCK","coherence":1-10,"quality":1-10,'
         '"policy_issues":["..."],"quality_issues":["..."],"summary":"one sentence"}')}]
@@ -514,7 +521,7 @@ def ai_review(path, platform, profile, *, title="", caption="", transcript="", s
             body_txt = _redact(e.read()[:400].decode(errors="replace"))
             last = f"HTTP {e.code}: {body_txt[:200]}"
             if "per day" in body_txt:              # daily quota gone: waiting a minute won't help
-                return {"ok": False, "available": False, "quota": True,
+                return {"ok": False, "available": False, "quota": True, "retryable": False,
                         "problems": ["AI review skipped: the free daily AI quota is used up "
                                      "(it refills over the next 24h)"]}
             if e.code == 413 and attempt < 2 and len(script) > tlimit // 2:
@@ -524,16 +531,21 @@ def ai_review(path, platform, profile, *, title="", caption="", transcript="", s
                 body["messages"][0]["content"][0]["text"] = text.replace(script[:tlimit], script[:tlimit // 2], 1)
                 tlimit //= 2
                 continue
+            if e.code == 413:                      # hard request-size cap: never sleep or re-check
+                return {"ok": False, "available": False, "retryable": False, "too_large": True,
+                        "problems": [f"AI review request too large: {last}"]}
             if e.code in (429, 500, 502, 503) and attempt < 2:
                 time.sleep(min(65, float(e.headers.get("retry-after") or 30)))
                 continue
-            return {"ok": False, "available": False, "problems": [f"AI review failed: {last}"]}
+            return {"ok": False, "available": False, "retryable": e.code in (429, 500, 502, 503, 504),
+                    "problems": [f"AI review failed: {last}"]}
         except Exception as e:                     # network / JSON trouble
             last = str(e)[:200]
             if attempt < 2:
                 time.sleep(10)
                 continue
-            return {"ok": False, "available": False, "problems": [f"AI review failed: {last}"]}
+            return {"ok": False, "available": False, "retryable": True,
+                    "problems": [f"AI review failed: {last}"]}
     coh, qual = int(res.get("coherence") or 0), int(res.get("quality") or 0)
     problems = [str(p) for p in (res.get("policy_issues") or []) + (res.get("quality_issues") or []) if p]
     ok = res["verdict"] == "PASS" and coh >= 5 and qual >= 5 and not (res.get("policy_issues") or [])
@@ -599,7 +611,7 @@ def check(path, platform, *, profile=None, title="", caption="", description="",
     if mode != "off" and not F and cap and pr.get("ledger") and ai_reviews_today(pr["ledger"]) >= cap:
         # The free AI quota is shared by 3 bots; retry loops must not let one bot spend it
         # all. Same outcome as Groq's own "per day" answer, just reached earlier.
-        ai = {"ok": False, "available": False, "quota": True, "cap": True,
+        ai = {"ok": False, "available": False, "quota": True, "cap": True, "retryable": False,
               "problems": [f"AI review skipped: this bot's daily AI-review cap ({cap}) is reached "
                            "(the free AI quota is shared by 3 bots)"]}
         verdict["ai"] = ai
@@ -656,6 +668,36 @@ def require(path, platform):
     return digest
 
 
+# The ledger is committed to public repos. An AI reviewer's reason for a legal block
+# ("implies the guilt of an uncharged suspect, <name>") restates the allegation the gate
+# refused to publish (audit 2026-10-21 F12), so such text is withheld from the file.
+# The in-memory verdict (alerts, retries) keeps the full text.
+_ALLEGATION = re.compile(
+    r"\b(suspect\w*|acquit\w*|convict\w*|uncharged|charged|charges|implicat\w*|accus\w*|guilt\w*|"
+    r"persons? of interest|perpetrator\w*|culprit\w*|killers?|murderers?|wrongdoing|defam\w*|libel\w*|"
+    r"arrest\w*|framed|innocen\w*|hitm[ae]n|accomplice\w*|blame\w*)\b", re.I)
+WITHHELD = "[legal-risk detail withheld from the public log]"
+
+
+def scrub_public(text):
+    """`text` unless it reads like an allegation about a person, else a fixed marker."""
+    if not isinstance(text, str) or not _ALLEGATION.search(text):
+        return text
+    for prefix in ("AI review unavailable: ", "AI review: "):
+        if text.startswith(prefix):
+            return prefix + WITHHELD
+    return WITHHELD
+
+
+def _scrub_entry(e):
+    e = dict(e)
+    e["failures"] = [scrub_public(f) for f in (e.get("failures") or [])]
+    e["warnings"] = [scrub_public(w) for w in (e.get("warnings") or [])]
+    if isinstance(e.get("ai"), dict):
+        e["ai"] = {**e["ai"], "summary": scrub_public(e["ai"].get("summary"))}
+    return e
+
+
 def record(verdict, ledger_path, keep=300):
     """Append to the JSON audit log (what was checked, when, and why it passed or failed)."""
     try:
@@ -670,7 +712,7 @@ def record(verdict, ledger_path, keep=300):
         slim["ai"] = {k: verdict["ai"].get(k) for k in ("available", "ok", "coherence", "quality", "summary",
                                                          "tokens")}
     data.setdefault("entries", []).append(slim)
-    data["entries"] = data["entries"][-keep:]
+    data["entries"] = [_scrub_entry(e) for e in data["entries"][-keep:]]
     with open(ledger_path, "w", encoding="utf-8") as fh:
         json.dump(data, fh, indent=1, ensure_ascii=False)
 

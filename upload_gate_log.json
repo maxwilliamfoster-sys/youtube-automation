@@ -66,7 +66,7 @@
    "head": "Cherrie Mahan case. | True crime story.",
    "ok": false,
    "failures": [
-    "AI review: The video is blocked due to a garbled text rendering error ('V/AFTER:D') and the inclusion of unverified investigative claims about the suspect van's location. | Unverified claims stated as fact: The narration and visuals assert that the van was 'later seen in New Kensington' (labeled 'KENSINGTON' on screen). This is a specific investigative detail not established in court and implies a connection to the suspect vehicle without proof, violating the rule against unverified claims in true crime content.; Garbled on-screen text: In the third contact sheet, the word 'AFTER' is rendered as 'V/AFTER:D' with a slash and colon, indicating a text rendering error or glitch.; Visual inconsistency: The video depicts a snowy scene (narration mentions 'snow', 'footprints'), but the B-roll footage shows a cornfield in summer (green leaves) and a field with dry stalks, which contradicts the winter setting described in the script."
+    "AI review: [legal-risk detail withheld from the public log]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -83,7 +83,7 @@
     "ok": false,
     "coherence": 4,
     "quality": 3,
-    "summary": "The video is blocked due to a garbled text rendering error ('V/AFTER:D') and the inclusion of unverified investigative claims about the suspect van's location.",
+    "summary": "[legal-risk detail withheld from the public log]",
     "tokens": 4369
    }
   },
@@ -325,7 +325,7 @@
    "head": "Etan Patz case. | True crime story.",
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because the narration presents future dates (2025/2026) as established historical facts regarding the legal status of the case, which constitutes an unverified claim. | Unverified claims stated as fact: The narration asserts that in 2025 the conviction was overturned and in 2026 the Supreme Court stepped in to make the verdict stand. These are future dates relative to the current time and are not established historical facts, violating the rule against unverified claims.; Visuals are generic stock footage (modern apartment buildings, random street scenes) that do not depict the specific locations (SoHo, 1979) mentioned in the narration, creating a disjointed viewing experience."
+    "AI review: [legal-risk detail withheld from the public log]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1473,7 +1473,7 @@
    "head": "Theresa Allore case. | True crime story.",
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because the narration and caption imply the guilt of an uncharged suspect, and the opening frame has a visible rendering glitch. | The video implies guilt of an uncharged/unconvicted party. The narration states a profiler described the pattern as a 'serial sexual predator' and the caption asks if there is a 'hidden link to other unsolved murders,' which violates the rule against implying guilt of anyone not convicted in court.; The first frame (Image 1) has a significant white vertical bar on the right side, indicating a rendering or aspect ratio error that makes the video look unfinished or glitched."
+    "AI review: [legal-risk detail withheld from the public log]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1490,7 +1490,7 @@
     "ok": false,
     "coherence": 4,
     "quality": 6,
-    "summary": "The video is blocked because the narration and caption imply the guilt of an uncharged suspect, and the opening frame has a visible rendering glitch.",
+    "summary": "[legal-risk detail withheld from the public log]",
     "tokens": 4324
    }
   }

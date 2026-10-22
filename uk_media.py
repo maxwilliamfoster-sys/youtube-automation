@@ -180,10 +180,67 @@ def names_region(title: str, case_place: str) -> bool:
     return False
 
 
-def names_place(title: str, place: str) -> bool:
+# Private property. The 21 Oct 2026 Kitandwe video showed "House and driveway, Wayford"
+# (a Somerset cottage, nowhere near the London street in the case) with a legible
+# number plate, under the word "MOTIVE". Viewers read any house beside murder narration
+# as the crime scene or a suspect's home: a privacy and defamation risk for owners who
+# have nothing to do with the case. There is no free, reliable plate blur, so homes and
+# vehicles are dropped. Street signs, stations, churches, parks and courts are fine.
+_PRIVATE_PROPERTY = re.compile(
+    r"\b(houses?|homes|cottages?|farmhouses?|bungalows?|driveways?|gardens?|"
+    r"residences?|residential|home of|cars parked|parked cars?|cars?|vans?|vehicles?)\b",
+    re.I,
+)
+
+
+def private_property(title: str) -> bool:
+    """True when a photo title points at a private home or a vehicle."""
+    return bool(_PRIVATE_PROPERTY.search((title or "").replace("_", " ")))
+
+
+# A case location that is a street. A bare street stem is not a place: "Wayford Street"
+# matched "Wayford", a village 150 miles away, so a street needs its full name or its
+# stem plus the case's own locality ("Wayford ... Battersea").
+_STREET_SUFFIX = ("street", "road", "lane", "avenue", "drive", "close", "crescent", "terrace",
+                  "grove", "gardens", "mews", "row", "walk", "way", "place")
+_STREET_ABBR = {"street": "st", "road": "rd", "avenue": "ave", "lane": "ln", "drive": "dr",
+                "crescent": "cres", "terrace": "tce"}
+_STREET_RE = re.compile(rf"^(.+?)\s+({'|'.join(_STREET_SUFFIX)})$", re.I)
+
+
+def _norm_title(text: str) -> str:
+    return re.sub(r"\s+", " ", re.sub(r"[^a-z0-9']+", " ", (text or "").lower())).strip()
+
+
+def street_parts(place: str):
+    """('wayford', 'street') for 'Wayford Street, Battersea'; None when it isn't a street."""
+    first = _norm_title((place or "").split(",")[0])
+    m = _STREET_RE.match(first)
+    if not m:
+        return None
+    return m.group(1), m.group(2)
+
+
+def names_place(title: str, place: str, locality: str = "") -> bool:
     """True when the file title names the place. Commons full-text search also matches
     descriptions, which is how 'Philadelphia' returned Amman (its ancient name) and
-    rat photos whose description mentions the city."""
+    rat photos whose description mentions the city.
+
+    A street needs its full name ("Wayford Street"/"Wayford St"), or its stem plus a
+    word from the case's locality. `locality` is the case's whole location string;
+    when `place` itself has commas ("Wayford Street, Battersea") the rest is used."""
+    street = street_parts(place)
+    if street:
+        stem, suffix = street
+        t = _norm_title(title)
+        phrases = [f"{stem} {suffix}"] + ([f"{stem} {_STREET_ABBR[suffix]}"] if suffix in _STREET_ABBR else [])
+        if any(re.search(rf"\b{re.escape(p)}\b", t) for p in phrases):
+            return True
+        rest = ", ".join([locality or ""] + (place or "").split(",")[1:])
+        stem_toks = set(place_tokens(stem))
+        loc = [tok for tok in place_tokens(rest) if tok not in stem_toks]
+        return bool(loc) and re.search(rf"\b{re.escape(stem)}\b", t) is not None \
+            and any(re.search(rf"\b{re.escape(tok)}\b", t) for tok in loc)
     toks = place_tokens(place)
     if not toks:
         return True
@@ -317,8 +374,9 @@ def location_images(place: str, limit: int = 6, uk: bool = True, must_name: str 
         # Then drop anything the anchor did not catch — wrong country, or a breed
         # of sheep that happens to share the county's name.
         clean = [d for d in details if not _WRONG_PLACE.search(d["title"])
+                 and not private_property(d["title"])
                  and not (uk and _WRONG_COUNTRY.search(d["title"]))
-                 and names_place(d["title"], must_name or place)
+                 and names_place(d["title"], must_name or place, locality=case_place)
                  and not wrong_region(d["title"], case_place or place, uk)
                  and (uk or names_region(d["title"], case_place or place))]
         # Geograph is a project to photograph every grid square of Britain: plain,

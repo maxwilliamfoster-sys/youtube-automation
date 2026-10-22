@@ -69,11 +69,24 @@ class TestRetryUntilPass(unittest.TestCase):
         self.assertIn("catchup=false", self._output())
 
     def test_ai_outage_rechecks_the_same_video(self):
-        down = {"ok": False, "failures": ["AI review unavailable: HTTP 503"], "ai": {"available": False}}
+        down = {"ok": False, "failures": ["AI review unavailable: HTTP 503"],
+                "ai": {"available": False, "retryable": True}}
         self._gate_seq([down] * 3 + [{"ok": True, "failures": []}])
         md.run_cloud_deliver(count=1)
         self.assertEqual(self.made, 1)              # same video, asked again
         self.assertEqual(self.posted, ["Case 1"])
+
+    def test_413_never_sleeps_or_rechecks(self):
+        """Run 39789555396: a 413 was re-checked 12 times, 5 min apart (~95 min lost)."""
+        big = {"ok": False, "failures": ["AI review unavailable: AI review request too large: HTTP 413"],
+               "ai": {"available": False, "retryable": False, "too_large": True}}
+        self._gate_seq([big, {"ok": True, "failures": []}])
+        sleeps = []
+        with mock.patch.object(md.time, "sleep", lambda s: sleeps.append(s)):
+            md.run_cloud_deliver(count=1)
+        self.assertEqual(sleeps, [])
+        self.assertEqual(self.made, 2)              # a new video, not a re-check of the same one
+        self.assertEqual(self.posted, ["Case 2"])
 
     def test_spent_quota_stops_without_a_catchup(self):
         quota = {"ok": False, "failures": ["AI review unavailable: quota"],
@@ -102,7 +115,8 @@ class TestRetryUntilPass(unittest.TestCase):
         self.assertIn("catchup=true", self._output())
 
     def test_long_ai_outage_stops_and_asks_for_catchup(self):
-        down = {"ok": False, "failures": ["AI review unavailable: HTTP 503"], "ai": {"available": False}}
+        down = {"ok": False, "failures": ["AI review unavailable: HTTP 503"],
+                "ai": {"available": False, "retryable": True}}
         self._gate_seq([down] * 50)
         alerts = []
         with mock.patch.object(notify, "send_alert", lambda t, **k: alerts.append(t) or True),                 self.assertRaises(SystemExit):

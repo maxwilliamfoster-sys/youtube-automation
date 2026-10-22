@@ -598,6 +598,14 @@ def _only_ai_unavailable(gate_v) -> bool:
                                             for f in gate_v["failures"])
 
 
+def _ai_outage_retryable(gate_v) -> bool:
+    """Worth waiting and asking the gate again: the only objection is an AI-review outage
+    the reviewer itself marked retryable (a 429 without "per day", a 5xx, a timeout).
+    A 413 (request too large) or a spent daily quota never is - waiting can't fix it."""
+    return (not gate_v.get("ok") and _only_ai_unavailable(gate_v)
+            and bool((gate_v.get("ai") or {}).get("retryable")))
+
+
 def _github_output(name: str, value: str) -> None:
     path = os.environ.get("GITHUB_OUTPUT")
     if path:
@@ -729,8 +737,7 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                     script=story.get("script", ""), ai_label=True)
             gate_v = _gate()
             rechecks = 0
-            while (not gate_v["ok"] and _only_ai_unavailable(gate_v)
-                   and not (gate_v.get("ai") or {}).get("quota")
+            while (_ai_outage_retryable(gate_v)
                    and rechecks < AI_OUTAGE_MAX_RECHECKS
                    and time.monotonic() - started + AI_OUTAGE_WAIT_S + POST_RESERVE_S <= CLOUD_BUDGET_S):
                 # Nothing wrong with the video; the review couldn't run (outage). Ask
@@ -740,8 +747,7 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                       f"({rechecks}/{AI_OUTAGE_MAX_RECHECKS}).")
                 time.sleep(AI_OUTAGE_WAIT_S)
                 gate_v = _gate()
-            if (not gate_v["ok"] and _only_ai_unavailable(gate_v)
-                    and not (gate_v.get("ai") or {}).get("quota")):
+            if _ai_outage_retryable(gate_v):
                 _app("ai_down", "warn", "BuriedCasefiles: AI reviewer down, video not posted",
                      f"{story.get('title', '?')} was not posted after {rechecks} re-checks. A catch-up "
                      "run tries again later - nothing to do unless this repeats.")
@@ -753,8 +759,11 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                 break
             if not gate_v["ok"]:
                 quota_out = _only_ai_unavailable(gate_v) and bool((gate_v.get("ai") or {}).get("quota"))
+                too_large = _only_ai_unavailable(gate_v) and bool((gate_v.get("ai") or {}).get("too_large"))
                 next_step = ("The daily AI-review quota is used up, so no new video can pass today."
-                             if quota_out else "Making another video now.")
+                             if quota_out else
+                             "AI review request too large (HTTP 413) - not an outage, so no re-check. "
+                             "Making another video now." if too_large else "Making another video now.")
                 v_ok = None
                 if not blocked_sent:
                     # One blocked video per run is enough to see what the gate saw; a

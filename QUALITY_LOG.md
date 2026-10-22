@@ -64,9 +64,9 @@ evening). Sample sizes are small.
 
 **F8 — Reliability.** Sept: 23/30 scheduled runs produced no video (Groq daily cap
 plus the over-strict gate). Since 2026-10-03: 14 of 18 runs posted. Most misses are
-now the legal gate blocking scripts that name never-convicted people as possible
-suspects (e.g. 2026-10-09 15:18 UTC: Tattingstone Suitcase, Ameen family, Stuart
-Morgan). That is intended; a missed slot is better than a libel risk. Watch the miss
+now the legal gate blocking scripts that name people who were never convicted
+(e.g. three cases in the 2026-10-09 15:18 UTC run; the names are deliberately not
+recorded in this public file). That is intended; a missed slot is better than a libel risk. Watch the miss
 rate: above ~1 in 3, prefer cases with a conviction or no identifiable suspects in
 `case_source.py` scoring rather than loosening the gate.
 

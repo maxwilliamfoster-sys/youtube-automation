@@ -99,6 +99,47 @@ class RejectedMemoryTests(unittest.TestCase):
         case_screen.record_rejection("Murder of C", "empty_script")
         self.assertEqual(case_screen.load_rejected()["Murder of C"]["stage"], "compliance")
 
+    def test_public_file_keeps_only_stage_and_code(self):
+        """Audit F12: the public file restated allegations against acquitted people."""
+        case_screen.record_rejection(
+            "Disappearance of K", "legal",
+            "The script identifies Terri Moulton, a real person who has not been convicted, "
+            "and implicates her in alleged wrongdoing")
+        case_screen.record_rejection("Murder of P", "prescreen",
+                                     "unconvicted_suspect: names Ram Puneet Tiwary (acquitted)")
+        case_screen.record_rejection("Murder of Q", "compliance", "AGE_RESTRICTED: disturbing detail")
+        case_screen.record_rejection("Murder of R", "prefilter", "gore")
+        case_screen.record_rejection("Murder of S", "quality", "accuracy 4/10")
+        with open(self.path, encoding="utf-8") as f:
+            raw = f.read()
+        for word in ("Moulton", "Tiwary", "acquitted", "implicates", "disturbing", "reason"):
+            self.assertNotIn(word, raw)
+        data = case_screen.load_rejected()
+        self.assertEqual(data["Disappearance of K"]["code"], "unconvicted_suspect")
+        self.assertEqual(data["Murder of P"]["code"], "unconvicted_suspect")
+        self.assertEqual(data["Murder of Q"]["code"], "age_restricted")
+        self.assertEqual(data["Murder of R"]["code"], "gore")
+        self.assertEqual(data["Murder of S"]["code"], "low_accuracy")
+        for entry in data.values():
+            self.assertLessEqual(set(entry), {"stage", "code", "date", "strikes"})
+            self.assertRegex(entry["code"], r"^[a-z_]{2,40}$")
+        self.assertTrue(case_screen.is_rejected("Disappearance of K"))
+
+    def test_old_entries_with_reasons_are_scrubbed_on_next_save(self):
+        import json
+        with open(self.path, "w", encoding="utf-8") as f:
+            json.dump({"Disappearance of Kyron Horman": {
+                "stage": "legal", "date": "2026-10-12", "strikes": 1,
+                "reason": "The script identifies Terri Moulton, offering a landscaper money"}}, f)
+        case_screen._cache = None
+        case_screen.record_rejection("Murder of New", "prefilter", "gore")
+        with open(self.path, encoding="utf-8") as f:
+            raw = f.read()
+        self.assertNotIn("Moulton", raw)
+        self.assertNotIn("landscaper", raw)
+        self.assertEqual(case_screen.load_rejected()["Disappearance of Kyron Horman"]["code"],
+                         "unconvicted_suspect")
+
     def test_pick_case_skips_rejected(self):
         import case_source
         case_screen.record_rejection("Murder of Rejected", "legal")

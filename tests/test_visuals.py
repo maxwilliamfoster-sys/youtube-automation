@@ -70,6 +70,72 @@ class CommonsFilterTests(unittest.TestCase):
                          ["Ipswich docks - geograph.org.uk - 1.jpg", "Ipswich town hall.jpg"])
 
 
+class PrivacyTests(unittest.TestCase):
+    """Audit 2026-10-21 F11: the Kitandwe video showed a private cottage and a legible
+    number plate in the wrong town because 'Wayford' alone matched the street name."""
+
+    def test_street_needs_full_phrase_or_street_plus_locality(self):
+        np = uk_media.names_place
+        self.assertFalse(np("House and driveway, Wayford - geograph", "Wayford Street, Battersea, London"))
+        self.assertFalse(np("Wayford village green - geograph.jpg", "Wayford Street",
+                            locality="Wayford Street, Battersea, London"))
+        self.assertTrue(np("Wayford Street, SW11 - geograph.jpg", "Wayford Street",
+                           locality="Wayford Street, Battersea, London"))
+        self.assertTrue(np("Wayford St looking north.jpg", "Wayford Street"))
+        self.assertTrue(np("Wayford, Battersea - geograph.jpg", "Wayford Street",
+                           locality="Wayford Street, Battersea, London"))
+        self.assertTrue(np("Well_Hall_Road,_Eltham.jpg", "Well Hall Road, Eltham"))
+        self.assertFalse(np("Well Hall Pleasaunce.jpg", "Well Hall Road"))
+
+    def test_private_property_titles_rejected(self):
+        for title in ["House and driveway, Wayford - geograph",
+                      "Houses on Well Hall Road - geograph.org.uk.jpg",
+                      "Cottage at Moorlinch.jpg", "Cars parked on Wayford Street.jpg",
+                      "A van in Battersea.jpg", "Home of the Smith family, Leeds.jpg",
+                      "Farmhouse near Bridgwater.jpg", "Bungalow, Caversham.jpg",
+                      "Parked car, Eltham.jpg", "Vehicles on Wayford Street.jpg"]:
+            self.assertTrue(uk_media.private_property(title), title)
+        for title in ["Wayford Street sign.jpg", "Clapham Junction station - geograph.jpg",
+                      "St Mary's Church, Battersea.jpg", "Old Bailey, London.jpg",
+                      "Carlisle Castle.jpg", "Battersea Park.jpg"]:
+            self.assertFalse(uk_media.private_property(title), title)
+
+    def test_location_images_drops_house_photo_in_wrong_town(self):
+        found = {"query": {"search": [{"title": "File:a.jpg"}]}}
+        details = [{"title": "House and driveway, Wayford - geograph"},
+                   {"title": "Wayford Street, Battersea - geograph.jpg"},
+                   {"title": "Wayford church - geograph.jpg"}]
+        with mock.patch.object(uk_media, "_get", return_value=found), \
+                mock.patch.object(uk_media, "_image_details", return_value=details):
+            out = uk_media.location_images("Wayford Street Battersea", uk=True,
+                                           must_name="Wayford Street",
+                                           case_place="Wayford Street, Battersea, London")
+        self.assertEqual([d["title"] for d in out], ["Wayford Street, Battersea - geograph.jpg"])
+
+    def test_street_search_is_anchored_to_district(self):
+        import image_generator as ig
+        queries = []
+
+        def fake_loc(query, **kw):
+            queries.append((query, kw.get("must_name")))
+            return []
+
+        with mock.patch.object(uk_media, "location_images", side_effect=fake_loc):
+            ok = ig._uk_location_image("Wayford Street, Battersea, London", "night",
+                                       "x.jpg", set(), [])
+        self.assertFalse(ok)                      # nothing matched -> caller uses stock
+        street_q = [q for q, m in queries if m == "Wayford Street"]
+        self.assertTrue(street_q)
+        self.assertTrue(all("Battersea" in q for q in street_q), street_q)
+
+    def test_ai_gate_prompt_blocks_private_homes_and_plates(self):
+        import inspect
+        import upload_gate
+        src = inspect.getsource(upload_gate.ai_review)
+        self.assertIn("private home", src)
+        self.assertIn("number plate", src)
+
+
 class MoodGateTests(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
