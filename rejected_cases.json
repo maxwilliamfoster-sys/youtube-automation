@@ -2872,5 +2872,23 @@
   "reason": "['legal review returned no usable verdict']",
   "date": "2026-10-22",
   "strikes": 1
+ },
+ "Murder of Sarah Everard": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves rape, which is prohibited content for the TikTok format.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Sian O'Callaghan": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Death of Peter Farquhar": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a named real person who was convicted and then had his conviction overturned, making his identity and alleged guilt essential to the narrative.",
+  "date": "2026-10-22",
+  "strikes": 1
  }
 }

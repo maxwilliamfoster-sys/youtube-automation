@@ -1464,6 +1464,35 @@
     "summary": null,
     "tokens": null
    }
+  },
+  {
+   "checked_at": "2026-10-22T19:41:02+00:00",
+   "platform": "tiktok",
+   "file": "Underwater_Trappers_Shocking_Discovery_M_20261022_193513.mp4",
+   "sha256": "30a36b16ed25c17aeb4c6f9d6a77de67b43b4145809ad9af2efbdd7ded8d37ea",
+   "head": "Theresa Allore case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because the narration and caption imply the guilt of an uncharged suspect, and the opening frame has a visible rendering glitch. | The video implies guilt of an uncharged/unconvicted party. The narration states a profiler described the pattern as a 'serial sexual predator' and the caption asks if there is a 'hidden link to other unsolved murders,' which violates the rule against implying guilt of anyone not convicted in court.; The first frame (Image 1) has a significant white vertical bar on the right side, indicating a rendering or aspect ratio error that makes the video look unfinished or glitched."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 51.2,
+    "lufs": -15.1,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "summary": "The video is blocked because the narration and caption imply the guilt of an uncharged suspect, and the opening frame has a visible rendering glitch.",
+    "tokens": 4324
+   }
   }
  ]
 }
