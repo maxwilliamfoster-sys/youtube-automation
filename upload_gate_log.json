@@ -1058,6 +1058,383 @@
     "summary": "The video presents a coherent and professionally edited true-crime narrative with consistent sombre visuals, readable text overlays, and no policy violations.",
     "tokens": 4243
    }
+  },
+  {
+   "checked_at": "2026-10-22T14:17:33+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:22:50+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:28:07+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:33:24+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:38:41+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:43:57+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:49:14+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:54:31+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T14:59:47+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T15:05:04+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T15:10:20+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T15:15:36+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-22T15:20:53+00:00",
+   "platform": "tiktok",
+   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
+   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 50.8,
+    "lufs": -14.9,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
   }
  ]
 }

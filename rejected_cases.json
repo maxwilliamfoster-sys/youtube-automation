@@ -875,12 +875,6 @@
   "date": "2026-10-15",
   "strikes": 1
  },
- "Murder of Lindsay Buziak": {
-  "stage": "empty_script",
-  "reason": "script unusable",
-  "date": "2026-10-15",
-  "strikes": 1
- },
  "Murder of Suzanne Capper": {
   "stage": "prefilter",
   "reason": "gore",
@@ -2661,6 +2655,84 @@
   "stage": "prefilter",
   "reason": "unconvicted_suspect",
   "date": "2026-10-21",
+  "strikes": 1
+ },
+ "Disappearance of Mary Flanagan": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a named, unconvicted suspect (Tom McGinty) without a conviction, which violates the policy.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Daniel Pełka": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Milly Dowler": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Gordon Sanderson": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves sexual mutilation of the victim, which is prohibited.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Killing of Chris Kaba": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a police officer who was charged but acquitted, an unconvicted suspect.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murders of William Redmond and Helen Phelps": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The video discusses real murders and includes graphic context (binding, gagging, death) without graphic gore, but the content is disturbing and sensationalized, making it unsuitable fo",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Linda Cook": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Lindsay Buziak": {
+  "stage": "empty_script",
+  "reason": "script unusable",
+  "date": "2026-10-22",
+  "strikes": 2
+ },
+ "Tottenham Court Road Mystery": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Disappearance of John Favara": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on John Gotti, a real person never convicted for Favara's disappearance",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Death of Kuang Zhijun": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Villisca axe murders": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the killing of multiple children, which triggers the minor_victim restriction.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Setiabudi 13 case": {
+  "stage": "prefilter",
+  "reason": "gore",
+  "date": "2026-10-22",
   "strikes": 1
  }
 }
