@@ -1435,6 +1435,35 @@
     "summary": null,
     "tokens": null
    }
+  },
+  {
+   "checked_at": "2026-10-22T16:39:27+00:00",
+   "platform": "tiktok",
+   "file": "Mysterious_Vanishing_Car_Found_Caller_Go_20261022_163351.mp4",
+   "sha256": "e744a633892c3162c86d9ca49ecde5dc860a961df3d8df46f8e1c7afa84b5fcd",
+   "head": "Heather Elvis case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "video check could not run: could not decode a frame at 48.3s"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": null,
+    "lufs": null,
+    "speech_match": 0.89,
+    "longest_freeze": null
+   },
+   "ai": {
+    "available": null,
+    "ok": null,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
   }
  ]
 }

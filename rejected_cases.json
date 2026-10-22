@@ -2027,12 +2027,6 @@
   "date": "2026-10-18",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "reason": "sexual_violence: The 2022 inquest explicitly noted that the victim 'possibly' been sexually assaulted, making sexual abuse or assault a definitive part of the case's official record.",
-  "date": "2026-10-18",
-  "strikes": 1
- },
  "Murder of Zara Aleena": {
   "stage": "prefilter",
   "reason": "sexual_violence",
@@ -2633,12 +2627,6 @@
   "date": "2026-10-21",
   "strikes": 1
  },
- "Disappearance of Don Banfield": {
-  "stage": "empty_script",
-  "reason": "script unusable",
-  "date": "2026-10-21",
-  "strikes": 1
- },
  "Murder of Udin": {
   "stage": "prefilter",
   "reason": "unconvicted_suspect",
@@ -2732,6 +2720,144 @@
  "Setiabudi 13 case": {
   "stage": "prefilter",
   "reason": "gore",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Hammersmith nude murders": {
+  "stage": "quality",
+  "reason": "accuracy 5/10",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Disappearance of Steven Clark": {
+  "stage": "prefilter",
+  "reason": "unconvicted_suspect",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Ellie Butler": {
+  "stage": "prescreen",
+  "reason": "minor_victim: the victim was a child under 18 who was killed",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Kidnapping of Katie Beers": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The victim was sexually abused during her captivity.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Death of Linda Norgrove": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: The content discusses a real person's death with details about the circumstances and fatal injuries, which falls under mature themes suitable only for audiences 18 and older. It does n",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of the monks of Tibhirine": {
+  "stage": "prescreen",
+  "reason": "gore: The case is known for the monks’ beheading, a dismemberment that is considered gore and cannot be omitted from a factual account.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Andrea Scherpf and Bernd Göricke": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The story centers on a named suspect, Andy Rose, who was convicted but later exonerated, making him an unconvicted suspect in the context of the case.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Mariam Peters": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The victim Mariam Peters was a minor who was murdered.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Jonathan Coulom": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Disappearance of Charlene Downes": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Karen Buckley": {
+  "stage": "prescreen",
+  "reason": "gore: The case is known for the victim’s body being concealed in a caustic soda barrel, which involves dismemberment/mutilation and is considered gore.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Rachel McLean": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: Contains graphic detail of a murder (body hidden under floorboards and discovered behind a cupboard) that is likely to be disturbing to a general audience. The content discusses real c",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Disappearance of Don Banfield": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on the murder conviction of the wife and daughter being quashed, and they are named suspects who are not finally convicted of murder.",
+  "date": "2026-10-22",
+  "strikes": 2
+ },
+ "Jordan Brown case": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on Jordan Brown, a named individual who was never finally convicted, making the story dependent on an unconvicted suspect.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Disappearance of Deirdre Jacob": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: The case centers on a named suspect, Larry Murphy, who has not been convicted of the disappearance/murder, making the story dependent on an unconvicted individual.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Easey Street murders": {
+  "stage": "prescreen",
+  "reason": "sexual_violence: The case involves confirmed sexual assault of the victims, which disqualifies it for a 45‑second TikTok.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Arthur Labinjo-Hughes": {
+  "stage": "prescreen",
+  "reason": "minor_victim: The case involves the murder of a six‑year‑old child, which falls under the disallowed minor victim category.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "reason": "unconvicted_suspect: Peter Tobin is a named suspect not convicted for this case, making the story dependent on an unconvicted individual.",
+  "date": "2026-10-22",
+  "strikes": 2
+ },
+ "Killing of David Byrne": {
+  "stage": "compliance",
+  "reason": "AGE_RESTRICTED: The content discusses a real violent crime and a real victim’s death, includes a call to comment on motives for the crime, and falls under mature themes suitable only for adults.",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Disappearance of Owen Harding": {
+  "stage": "compliance",
+  "reason": "FYF_INELIGIBLE: The content references a real, ongoing missing person case involving a minor, and it sensationalizes the circumstances and speculation about the disappearance. While it does not contai",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "reason": "active_proceedings: The investigation remains open and the killer has not been convicted, so the case is currently under active proceedings.",
+  "date": "2026-10-22",
+  "strikes": 2
+ },
+ "Murder of Jacqueline Montgomery": {
+  "stage": "prefilter",
+  "reason": "sexual_violence",
+  "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Trinity murders": {
+  "stage": "prefilter",
+  "reason": "minor_victim",
   "date": "2026-10-22",
   "strikes": 1
  }
