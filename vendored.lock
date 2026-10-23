@@ -8,10 +8,20 @@
       "master_sha": "cdc873836f87d8d51b7fbaa77632d30b23f55952718828643c4bb6a6ea46947c",
       "local_patch": true
     },
+    "captions.py": {
+      "sha256": "d11c71b4f186c41474ad5a3d737fea1d3c314b7d22d18f9ce0cfe56fbeca6136",
+      "master_sha": "6b387633803aef2a2ebe8e34e6da3f9e5cd0ca2f10b68b2a4348bb59aafa7cb0",
+      "local_patch": true
+    },
     "experiment_loop.py": {
       "sha256": "aae399b795260d6b8c5e616460ca961cd933450d7d853d725292d7cd784833d1",
       "master_sha": "aae399b795260d6b8c5e616460ca961cd933450d7d853d725292d7cd784833d1",
       "local_patch": false
+    },
+    "hook_lint.py": {
+      "sha256": "dec39feb7c995d0f0c41acb419134ba6c7cf639115aa3cb091dee93fb56059d1",
+      "master_sha": "823fcec1c55942796d37ad46cfa8a88c099d0f168cf12f924e3c0f1eccc9d10f",
+      "local_patch": true
     },
     "llm_client.py": {
       "sha256": "060c472e3cf8c31a5fb12159b63a46f99e4c181999133349ff43e508c7c1d464",

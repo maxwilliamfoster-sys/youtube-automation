@@ -710,12 +710,14 @@ Your scripts are engineered for RETENTION: every sentence must earn the next sec
 The single most important metric is how many people watch past the first 3 seconds, and how many watch to the very end.
 
 MANDATORY STRUCTURE (in this exact order):
-1. THE HOOK — sentence 1, maximum 14 words. The single most shocking, concrete, verifiable
-   fact of the case. NO date, NO location, NO "In 1982" preamble — drop the viewer straight
-   into the most impossible or unexplained detail so they CANNOT scroll away. It must create an
-   instant burning question that only watching on can answer.
-   GOOD: "When they opened the freezer, they found seven years of his diaries — all dated after he died."
-   GOOD: "Every passenger landed safely. There were three more people on the ground than had boarded."
+1. THE COLD OPEN — sentence 1: ONE complete sentence of 10 words or fewer. It is also shown on
+   screen in full, so it must stand alone and never trail off with "...". The single most
+   shocking, concrete, verifiable fact of the case, with one concrete specific (a number, a
+   name or a place) inside it — but NOT a "In 1982" / "On [date]" preamble at the start. Drop
+   the viewer straight into the most impossible or unexplained detail so they CANNOT scroll
+   away. Never state or imply that anyone not convicted is guilty.
+   GOOD: "His diary entries continued for seven years after his death."
+   GOOD: "The plane landed with three more passengers than had boarded."
    BANNED openings: "In [year]", "On [date]", "Imagine", "Picture this", "This is the story of" — they kill retention.
 2. THE BUILD — escalating beats. Each sentence raises a NEW question before fully resolving the last,
    so an open loop is always running and there is never a clean place to swipe away.
@@ -865,18 +867,93 @@ def _pick_fresh_case() -> dict:
 
 
 def _extract_hook(script: str, max_words: int = 12) -> str:
-    """
-    Pull the opening hook (first sentence) out of a script for use as a big
-    on-screen text overlay in the first ~3 seconds. Trimmed to max_words so it
-    fits two lines on a 1080px-wide mobile frame.
-    """
+    """Legacy: the first sentence, cut at max_words with '...'. NOT used for the hook card any
+    more (14 of 24 hooks ended in '...'); kept for old callers. Use _hook_for / _cold_open."""
     if not script:
         return ""
-    first = re.split(r"(?<=[.!?])\s+", script.strip())[0].strip().strip('"').strip()
+    first = _first_sentence(script)
     words = first.split()
     if len(words) > max_words:
         first = " ".join(words[:max_words]).rstrip(",;:") + "…"
     return first
+
+
+# ── Cold open (MASTER_PLAN #12): one complete line of <= 10 words, never truncated ──────
+COLD_OPEN_MAX_WORDS = 10
+
+
+def _first_sentence(script: str) -> str:
+    if not script:
+        return ""
+    return re.split(r"(?<=[.!?])\s+", script.strip())[0].strip().strip('"').strip()
+
+
+def _cold_open_issues(line: str, case: dict) -> list:
+    """growth-lab hook_lint in true-crime mode. Fails, plus the guilt-wording warning, which
+    is a hard no for an on-screen line about a real case. Returns issue messages ([] = ok)."""
+    import hook_lint
+    specifics = [s for s in (str(case.get("year") or ""), str(case.get("location") or ""),
+                             str(case.get("case_name") or "")) if s]
+    r = hook_lint.lint(hook=line, true_crime=True, max_words=COLD_OPEN_MAX_WORDS,
+                       specifics=specifics)
+    bad = list(r.fails) + [w for w in r.warns if w.code == "legal_guilt_unqualified"]
+    return [f"{i.code}: {i.message}" for i in bad]
+
+
+def _hook_for(script: str, case: dict) -> str:
+    """The hook card text: the script's first sentence if it is a valid cold open, else ""
+    (no card). Never shortened."""
+    first = _first_sentence(script)
+    return first if first and not _cold_open_issues(first, case) else ""
+
+
+def _write_cold_open(client, case: dict, script: str) -> str:
+    resp = _groq_call(client, model=GROQ_MODEL, max_tokens=300, messages=[{
+        "role": "user",
+        "content": (
+            "Write the COLD OPEN for this true crime TikTok narration: the first line the "
+            "narrator says, also shown on screen.\n"
+            f"- ONE complete sentence of {COLD_OPEN_MAX_WORDS} words or fewer. Never trail off "
+            "with '...'.\n"
+            "- It must contain one concrete specific from the script: a number or year, a "
+            "place, or a name.\n"
+            "- Use ONLY facts stated in the script below. No greeting, no 'in this video'.\n"
+            "- Never state or imply that anyone not convicted by a court is guilty; use "
+            "'accused' or the court outcome if a suspect is mentioned at all. Prefer the "
+            "victim, the place or the mystery.\n"
+            "- No injuries, weapons or the state of a body.\n"
+            "Output ONLY the sentence.\n\n"
+            f"Case: {case.get('case_name', '')}, {case.get('location', '')}, {case.get('year', '')}\n"
+            f"Script:\n{script}"),
+    }])
+    line = _sanitize_llm_text(resp.choices[0].message.content or "")
+    line = line.strip().splitlines()[0].strip().strip('"“”\'').strip() if line.strip() else ""
+    return line
+
+
+def _cold_open(client, case: dict, script: str):
+    """(cold_open, script). Keeps the script's first sentence when it already is a valid cold
+    open; otherwise asks the writer for one (one cheap call) and puts it in front of the script,
+    so it is spoken, captioned from frame 0 and read by every later review. If that line fails
+    the lint too, returns ("", script): no hook card rather than a cut-off one."""
+    first = _first_sentence(script)
+    issues = _cold_open_issues(first, case) if first else ["hook_empty"]
+    if not issues:
+        return first, script
+    print(f"[ColdOpen] first sentence is not a cold open ({'; '.join(issues)[:160]}) - asking for one")
+    try:
+        line = _write_cold_open(client, case, script)
+    except Exception as e:
+        print(f"[ColdOpen] writer failed ({str(e)[:120]}) - no hook card")
+        return "", script
+    issues = _cold_open_issues(line, case) if line else ["hook_empty"]
+    if issues:
+        print(f"[ColdOpen] rewrite rejected ({'; '.join(issues)[:160]}): {line[:120]!r} - no hook card")
+        return "", script
+    if not line.endswith((".", "!", "?")):
+        line += "."
+    print(f"[ColdOpen] {line}")
+    return line, f"{line} {script}"
 
 
 def _extract_json(text: str) -> dict:
@@ -946,12 +1023,17 @@ def _part_instruction(part: dict) -> str:
     plan = "\n".join(f"  Part {i}: {b}" for i, b in enumerate(part["beats"], 1))
     words = {1: "one", 2: "two", 3: "three"}
     if k == 1:
-        opening = ("Open on the single most shocking verifiable detail of THIS part (the "
-                   "hook). Do not say 'part one'.")
+        opening = ("Open with a cold open: ONE complete sentence of 10 words or fewer on the "
+                   "single most shocking verifiable detail of THIS part, with a number, name or "
+                   "place in it. Do not say 'part one'.")
     else:
-        opening = (f"Open with 'Part {words[k]}.' and then ONE short sentence recapping "
-                   f"where the story stood, phrased as a hook, then move straight into "
-                   f"new material. Do not repeat facts from earlier parts beyond that line.")
+        # A real cold open, not "Part two." (plan-bcf action 6): the first second decides
+        # whether a viewer who never saw part one stays.
+        opening = ("Open with a cold open: ONE complete sentence of 10 words or fewer on the "
+                   "most shocking verifiable detail of THIS part's new material, with a "
+                   "number, name or place in it (do not open with the part number). Then ONE "
+                   "short sentence recapping where the story stood, then move straight into "
+                   "new material. Do not repeat facts from earlier parts beyond that line.")
     if k < n:
         ending = (f"End on an unresolved cliffhanger from THIS part's material, then the "
                   f"exact line 'Part {words[k + 1]} next.' No comment request, and never "
@@ -1009,8 +1091,9 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
                     f"{grounding}"
                     + (_part_instruction(part) if part else
-                       "Write the 100-120 word documentary script now (never fewer than 95). Open on the single most shocking "
-                       "verifiable detail (the hook), keep an open loop running throughout, add a retention-spike "
+                       "Write the 100-120 word documentary script now (never fewer than 95). Open with the cold open "
+                       "(one complete sentence of 10 words or fewer on the single most shocking verifiable detail), "
+                       "keep an open loop running throughout, add a retention-spike "
                        "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA.")
                 ),
             },
@@ -1759,6 +1842,10 @@ def _finalise(client: Groq, case: dict, case_name: str, script: str, part: tuple
     """
     k, n = part or (None, None)
 
+    # ── Cold open (#12): settled BEFORE any review, so the fact-check, the TikTok
+    # compliance review and the legal review all read the line that opens the video.
+    cold_open, script = _cold_open(client, case, script)
+
     # ── Fact-check ────────────────────────────────────────────────────────────
     print("[TrueCrime] Fact-checking...")
     check = _fact_check(client, case, script)
@@ -1813,7 +1900,9 @@ def _finalise(client: Groq, case: dict, case_name: str, script: str, part: tuple
         "accuracy_score": acc,
         "interest_score": interest,
         "tiktok_safe":    tiktok_safe,
-        "hook":           _extract_hook(script),
+        # The on-screen hook card = the cold open, whole (<= 10 words), or no card.
+        "hook":           cold_open,
+        "cold_open":      cold_open,
     }
 
     # ── Guidelines gate — a HARD requirement ─────────────────────────────────
@@ -1840,8 +1929,11 @@ def _finalise(client: Groq, case: dict, case_name: str, script: str, part: tuple
                 cta = new_cta
             caption = f"{description}\n\n{tags}"
             verdict = compliance_review(client, script, caption, case, cta=cta)
+            # The softened script was reviewed again below; its own first sentence is the
+            # hook card only if it is still a valid cold open (never re-cut, never re-asked).
+            hook = _hook_for(script, case)
             result.update(script=script, caption=caption, cta=cta, title=title,
-                          hook=_extract_hook(script))
+                          hook=hook, cold_open=hook)
     result["compliance"] = verdict
     result["softened"] = softened
     if verdict["verdict"] != COMPLIANCE_OK:

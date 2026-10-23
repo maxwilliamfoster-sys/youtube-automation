@@ -136,14 +136,27 @@ def verify_caption_coverage(segments: List[Dict], audio_duration: float,
     return True, f"captions cover {first_start:.1f}s–{last_end:.1f}s of {audio_duration:.0f}s ({len(segments)} segments)"
 
 
-def get_captions(tts_result: Dict, audio_dir: str, prefix: str = "story") -> List[Dict]:
+def estimated_segments(script_text: str, duration: float) -> List[Dict]:
+    """Last resort when there are no word timestamps at all (Whisper missing or failed on a
+    Chatterbox take): growth-lab S4 captions.estimate_word_timings spreads the audio over the
+    script's words by syllables, with pauses at punctuation. Every segment is approx=True."""
+    import captions
+    words = captions.estimate_word_timings(script_text, float(duration))
+    timings = [{"word": w.text, "start": w.start, "end": w.end, "duration": w.end - w.start}
+               for w in words]
+    return [dict(s, approx=True) for s in build_caption_segments(timings)]
+
+
+def get_captions(tts_result: Dict, audio_dir: str, prefix: str = "story",
+                 script_text: str = "") -> List[Dict]:
     """
     Main function: get captions from TTS result dict.
 
     Args:
-        tts_result: Dict from tts_generator.generate_tts()
-        audio_dir:  Directory to save caption files
-        prefix:     File prefix
+        tts_result:  Dict from tts_generator.generate_tts()
+        audio_dir:   Directory to save caption files
+        prefix:      File prefix
+        script_text: the narrated text, used only if no word timings can be found at all
 
     Returns:
         List of caption segment dicts {text, start, end}
@@ -158,7 +171,14 @@ def get_captions(tts_result: Dict, audio_dir: str, prefix: str = "story") -> Lis
         segments = load_captions_from_timings_file(tts_result["timings_path"])
     else:
         # Fallback to Whisper
-        segments = transcribe_audio_fallback(tts_result["audio_path"])
+        try:
+            segments = transcribe_audio_fallback(tts_result["audio_path"])
+        except Exception as e:
+            print(f"[Captions] Whisper fallback failed ({str(e)[:120]})")
+            segments = []
+    if not segments and script_text and tts_result.get("duration"):
+        print("[Captions] No word timings - APPROXIMATE captions estimated from the script (S4)")
+        segments = estimated_segments(script_text, tts_result["duration"])
 
     print(f"[Captions] {len(segments)} caption segments created")
 

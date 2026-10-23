@@ -161,18 +161,18 @@ def build_filter_script(
 
     lines = [scale_crop]
 
-    # The hook card owns the screen while it is up. Running word captions underneath
-    # it made the two collide once the type got bigger, and even spaced apart it
-    # splits attention during the three seconds that decide whether anyone stays.
-    HOOK_END = 1.8
-    hook_active = bool(hook_text)
-
-    for seg in caption_segments:
-        if hook_active and seg["start"] < HOOK_END:
-            continue
+    # Word captions run from FRAME 0, hook card or not (MASTER_PLAN #12). They used to be
+    # hidden for the card's 1.8 s, and a word starting at 1.6 s was dropped too, which left
+    # a text-free gap at about 2 s, exactly where viewers swipe. The card sits at the top
+    # (y=13%, at most ~4 lines of a <=10-word cold open) and the captions at 38%, so they
+    # no longer overlap. The first caption is pulled back to t=0 over any leading silence,
+    # so frame 0 already has a word on it.
+    for idx, seg in enumerate(caption_segments):
         text  = escape_ffmpeg_text(seg["text"].upper())
         start = seg["start"]
         end   = seg["end"]
+        if idx == 0 and 0 < start <= 1.0:
+            start = 0.0
 
         # Single-quoted text (apostrophes already stripped, safe on Windows subprocess)
         # x centres the text; fix_bounds=1 clamps to frame if any word still runs wide

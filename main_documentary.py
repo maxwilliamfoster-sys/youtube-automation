@@ -182,7 +182,7 @@ def _generate_one() -> tuple:
 
     # ── 3. Captions ───────────────────────────────────────────────────────────
     print("\n--- STEP 3: Building Captions ---")
-    captions = get_captions(tts, AUDIO_DIR, prefix=prefix)
+    captions = get_captions(tts, AUDIO_DIR, prefix=prefix, script_text=story["script"])
     print(f"  {len(captions)} caption segments")
 
     # ── 4. Scene images ───────────────────────────────────────────────────────
