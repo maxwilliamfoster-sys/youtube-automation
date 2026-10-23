@@ -2699,12 +2699,6 @@
   "date": "2026-10-22",
   "strikes": 1
  },
- "Hammersmith nude murders": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-10-22",
-  "strikes": 1
- },
  "Disappearance of Steven Clark": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -2951,12 +2945,6 @@
   "date": "2026-10-23",
   "strikes": 1
  },
- "Death of Chow Tsz-lok": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Death of Madison Scott": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -2976,18 +2964,6 @@
   "strikes": 1
  },
  "Hawker Hunter Tower Bridge incident": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Disappearance of Jorge Julio López": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Disappearance of Jason Jolkowski": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-23",
@@ -3017,35 +2993,11 @@
   "date": "2026-10-23",
   "strikes": 2
  },
- "Death and state funeral of Joseph Stalin": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Murder of Alistair Wilson": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-23",
   "strikes": 2
- },
- "Great Mull Air Mystery": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Rettendon murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Death of Daniel Nolan": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
  },
  "Disappearance of Sherlyn Cadapan and Karen Empeño": {
   "stage": "prescreen",
@@ -3059,23 +3011,11 @@
   "date": "2026-10-23",
   "strikes": 1
  },
- "Murder of Paige Birgfeld": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Disappearance of Robert Levinson": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-23",
   "strikes": 2
- },
- "Murder of Emily Armstrong": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
  },
  "Murder of Lisa Hession": {
   "stage": "prefilter",
@@ -3101,33 +3041,9 @@
   "date": "2026-10-23",
   "strikes": 2
  },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-23",
-  "strikes": 5
- },
  "McMahon killings": {
   "stage": "prescreen",
   "code": "minor_victim",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Kidnapping of Luis Albino": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Deaths of Kris Kremers and Lisanne Froon": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Murder of Margaret Fleming": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-23",
   "strikes": 1
  },
@@ -3167,7 +3083,211 @@
   "date": "2026-10-23",
   "strikes": 1
  },
+ "Deaths of Kris Kremers and Lisanne Froon": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Ipswich serial murders": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Margaret Fleming": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Abduction of Shin Sang-ok and Choi Eun-hee": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Kidnapping of Luis Albino": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Murders of Bibaa Henry and Nicole Smallman": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Death and state funeral of Joseph Stalin": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Death of Ophélie Bretnacher": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Hammersmith nude murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Murder of Emily Armstrong": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Disappearance of Jason Jolkowski": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Death of Daniel Nolan": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Death of Brian Egg": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
  "Death of Corrie McKeague": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Murder of Marie Wilks": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Disappearance of Jorge Julio López": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Disappearance of Russell Bohling": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Reagan Simmons-Hancock": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Lewis–Clark Valley murders": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Paige Birgfeld": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Death of Chow Tsz-lok": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Murder of Melanie Hall": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Disappearance of Sandy Davidson": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Burger Chef murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-23",
+  "strikes": 7
+ },
+ "Rettendon murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "Murder of Daisaku Chiba": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Matt Ratana": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Bogle–Chandler case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Death of Alberto Nisman": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murders of Koby Mandell and Yosef Ishran": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Sophie Lancaster": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "World's End Murders": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Great Mull Air Mystery": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 2
+ },
+ "1901 Redpath Mansion murders": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-23",
