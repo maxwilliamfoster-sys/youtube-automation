@@ -465,26 +465,24 @@ def _app(kind, severity, title, body="", **data):
 
 def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc):
     """
-    Post the finished video to TikTok, if auto-posting is switched on: Buffer when
-    BUFFER_API_KEY is set (free, official API), else Upload-Post (dormant, paid).
+    Post the finished video to TikTok through Buffer (free, official API). There is no
+    other route: the paid Upload-Post fallback was removed (audit 2026-10-21; everything
+    must cost nothing). run_cloud_deliver refuses to start a posting run without Buffer.
 
     Safety: this is only ever called after the guidelines gate returned OK, so nothing
     below the OK bar can reach TikTok. Re-checks the verdict once more as a backstop —
     the account's safety must not depend on the call site alone. Never raises.
     """
     try:
-        import tiktok_buffer as tb
-        if tb.is_configured():
-            tp, via = tb, "Buffer"
-        else:
-            import tiktok_uploadpost as tp
-            via = "Upload-Post"
+        import tiktok_buffer as tp
+        via = "Buffer"
     except Exception as e:
-        print(f"[TikTok] poster unavailable ({e}) — skipping.")
+        print(f"[TikTok] Buffer poster unavailable ({e}) — not posted.")
         return False
 
     if not tp.is_configured():
-        return False  # owner hasn't opted in; Telegram-only, exactly as before
+        print("[TikTok] BUFFER_API_KEY is not set — not posted.")
+        return False
 
     # Backstop guardrail: only videos that passed BOTH the guidelines and the legal
     # review may be posted, no exceptions (the upload gate is enforced inside post_video).
@@ -630,6 +628,20 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             print(f"[Cloud] Today already has {slot_logic.DAILY_TARGET} videos - nothing to make.")
             _github_output("catchup", "false")
             return
+
+    if not sample:
+        # Buffer is the only (free) posting route. Without it a run used to fall back to
+        # the paid Upload-Post API or quietly go Telegram-only; now it fails loudly
+        # before spending any render time or AI quota.
+        import tiktok_buffer
+        if not tiktok_buffer.is_configured():
+            msg = ("BUFFER_API_KEY is not set, so nothing can be posted. Add the repo secret "
+                   "BUFFER_API_KEY (and BUFFER_CHANNEL_ID). No video was made.")
+            print(f"::error::[Cloud] {msg}")
+            _app("buffer_missing", "error", "BuriedCasefiles: Buffer not configured", msg)
+            send_alert(f"🛑 <b>BuriedCasefiles: Buffer not configured</b>\n\n{esc(msg)}")
+            _github_output("catchup", "false")
+            sys.exit(1)
 
     print(f"[Cloud] Generating {count} video(s) for manual posting...")
     delivered = 0

@@ -11,7 +11,10 @@ import main_documentary as md  # noqa: E402
 import notify  # noqa: E402
 import publish_checks  # noqa: E402
 import series_queue  # noqa: E402
+import tiktok_buffer  # noqa: E402
 import upload_gate  # noqa: E402
+
+REAL_AUTOPOST = md._autopost_tiktok
 
 
 def _story(n):
@@ -43,6 +46,7 @@ class TestRetryUntilPass(unittest.TestCase):
             (upload_gate, "block_message", lambda v, t: "blocked"),
             (upload_gate, "summary", lambda v: "ok"),
             (md.time, "sleep", lambda s: None),
+            (tiktok_buffer, "is_configured", lambda: True),
         ]:
             mock.patch.object(target, attr, val).start()
         mock.patch.dict(os.environ, {"GITHUB_OUTPUT": self.out.name}).start()
@@ -186,13 +190,41 @@ class TestRetryUntilPass(unittest.TestCase):
         self.assertEqual(self.made, 1)
         self.assertIn("catchup=false", self._output())
 
-    def test_telegram_only_mode_counts_telegram_delivery(self):
-        import tiktok_buffer
+    def test_no_buffer_fails_loudly_before_rendering(self):
+        """Critic 2026-10-21: the paid Upload-Post fallback is gone (everything is free).
+        A posting run without Buffer must fail, not quietly go Telegram-only."""
         self._gate_seq([{"ok": True, "failures": []}])
+        alerts = []
         with mock.patch.object(tiktok_buffer, "is_configured", lambda: False), \
-                mock.patch.object(md, "_autopost_tiktok", lambda *a: False):
+                mock.patch.object(notify, "send_alert", lambda t, **k: alerts.append(t) or True), \
+                self.assertRaises(SystemExit) as cm:
             md.run_cloud_deliver(count=1)
+        self.assertNotEqual(cm.exception.code, 0)
+        self.assertEqual(self.made, 0)
+        self.assertTrue(any("Buffer" in a for a in alerts))
         self.assertIn("catchup=false", self._output())
+
+    def test_sample_run_needs_no_buffer(self):
+        self._gate_seq([{"ok": True, "failures": []}])
+        with mock.patch.object(tiktok_buffer, "is_configured", lambda: False):
+            md.run_cloud_deliver(count=1, sample=True)
+        self.assertEqual(self.made, 1)
+        self.assertEqual(self.posted, [])
+
+    def test_autopost_never_uses_upload_post(self):
+        import builtins
+        real_import = builtins.__import__
+        imported = []
+
+        def guard(name, *a, **k):
+            if name == "tiktok_uploadpost":
+                imported.append(name)
+            return real_import(name, *a, **k)
+        with mock.patch.object(tiktok_buffer, "is_configured", lambda: False), \
+                mock.patch.object(builtins, "__import__", guard):
+            ok = REAL_AUTOPOST("v.mp4", "cap", _story(1), lambda *a, **k: True, lambda s: s)
+        self.assertFalse(ok)
+        self.assertEqual(imported, [])          # the paid fallback is never even loaded
 
     def test_only_first_block_sends_video(self):
         block = {"ok": False, "failures": ["AI review: unrelated footage"], "ai": {"available": True}}

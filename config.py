@@ -23,15 +23,10 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 # Free key: https://cloud.cerebras.ai/ -> sign up -> API Keys.
 CEREBRAS_API_KEY = os.getenv("CEREBRAS_API_KEY", "")
 
-# ─── Fully-automated TikTok posting (Upload-Post) ─────────────────────────────
-# All three must be set before anything posts, so this is completely inert until the
-# owner opts in — it cannot disturb the working Telegram/manual flow.
-#   UPLOADPOST_API_KEY : from upload-post.com dashboard
-#   UPLOADPOST_USER    : the profile name you connect your TikTok account under
-#   TIKTOK_AUTOPOST=1  : the explicit on-switch
-UPLOADPOST_API_KEY = os.getenv("UPLOADPOST_API_KEY", "")
-UPLOADPOST_USER    = os.getenv("UPLOADPOST_USER", "")
-TIKTOK_AUTOPOST    = os.getenv("TIKTOK_AUTOPOST", "") in ("1", "true", "True")
+# ─── TikTok posting ───────────────────────────────────────────────────────────
+# Buffer (free, official API) is the only posting route: BUFFER_API_KEY and
+# BUFFER_CHANNEL_ID are read by tiktok_buffer.py. The paid Upload-Post fallback was
+# removed on 2026-10-23 (audit 2026-10-21: everything must cost nothing).
 
 # PUBLIC_TO_EVERYONE is the whole point — anything else limits or hides the post.
 TIKTOK_PRIVACY_LEVEL = os.getenv("TIKTOK_PRIVACY_LEVEL", "PUBLIC_TO_EVERYONE")

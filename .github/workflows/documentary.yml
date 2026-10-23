@@ -2,8 +2,9 @@ name: BuriedCasefiles — Generate & Deliver
 
 # Fully cloud: each run builds one video, sends it to Telegram, then auto-posts it to
 # TikTok through Buffer (approved TikTok partner, official API — no browser, so no
-# shadowban risk; see tiktok_buffer.py). Without the BUFFER_API_KEY secret it falls
-# back to Telegram-only, and you post by hand as before. The PC never needs to be on.
+# shadowban risk; see tiktok_buffer.py). Buffer is the only posting route: without the
+# BUFFER_API_KEY secret a posting run fails loudly before rendering (sample mode needs
+# no Buffer). The PC never needs to be on.
 
 on:
   schedule:
@@ -158,9 +159,6 @@ jobs:
           CEREBRAS_API_KEY:   ${{ secrets.CEREBRAS_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
-          UPLOADPOST_API_KEY: ${{ secrets.UPLOADPOST_API_KEY }}
-          UPLOADPOST_USER:    ${{ secrets.UPLOADPOST_USER }}
-          TIKTOK_AUTOPOST:    ${{ secrets.TIKTOK_AUTOPOST }}
         run: |
           {
             echo "GROQ_API_KEY=$GROQ_API_KEY"
@@ -170,9 +168,6 @@ jobs:
             echo "CEREBRAS_API_KEY=$CEREBRAS_API_KEY"
             echo "TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN"
             echo "TELEGRAM_CHAT_ID=$TELEGRAM_CHAT_ID"
-            echo "UPLOADPOST_API_KEY=$UPLOADPOST_API_KEY"
-            echo "UPLOADPOST_USER=$UPLOADPOST_USER"
-            echo "TIKTOK_AUTOPOST=$TIKTOK_AUTOPOST"
           } > .env
 
       # ── Generate videos and deliver them to Telegram ──────────────────────────
