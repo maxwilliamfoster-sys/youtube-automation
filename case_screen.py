@@ -222,17 +222,37 @@ _LEGAL_PERSON = re.compile(
 _LEGAL_PROCEEDINGS = re.compile(r"contempt|active proceedings|ongoing|awaiting trial|sub judice", re.I)
 
 
-# Codes the pre-filter, pre-screen and compliance review already speak in.
-KNOWN_CODES = {"sexual_violence", "gore", "minor_victim", "active_proceedings",
-               "unconvicted_suspect", "other", "none", "fyf_ineligible", "age_restricted", "banned"}
+# Codes the pre-filter, pre-screen and compliance review already speak in. This is an
+# explicit allowlist: a reviewer's lowercase word is NOT a code just because it looks
+# like one ("john_smith" or "killed_by_husband" would publish a name or allegation).
+KNOWN_CODES = frozenset({"sexual_violence", "gore", "minor_victim", "active_proceedings",
+                         "unconvicted_suspect", "other", "none", "fyf_ineligible",
+                         "age_restricted", "banned"})
+# Codes reason_code() derives itself from the stage / legal reason.
+DERIVED_CODES = frozenset({"invites_speculation", "legal_risk", "low_accuracy",
+                           "script_unusable", "review_error", "factcheck_unsafe"})
+ALLOWED_CODES = KNOWN_CODES | DERIVED_CODES
+_STAGE_RE = re.compile(r"^[a-z][a-z_]{1,29}$")
 
 
 def _known(code: str) -> bool:
-    return bool(_CODE_RE.match(code)) and (code in KNOWN_CODES or "_" in code)
+    return code in KNOWN_CODES
+
+
+def _stage_other(stage: str) -> str:
+    stage = str(stage or "")
+    return f"{stage}_other" if _STAGE_RE.match(stage) else "other"
+
+
+def is_allowed_code(code, stage: str = "") -> bool:
+    """True only for allowlisted codes, or '<stage>_other' for this entry's own stage."""
+    return isinstance(code, str) and (code in ALLOWED_CODES
+                                      or (bool(stage) and code == _stage_other(stage)))
 
 
 def reason_code(stage: str, reason: str = "") -> str:
-    """A short lowercase code for why a case failed - never names or allegations."""
+    """A short lowercase code for why a case failed - never names or allegations.
+    Only allowlisted codes are returned; anything unrecognised is '<stage>_other'."""
     text = str(reason or "").strip()
     head = re.split(r"[:;\s]", text, maxsplit=1)[0].strip().lower() if text else ""
     if text == text.lower() and _known(text):
@@ -248,16 +268,18 @@ def reason_code(stage: str, reason: str = "") -> str:
             return "invites_speculation"
         return "legal_risk"
     return {"quality": "low_accuracy", "empty_script": "script_unusable",
-            "review_error": "review_error", "factcheck_unsafe": "factcheck_unsafe",
-            "prefilter": "prefilter", "prescreen": "prescreen_other",
-            "compliance": "compliance_other"}.get(stage, "other")
+            "review_error": "review_error",
+            "factcheck_unsafe": "factcheck_unsafe"}.get(stage) or _stage_other(stage)
 
 
 def _public_entry(entry: dict) -> dict:
-    """Stage, code, date and strike count only. Old entries' free text is converted."""
+    """Stage, code, date and strike count only. Old entries' free text is converted,
+    and a stored code that is not on the allowlist is re-derived."""
     stage = str(entry.get("stage") or "other")
+    if not _STAGE_RE.match(stage):
+        stage = "other"
     code = entry.get("code")
-    if not (isinstance(code, str) and _CODE_RE.match(code)):
+    if not is_allowed_code(code, stage):
         code = reason_code(stage, entry.get("reason", ""))
     out = {"stage": stage, "code": code}
     if entry.get("date"):
