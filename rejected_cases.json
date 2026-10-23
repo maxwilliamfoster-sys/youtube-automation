@@ -2968,5 +2968,23 @@
   "code": "unconvicted_suspect",
   "date": "2026-10-23",
   "strikes": 1
+ },
+ "Murder of Billie-Jo Jenkins": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Renukaswamy": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Luigia Borrelli": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-23",
+  "strikes": 1
  }
 }
