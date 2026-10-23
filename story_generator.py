@@ -1162,11 +1162,11 @@ _JUNK_TAGS = {"#viral", "#viralvideo", "#trending", "#tiktok", "#video"}
 # The tags that put a video in front of true-crime viewers. These are communities
 # people actually browse; a geographic or decade tag is not.
 # Copied from UK crime accounts that are consistently performing (76K followers,
-# 2.4M likes). Note #fyp/#foryou: general advice says they are dead weight and this
-# file used to strip them, but the accounts actually winning in this niche use them,
-# so their set is followed rather than the advice. Worth revisiting once there is
-# enough of the channel's own data to judge.
-CORE_TAGS = ["#ukcrime", "#crimetok", "#truecrime", "#fyp"]
+# 2.4M likes). #fyp was dropped on 2026-10-23 (audit 2026-10-21 #12): no reach
+# benefit, it can read as spam, and the upload gate warned on 37 of 37 posts. The
+# type tag and the case-specific tag below are the 2 specific tags.
+CORE_TAGS = ["#ukcrime", "#crimetok", "#truecrime"]
+_GENERIC_REACH_TAGS = {"#fyp", "#foryou", "#foryoupage", "#fy", "#fypシ"}
 
 # One of these describes what kind of case it is. Also browsable.
 _TYPE_TAGS = {
@@ -1186,6 +1186,54 @@ _STOPWORD_TAG = {
     "his","her","their","was","were","is","are","had","has","been","when","then",
     "after","before","police","case","body","found","new","two","one",
 }
+
+
+# ─── TikTok title line (first caption line, and the upload gate's "head") ────────
+# Audit 2026-10-21 #12: every post opened with the identical "<case> case. | UK crime
+# story." line, which reads as a template, and a case name already ending in "case"
+# came out "Peter Bergmann case case.". These structures rotate deterministically,
+# one step per posted video (rows in analytics/posts_log.csv). Every structure is
+# neutral: the case name plus a format label, never a claim about any person, so it
+# cannot imply guilt; the line is also part of the caption the legal review reads.
+TITLE_STRUCTURES = (
+    "{label} case.{part} | {kind} story.",
+    "The {label} case, explained.{part}",
+    "{label}: the full story.{part}",
+    "{kind}: the {label} case.{part}",
+    "Inside the {label} case.{part}",
+)
+POSTS_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analytics", "posts_log.csv")
+# Only the template's own words can double up; real names ("Sirhan Sirhan") are kept.
+_DOUBLED_WORD = re.compile(r"\b(case|the|story)(\s+\1\b)+", re.I)
+
+
+def case_label(case_name: str) -> str:
+    """'Murder of Ava White' -> 'Ava White'; 'Peter Bergmann case' -> 'Peter Bergmann'."""
+    label = re.sub(r"^(the\s+)?(murder|murders|killing|killings|death|disappearance)\s+of\s+",
+                   "", (case_name or "").strip(), flags=re.I).strip()
+    label = re.sub(r"\s+case(s)?\.?$", "", label, flags=re.I).strip()
+    return label or (case_name or "").strip()
+
+
+def _post_count() -> int:
+    """Videos posted so far (data rows in posts_log.csv); 0 if the log is missing."""
+    try:
+        with open(POSTS_LOG, encoding="utf-8") as f:
+            return max(0, sum(1 for line in f if line.strip()) - 1)
+    except Exception:
+        return 0
+
+
+def build_tiktok_title(case_name: str, uk: bool = True, part=None, index=None) -> str:
+    """The rotating first caption line. `part` is (k, n) for a series."""
+    if index is None:
+        index = _post_count()
+    fmt = TITLE_STRUCTURES[index % len(TITLE_STRUCTURES)]
+    k, n = part or (None, None)
+    title = fmt.format(label=case_label(case_name),
+                       part=f" Part {k}/{n}" if k else "",
+                       kind="UK crime" if uk else "True crime")
+    return _DOUBLED_WORD.sub(r"\1", title)
 
 
 def build_hashtags(story_tags: str, case_name: str = "", uk: bool = True) -> str:
@@ -1210,7 +1258,8 @@ def build_hashtags(story_tags: str, case_name: str = "", uk: bool = True) -> str
         if not body:
             continue
         tag = f"#{body}"
-        if tag.lower() in seen or tag.lower() in _JUNK_TAGS or len(tag) < 3:
+        if (tag.lower() in seen or tag.lower() in _JUNK_TAGS
+                or tag.lower() in _GENERIC_REACH_TAGS or len(tag) < 3):
             continue
         candidates.append(tag)
 
@@ -1618,12 +1667,9 @@ def _finalise(client: Groq, case: dict, case_name: str, script: str, part: tuple
     uk = _is_uk(case)
     hashtags = _generate_hashtags(client, case)
     description = _write_caption(client, case, script) or title
-    # Title pattern from the best-performing crime accounts: the case name up front
-    # ("Ava White case. | Uk crime story.") is a search hook and sets expectations.
-    case_label = re.sub(r"^(the\s+)?(murder|murders|killing|death|disappearance)\s+of\s+",
-                        "", case_name, flags=re.I).strip()
-    part_label = f" Part {k}/{n}" if k else ""
-    tiktok_title = f"{case_label} case.{part_label} | {'UK crime' if uk else 'True crime'} story."
+    # The case name up front is a search hook and sets expectations; the structure
+    # around it rotates per posted video so the feed does not read as a template.
+    tiktok_title = build_tiktok_title(case_name, uk=uk, part=part)
     tags = build_hashtags(hashtags, case_name, uk=uk)
     caption = f"{description}\n\n{tags}"
     print(f"[TrueCrime] Hashtags: {tags}")
@@ -1704,7 +1750,8 @@ def _finalise(client: Groq, case: dict, case_name: str, script: str, part: tuple
     # Legal gate: nothing may point suspicion at a real person a court has not
     # convicted. Separate from compliance (TikTok rules) and from the regex check
     # in publish_checks (which only catches words like "suspected").
-    legal = _legal_review(client, script, caption, cta, case)
+    # The title line is posted as the first caption line, so the legal review reads it too.
+    legal = _legal_review(client, script, f"{result['tiktok_title']}\n{caption}", cta, case)
     result["legal"] = legal
     if not legal["ok"]:
         for r in legal["reasons"][:3]:

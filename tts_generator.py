@@ -278,7 +278,10 @@ def _generate_audio_kokoro(text: str, output_path: str,
 
 async def _generate_audio_edge(text: str, output_path: str,
                                 voice: str, rate: str, pitch: str) -> None:
-    communicate = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch)
+    # edge-tts 7 defaults to SentenceBoundary; word boundaries give word-level timing
+    # events (audit 2026-10-21 #12, for captions that start at frame 0).
+    communicate = edge_tts.Communicate(text, voice, rate=rate, pitch=pitch,
+                                       boundary="WordBoundary")
     chunks = []
     async for chunk in communicate.stream():
         if chunk["type"] == "audio":
