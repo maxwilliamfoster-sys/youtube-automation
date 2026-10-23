@@ -1,0 +1,3 @@
+# Vendored growth-lab modules are hash-checked (vendored.lock, sha256 after CRLF->LF);
+# keep .py files LF so checkouts on Windows and CI agree.
+*.py text eol=lf
