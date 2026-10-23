@@ -138,18 +138,51 @@ def host_video(path, filename):
 
 # ----------------------------------------------------------------- buffer --
 
+# Every Buffer call goes through growth-lab buffer_client (S7, MASTER_PLAN #4): Free is
+# 100 calls / 15 min, 250 / 24 h and 3,000 / 30 days PER API KEY, shared with Escape Cup
+# and space. The client logs the RateLimit headers on every reply and turns a 429 into
+# BufferRateLimited, which is never mistaken for "no posts".
+_client = None
+
+
+def client():
+    """The run's BufferClient (key read from BUFFER_API_KEY when first used)."""
+    global _client
+    import buffer_client
+    if _client is None or _client.api_key != os.environ.get("BUFFER_API_KEY", ""):
+        _client = buffer_client.BufferClient()
+    return _client
+
+
+def reset_client():
+    global _client
+    _client = None
+
+
 def _gql(query, variables=None):
-    key = os.environ.get("BUFFER_API_KEY")
-    if not key:
+    import buffer_client
+    if not os.environ.get("BUFFER_API_KEY"):
         raise PublishError("BUFFER_API_KEY not set")
-    r = requests.post(BUFFER_API, json={"query": query, "variables": variables or {}},
-                      headers={"Authorization": f"Bearer {key}"}, timeout=60)
-    if r.status_code != 200:
-        raise PublishError(f"Buffer HTTP {r.status_code}: {r.text[:300]}")
-    body = r.json()
-    if body.get("errors"):
-        raise PublishError(f"Buffer error: {body['errors'][0].get('message')}")
-    return body["data"]
+    try:
+        return client().gql(query, variables)
+    except buffer_client.BufferRateLimited:
+        raise                           # its own type: callers must not read it as "missing"
+    except buffer_client.BufferError as e:
+        raise PublishError(str(e)) from e
+
+
+def sent_posts(chan, first=100):
+    """Sent posts on this channel, newest first, with metrics, in ONE query (one page of 100).
+    Raises BufferRateLimited on a 429."""
+    import buffer_client
+    if not os.environ.get("BUFFER_API_KEY"):
+        raise PublishError("BUFFER_API_KEY not set")
+    try:
+        return client().sent_posts(chan["org"], chan["id"], first=first, max_pages=1)
+    except buffer_client.BufferRateLimited:
+        raise
+    except buffer_client.BufferError as e:
+        raise PublishError(str(e)) from e
 
 
 def _norm(s):
@@ -193,6 +226,25 @@ def find_channel():
 def _get_post(post_id):
     return _gql("""query($i: PostInput!) { post(input: $i) {
         id status externalLink error { message } } }""", {"i": {"id": post_id}})["post"]
+
+
+# Seconds between status checks after a shareNow. TikTok usually takes it in 1-3 min; the
+# old fixed 20 s poll spent up to 45 calls of the shared Buffer quota on one stuck post.
+POLL_SCHEDULE = (30, 30, 45, 60, 90, 120, 120, 120, 120, 120)
+
+
+def wait_for_post(post_id, timeout=900):
+    """Poll a just-shared post until it leaves scheduled/sending or `timeout` s pass."""
+    deadline = time.time() + timeout
+    post = _get_post(post_id)
+    step = 0
+    while time.time() < deadline and post["status"] in ("scheduled", "sending"):
+        wait = POLL_SCHEDULE[min(step, len(POLL_SCHEDULE) - 1)]
+        step += 1
+        time.sleep(max(1, min(wait, deadline - time.time())))
+        post = _get_post(post_id)
+        print(f"[buffer] {post_id}: {post['status']}")
+    return post
 
 
 def post_time(now=None):
@@ -249,12 +301,8 @@ def post_video(video_path, caption, timeout=900):
             return True, f"Scheduled for {when} UK (finished outside posting hours)"
         print(f"[buffer] shareNow -> {chan['name']}: {post_id}")
 
-        deadline = time.time() + timeout
-        post = _get_post(post_id)
-        while time.time() < deadline and post["status"] in ("scheduled", "sending"):
-            time.sleep(20)
-            post = _get_post(post_id)
-            print(f"[buffer] {post_id}: {post['status']}")
+        post = wait_for_post(post_id, timeout)
+        print(f"[buffer] calls this run: {client().calls}")
         if post["status"] == "sent":
             return True, post.get("externalLink") or f"Buffer post {post_id}"
         if post["status"] in ("scheduled", "sending"):

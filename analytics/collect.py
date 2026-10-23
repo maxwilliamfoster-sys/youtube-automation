@@ -41,24 +41,61 @@ FIELDS = ["snapshot_utc", "video_id", "posted_utc", "age_hours", "duration_s", "
           "likes", "comments", "shares", "saves", "desc"]
 
 
-def load_ids():
+def buffer_posts():
+    """Every sent post on the channel with its metrics, from ONE Buffer query (growth-lab
+    buffer_client, MASTER_PLAN #4); the channel lookup adds 2 calls, so a run spends <= 3.
+    Returns None when Buffer is not configured or refused (a 429 is logged as a rate limit,
+    never treated as "no posts")."""
+    sys.path.insert(0, os.path.dirname(HERE))
+    import tiktok_buffer as tb
+    import buffer_client
+    if not tb.is_configured():
+        return None
+    try:
+        return tb.sent_posts(tb.find_channel())
+    except buffer_client.BufferRateLimited as e:
+        print(f"::warning::[analytics] Buffer HTTP 429 (rate limited, window {e.window}, "
+              f"retry after {e.retry_after}s) - Buffer data skipped this run, nothing dropped")
+        return None
+    except Exception as e:
+        print(f"[analytics] Buffer lookup skipped ({str(e)[:160]})")
+        return None
+    finally:
+        _buffer_quota_report(tb.client())
+
+
+def _buffer_quota_report(c):
+    left = c.remaining()
+    if not c.calls:
+        return
+    import buffer_client
+    print(f"[analytics] buffer calls: {c.calls}, remaining {buffer_client.format_limits(left)}")
+    low = c.quota_low()
+    if low:
+        try:
+            import app_events
+            app_events.emit("bcf", "buffer_quota", "warn", "Buffer API quota below 15%",
+                            f"Windows low: {', '.join(low)} ({buffer_client.format_limits(left)}). "
+                            "The key is shared by Escape Cup, BCF and space.",
+                            dedupe_key="buffer_quota_" + "_".join(low))
+        except Exception as e:
+            print(f"[analytics] Bot HQ warning not sent ({e})")
+
+
+def _video_id(post):
+    m = re.search(r"/video/(\d+)", post.get("externalLink") or "")
+    return m.group(1) if m else None
+
+
+def load_ids(posts=None):
+    """Known video IDs plus any new post Buffer reports as sent (posts from buffer_posts())."""
     ids = []
     if os.path.exists(IDS_FILE):
         ids = [l.strip() for l in open(IDS_FILE) if l.strip().isdigit()]
-    try:                                   # new posts Buffer has sent since
-        sys.path.insert(0, os.path.dirname(HERE))
-        import tiktok_buffer as tb
-        if tb.is_configured():
-            chan = tb.find_channel()
-            data = tb._gql("""query($o: OrganizationId!, $c: [ChannelId!]) {
-              posts(first: 50, input: {organizationId: $o, filter: {status: [sent], channelIds: $c}}) {
-                edges { node { externalLink } } } }""", {"o": chan["org"], "c": [chan["id"]]})
-            for e in data["posts"]["edges"]:
-                m = re.search(r"/video/(\d+)", e["node"].get("externalLink") or "")
-                if m and m.group(1) not in ids:
-                    ids.append(m.group(1))
-    except Exception as e:
-        print(f"[analytics] Buffer lookup skipped ({str(e)[:100]})")
+    for p in posts or []:
+        vid = _video_id(p)
+        if vid and vid not in ids:
+            ids.append(vid)
     with open(IDS_FILE, "w") as fh:
         fh.write("\n".join(sorted(set(ids), reverse=True)) + "\n")
     return sorted(set(ids), reverse=True)
@@ -108,36 +145,29 @@ BUFFER_FIELDS = ["snapshot_utc", "video_id", "views", "averageTimeWatched",
                  "totalTimeWatched", "reach", "reactions", "comments", "shares"]
 
 
-def buffer_metrics():
+def buffer_metrics(posts=None):
     """Average watch time per post, from Buffer (added 2026-10-13).
 
     The public page has no watch time, so before this the weekly review could not see
     retention at all. Escape Cup has read the same Buffer fields since 2026-10-08.
-    Kept apart from load_ids() so a Buffer schema change can never stop new IDs being
-    found. Appends one row per sent post per run to buffer_metrics.csv."""
-    try:
-        sys.path.insert(0, os.path.dirname(HERE))
-        import tiktok_buffer as tb
-        if not tb.is_configured():
-            return 0
-        chan = tb.find_channel()
-        data = tb._gql("""query($o: OrganizationId!, $c: [ChannelId!]) {
-          posts(first: 50, input: {organizationId: $o, filter: {status: [sent], channelIds: $c}}) {
-            edges { node { externalLink metrics { type value } } } } }""",
-                       {"o": chan["org"], "c": [chan["id"]]})
-    except Exception as e:
-        print(f"[analytics] Buffer metrics skipped ({str(e)[:160]})")
+    `posts` comes from buffer_posts() (the same single query that finds new IDs; metrics
+    arrive as a {type: value} dict). Appends one row per sent post per run to
+    buffer_metrics.csv; writes nothing when Buffer gave no data."""
+    if not posts:
         return 0
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M")
     rows = []
-    for e in data["posts"]["edges"]:
-        node = e["node"]
-        m = re.search(r"/video/(\d+)", node.get("externalLink") or "")
-        if not m:
+    for node in posts:
+        vid = _video_id(node)
+        if not vid:
             continue
-        met = {x["type"]: x["value"] for x in (node.get("metrics") or [])}
-        rows.append({"snapshot_utc": now, "video_id": m.group(1),
+        met = node.get("metrics") or {}
+        if isinstance(met, list):
+            met = {x["type"]: x["value"] for x in met}
+        rows.append({"snapshot_utc": now, "video_id": vid,
                      **{k: met.get(k) for k in BUFFER_FIELDS[2:]}})
+    if not rows:
+        return 0
     new = not os.path.exists(BUFFER_FILE)
     with open(BUFFER_FILE, "a", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=BUFFER_FIELDS)
@@ -177,8 +207,9 @@ def account_stats(session):
 
 
 def collect():
-    buffer_metrics()
-    ids = load_ids()
+    posts = buffer_posts()                 # one Buffer query feeds both
+    buffer_metrics(posts)
+    ids = load_ids(posts)
     now = datetime.now(timezone.utc)
     s = requests.Session()
     account_stats(s)

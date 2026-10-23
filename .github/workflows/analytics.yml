@@ -33,6 +33,9 @@ jobs:
         env:
           BUFFER_API_KEY:    ${{ secrets.BUFFER_API_KEY }}
           BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+          # Bot HQ gets a warning when a Buffer quota window drops below 15% (buffer_client).
+          APP_URL:           https://bot-hq.maxwilliamfoster.workers.dev
+          APP_EVENTS_TOKEN:  ${{ secrets.APP_EVENTS_TOKEN }}
       # Nightly experiment loop (growth-lab): judge / promote / revert / start one
       # test from levers.json. Writes only experiments.json, loop_config.json and
       # loop_summary.json; never fails the job. Pause: "paused": true in loop_config.json.
