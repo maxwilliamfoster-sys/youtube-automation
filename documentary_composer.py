@@ -15,7 +15,8 @@ from typing import List, Dict, Optional
 from PIL import Image, ImageOps
 
 import image_safety
-from video_composer import FFMPEG, escape_ffmpeg_text, build_filter_script, get_video_duration
+from video_composer import (FFMPEG, escape_ffmpeg_text, build_filter_script,
+                            get_video_duration, get_stream_durations)
 from config import (
     VIDEO_WIDTH, VIDEO_HEIGHT, VIDEO_FPS,
     CAPTION_FONT_SIZE, CAPTION_FONT_COLOR,
@@ -70,13 +71,13 @@ def make_broll_clip(video_path: str, duration: float, output_path: str,
     except Exception:
         src_duration = 0.0
 
-    pre_input, start = [], 0.0
+    # Every source is looped (audit 2026-10-21 #7): a clip whose probed length is wrong,
+    # or that runs out after a random -ss, still fills the scene. -t below cuts it.
+    pre_input, start = ["-stream_loop", "-1"], 0.0
     if src_duration >= duration + 0.4:
         # Leave the last 0.2s alone; some encodes have a ragged final frame.
         start = _random.uniform(0.0, max(0.0, src_duration - duration - 0.2))
-        pre_input = ["-ss", f"{start:.2f}"]
-    elif src_duration > 0:
-        pre_input = ["-stream_loop", "-1"]   # too short — loop it to fill the scene
+        pre_input += ["-ss", f"{start:.2f}"]
 
     # Slow camera move on every clip, alternating push-in and pull-back. Three reasons:
     # the b-roll played completely static before, which is what made the videos feel
@@ -94,7 +95,11 @@ def make_broll_clip(video_path: str, duration: float, output_path: str,
         z_expr = f"1.0+0.14*on/{frames}"
     else:
         z_expr = f"1.14-0.14*on/{frames}"
+    # fps FIRST: zoompan emits one frame per input frame (d=1), so a 24/25 fps source
+    # fed straight in came out ~20% short at 30 fps and the background ended before
+    # the narration. Resampling to 30 fps before zoompan gives exactly `frames` frames.
     vf = (
+        f"fps={VIDEO_FPS},"
         f"scale={VIDEO_WIDTH * 2}:{VIDEO_HEIGHT * 2}:force_original_aspect_ratio=increase,"
         f"crop={VIDEO_WIDTH * 2}:{VIDEO_HEIGHT * 2},"
         f"zoompan=z='{z_expr}':d=1:"
@@ -120,7 +125,55 @@ def make_broll_clip(video_path: str, duration: float, output_path: str,
             f"B-roll clip failed for {video_path}:\n"
             f"{result.stderr[-800:].decode(errors='replace')}"
         )
+    _pad_video_to(output_path, duration)       # xfade offsets assume the exact length
     return output_path
+
+
+def _pad_video_to(path: str, target: float) -> float:
+    """If the clip's video stream is more than one frame shorter than `target`, extend it
+    by cloning the last frame (tpad) and cut at `target`. Returns the final length."""
+    vdur, _ = get_stream_durations(path)
+    if vdur <= 0 or vdur >= target - 1.0 / VIDEO_FPS:
+        return vdur
+    gap = target - vdur
+    print(f"[DocCompose] {os.path.basename(path)} is {gap:.2f}s short - padding.")
+    tmp = path + ".pad.mp4"
+    cmd = [
+        FFMPEG, "-y", "-i", os.path.abspath(path).replace("\\", "/"),
+        "-vf", f"tpad=stop_mode=clone:stop_duration={gap + 0.1:.3f}",
+        "-t", f"{target:.3f}", "-an",
+        "-c:v", "libx264", "-preset", "fast", "-crf", "20",
+        "-pix_fmt", "yuv420p", "-r", str(VIDEO_FPS),
+        os.path.abspath(tmp).replace("\\", "/"),
+    ]
+    result = subprocess.run(cmd, capture_output=True)
+    if result.returncode != 0 or not os.path.exists(tmp):
+        raise RuntimeError(f"Padding {path} failed:\n"
+                           f"{result.stderr[-600:].decode(errors='replace')}")
+    os.replace(tmp, path)
+    return get_stream_durations(path)[0]
+
+
+# The background must outlast the narration (the final pass cuts at audio + 0.5 s).
+BG_TAIL_S = 0.5
+BG_MAX_PAD_S = 1.0     # pad a small shortfall; anything bigger is a real bug - fail early
+
+
+def _ensure_background_covers(bg_path: str, audio_duration: float) -> float:
+    """Assert background length >= audio + BG_TAIL_S. A shortfall up to BG_MAX_PAD_S is
+    padded with the last frame; a larger one raises before the upload gate ever sees a
+    video whose picture stops before the narration does."""
+    need = audio_duration + BG_TAIL_S
+    vdur, _ = get_stream_durations(bg_path)
+    if vdur >= need - 1.0 / VIDEO_FPS:
+        return vdur
+    if need - vdur > BG_MAX_PAD_S:
+        raise RuntimeError(f"Background video is {vdur:.2f}s but the narration needs "
+                           f"{need:.2f}s - scene clips came out short.")
+    vdur = _pad_video_to(bg_path, need)
+    if vdur < need - 1.0 / VIDEO_FPS:
+        raise RuntimeError(f"Background video is {vdur:.2f}s after padding; need {need:.2f}s.")
+    return vdur
 
 
 # ─── Ken Burns single clip (PIL — sub-pixel accurate, zero jitter) ────────────
@@ -554,7 +607,12 @@ def add_audio_and_captions(
         ),
     }
     grade = grades.get(os.getenv("VISUAL_GRADE", "overcast"), grades["overcast"])
-    scale_pass = f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT},setsar=1,{grade}"
+    # Safety net only (the background is already asserted >= audio + 0.5 s): a
+    # sub-second clone of the last frame so a stray frame shortfall can never leave
+    # the end of the video undecodable. -t below still sets the exact length; no
+    # -shortest, which would cut the 0.5 s tail after the narration.
+    scale_pass = (f"tpad=stop_mode=clone:stop_duration={BG_TAIL_S},"
+                  f"scale={VIDEO_WIDTH}:{VIDEO_HEIGHT},setsar=1,{grade}")
     vf_filter = build_filter_script(
         caption_segments, scale_pass,
         hook_text=hook_text, cta_text=cta_text, total_duration=audio_duration,
@@ -682,12 +740,14 @@ def compose_documentary(
                 make_ken_burns_clip(frame, clip_durations[i], i, clip_path)
         else:
             make_ken_burns_clip(media_path, clip_durations[i], i, clip_path)
+        _pad_video_to(clip_path, clip_durations[i])   # no-op when already full length
         clip_paths.append(clip_path)
 
     # ── Step 2: Crossfade ──────────────────────────────────────────────────────
     print("\n[DocCompose] Step 2/4 -- Crossfading clips...")
     bg_path = os.path.join(work_dir, "background.mp4")
     crossfade_clips(clip_paths, clip_durations, fade_duration, bg_path)
+    _ensure_background_covers(bg_path, audio_duration)
 
     # ── Step 3: Background music ───────────────────────────────────────────────
     if MUSIC_ENABLED:
