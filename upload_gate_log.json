@@ -3,17 +3,18 @@
   {
    "checked_at": "2026-10-16T13:35:33+00:00",
    "platform": "tiktok",
-   "file": "Vanished_at_Twelve_Teens_Silent_Disappea_20261016_133112.mp4",
+   "file": null,
    "sha256": "30ca2c7e1c6ac4aaaee28dd3d00efaef91dfbac64f45dcb4686f94aa242ff0f4",
-   "head": "Alex Sloley case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked due to the use of unrelated stock footage (a police officer from a drama) and a significant rendering error in the opening frame. | The video uses stock footage of a female police officer (likely from a TV drama) which is jarringly unrelated to the specific UK case and misrepresents the investigation, violating the rule against misleading content or unoriginal stock footage that doesn't fit the subject.; The opening frame (Image 1) is a vertical video placed on a white background with large empty white bars on the right, indicating a rendering or aspect ratio error.; The visual narrative is disjointed, jumping between unrelated locations (a dilapidated building, a church, a random house) that do not appear to be the actual crime scene or relevant locations for the Alex Sloley case."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 48.77,
     "lufs": -14.8,
@@ -25,24 +26,26 @@
     "ok": false,
     "coherence": 4,
     "quality": 6,
-    "summary": "The video is blocked due to the use of unrelated stock footage (a police officer from a drama) and a significant rendering error in the opening frame.",
-    "tokens": 4367
+    "tokens": 4367,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-16T13:50:28+00:00",
    "platform": "tiktok",
-   "file": "Luke_Durbin_vanished_at_4AM_silver_Volvo_20261016_134611.mp4",
+   "file": null,
    "sha256": "678d495c410fd61e683b44df637f65286f59656c638a3c2c51c01bd3e380affe",
-   "head": "Luke Durbin case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review skipped: the free daily AI quota is used up (it refills over the next 24h)"
+    "AI review unavailable: [quota]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 49.23,
     "lufs": -15.1,
@@ -54,24 +57,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-16T15:51:18+00:00",
    "platform": "tiktok",
-   "file": "The_van_she_ignored_killed_her_20261016_154549.mp4",
+   "file": null,
    "sha256": "4e579d30b8856d7176c9e0795fb84fce4b8fae7c71a27bd325c3fa6edd420dd9",
-   "head": "Cherrie Mahan case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: [legal-risk detail withheld from the public log]"
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 54.43,
     "lufs": -15.1,
@@ -83,24 +87,26 @@
     "ok": false,
     "coherence": 4,
     "quality": 3,
-    "summary": "[legal-risk detail withheld from the public log]",
-    "tokens": 4369
+    "tokens": 4369,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-16T18:40:44+00:00",
    "platform": "tiktok",
-   "file": "Stalking_Mystery_and_a_Tragic_End_20261016_183607.mp4",
+   "file": null,
    "sha256": "b689390f20301755c6d71d3d689f894b01779ee716299a85f1545d436c6a73ca",
-   "head": "Shana Grice case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review skipped: the free daily AI quota is used up (it refills over the next 24h)"
+    "AI review unavailable: [quota]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 39.53,
     "lufs": -14.9,
@@ -112,16 +118,16 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-17T12:32:16+00:00",
    "platform": "tiktok",
-   "file": "Father_Leaves_Infant_Alone_Returns_to_Em_20261017_122711.mp4",
+   "file": null,
    "sha256": "b4ff7cb10a474a274a9b6bb77f567cb9c37d6a11bceb05044b81823fcd4da896",
-   "head": "Ames Glover case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
     "video check could not run: could not decode a frame at 47.5s"
@@ -130,6 +136,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": null,
     "lufs": null,
@@ -141,24 +148,25 @@
     "ok": null,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-17T12:48:05+00:00",
    "platform": "tiktok",
-   "file": "Vanished_Without_a_Trace_Myra_Lewis_Myst_20261017_124221.mp4",
+   "file": null,
    "sha256": "d2a5216dc37fde90dedde91756fcc945d3774fbf6830a976c8344cd490008dc5",
-   "head": "Myra Lewis case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because it uses a generic, unrelated map of Mississippi to represent the specific case location, creating a misleading visual narrative that does not match the factual details of the story. | The video uses a generic, unrelated map of Mississippi (showing counties and a population legend) to represent the specific location of the case, which is misleading and factually incorrect for the visual narrative.; The caption asks 'why did no footprints appear?', which implies a mystery or anomaly regarding the lack of evidence, potentially violating the rule against unverified claims or misleading the audience about the nature of the investigation (lack of footprints is a standard search result, not necessarily a mystery element in itself without context).; The visual assets are disjointed and generic (stock police footage, random maps, unrelated street scenes) rather than specific to the case location or events.; The map shown is clearly a generic state map of Mississippi, not a search radius map or a map of the specific neighborhood, making the visual evidence weak and confusing."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 49.7,
     "lufs": -15.1,
@@ -170,24 +178,26 @@
     "ok": false,
     "coherence": 4,
     "quality": 6,
-    "summary": "The video is blocked because it uses a generic, unrelated map of Mississippi to represent the specific case location, creating a misleading visual narrative that does not match the factual details of the story.",
-    "tokens": 4397
+    "tokens": 4397,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-17T14:50:29+00:00",
    "platform": "tiktok",
-   "file": "Valet_saw_them_leave_never_see_20261017_144447.mp4",
+   "file": null,
    "sha256": "a7ec453f97035e0b5213b595b2085452e4c677da81016705269ffc774f3b9036",
-   "head": "Edward and Stephania Andrews case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked due to the use of a stock police officer image (unoriginal/misleading) and a garbled text rendering error ('NORLANEUND'). | The video uses a stock image of a police officer (likely from a film or TV show) to represent the investigation. This constitutes unoriginal content and potentially misleading imagery, as it implies a specific real person or official presence that is not factual to the 1970 case.; The on-screen text 'NORLANEUND' in the second contact sheet is garbled and unreadable, likely a rendering error for 'NORTHBOUND LANE' or similar.; The visual of a train station (Image 3) is jarringly unrelated to a story about a car vanishing into a river, breaking the visual narrative."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 51.8,
     "lufs": -15.1,
@@ -199,24 +209,26 @@
     "ok": false,
     "coherence": 4,
     "quality": 5,
-    "summary": "The video is blocked due to the use of a stock police officer image (unoriginal/misleading) and a garbled text rendering error ('NORLANEUND').",
-    "tokens": 4358
+    "tokens": 4358,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-17T15:06:47+00:00",
    "platform": "tiktok",
-   "file": "Men_in_suits_found_dead_20261017_150049.mp4",
+   "file": null,
    "sha256": "9cf4e9e06e3bbc941a22a1d25ab7779fb48b1b836643059c8a927175096556e0",
-   "head": "Lead masks case case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked due to a jarring, out-of-place live-action shot of a man in the final frame that contradicts the channel's format, and a garbled caption. | The closing card (Image 3, bottom right) features a live-action video of a man's face. This violates the channel's stated format of using 'sombre mood footage... photos... and archive images' and 'AI narrator'. The presence of a real person in a true-crime context without clear context or labeling is a policy risk and a coherence failure.; The caption 'Lead masks case case' is garbled and unprofessional, failing the quality standard for a finished video.; The caption contains a typo/repetition: 'Lead masks case case.'; The visual of a man in a t-shirt in the final frame is jarringly out of place with the sombre, atmospheric tone of the rest of the video (fog, rain, dark streets).; The painting in Image 3 (top right) appears to be a generic historical or mythological scene that does not clearly relate to the specific 1966 Brazilian case, making it a weak visual choice."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 54.9,
     "lufs": -15.1,
@@ -228,24 +240,26 @@
     "ok": false,
     "coherence": 4,
     "quality": 5,
-    "summary": "The video is blocked due to a jarring, out-of-place live-action shot of a man in the final frame that contradicts the channel's format, and a garbled caption.",
-    "tokens": 4434
+    "tokens": 4434,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-17T17:45:15+00:00",
    "platform": "tiktok",
-   "file": "MileLong_Trail_Turns_Deadly_20261017_174217.mp4",
+   "file": null,
    "sha256": "8a20e3f3f3bc9158b076f8343e420257d11e5475b1e53de2e633c25f1da249e6",
-   "head": "Helen Fleet case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "link in a TikTok caption (www.mikepeel.net) - off-platform diversion"
+    "link in a TikTok caption (…) - off-platform diversion"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 48.17,
     "lufs": -14.8,
@@ -257,24 +271,25 @@
     "ok": null,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-17T17:57:06+00:00",
    "platform": "tiktok",
-   "file": "Pregnant_Woman_Vanishes_in_Beetle_20261017_175416.mp4",
+   "file": null,
    "sha256": "52340162c200dccfd67bd2e9653a8f9ef363567fc037f100b6cf90030de6091b",
-   "head": "Münsterland murders case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because it presents unverified details as fact for an unsolved case and uses jarringly unrelated stock footage (maps, currency) that breaks the narrative coherence. | Unverified claims stated as fact: The narration asserts specific details (e.g., 'no signs of sexual abuse', 'body was posed', 'personal belongings were taken') that are not established facts for an unsolved case and are not supported by the visuals.; Missing AI Label: The video uses AI narration but does not include the required label for realistic AI content.; Jarringly unrelated stock footage: The video includes images of a map of Luxembourg, a 1948 Deutsche Mark banknote, and a bridge that appear completely unrelated to the Münsterland murders case.; Visual clutter: The closing card has overlapping text ('WHAT' and 'WHAT DO YOU THINK?') which looks like a rendering error."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 46.1,
     "lufs": -15.0,
@@ -286,8 +301,9 @@
     "ok": false,
     "coherence": 3,
     "quality": 4,
-    "summary": "The video is blocked because it presents unverified details as fact for an unsolved case and uses jarringly unrelated stock footage (maps, currency) that breaks the narrative coherence.",
-    "tokens": 4341
+    "tokens": 4341,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
@@ -302,6 +318,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 39.27,
     "lufs": -15.1,
@@ -313,24 +330,26 @@
     "ok": true,
     "coherence": 9,
     "quality": 9,
-    "summary": "The video presents a coherent, high-quality true-crime narrative with consistent visuals and text that aligns perfectly with the narration and caption, containing no policy violations.",
-    "tokens": 4157
+    "tokens": 4157,
+    "reason": null,
+    "summary": "[ai_pass]"
    }
   },
   {
    "checked_at": "2026-10-18T15:10:01+00:00",
    "platform": "tiktok",
-   "file": "A_5_Block_Walk_to_Nowhere_20261018_150241.mp4",
+   "file": null,
    "sha256": "8301d2ca527df067beff9f01b121fad6e9c3a2108bcad58ed3600eb2b1049ab3",
-   "head": "Etan Patz case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: [legal-risk detail withheld from the public log]"
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 62.27,
     "lufs": -15.1,
@@ -342,24 +361,26 @@
     "ok": false,
     "coherence": 4,
     "quality": 6,
-    "summary": "The video is blocked because the narration presents future dates (2025/2026) as established historical facts regarding the legal status of the case, which constitutes an unverified claim.",
-    "tokens": 4353
+    "tokens": 4353,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-18T15:36:10+00:00",
    "platform": "tiktok",
-   "file": "A_stranger_returned_her_jewelry_20261018_152922.mp4",
+   "file": null,
    "sha256": "5348ccbd3458812b9193d9c649953f21e16855ce6a71eb9d604be77f64acced4",
-   "head": "Jean McConville case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video contains unverified claims about police records and warnings that violate platform rules, and the mix of modern and historical visuals creates a disjointed narrative. | Unverified claims stated as fact: The narration asserts 'Police records show Jean had reported an attack days earlier' and 'She claimed she was warned to stop informing.' These specific details are not established facts in the public record for this case and violate the rule against unverified claims.; Potential misleading content: The caption states 'Jean McConville case. | UK crime story.' While the case is from Northern Ireland (UK), the visuals include a vintage print explicitly labeled 'BELFAST' and a modern building that appears to be in Dublin (e.g., the General Post Office or similar architecture), which could be misleading regarding the specific location of the events.; Visual inconsistency: The video uses a mix of modern stock footage (rain, clock, abstract shapes) and historical images (vintage Belfast print) without clear context, which can be confusing.; Text overlay issues: Some text overlays (e.g., 'SECRETS', 'CLAIMED') are placed over busy backgrounds, reducing readability."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 55.6,
     "lufs": -14.7,
@@ -371,8 +392,9 @@
     "ok": false,
     "coherence": 4,
     "quality": 6,
-    "summary": "The video contains unverified claims about police records and warnings that violate platform rules, and the mix of modern and historical visuals creates a disjointed narrative.",
-    "tokens": 4424
+    "tokens": 4424,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
@@ -387,6 +409,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 44.1,
     "lufs": -15.1,
@@ -398,24 +421,26 @@
     "ok": true,
     "coherence": 9,
     "quality": 9,
-    "summary": "The video presents a coherent, high-quality true-crime narrative with consistent sombre visuals and text that aligns perfectly with the narration and caption, containing no policy violations.",
-    "tokens": 4157
+    "tokens": 4157,
+    "reason": null,
+    "summary": "[ai_pass]"
    }
   },
   {
    "checked_at": "2026-10-19T20:41:18+00:00",
    "platform": "tiktok",
-   "file": "Mathematicians_Body_Locked_in_Red_Bag_20261019_203620.mp4",
+   "file": null,
    "sha256": "77e94f9c8442fa4ebcd8cf9bbe7350f1c265615f28984473750939bf3ad8cc8b",
-   "head": "Gareth Williams case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because it uses jarringly unrelated and inappropriate stock footage (a damaged non-UK building) for a specific London true-crime case, violating the requirement for relevant visual context. | The video uses stock footage that is jarringly unrelated and inappropriate for the subject matter, specifically showing a dilapidated, damaged building with broken windows and a police officer in a non-UK context (likely Middle Eastern or South Asian architecture) for a case that took place in a Pimlico flat in London. This violates the rule against using footage that is inappropriate for the subject.; The visual narrative is disjointed; the transition from a London street scene to a damaged, non-UK building is confusing and breaks the immersion of the documentary style.; The use of generic stock footage (rainy roads, random buildings) rather than specific location footage or relevant archive material makes the video feel like a low-effort placeholder."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 43.27,
     "lufs": -15.1,
@@ -427,24 +452,26 @@
     "ok": false,
     "coherence": 3,
     "quality": 4,
-    "summary": "The video is blocked because it uses jarringly unrelated and inappropriate stock footage (a damaged non-UK building) for a specific London true-crime case, violating the requirement for relevant visual context.",
-    "tokens": 4397
+    "tokens": 4397,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-19T20:56:29+00:00",
    "platform": "tiktok",
-   "file": "Kazakh_Hikers_Mystery_on_the_Ridge_20261019_205105.mp4",
+   "file": null,
    "sha256": "6b319313c2a9371dee86d70839df3e9a424edd69187adb02319b916a7a607929",
-   "head": "Khamar-Daban incident case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because it relies on jarringly unrelated and inappropriate stock footage (including a duck and random men in suits) that fails to depict the mountain hiking story, resulting in a nonsensical and low-quality presentation. | The video uses stock footage of a bald man in a suit (appearing to be a politician or official) and a man in a suit looking at a phone, which are completely unrelated to the story of hikers in the mountains. This constitutes misleading content and unoriginal stock usage that does not fit the subject matter.; The visual narrative is disjointed and nonsensical; it cuts between storm clouds, a car in the rain, a close-up of a blue rock, and random stock footage of men in suits.; The closing card features a duck swimming in a pond, which is jarringly inappropriate and comedic for a true-crime story about a deadly incident.; The on-screen text words (e.g., 'THOUSAND', 'SUDEN') appear randomly over unrelated images, failing to create a coherent visual story."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 48.3,
     "lufs": -15.1,
@@ -456,8 +483,9 @@
     "ok": false,
     "coherence": 3,
     "quality": 4,
-    "summary": "The video is blocked because it relies on jarringly unrelated and inappropriate stock footage (including a duck and random men in suits) that fails to depict the mountain hiking story, resulting in a nonsensical and low-quality presentation.",
-    "tokens": 4448
+    "tokens": 4448,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
@@ -472,6 +500,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 44.1,
     "lufs": -15.0,
@@ -483,8 +512,9 @@
     "ok": true,
     "coherence": 9,
     "quality": 9,
-    "summary": "The video presents a coherent and factual true-crime narrative with appropriate sombre mood footage and clear, readable text overlays that align with the narration.",
-    "tokens": 4229
+    "tokens": 4229,
+    "reason": null,
+    "summary": "[ai_pass]"
    }
   },
   {
@@ -499,6 +529,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 48.73,
     "lufs": -15.0,
@@ -510,24 +541,26 @@
     "ok": true,
     "coherence": 9,
     "quality": 9,
-    "summary": "The video is a coherent, high-quality true-crime documentary that uses appropriate mood footage and factual narration without violating any platform policies.",
-    "tokens": 4260
+    "tokens": 4260,
+    "reason": null,
+    "summary": "[ai_pass]"
    }
   },
   {
    "checked_at": "2026-10-20T16:11:13+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -539,24 +572,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:16:30+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -568,24 +602,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:21:46+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -597,24 +632,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:27:02+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -626,24 +662,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:32:18+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -655,24 +692,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:37:35+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -684,24 +722,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:42:51+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -713,24 +752,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:48:07+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -742,24 +782,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:53:23+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -771,24 +812,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T16:58:39+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -800,24 +842,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T17:03:55+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -829,24 +872,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T17:09:11+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -858,24 +902,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T17:14:27+00:00",
    "platform": "tiktok",
-   "file": "Masked_Men_Strip_Hotel_Zane_Plemmons_Van_20261020_160524.mp4",
+   "file": null,
    "sha256": "e192db7cca6783c9c5c4ffd0ffb1d903aa1e294e1892b7bb4f6f21216521d8ac",
-   "head": "Zane Plemmons case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7031, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.77,
     "lufs": -15.0,
@@ -887,24 +932,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-20T17:39:39+00:00",
    "platform": "tiktok",
-   "file": "Army_buses_disappear2009_Tamil_priests_d_20261020_173317.mp4",
+   "file": null,
    "sha256": "7eb0d7fabd0cf00b93b320620ad6badc25623c731b957faf81eaa5bb278ffc34",
-   "head": "Father Francis case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because it uses jarringly unrelated and inappropriate stock footage, such as a woman smoking and a moth, which undermines the coherence and quality of the true-crime narrative. | The video contains jarringly unrelated and inappropriate stock footage for a true-crime story about a priest's disappearance, specifically a woman smoking a pipe and a close-up of a moth, which violates the guideline against footage that is jarringly unrelated to the subject.; The visual narrative is disjointed and confusing, featuring random images (a moth, a woman smoking) that do not match the narration or the sombre tone of the documentary.; The use of a woman smoking a pipe as B-roll for a story about a Catholic priest is tonally and contextually incoherent."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 53.43,
     "lufs": -15.1,
@@ -916,16 +962,17 @@
     "ok": false,
     "coherence": 3,
     "quality": 4,
-    "summary": "The video is blocked because it uses jarringly unrelated and inappropriate stock footage, such as a woman smoking and a moth, which undermines the coherence and quality of the true-crime narrative.",
-    "tokens": 4392
+    "tokens": 4392,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-20T19:01:05+00:00",
    "platform": "tiktok",
-   "file": "RainSlick_Trail_Ruth_Wilsons_Vanishing_M_20261020_185742.mp4",
+   "file": null,
    "sha256": "d21a13e3dd4574c88ac38f888bc157c54195cec836e9667693b9a277eb34e532",
-   "head": "Ruth Wilson case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
     "video check could not run: could not decode a frame at 39.0s"
@@ -934,6 +981,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": null,
     "lufs": null,
@@ -945,24 +993,25 @@
     "ok": null,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-21T14:02:49+00:00",
    "platform": "tiktok",
-   "file": "Vending_Machine_Poison_Mystery_20261021_135747.mp4",
+   "file": null,
    "sha256": "6ec7112bd5382bf0f599a8ceb65d9b064f66f627c7d8d8b3475fd6ef83ed7b53",
-   "head": "Paraquat murders case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because it uses jarringly unrelated stock footage, such as a camel and a view of Earth, which is inappropriate for a true-crime documentary about a poisoning case. | The video contains jarringly unrelated and inappropriate stock footage (a camel and a view of Earth from space) for a true-crime story about a poisoning in Japan, violating the guideline against using footage that is jarringly unrelated to the subject.; The visual narrative is disjointed, jumping between unrelated images like a camel, a space view, and a mountain, which detracts from the serious tone of the documentary.; The use of a camel in a video about a Japanese urban crime is a significant visual error that breaks immersion."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 44.03,
     "lufs": -14.9,
@@ -974,8 +1023,9 @@
     "ok": false,
     "coherence": 3,
     "quality": 4,
-    "summary": "The video is blocked because it uses jarringly unrelated stock footage, such as a camel and a view of Earth, which is inappropriate for a true-crime documentary about a poisoning case.",
-    "tokens": 4350
+    "tokens": 4350,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
@@ -990,6 +1040,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.4,
     "lufs": -14.9,
@@ -1001,8 +1052,9 @@
     "ok": true,
     "coherence": 9,
     "quality": 9,
-    "summary": "The video is a coherent, high-quality true-crime documentary that uses appropriate sombre mood footage and factual narration without violating any platform policies.",
-    "tokens": 4225
+    "tokens": 4225,
+    "reason": null,
+    "summary": "[ai_pass]"
    }
   },
   {
@@ -1017,6 +1069,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 47.77,
     "lufs": -14.9,
@@ -1028,8 +1081,9 @@
     "ok": true,
     "coherence": 9,
     "quality": 9,
-    "summary": "The video presents a coherent, high-quality true-crime narrative with appropriate sombre mood footage and clear, readable text overlays that align perfectly with the narration and caption.",
-    "tokens": 4245
+    "tokens": 4245,
+    "reason": null,
+    "summary": "[ai_pass]"
    }
   },
   {
@@ -1044,6 +1098,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 49.43,
     "lufs": -14.8,
@@ -1055,24 +1110,26 @@
     "ok": true,
     "coherence": 9,
     "quality": 9,
-    "summary": "The video presents a coherent and professionally edited true-crime narrative with consistent sombre visuals, readable text overlays, and no policy violations.",
-    "tokens": 4243
+    "tokens": 4243,
+    "reason": null,
+    "summary": "[ai_pass]"
    }
   },
   {
    "checked_at": "2026-10-22T14:17:33+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1084,24 +1141,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:22:50+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1113,24 +1171,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:28:07+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1142,24 +1201,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:33:24+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1171,24 +1231,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:38:41+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1200,24 +1261,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:43:57+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1229,24 +1291,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:49:14+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1258,24 +1321,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:54:31+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1287,24 +1351,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T14:59:47+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1316,24 +1381,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T15:05:04+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1345,24 +1411,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T15:10:20+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1374,24 +1441,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T15:15:36+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1403,24 +1471,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T15:20:53+00:00",
    "platform": "tiktok",
-   "file": "Social_Worker_Snatch_Baby_Vanishes_Forev_20261022_141140.mp4",
+   "file": null,
    "sha256": "6695d0125395aad145bfff0896144faf65d44aa176988e18db5db8851f686373",
-   "head": "Kidnapping of Mary Agnes Moroney case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review failed: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7019, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 50.8,
     "lufs": -14.9,
@@ -1432,16 +1501,16 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T16:39:27+00:00",
    "platform": "tiktok",
-   "file": "Mysterious_Vanishing_Car_Found_Caller_Go_20261022_163351.mp4",
+   "file": null,
    "sha256": "e744a633892c3162c86d9ca49ecde5dc860a961df3d8df46f8e1c7afa84b5fcd",
-   "head": "Heather Elvis case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
     "video check could not run: could not decode a frame at 48.3s"
@@ -1450,6 +1519,7 @@
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": null,
     "lufs": null,
@@ -1461,24 +1531,25 @@
     "ok": null,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-22T19:41:02+00:00",
    "platform": "tiktok",
-   "file": "Underwater_Trappers_Shocking_Discovery_M_20261022_193513.mp4",
+   "file": null,
    "sha256": "30a36b16ed25c17aeb4c6f9d6a77de67b43b4145809ad9af2efbdd7ded8d37ea",
-   "head": "Theresa Allore case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: [legal-risk detail withheld from the public log]"
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 51.2,
     "lufs": -15.1,
@@ -1490,24 +1561,26 @@
     "ok": false,
     "coherence": 4,
     "quality": 6,
-    "summary": "[legal-risk detail withheld from the public log]",
-    "tokens": 4324
+    "tokens": 4324,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-23T13:42:49+00:00",
    "platform": "tiktok",
-   "file": "Aid_Workers_Plea_Then_Vanished_20261023_133839.mp4",
+   "file": null,
    "sha256": "b68d34463c7ba5d0e6ab573646a67a8e0e9fddb26dfb0efd2ca3086af8197ad1",
-   "head": "Kidnapping and killing of Margaret Hassan case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review request too large: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7012, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 47.2,
     "lufs": -15.0,
@@ -1519,24 +1592,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-23T13:48:17+00:00",
    "platform": "tiktok",
-   "file": "Blue_Ford_Focus_Disappears_Man_Reappears_20261023_134559.mp4",
+   "file": null,
    "sha256": "b8c3dc09bda24a055f9ed5ab77c47b32895ea0a629a5e03017b4bc0e9414c6aa",
-   "head": "Steven Cooper case. | UK crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review: The video is blocked because the background footage clearly shows the facades and entrances of private residential homes, which violates privacy guidelines. | Privacy violation: Multiple frames (e.g., the 'WITHOUT' and 'CLOTHING' shots) clearly display the facades, windows, and front entrances of private residential terraced houses. This violates the rule against showing real private homes, as viewers may misinterpret them as the crime scene or the subject's residence."
+    "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 22.23,
     "lufs": -15.0,
@@ -1548,24 +1622,26 @@
     "ok": false,
     "coherence": 8,
     "quality": 8,
-    "summary": "The video is blocked because the background footage clearly shows the facades and entrances of private residential homes, which violates privacy guidelines.",
-    "tokens": 4315
+    "tokens": 4315,
+    "reason": null,
+    "summary": "[ai_block] withheld from the public log"
    }
   },
   {
    "checked_at": "2026-10-23T13:58:01+00:00",
    "platform": "tiktok",
-   "file": "Mystery_Fire_Two_Women_Disappear_Without_20261023_135405.mp4",
+   "file": null,
    "sha256": "16ca00e8bf59943fd532cb5aa7ca26aa554efd2ff2572f25fdb8a94de2956b0c",
-   "head": "Jeanette Bishop and Gabriella Guerin case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review request too large: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7034, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 44.7,
     "lufs": -15.0,
@@ -1577,24 +1653,25 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
    }
   },
   {
    "checked_at": "2026-10-23T14:25:42+00:00",
    "platform": "tiktok",
-   "file": "AxeShattered_Heads_Little_Hell_BloodStai_20261023_142054.mp4",
+   "file": null,
    "sha256": "a6048194b6d5927a10db0e600e57e0cc71bc089f11cf35adcf862f0e08d3db98",
-   "head": "Liland affair case. | True crime story.",
+   "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: AI review request too large: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7075, please reduce your"
+    "AI review unavailable: [too_large]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
    ],
    "gate_version": "2026-10-16",
+   "head_similarity": null,
    "report": {
     "seconds": 55.23,
     "lufs": -15.1,
@@ -1606,8 +1683,48 @@
     "ok": false,
     "coherence": null,
     "quality": null,
-    "summary": null,
-    "tokens": null
+    "tokens": null,
+    "reason": null
+   }
+  },
+  {
+   "checked_at": "2026-10-23T19:05:50+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "ac1704957abebdad0176ce72dad46fe6869783d14a848b78fb84a3abafd5671b",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [
+    "9 hashtags - TikTok search uses the first few"
+   ],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.413,
+   "report": {
+    "seconds": 48.13,
+    "lufs": -14.7,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 6,
+    "quality": 8,
+    "tokens": 3636,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7044,
+     "predicted_tokens": 4945,
+     "stage": "fewer frames"
+    }
    }
   }
  ]
