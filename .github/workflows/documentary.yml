@@ -176,6 +176,9 @@ jobs:
         run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '1' }} ${{ github.event.inputs.mode == 'sample' && '--sample' || '' }}
         env:
           PYTHONUNBUFFERED: "1"
+          # Per-model Groq token ledger (growth-lab llm_client): lets a run stop before
+          # rendering when today's writer/review budget is spent. Committed below.
+          GROQ_BUDGET_LEDGER: groq_budget.json
           # Auto-posting: Buffer key + the token that pushes MP4s to the Pages `media` branch.
           BUFFER_API_KEY:    ${{ secrets.BUFFER_API_KEY }}
           BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
@@ -193,7 +196,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json upload_gate_log.json; do
+          for f in recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json upload_gate_log.json groq_budget.json; do
             if [ -f "$f" ]; then git add "$f"; fi
           done
           git diff --staged --quiet && { echo "No new case to persist."; exit 0; }

@@ -643,6 +643,27 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             _github_output("catchup", "false")
             sys.exit(1)
 
+    # Groq budget pre-flight (growth-lab llm_client, MASTER_PLAN #6): the per-model ledger
+    # (GROQ_BUDGET_LEDGER, committed by documentary.yml) says whether the writer and the gate's
+    # review model still have today's tokens. A doomed run stops here, before any render,
+    # instead of burning 25 min to a SYSTEMIC_STOP.
+    import story_generator
+    story_generator.enable_budget(os.environ.get("GROQ_BUDGET_LEDGER") or None)
+
+    def _budget_ok() -> bool:
+        pf = story_generator.writer_preflight()
+        print(f"[LLM] Groq budget pre-flight: {pf.reason}")
+        if pf.ok:
+            return True
+        msg = f"budget exhausted, skipping render: {pf.reason}"
+        print(f"[Cloud] {msg}")
+        _app("llm_budget", "warn", "BuriedCasefiles: Groq budget spent, no video this run", msg)
+        return False
+
+    if not _budget_ok():
+        _github_output("catchup", "false")
+        return
+
     print(f"[Cloud] Generating {count} video(s) for manual posting...")
     delivered = 0
     # A video blocked by a gate never ends the run: new videos are made until `count`
@@ -659,6 +680,9 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
         if (i > CLOUD_MAX_ATTEMPTS + count
                 or time.monotonic() - started + slowest + POST_RESERVE_S > CLOUD_BUDGET_S):
             print(f"[Cloud] Out of time/attempts after {i - 1} video(s).")
+            break
+        if i > 1 and not _budget_ok():
+            quota_out = True                     # no catch-up: it would hit the same empty bucket
             break
         print(f"\n[Cloud] ===== Video {i} (need {count - delivered} more) =====")
         t0 = time.monotonic()
@@ -744,9 +768,14 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             # file this did not approve.
 
             def _gate():
-                return upload_gate.check(
+                v = upload_gate.check(
                     video_path, "tiktok", profile=_gate_profile(sample), caption=caption,
                     script=story.get("script", ""), ai_label=True)
+                try:
+                    story_generator.record_review(v)
+                except Exception as e:           # bookkeeping must never block a verdict
+                    print(f"[LLM] review not booked in the ledger ({e})")
+                return v
             gate_v = _gate()
             rechecks = 0
             while (_ai_outage_retryable(gate_v)

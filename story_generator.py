@@ -15,6 +15,7 @@ from groq import Groq, RateLimitError, APIStatusError, APIConnectionError
 
 import case_screen
 import case_source
+import llm_client
 from config import (
     GROQ_API_KEY, GROQ_MODEL, STORY_TYPES, STORY_WORD_COUNT,
     STORY_WORD_MIN, STORY_WORD_MAX, GROQ_REASONING_EFFORT, GOOGLE_API_KEY,
@@ -54,8 +55,13 @@ def _groq_sibling_call(**kwargs) -> object:
     for model, extra in GROQ_SIBLING_MODELS:
         if model in _dead_groq_siblings or model in REVIEW_ONLY_MODELS:
             continue
+        if _budget_spent(model):
+            last = f"{model}: Groq budget spent today (ledger)"
+            _dead_groq_siblings.add(model)
+            continue
         try:
             resp = client.chat.completions.create(**{**kwargs, "model": model, **extra})
+            _budget_record(model, resp)
             if (resp.choices[0].message.content or "").strip():
                 return resp
             last = "empty reply"
@@ -64,6 +70,7 @@ def _groq_sibling_call(**kwargs) -> object:
             if "tokens per day" in str(e).lower() or "tpd" in str(e).lower():
                 print(f"[LLM] Groq {model} daily cap reached too.")
                 _dead_groq_siblings.add(model)
+                _budget_daily_cap(model, e)
         except (APIStatusError, APIConnectionError) as e:
             last = e
             print(f"[LLM] Groq {model} failed ({str(e)[:100]}).")
@@ -72,36 +79,131 @@ def _groq_sibling_call(**kwargs) -> object:
 
 
 # Google retires Gemini models on a schedule (gemini-2.5-flash answered 404 "no longer available"
-# on 2026-10-20), so use the rolling -latest aliases first and fall through on 404.
-GEMINI_MODELS = ("gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.1-flash-lite")
-GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions"
+# on 2026-10-20), so the rolling -latest aliases come first (llm_client.GEMINI_MODELS).
+GEMINI_MODELS = llm_client.GEMINI_MODELS
 
 
 def _gemini_call(**kwargs) -> object:
-    """Same request on Gemini's free OpenAI-compatible endpoint. Raises RuntimeError on any failure."""
+    """Same request on Gemini's free OpenAI-compatible endpoint, through growth-lab llm_client:
+    404/429/5xx/timeout/empty reply -> the next Gemini model at once; if every model failed for a
+    passing reason, ONE back-off (Retry-After, max 30 s) and one more pass; 400/401/403 raise at
+    once. Run 39810389929 died because the old loop gave up on the first 503 ("high demand").
+    Raises RuntimeError on failure (the callers' contract)."""
+    kw = {k: kwargs[k] for k in ("max_tokens", "temperature") if k in kwargs}
+    # llm_client reads its keys from the environment; hand it config's key for this call only.
+    old = os.environ.get("GOOGLE_API_KEY")
+    os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY or ""
+    try:
+        return llm_client.chat(
+            kwargs.get("messages", []), groq_models=llm_client.GROQ_MODELS,
+            exclude_models=set(llm_client.GROQ_MODELS) | {m for m, _ in GROQ_SIBLING_MODELS} | REVIEW_ONLY_MODELS,
+            gemini_models=GEMINI_MODELS, max_wait=30.0, sleep=lambda s: time.sleep(s), **kw)
+    except llm_client.LLMError as e:
+        raise RuntimeError(f"Gemini backup failed: {str(e)[:240]}") from e
+    finally:
+        if old is None:
+            os.environ.pop("GOOGLE_API_KEY", None)
+        else:
+            os.environ["GOOGLE_API_KEY"] = old
+
+
+# ── Groq budget ledger (growth-lab llm_client.GroqBudget) ─────────────────────
+# Groq meters tokens per MODEL per organisation per day, shared with every bot on the key.
+# The cloud run enables a small JSON ledger (GROQ_BUDGET_LEDGER, committed by documentary.yml)
+# so a run can stop BEFORE rendering when the writer or the gate's review model is spent.
+# Disabled (None) by default: local runs and tests never write a ledger.
+WRITER_NEED_TOKENS = 30_000      # one approved script costs about this much on the writer chain
+REVIEW_NEED_TOKENS = 9_000       # one upload-gate AI review (the request is capped near 7k)
+_budget = None
+_budget_path = None
+_ORG_USE_RE = re.compile(r"Limit\s+(\d+),\s*Used\s+(\d+)", re.I)
+
+
+def enable_budget(path) -> None:
+    """Turn the per-model Groq ledger on (path) or off (None)."""
+    global _budget, _budget_path
+    _budget_path, _budget = path, None
+
+
+def groq_budget():
+    """The run's GroqBudget, or None when the ledger is disabled. Re-read on a new UTC day."""
+    global _budget
+    if not _budget_path:
+        return None
+    if _budget is None or _budget.day != llm_client._today():
+        _budget = llm_client.GroqBudget(_budget_path)
+    return _budget
+
+
+def _budget_save(b) -> None:
+    try:
+        b.save()
+    except OSError as e:
+        print(f"[LLM] budget ledger not saved ({e})")
+
+
+def _budget_record(model: str, resp) -> None:
+    b = groq_budget()
+    if b is None:
+        return
+    tokens = getattr(getattr(resp, "usage", None), "total_tokens", 0)
+    b.record(model, tokens if isinstance(tokens, int) else 0)
+    _budget_save(b)
+
+
+def _budget_daily_cap(model: str, err) -> None:
+    b = groq_budget()
+    if b is None:
+        return
+    b.mark_exhausted(model)
+    m = _ORG_USE_RE.search(str(err))
+    if m:
+        b.note_org_usage(model, used=int(m.group(2)), limit=int(m.group(1)))
+    _budget_save(b)
+
+
+def _budget_spent(model: str) -> bool:
+    b = groq_budget()
+    return b is not None and b.remaining(model) <= 0
+
+
+def record_review(gate_v: dict) -> None:
+    """Book the upload gate's AI review (its own Groq model) into the ledger."""
+    b = groq_budget()
+    if b is None:
+        return
+    import upload_gate
+    ai = (gate_v or {}).get("ai") or {}
+    if ai.get("quota") and not ai.get("cap"):
+        b.mark_exhausted(upload_gate.AI_MODEL)
+    elif isinstance(ai.get("tokens"), int) and ai["tokens"] > 0:
+        b.record(upload_gate.AI_MODEL, ai["tokens"])
+    else:
+        return
+    _budget_save(b)
+
+
+def writer_preflight():
+    """Can this run still produce a postable video today? Returns SimpleNamespace(ok, reason).
+    The writer needs WRITER_NEED_TOKENS on gpt-oss-120b or a sibling (or, failing both, the Gemini
+    backup when GOOGLE_API_KEY is set); the upload gate's mandatory AI review needs
+    REVIEW_NEED_TOKENS on its own model, which has no backup. Always ok with the ledger disabled."""
     from types import SimpleNamespace
-    last = "no model tried"
-    for model in GEMINI_MODELS:
-        body = {"model": model, "messages": kwargs.get("messages", []),
-                "max_tokens": max(kwargs.get("max_tokens", 1400), 1024),
-                "reasoning_effort": "low"}     # thinking tokens share max_tokens; a low effort leaves room to answer
-        if "temperature" in kwargs:
-            body["temperature"] = kwargs["temperature"]
-        try:
-            r = _requests.post(GEMINI_URL, json=body, timeout=90,
-                               headers={"Authorization": f"Bearer {GOOGLE_API_KEY}"})
-            if r.status_code == 404:                     # model retired: try the next one
-                last = f"{model}: HTTP 404"
-                continue
-            if r.status_code != 200:
-                raise RuntimeError(f"HTTP {r.status_code}: {r.text[:120]}")
-            text = (r.json()["choices"][0]["message"].get("content") or "").strip()
-        except Exception as e:
-            raise RuntimeError(f"Gemini backup failed: {str(e)[:160]}") from e
-        if not text:
-            raise RuntimeError("Gemini backup failed: empty reply")
-        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=text))])
-    raise RuntimeError(f"Gemini backup failed: every model unavailable ({last})")
+    b = groq_budget()
+    if b is None:
+        return SimpleNamespace(ok=True, reason="no ledger")
+    import upload_gate
+    writers = [GROQ_MODEL] + [m for m, _ in GROQ_SIBLING_MODELS if m not in REVIEW_ONLY_MODELS]
+    review = llm_client.preflight(b, [(REVIEW_NEED_TOKENS, [upload_gate.AI_MODEL])])
+    if not review.ok:
+        return SimpleNamespace(ok=False, reason=f"review: {review.reason}")
+    writer = llm_client.preflight(b, [(WRITER_NEED_TOKENS, writers),
+                                      (REVIEW_NEED_TOKENS, [upload_gate.AI_MODEL])])
+    if writer.ok:
+        return SimpleNamespace(ok=True, reason=f"ok (writer {writer.plan.get(0)})")
+    if GOOGLE_API_KEY:
+        return SimpleNamespace(ok=True, reason=f"writer on the Gemini backup ({writer.reason})")
+    return SimpleNamespace(ok=False, reason=f"writer: {writer.reason}")
 
 
 def _fallback_call(**kwargs) -> object:
@@ -146,14 +248,27 @@ def _groq_call(client: Groq, **kwargs) -> object:
     if _use_fallback:
         return _fallback_call(**kwargs)
 
+    primary = str(kwargs.get("model", ""))
+    if _budget_spent(primary):
+        # The ledger already knows today's bucket for this model is empty: don't pay a 429 to learn it.
+        print(f"[LLM] Groq {primary} budget spent today (ledger) — using the sibling model.")
+        _use_fallback = True
+        return _fallback_call(**kwargs)
+
+    def _create():
+        resp = client.chat.completions.create(**_groq_kwargs(**kwargs))
+        _budget_record(primary, resp)
+        return resp
+
     try:
-        return client.chat.completions.create(**_groq_kwargs(**kwargs))
+        return _create()
     except RateLimitError as e:
         msg = str(e)
         # Hard daily token cap — switch permanently to the fallback (no wait)
         is_daily = "tokens per day" in msg.lower() or "tpd" in msg.lower()
         if is_daily:
             print("[LLM] Groq daily token limit reached — switching to the sibling model.")
+            _budget_daily_cap(primary, e)
             _use_fallback = True
             return _fallback_call(**kwargs)
         # A per-minute throttle is temporary and says nothing about the day's budget,
@@ -169,11 +284,12 @@ def _groq_call(client: Groq, **kwargs) -> object:
                   f"(attempt {attempt + 1}/3)...")
             time.sleep(wait)
             try:
-                return client.chat.completions.create(**_groq_kwargs(**kwargs))
+                return _create()
             except RateLimitError as again:
                 msg = str(again)
                 if "tokens per day" in msg.lower() or "tpd" in msg.lower():
                     print("[LLM] Groq daily cap reached — switching to the fallback chain.")
+                    _budget_daily_cap(primary, again)
                     _use_fallback = True
                     return _fallback_call(**kwargs)
                 continue

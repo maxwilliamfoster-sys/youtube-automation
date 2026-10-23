@@ -329,8 +329,11 @@ class WriterModelTests(unittest.TestCase):
         def post(url, **kw):
             urls.append(url)
             return mock.Mock(status_code=429, json=lambda: {"error": {"message": "x"}}, text="x")
+        import llm_client
         with mock.patch.object(sg, "Groq", return_value=client), \
                 mock.patch.object(sg._requests, "post", side_effect=post), \
+                mock.patch.object(llm_client, "_http_post",
+                                  side_effect=lambda url, body, h, t: urls.append(url) or (429, {}, "x")), \
                 mock.patch.object(sg, "_dead_groq_siblings", set()), \
                 mock.patch.object(sg, "CEREBRAS_API_KEY", "k", create=True), \
                 mock.patch.object(sg, "OPENROUTER_API_KEY", "k", create=True), \
@@ -373,48 +376,66 @@ class DeadSiblingKeepsItsReason(unittest.TestCase):
 
 class GeminiBackupReviewer(unittest.TestCase):
     """Free backup when every Groq model is out of daily tokens. Dormant without GOOGLE_API_KEY,
-    so a run still fails closed exactly as before."""
+    so a run still fails closed exactly as before. Since 2026-10-23 it goes through growth-lab
+    llm_client, so the fake transport is llm_client._http_post (url, body, headers, timeout)."""
 
     def _reply(self, text="APPROVED", status=200):
-        return mock.Mock(status_code=status, text=text,
-                         json=lambda: {"choices": [{"message": {"content": text}}]})
+        import json
+        return status, {}, (json.dumps({"choices": [{"message": {"content": text}}]})
+                            if status == 200 else text)
 
     def _groq_dead(self, sg):
         return mock.patch.object(sg, "_groq_sibling_call", side_effect=RuntimeError("tokens per day"))
+
+    def _post(self, side_effect=None, return_value=None):
+        import llm_client
+        if side_effect is None:
+            side_effect = lambda url, body, headers, timeout: return_value  # noqa: E731
+        return mock.patch.object(llm_client, "_http_post", side_effect=side_effect)
+
+    def setUp(self):
+        import story_generator as sg
+        mock.patch.object(sg.time, "sleep", lambda s: None).start()
+
+    def tearDown(self):
+        mock.patch.stopall()
 
     def test_used_when_groq_is_out_and_a_key_is_set(self):
         import story_generator as sg
         seen = {}
 
-        def post(url, **kw):
-            seen.update(url=url, **kw)
+        def post(url, body, headers, timeout):
+            seen.update(url=url, json=body, headers=headers)
             return self._reply("VERDICT")
-        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", side_effect=post):
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True), self._post(post):
             resp = sg._fallback_call(model="openai/gpt-oss-120b", max_tokens=50,
                                      messages=[{"role": "user", "content": "hi"}])
         self.assertEqual(resp.choices[0].message.content, "VERDICT")
         self.assertIn("generativelanguage.googleapis.com", seen["url"])
         self.assertEqual(seen["json"]["model"], sg.GEMINI_MODELS[0])
         self.assertNotIn("k", seen["url"])                      # key travels in a header, not the URL
+        self.assertEqual(seen["headers"]["Authorization"], "Bearer k")
 
     def test_a_retired_model_falls_through_to_the_next_one(self):
         """Run 39488228312: gemini-2.5-flash answered 404 'no longer available', which killed the backup."""
         import story_generator as sg
         tried = []
 
-        def post(url, **kw):
-            tried.append(kw["json"]["model"])
+        def post(url, body, headers, timeout):
+            tried.append(body["model"])
             return self._reply("x", status=404) if len(tried) == 1 else self._reply("VERDICT")
-        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", side_effect=post):
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True), self._post(post):
             resp = sg._fallback_call(model="m", messages=[])
         self.assertEqual(resp.choices[0].message.content, "VERDICT")
         self.assertEqual(tried, list(sg.GEMINI_MODELS[:2]))
 
     def test_a_reply_with_no_content_field_is_a_clean_failure(self):
         """Live check 2026-10-20: a thinking model that ran out of tokens returned a message with no 'content'."""
+        import json
         import story_generator as sg
-        bare = mock.Mock(status_code=200, text="", json=lambda: {"choices": [{"message": {"role": "assistant"}}]})
-        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", return_value=bare):
+        bare = (200, {}, json.dumps({"choices": [{"message": {"role": "assistant"}}]}))
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True), \
+                self._post(return_value=bare):
             with self.assertRaises(RuntimeError) as cm:
                 sg._fallback_call(model="m", messages=[])
         self.assertIn("empty reply", str(cm.exception))
@@ -422,15 +443,16 @@ class GeminiBackupReviewer(unittest.TestCase):
     def test_leaves_room_to_answer_after_thinking(self):
         import story_generator as sg
         seen = {}
-        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post",
-                                  side_effect=lambda u, **kw: seen.update(kw) or self._reply("ok")):
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True), \
+                self._post(lambda u, body, h, t: seen.update(body) or self._reply("ok")):
             sg._fallback_call(model="m", messages=[], max_tokens=20)
-        self.assertGreaterEqual(seen["json"]["max_tokens"], 1024)
-        self.assertEqual(seen["json"]["reasoning_effort"], "low")
+        self.assertGreaterEqual(seen["max_tokens"], 1024)
+        self.assertEqual(seen["reasoning_effort"], "low")
 
     def test_not_used_without_a_key_so_the_run_still_fails_closed(self):
         import story_generator as sg
-        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "", create=True),                 mock.patch.object(sg._requests, "post") as post:
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "", create=True), \
+                self._post(return_value=self._reply()) as post:
             with self.assertRaises(RuntimeError):
                 sg._fallback_call(model="m", messages=[])
         post.assert_not_called()
@@ -438,15 +460,25 @@ class GeminiBackupReviewer(unittest.TestCase):
     def test_a_failing_or_empty_gemini_still_raises(self):
         import story_generator as sg
         for bad in (self._reply("x", status=429), self._reply("   ")):
-            with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                     mock.patch.object(sg._requests, "post", return_value=bad):
+            with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True), \
+                    self._post(return_value=bad):
                 with self.assertRaises(RuntimeError):
                     sg._fallback_call(model="m", messages=[])
 
     def test_network_error_raises_runtimeerror_not_a_crash_type(self):
         import story_generator as sg
-        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True),                 mock.patch.object(sg._requests, "post", side_effect=OSError("down")):
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True), \
+                self._post(side_effect=OSError("down")):
             with self.assertRaises(RuntimeError):
                 sg._fallback_call(model="m", messages=[])
+
+    def test_the_key_is_not_left_in_the_environment(self):
+        import story_generator as sg
+        before = os.environ.get("GOOGLE_API_KEY")
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k-test", create=True), \
+                self._post(return_value=self._reply()):
+            sg._fallback_call(model="m", messages=[])
+        self.assertEqual(os.environ.get("GOOGLE_API_KEY"), before)
 
 
 class PrescreenPromptTests(unittest.TestCase):
