@@ -2825,12 +2825,6 @@
   "date": "2026-10-22",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-22",
-  "strikes": 2
- },
  "Killing of David Byrne": {
   "stage": "compliance",
   "code": "age_restricted",
@@ -2842,12 +2836,6 @@
   "code": "fyf_ineligible",
   "date": "2026-10-22",
   "strikes": 1
- },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-22",
-  "strikes": 2
  },
  "Murder of Jacqueline Montgomery": {
   "stage": "prefilter",
@@ -2889,6 +2877,96 @@
   "stage": "prescreen",
   "code": "unconvicted_suspect",
   "date": "2026-10-22",
+  "strikes": 1
+ },
+ "Murder of Alistair Wilson": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Jacqueline Thomas": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-23",
+  "strikes": 4
+ },
+ "Death of Cindy James": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
+  "strikes": 3
+ },
+ "Kidnapping of Sally Horner": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Jean Bradley": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Michelle O'Keefe": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Disappearance of Marita Verón": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Moors murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Death of Vishal Mehrotra": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murder of Jermaine Goupall": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Disappearance of Tony Jones": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Murders of Albert Alfonso and Paul Longworth": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Hausjärvi Gravel Pit Murders": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-23",
   "strikes": 1
  }
 }

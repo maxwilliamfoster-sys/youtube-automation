@@ -1493,6 +1493,122 @@
     "summary": "[legal-risk detail withheld from the public log]",
     "tokens": 4324
    }
+  },
+  {
+   "checked_at": "2026-10-23T13:42:49+00:00",
+   "platform": "tiktok",
+   "file": "Aid_Workers_Plea_Then_Vanished_20261023_133839.mp4",
+   "sha256": "b68d34463c7ba5d0e6ab573646a67a8e0e9fddb26dfb0efd2ca3086af8197ad1",
+   "head": "Kidnapping and killing of Margaret Hassan case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review request too large: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7012, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 47.2,
+    "lufs": -15.0,
+    "speech_match": 1.0,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-23T13:48:17+00:00",
+   "platform": "tiktok",
+   "file": "Blue_Ford_Focus_Disappears_Man_Reappears_20261023_134559.mp4",
+   "sha256": "b8c3dc09bda24a055f9ed5ab77c47b32895ea0a629a5e03017b4bc0e9414c6aa",
+   "head": "Steven Cooper case. | UK crime story.",
+   "ok": false,
+   "failures": [
+    "AI review: The video is blocked because the background footage clearly shows the facades and entrances of private residential homes, which violates privacy guidelines. | Privacy violation: Multiple frames (e.g., the 'WITHOUT' and 'CLOTHING' shots) clearly display the facades, windows, and front entrances of private residential terraced houses. This violates the rule against showing real private homes, as viewers may misinterpret them as the crime scene or the subject's residence."
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 22.23,
+    "lufs": -15.0,
+    "speech_match": 0.83,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 8,
+    "summary": "The video is blocked because the background footage clearly shows the facades and entrances of private residential homes, which violates privacy guidelines.",
+    "tokens": 4315
+   }
+  },
+  {
+   "checked_at": "2026-10-23T13:58:01+00:00",
+   "platform": "tiktok",
+   "file": "Mystery_Fire_Two_Women_Disappear_Without_20261023_135405.mp4",
+   "sha256": "16ca00e8bf59943fd532cb5aa7ca26aa554efd2ff2572f25fdb8a94de2956b0c",
+   "head": "Jeanette Bishop and Gabriella Guerin case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review request too large: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7034, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 44.7,
+    "lufs": -15.0,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
+  },
+  {
+   "checked_at": "2026-10-23T14:25:42+00:00",
+   "platform": "tiktok",
+   "file": "AxeShattered_Heads_Little_Hell_BloodStai_20261023_142054.mp4",
+   "sha256": "a6048194b6d5927a10db0e600e57e0cc71bc089f11cf35adcf862f0e08d3db98",
+   "head": "Liland affair case. | True crime story.",
+   "ok": false,
+   "failures": [
+    "AI review unavailable: AI review request too large: HTTP 413: {\"error\":{\"message\":\"Request too large for model `qwen/qwen3.8-27b` in organization `org_***` service tier `on_demand` on input tokens per minute (ITPM): Limit 7000, Requested 7075, please reduce your"
+   ],
+   "warnings": [
+    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+   ],
+   "gate_version": "2026-10-16",
+   "report": {
+    "seconds": 55.23,
+    "lufs": -15.1,
+    "speech_match": 0.9,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "coherence": null,
+    "quality": null,
+    "summary": null,
+    "tokens": null
+   }
   }
  ]
 }
