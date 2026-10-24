@@ -3383,12 +3383,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of Leigh Matthews": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Libby Squire": {
   "stage": "prescreen",
   "code": "sexual_violence",
@@ -3526,12 +3520,6 @@
   "code": "minor_victim",
   "date": "2026-10-24",
   "strikes": 2
- },
- "Stratton Brothers case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
  },
  "Disappearance of Isabella Skelton": {
   "stage": "empty_script",
@@ -3695,12 +3683,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Kidnapping of Anabel Segura": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Death and funeral of Buenaventura Durruti": {
   "stage": "prescreen",
   "code": "other",
@@ -3722,12 +3704,6 @@
  "Murder of Ravindra Mhatre": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Laetitia Toureaux": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3779,23 +3755,11 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Disappearance of Alfredo Jiménez Mota": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Frank Newbery": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 2
- },
- "Murder of Lyn Bryant": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
  },
  "Kidnapping of Kamiyah Mobley": {
   "stage": "empty_script",
@@ -3923,12 +3887,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Kidnapping of Dr. Rajkumar": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Halsman murder case": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -3959,12 +3917,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 8
- },
  "Dacer–Corbito double murder case": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -3986,12 +3938,6 @@
  "Pelican Point Murders": {
   "stage": "prescreen",
   "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Disappearance of Carlos Ornelas Puga": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -4034,6 +3980,132 @@
  "Death of Kevin Hjalmarsson": {
   "stage": "prescreen",
   "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Disappearance of Carlos Ornelas Puga": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Lyn Bryant": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Eliyahu Asheri": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Disappearance of Alfredo Jiménez Mota": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kidnapping of Dr. Rajkumar": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Death of Nicola Bulley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Kidnapping of Anabel Segura": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kızıldere Incident": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Laetitia Toureaux": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kidnapping of Howard Woolverton": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murders at Stanfield Hall": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Stratton Brothers case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Killing of Pelumi Onifade": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Leigh Matthews": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Killing of Abraham Grünbaum": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 10
+ },
+ "Scottish Criminal Cases Review Commission": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Shepherd's Bush murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Kidnapping of Maria Àngels Feliu": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Stephen Oake": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "1984 Libyan hostage incident": {
+  "stage": "prescreen",
+  "code": "other",
   "date": "2026-10-24",
   "strikes": 1
  }
