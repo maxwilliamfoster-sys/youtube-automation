@@ -3239,12 +3239,6 @@
   "date": "2026-10-24",
   "strikes": 2
  },
- "Murder of Sally Ann McGrath": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Blue Ridge Savings Bank murders": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -3266,12 +3260,6 @@
  "Disappearance of Ilias Ali": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murders of Kate Bushell and Lyn Bryant": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3329,21 +3317,9 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of Carol Lannen": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Stephen Tibble": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Carole Packman": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3362,18 +3338,6 @@
  "Killing of Jermaine Baker": {
   "stage": "prescreen",
   "code": "active_proceedings",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Lakhvinder Cheema": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Elizabeth Chantrelle": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3396,18 +3360,6 @@
   "strikes": 1
  },
  "Kidnapping of Kamiyah Mobley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Christopher Alaneme": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-24",
@@ -3449,12 +3401,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of Olive Balchin": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Death of Eliza and Henrietta Huszti": {
   "stage": "prescreen",
   "code": "active_proceedings",
@@ -3479,27 +3425,9 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of Harry Collinson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Carol Wardell": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Victoria Cafasso": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Banaz Mahmod": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3518,12 +3446,6 @@
  "Asama-Sansō incident": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Peterborough ditch murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3611,51 +3533,15 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 3
- },
  "Kidnapping of Joshua Boyle and Caitlan Coleman": {
   "stage": "prescreen",
   "code": "sexual_violence",
   "date": "2026-10-24",
   "strikes": 1
  },
- "Death of Davina Buff Jones": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Abduction of Yusuf and Zahra Shikder": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Zahid Mubarek": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 7
- },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-24",
-  "strikes": 10
- },
- "Disappearance of Isabella Skelton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3678,6 +3564,246 @@
   "strikes": 1
  },
  "Murder of Rukhsana Naz": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Victoria Cafasso": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Carole Packman": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murders of Kate Bushell and Lyn Bryant": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Stratton Brothers case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Disappearance of Isabella Skelton": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Ann Arbor Hospital murders": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Christopher Alaneme": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Sagar Sarowar and Meherun Runi": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Death of Robert Stevens": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Pistachio ice cream case": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-24",
+  "strikes": 8
+ },
+ "Murder of Harry Collinson": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Death of Davina Buff Jones": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "SOS incident": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Elizabeth Chantrelle": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Olive Balchin": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Carol Lannen": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kidnapping and murder of Lesley Whittle": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Sally Ann McGrath": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Peterborough ditch murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kidnapping of David Rohde": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Charlene Ellis and Letisha Shakespeare": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Andrew Cunningham": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Killing of Peggy Knobloch": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Shiregreen child murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-24",
+  "strikes": 13
+ },
+ "Kidnapping of Freddy Heineken": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Lindsay Rimer": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Zahid Mubarek": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 5
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 3
+ },
+ "Murder of Sharon Beshenivsky": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Death of Esther Dingley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Lakhvinder Cheema": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Banaz Mahmod": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Octavio Rojas Hernández": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Hammersmith Ghost murder case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Bluestone family murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Lynette White": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Kidnapping of Anabel Segura": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-24",
