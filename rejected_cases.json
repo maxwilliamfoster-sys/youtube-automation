@@ -2945,27 +2945,9 @@
   "date": "2026-10-23",
   "strikes": 1
  },
- "Death of Madison Scott": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Murder of Gemma Hayter": {
   "stage": "prefilter",
   "code": "gore",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Shark Arm case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Hawker Hunter Tower Bridge incident": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-23",
   "strikes": 1
  },
@@ -2980,12 +2962,6 @@
   "code": "minor_victim",
   "date": "2026-10-23",
   "strikes": 1
- },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-23",
-  "strikes": 4
  },
  "Disappearance of Andrew Gosden": {
   "stage": "empty_script",
@@ -3002,12 +2978,6 @@
  "Disappearance of Sherlyn Cadapan and Karen Empeño": {
   "stage": "prescreen",
   "code": "sexual_violence",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Murder of Simonetta Ferrero": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-23",
   "strikes": 1
  },
@@ -3071,12 +3041,6 @@
   "date": "2026-10-23",
   "strikes": 2
  },
- "Blue Ridge Savings Bank murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Murder of Alice Gross": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -3113,23 +3077,11 @@
   "date": "2026-10-23",
   "strikes": 2
  },
- "Murders of Bibaa Henry and Nicole Smallman": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Death and state funeral of Joseph Stalin": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-23",
   "strikes": 2
- },
- "Death of Ophélie Bretnacher": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
  },
  "Hammersmith nude murders": {
   "stage": "empty_script",
@@ -3209,18 +3161,6 @@
   "date": "2026-10-23",
   "strikes": 2
  },
- "Murder of Melanie Hall": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Disappearance of Sandy Davidson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Burger Chef murders": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -3238,12 +3178,6 @@
   "code": "script_unusable",
   "date": "2026-10-23",
   "strikes": 2
- },
- "Murder of Daisaku Chiba": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
  },
  "Murder of Matt Ratana": {
   "stage": "empty_script",
@@ -3291,6 +3225,114 @@
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-23",
+  "strikes": 1
+ },
+ "Sandyford murder case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Death of Madison Scott": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murders of Bibaa Henry and Nicole Smallman": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 5
+ },
+ "Disappearance of Agatha Christie": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Melanie Hall": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Daisaku Chiba": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kidnapping of Heinrich Kreipe": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Hawker Hunter Tower Bridge incident": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Disappearance of Sandy Davidson": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Death of Ophélie Bretnacher": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Shark Arm case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Sally Ann McGrath": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Blue Ridge Savings Bank murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Simonetta Ferrero": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Claire Holland": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Disappearance of Ilias Ali": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Gresham cat hostage taking incident": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
   "strikes": 1
  }
 }

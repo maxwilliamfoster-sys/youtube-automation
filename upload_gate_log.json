@@ -39,7 +39,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [quota]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -100,7 +100,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [quota]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -554,7 +554,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -584,7 +584,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -614,7 +614,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -644,7 +644,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -674,7 +674,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -704,7 +704,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -734,7 +734,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -764,7 +764,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -794,7 +794,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -824,7 +824,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -854,7 +854,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -884,7 +884,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -914,7 +914,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1123,7 +1123,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1153,7 +1153,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1183,7 +1183,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1213,7 +1213,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1243,7 +1243,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1273,7 +1273,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1303,7 +1303,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1333,7 +1333,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1363,7 +1363,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1393,7 +1393,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1423,7 +1423,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1453,7 +1453,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1483,7 +1483,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1574,7 +1574,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1635,7 +1635,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1665,7 +1665,7 @@
    "head": null,
    "ok": false,
    "failures": [
-    "AI review unavailable: [too_large]"
+    "AI review unavailable: [unavailable]"
    ],
    "warnings": [
     "generic reach hashtags #fyp (no reach benefit; can read as spam)"
@@ -1723,6 +1723,120 @@
      "limit": 7000,
      "requested": 7044,
      "predicted_tokens": 4945,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-24T12:59:00+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "a02bb6d3faa85add0c49321c4c79693340584d19beb71c9e84538a6f272459b9",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.394,
+   "report": {
+    "seconds": 57.9,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 3618,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7101,
+     "predicted_tokens": 4999,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-24T13:23:40+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "fc453d86687948199bdc1ad3c806e7dbf9418df9ba310bbe7b837a2467872457",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.373,
+   "report": {
+    "seconds": 47.9,
+    "lufs": -14.9,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 4,
+    "tokens": 3613,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7057,
+     "predicted_tokens": 4968,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-24T13:55:19+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "a539a81ca1efef8c143ca27b5cbe50af34df35285a93f91004cdd4746ad7b7a6",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.377,
+   "report": {
+    "seconds": 51.53,
+    "lufs": -15.3,
+    "speech_match": 1.0,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "tokens": 3678,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7039,
+     "predicted_tokens": 4946,
      "stage": "fewer frames"
     }
    }
