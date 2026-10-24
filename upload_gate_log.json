@@ -1916,6 +1916,82 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-24T19:46:32+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "dd9d7d87b568c576eff6b48352b500e5b61e6f3c11c9348b3646ff2de400d5a8",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.338,
+   "report": {
+    "seconds": 50.57,
+    "lufs": -15.1,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 9,
+    "tokens": 3591,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7054,
+     "predicted_tokens": 4967,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-24T21:03:27+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "bfa001dc2944b0621aadfa55acae1256590223a233616399012cd3a67f90ac9f",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.338,
+   "report": {
+    "seconds": 45.87,
+    "lufs": -15.2,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 4,
+    "tokens": 3579,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7028,
+     "predicted_tokens": 4940,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

@@ -3011,12 +3011,6 @@
   "date": "2026-10-23",
   "strikes": 1
  },
- "Murder of Jonathan Henry": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Murder of Joy Morgan": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -3275,12 +3269,6 @@
   "date": "2026-10-24",
   "strikes": 2
  },
- "Disappearance of Vadivel Nimalarajah": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Kidnapping of Alan Johnston": {
   "stage": "prescreen",
   "code": "active_proceedings",
@@ -3311,12 +3299,6 @@
   "date": "2026-10-24",
   "strikes": 2
  },
- "Death of Brian Murphy": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Stephen Tibble": {
   "stage": "prescreen",
   "code": "other",
@@ -3326,12 +3308,6 @@
  "Murder of Lauren Burk": {
   "stage": "prescreen",
   "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Una Crown": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3356,12 +3332,6 @@
  "Death of Lee Bradley Brown": {
   "stage": "prescreen",
   "code": "active_proceedings",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Kidnapping of Kamiyah Mobley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3461,12 +3431,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of Frank Newbery": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Death of Jean Perera Sinnappa": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -3485,12 +3449,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Dacer–Corbito double murder case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Kidnapping of Shahbaz Taseer": {
   "stage": "prescreen",
   "code": "other",
@@ -3500,12 +3458,6 @@
  "Death of Colin Roach": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Luis Espinoza": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3551,21 +3503,9 @@
   "date": "2026-10-24",
   "strikes": 2
  },
- "Murder of Tina Baker": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Killing of Türkan Feyzullah": {
   "stage": "prescreen",
   "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Rukhsana Naz": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3611,12 +3551,6 @@
   "date": "2026-10-24",
   "strikes": 2
  },
- "Murder of Sagar Sarowar and Meherun Runi": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Death of Robert Stevens": {
   "stage": "prescreen",
   "code": "other",
@@ -3629,12 +3563,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 8
- },
  "Murder of Harry Collinson": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -3646,12 +3574,6 @@
   "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 2
- },
- "SOS incident": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
  },
  "Murder of Elizabeth Chantrelle": {
   "stage": "empty_script",
@@ -3725,12 +3647,6 @@
   "date": "2026-10-24",
   "strikes": 13
  },
- "Kidnapping of Freddy Heineken": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Lindsay Rimer": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -3742,24 +3658,6 @@
   "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 2
- },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 5
- },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 3
- },
- "Murder of Sharon Beshenivsky": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
  },
  "Death of Esther Dingley": {
   "stage": "empty_script",
@@ -3778,12 +3676,6 @@
   "code": "sexual_violence",
   "date": "2026-10-24",
   "strikes": 2
- },
- "Murder of Octavio Rojas Hernández": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
  },
  "Hammersmith Ghost murder case": {
   "stage": "empty_script",
@@ -3806,6 +3698,342 @@
  "Kidnapping of Anabel Segura": {
   "stage": "empty_script",
   "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Death and funeral of Buenaventura Durruti": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Abduction and killing of Nachshon Wachsman": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Jenny Nicholl": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Ravindra Mhatre": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Laetitia Toureaux": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Michalis Katsouris": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Sagar Sarowar and Meherun Runi": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Nurin Jazlin": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Death of Salman Shah": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Luis Espinoza": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Patricia Jeschke": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of George Gutteridge": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Gary Allen case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Disappearance of Alfredo Jiménez Mota": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Frank Newbery": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Lyn Bryant": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Kidnapping of Kamiyah Mobley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Killing of Azelle Rodney": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Anni Dewani": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Octavio Rojas Hernández": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Zarema Sadulayeva and Alik Dzhabrailov": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Jody Dobrowski": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Oddingley murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Catherine Carroll": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Disappearance of Vadivel Nimalarajah": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kidnapping of Freddy Heineken": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Jonathan Henry": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murders of Nicola Hughes and Fiona Bone": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of April Jones": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Kidnapping of Virginia Piper": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Kidnapping of Angelo dela Cruz": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Sharon Beshenivsky": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Death of Brian Murphy": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Garry Newlove": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Una Crown": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Kidnapping of Sharon Commins and Hilda Kawuki": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Abduction of Chloe Ayling": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Kidnapping of Dr. Rajkumar": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Halsman murder case": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 6
+ },
+ "Murder of Michael Causer": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Tina Baker": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Killing of Cenida Ramos": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 8
+ },
+ "Dacer–Corbito double murder case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "SOS incident": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Murder of Nicholas Churton": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Pelican Point Murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Disappearance of Carlos Ornelas Puga": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Hanifa Abubakar": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Rukhsana Naz": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-24",
+  "strikes": 2
+ },
+ "Killing of David Black": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Arnon Street killings": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-24",
+  "strikes": 13
+ },
+ "Shooting of Brian Stack": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Death of Kevin Hjalmarsson": {
+  "stage": "prescreen",
+  "code": "minor_victim",
   "date": "2026-10-24",
   "strikes": 1
  }
