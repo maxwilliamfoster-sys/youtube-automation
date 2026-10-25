@@ -1,3 +1,20 @@
 {
- "experiments": []
+ "experiments": [
+  {
+   "id": "buriedcasefiles-hook_card-1",
+   "channel": "buriedcasefiles",
+   "lever": "hook_card",
+   "kind": "hook style",
+   "hypothesis": "Dropping the 1.8s hook title card (straight into the spoken cold open) raises avg % watched; research says a cold open beats a title card.",
+   "control": true,
+   "variant": false,
+   "start_date": "2026-10-25",
+   "status": "running",
+   "min_n": 15,
+   "max_n": 30,
+   "metric": "avg % watched at 72h",
+   "control_metrics": {},
+   "variant_metrics": {}
+  }
+ ]
 }
