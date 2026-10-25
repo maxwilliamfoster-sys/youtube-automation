@@ -4085,29 +4085,11 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Murder of Brian Bishop": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "John Darwin disappearance case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Gay gang murders": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
   "date": "2026-10-25",
   "strikes": 1
- },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-25",
-  "strikes": 16
  },
  "Killing of Michael Ovsjannikov": {
   "stage": "prescreen",
@@ -4122,12 +4104,6 @@
   "strikes": 2
  },
  "Murder of Diana Miller": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Kidnapping of Abilio Diniz": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-25",
@@ -4175,18 +4151,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Disappearance of Brianna Maitland": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Kidnapping of Jack Teich": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Shepherd's Bush murders": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4199,12 +4163,6 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Murder of William Plommer": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Kidnapping of Edward Bremer": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4214,12 +4172,6 @@
  "Murder of Gordon Semple": {
   "stage": "prescreen",
   "code": "gore",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Disappearance of Stefanie Damron": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 1
  },
@@ -4234,12 +4186,6 @@
   "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 1
- },
- "Porn Murders": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 4
  },
  "Assassination of Sokratis Giolias": {
   "stage": "prescreen",
@@ -4295,12 +4241,6 @@
   "date": "2026-10-25",
   "strikes": 4
  },
- "Death of Mark Saunders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Franciscan University murders": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4308,12 +4248,6 @@
   "strikes": 1
  },
  "Murder of Suzanne Pilley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Templeton Woods murders": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-25",
@@ -4355,12 +4289,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Perch Garage murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Toni-Ann and Bertram Byfield": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4392,12 +4320,6 @@
   "strikes": 2
  },
  "Murder of Tom ap Rhys Pryce": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Death of Yolanda Klug": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-25",
@@ -4499,15 +4421,153 @@
   "date": "2026-10-25",
   "strikes": 19
  },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 17
- },
  "Seewen murder case": {
   "stage": "empty_script",
   "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Murder of Brian Bishop": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Death of Mark Saunders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Perch Garage murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "3 July Affair": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-25",
+  "strikes": 19
+ },
+ "Death of Yolanda Klug": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Templeton Woods murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Kidnapping of Abilio Diniz": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Porn Murders": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
+  "strikes": 5
+ },
+ "Killing of Jay Abatan": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Killing of Ami Shachori": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Disappearance of Stefanie Damron": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Disappearance of Brianna Maitland": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "John Darwin disappearance case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Murder of Shibli Sadiq Hridoy": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-25",
+  "strikes": 17
+ },
+ "Murder of Moll McCarthy": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Murder of Teresa De Simone": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Qiandao Lake incident": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Disappearance of Danielle Imbo and Richard Petrone Jr.": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Murder of Jason Martin-Smith": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Kidnapping of Jack Teich": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Murder of William Plommer": {
+  "stage": "review_error",
+  "code": "review_error",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Ding family murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
   "date": "2026-10-25",
   "strikes": 1
  }
