@@ -4133,12 +4133,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Murder of Brenda Page": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Breck Bednar": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4457,12 +4451,6 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Porn Murders": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 5
- },
  "Killing of Jay Abatan": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4499,12 +4487,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-25",
-  "strikes": 17
- },
  "Murder of Moll McCarthy": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4520,12 +4502,6 @@
  "Qiandao Lake incident": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Disappearance of Danielle Imbo and Richard Petrone Jr.": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 1
  },
@@ -4576,5 +4552,35 @@
   "code": "unconvicted_suspect",
   "date": "2026-10-25",
   "strikes": 2
+ },
+ "Murder of Brenda Page": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Porn Murders": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
+  "strikes": 6
+ },
+ "Murder of Sabina Nessa": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Disappearance of Danielle Imbo and Richard Petrone Jr.": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-25",
+  "strikes": 18
  }
 }
