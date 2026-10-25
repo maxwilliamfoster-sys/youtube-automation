@@ -2258,6 +2258,37 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-25T15:54:46+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "488c4fda8fb72d910f61c36bf37765ff0bed228b466cfc392d5a5df6f43c5772",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.377,
+   "report": {
+    "seconds": 24.53,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 4390,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
   }
  ]
 }
