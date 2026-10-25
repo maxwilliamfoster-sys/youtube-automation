@@ -2068,6 +2068,196 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-25T14:09:30+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "37d5a7df8bfe3ebdd0e7c37d4dfdac646d19d5e92bea2775c884ac3ff9acfd67",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.406,
+   "report": {
+    "seconds": 46.1,
+    "lufs": -15.1,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 3568,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7045,
+     "predicted_tokens": 4963,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-25T14:29:24+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "2f15967c76b1c5e3f7469296c1ff49bb1546e437f9018fa9162c0660525cab91",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.309,
+   "report": {
+    "seconds": 50.77,
+    "lufs": -15.3,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 3666,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7055,
+     "predicted_tokens": 4963,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-25T14:46:18+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "bcd8e5c12e465f11ce1c845e6a1240187190aca6aac92f5c3056784564177d88",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.312,
+   "report": {
+    "seconds": 45.8,
+    "lufs": -15.1,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 3761,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7065,
+     "predicted_tokens": 4981,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-25T15:04:44+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "269aac37452ddd72f1368cf648a89e8595d58931220324d8462dfd6059d750cc",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.317,
+   "report": {
+    "seconds": 59.27,
+    "lufs": -15.2,
+    "speech_match": 0.85,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 3636,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7071,
+     "predicted_tokens": 4979,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-25T15:22:08+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "f69606376bc8b1a46447f01a6d9120f282e4ad334d9ddcc75e816b48e00f4044",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.4,
+   "report": {
+    "seconds": 51.57,
+    "lufs": -15.4,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 6,
+    "quality": 7,
+    "tokens": 3666,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7080,
+     "predicted_tokens": 4992,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

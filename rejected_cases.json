@@ -3281,12 +3281,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Porn Murders": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-24",
-  "strikes": 2
- },
  "Murder of Sian O'Callaghan": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -3362,12 +3356,6 @@
  "Ardlamont mystery": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Operation Synytsia": {
-  "stage": "prescreen",
-  "code": "other",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -3965,12 +3953,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 13
- },
  "Shooting of Brian Stack": {
   "stage": "prescreen",
   "code": "other",
@@ -4107,6 +4089,72 @@
   "stage": "prescreen",
   "code": "other",
   "date": "2026-10-24",
+  "strikes": 1
+ },
+ "Murder of Caroline Mary Luard": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "2018 Los Angeles hostage incident": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Death of Keith Lyon": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Operation Synytsia": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Henry's Pub hostage incident": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-25",
+  "strikes": 15
+ },
+ "Murder of Linda Smith": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Porn Murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-25",
+  "strikes": 3
+ },
+ "Murders of Terrence and Christine Hodson": {
+  "stage": "prescreen",
+  "code": "prescreen_other",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Murder of Brooke Wilberger": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Death of Ayakannu Marithamuthu": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
   "strikes": 1
  }
 }
