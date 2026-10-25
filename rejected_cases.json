@@ -4163,12 +4163,6 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Kidnapping of Edward Bremer": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Gordon Semple": {
   "stage": "prescreen",
   "code": "gore",
@@ -4355,12 +4349,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Kidnapping of Silvia Melis": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Francesca Bimpson": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4420,12 +4408,6 @@
   "code": "active_proceedings",
   "date": "2026-10-25",
   "strikes": 19
- },
- "Seewen murder case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
  },
  "Murder of Brian Bishop": {
   "stage": "empty_script",
@@ -4570,5 +4552,29 @@
   "code": "minor_victim",
   "date": "2026-10-25",
   "strikes": 1
+ },
+ "Kidnapping of Silvia Melis": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Murder of Michelle Gardner-Quinn": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-25",
+  "strikes": 1
+ },
+ "Kidnapping of Edward Bremer": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-25",
+  "strikes": 2
+ },
+ "Seewen murder case": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-25",
+  "strikes": 2
  }
 }
