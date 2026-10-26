@@ -3725,12 +3725,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Murder of George Gutteridge": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Frank Newbery": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4097,12 +4091,6 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Murder of Diana Miller": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Death of Nina Mackay": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4277,23 +4265,11 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Death of Jack Avery": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murders at Stanfield Hall": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 2
- },
- "Murder of Tom ap Rhys Pryce": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
  },
  "Murder of Jody Dobrowski": {
   "stage": "empty_script",
@@ -4330,12 +4306,6 @@
   "code": "minor_victim",
   "date": "2026-10-25",
   "strikes": 1
- },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 9
  },
  "Kidnapping of Tanya Nicole Kach": {
   "stage": "prescreen",
@@ -4379,12 +4349,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-25",
-  "strikes": 19
- },
  "Murder of Brian Bishop": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4408,12 +4372,6 @@
   "code": "other",
   "date": "2026-10-25",
   "strikes": 1
- },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 19
  },
  "Death of Yolanda Klug": {
   "stage": "empty_script",
@@ -4541,12 +4499,6 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Porn Murders": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 6
- },
  "Murder of Sabina Nessa": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4558,12 +4510,6 @@
   "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 2
- },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-25",
-  "strikes": 18
  },
  "Killing of Marta Russo": {
   "stage": "legal",
@@ -4600,5 +4546,179 @@
   "code": "age_restricted",
   "date": "2026-10-26",
   "strikes": 2
+ },
+ "Death of Jack Avery": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Nagakute hostage incident": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Kidnapping of Colleen Stan": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Fawziyah Javed": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Maëlys de Araujo": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Evaldo Rosa case": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Disappearance of Melissa Highsmith": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of George Gutteridge": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Rey-Maupin affair": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Porn Murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-26",
+  "strikes": 7
+ },
+ "Killing of Emily Salvini": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 20
+ },
+ "Barry Bonds perjury case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 21
+ },
+ "Murders of Anne Castle and William Bryan": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "2003 Case Western Reserve University shooting": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Musharraf high treason case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of the Kumari-Baker sisters": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Diana Miller": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Kidnapping of Amber Swartz-Garcia": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 10
+ },
+ "Akiyoshi Umekawa": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Tom ap Rhys Pryce": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Carnkie murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Ceylanpınar incident": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Khadim's case": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Levi Bellfield": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Kidnapping of Rubaiya Sayeed": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-26",
+  "strikes": 21
  }
 }
