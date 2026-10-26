@@ -1,130 +1,4 @@
 {
- "Killing of Sean Brown": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Penny Bell": {
-  "stage": "compliance",
-  "code": "banned",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Esther Soper": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Bernard Oliver": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Lambeth slavery case": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Mary Speir Gunn": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Daniel Morgan": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Thames Torso Murders": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Keith Blakelock": {
-  "stage": "legal",
-  "code": "invites_speculation",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Killing of Helen Bailey": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Ann Heron": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of George Murdoch": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Rita Ellis": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Killing of Rachel Nickell": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murders of John Greenwood and Gary Miller": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Killing of Mark Duggan": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Mee Kuen Chong": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Disappearance of the Ameen family": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Murder of Céline Figard": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Hinterkaifeck murders": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-12",
-  "strikes": 1
- },
- "Lakshmikanthan murder case": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-12",
-  "strikes": 1
- },
  "Disappearance of Sarah MacDiarmid": {
   "stage": "compliance",
   "code": "fyf_ineligible",
@@ -3647,12 +3521,6 @@
   "date": "2026-10-24",
   "strikes": 2
  },
- "Hammersmith Ghost murder case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Bluestone family murders": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -3758,12 +3626,6 @@
  "Murder of Zarema Sadulayeva and Alik Dzhabrailov": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Catherine Carroll": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -4091,12 +3953,6 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Death of Nina Mackay": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Case of the Basse-Pointe 16": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4181,36 +4037,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Abduction of Jakub Fiszman": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "The Noid": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Operation Synytsia": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 4
- },
- "Franciscan University murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Suzanne Pilley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "George Brinkman murders": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4240,12 +4066,6 @@
   "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 2
- },
- "Murder of Mi Gao Huang Chen": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
  },
  "Murder of Toni-Ann and Bertram Byfield": {
   "stage": "prescreen",
@@ -4316,12 +4136,6 @@
  "Murder of Nada Cella": {
   "stage": "prescreen",
   "code": "active_proceedings",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of John Monckton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 1
  },
@@ -4499,12 +4313,6 @@
   "date": "2026-10-25",
   "strikes": 2
  },
- "Murder of Sabina Nessa": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Disappearance of Danielle Imbo and Richard Petrone Jr.": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4583,12 +4391,6 @@
   "date": "2026-10-26",
   "strikes": 1
  },
- "Disappearance of Melissa Highsmith": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Murder of George Gutteridge": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4601,39 +4403,9 @@
   "date": "2026-10-26",
   "strikes": 1
  },
- "Porn Murders": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-26",
-  "strikes": 7
- },
  "Killing of Emily Salvini": {
   "stage": "prescreen",
   "code": "minor_victim",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 20
- },
- "Barry Bonds perjury case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-26",
-  "strikes": 21
- },
- "Murders of Anne Castle and William Bryan": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-26",
   "strikes": 1
  },
@@ -4673,12 +4445,6 @@
   "date": "2026-10-26",
   "strikes": 10
  },
- "Akiyoshi Umekawa": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Murder of Tom ap Rhys Pryce": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4703,15 +4469,225 @@
   "date": "2026-10-26",
   "strikes": 1
  },
- "Levi Bellfield": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Kidnapping of Rubaiya Sayeed": {
   "stage": "prescreen",
   "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Disappearance of Melissa Highsmith": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Suzanne Pilley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Abduction of Jakub Fiszman": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 21
+ },
+ "Porn Murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-26",
+  "strikes": 8
+ },
+ "Murder of Somaiya Begum": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Death of Nina Mackay": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Chaskel Werzberger": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Killing of David Morley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Kidnapping of Antonio Pampliega, José Manuel López and Ángel Sastre": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Claustre Affair": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Aya Hachem": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "2014 Colchester murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of John Monckton": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Faiza Ashraf": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "The Noid": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 3
+ },
+ "Robert Brown case": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Akiyoshi Umekawa": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-26",
+  "strikes": 3
+ },
+ "Death of Kent Leppink": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Catherine Carroll": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Kenneth Noye": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Mi Gao Huang Chen": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Claire Leveque": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Raja Ahmed": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Sabina Nessa": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Allan Chappelow": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Operation Synytsia": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 7
+ },
+ "Murder of Maxwell Garvie": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Killing of Sean Brown": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Lucia de Berk case": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Franciscan University murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Bernard Oliver": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Barry Bonds perjury case": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Lambeth slavery case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Hungerford police murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Penny Bell": {
+  "stage": "empty_script",
+  "code": "script_unusable",
   "date": "2026-10-26",
   "strikes": 1
  },
@@ -4719,6 +4695,108 @@
   "stage": "prescreen",
   "code": "active_proceedings",
   "date": "2026-10-26",
-  "strikes": 21
+  "strikes": 28
+ },
+ "Thames Torso Murders": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Sandeep Kothari": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Killing of Helen Bailey": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 27
+ },
+ "Killing of Usama Nadeem Satti": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Levi Bellfield": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Margaret Cook": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Ann Heron": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Daniel Morgan": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murders of Anne Castle and William Bryan": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Rita Ellis": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Hammersmith Ghost murder case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Killing of Rachel Nickell": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Mee Kuen Chong": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Françoise Chabé": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Killing of Mark Duggan": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Keith Blakelock": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 1
  }
 }
