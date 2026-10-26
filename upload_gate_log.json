@@ -2289,6 +2289,80 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_block] withheld from the public log"
    }
+  },
+  {
+   "checked_at": "2026-10-26T17:02:53+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "226fbb5f0484777fe1300473c92a3742b656e09b36d0d177bf98a626f6fde70f",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.405,
+   "report": {
+    "seconds": 45.37,
+    "lufs": -14.8,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 5,
+    "quality": 6,
+    "tokens": 3680,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7053,
+     "predicted_tokens": 4967,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-26T17:24:02+00:00",
+   "platform": "tiktok",
+   "file": "Escaped_After_492_Days_20261026_172022.mp4",
+   "sha256": "69482993ffe16af3b46c35c00dcd6764f97a85594f4f7c0da5f8bffa019de981",
+   "head": "Inside the Kidnapping of Maria Àngels Feliu case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.357,
+   "report": {
+    "seconds": 40.17,
+    "lufs": -14.9,
+    "speech_match": 0.9,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3506,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7048,
+     "predicted_tokens": 4971,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

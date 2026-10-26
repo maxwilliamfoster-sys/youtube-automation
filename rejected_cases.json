@@ -3731,12 +3731,6 @@
   "date": "2026-10-24",
   "strikes": 1
  },
- "Gary Allen case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Frank Newbery": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4139,12 +4133,6 @@
   "date": "2026-10-25",
   "strikes": 1
  },
- "Murder of Menachem Stark": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Shepherd's Bush murders": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4168,12 +4156,6 @@
   "code": "script_unusable",
   "date": "2026-10-25",
   "strikes": 2
- },
- "Dikko affair": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
  },
  "Assassination of Sokratis Giolias": {
   "stage": "prescreen",
@@ -4582,5 +4564,41 @@
   "code": "sexual_violence",
   "date": "2026-10-25",
   "strikes": 18
+ },
+ "Killing of Marta Russo": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Johnny Lee Wilson case": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Murder of Harriet Staunton": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-26",
+  "strikes": 1
+ },
+ "Gary Allen case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Dikko affair": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-26",
+  "strikes": 2
+ },
+ "Murder of Menachem Stark": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-26",
+  "strikes": 2
  }
 }
