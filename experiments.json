@@ -13,8 +13,17 @@
    "min_n": 15,
    "max_n": 30,
    "metric": "avg % watched at 72h",
-   "control_metrics": {},
-   "variant_metrics": {}
+   "control_metrics": {
+    "n": 0,
+    "views72": null
+   },
+   "variant_metrics": {
+    "n": 0,
+    "views72": null
+   },
+   "verdict": "keep running",
+   "last_judged": "2026-10-26",
+   "result": "buriedcasefiles-hook_card-1 · avg % watched at 72h: KEEP RUNNING — n=0 vs 0 (min 15, max 30)"
   }
  ]
 }

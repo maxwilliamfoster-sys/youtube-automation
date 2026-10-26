@@ -1,13 +1,13 @@
 {
- "updated": "2026-10-25 00:29 UTC",
+ "updated": "2026-10-26 00:34 UTC",
  "summary": {
-  "views": 2671,
-  "retention": 0.35977272727272724,
+  "views": 2103,
+  "retention": 0.294468085106383,
   "swipe_away": null,
-  "posts": 8,
+  "posts": 6,
   "note": "views = latest totals of posts from the last 7 days; retention = median avg % watched; TikTok gives no swipe-away via Buffer"
  },
  "actions": [
-  "buriedcasefiles: STARTED buriedcasefiles-hook_card-1: hook_card True -> False (Dropping the 1.8s hook title card (straight into the spoken cold open) raises avg % watched; research says a cold open beats a title card.)"
+  "buriedcasefiles: running buriedcasefiles-hook_card-1 (buriedcasefiles-hook_card-1 · avg % watched at 72h: KEEP RUNNING — n=0 vs 0 (min 15, max 30))"
  ]
 }
