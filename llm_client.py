@@ -1,4 +1,4 @@
-# vendored from growth-lab/llm_client.py @ c0d30e9
+# vendored from growth-lab/llm_client.py @ a0fbaa7
 """llm_client: one free-tier LLM router for every bot (growth-lab S2, master copy).
 
 Edit it HERE, then roll it out with sync_vendored.py. Stdlib only.
@@ -129,6 +129,7 @@ def _is_daily(text):
 
 
 _ORG_USE = re.compile(r"Limit\s+(\d+),\s*Used\s+(\d+)", re.I)
+_TRY_AGAIN = re.compile(r"try again in\s+((?:\d+(?:\.\d+)?(?:ms|h|m|s))+)", re.I)
 
 
 # ---------------------------------------------------------------- transport --
@@ -164,10 +165,11 @@ class GroqBudget:
     of 0, and the 'Used N' figure in a TPD 429). `share` caps this bot's slice of
     each model's TPD, so bots on the same org can split a bucket (e.g. 0.5)."""
 
-    def __init__(self, path, limits=None, share=1.0, today=None):
+    def __init__(self, path, limits=None, share=1.0, today=None, clock=time.time):
         self.path = path
         self.limits = dict(GROQ_TPD, **(limits or {}))
         self.share = float(share)
+        self.clock = clock
         self.day = today or _today()
         self.data = {"day": self.day, "models": {}}
         try:
@@ -207,6 +209,7 @@ class GroqBudget:
         reset = parse_duration(headers.get("x-ratelimit-reset-requests"))
         if reset is not None:
             m["rpd_reset_s"] = reset
+            m["rpd_seen_at"] = self.clock()
 
     def note_org_usage(self, model, used, limit=None):
         m = self._m(model)
@@ -214,15 +217,35 @@ class GroqBudget:
         if limit:
             m["org_limit"] = int(limit)
 
-    def mark_exhausted(self, model):
-        self._m(model)["exhausted"] = True
+    def mark_exhausted(self, model, retry_after=None):
+        """Groq's daily buckets refill on a rolling window, so a TPD 429's "try again in
+        8m1s" (or Retry-After) ends the block. Without a hint it lasts the UTC day."""
+        m = self._m(model)
+        m["exhausted"] = True
+        m.pop("exhausted_until", None)
+        if retry_after is not None:
+            m["exhausted_until"] = self.clock() + float(retry_after)
+
+    def _blocked(self, m):
+        now = self.clock()
+        if m.get("exhausted"):
+            until = m.get("exhausted_until")
+            if until is None or now < float(until):
+                return True
+        if m.get("rpd_remaining") == 0:
+            reset, seen = m.get("rpd_reset_s"), m.get("rpd_seen_at")
+            if reset is None or seen is None or now < float(seen) + float(reset):
+                return True
+        return False
 
     def remaining(self, model):
         m = self.data["models"].get(model, {})
-        if m.get("exhausted") or m.get("rpd_remaining") == 0:
+        if self._blocked(m):
             return 0
         own = self.limit(model) - int(m.get("tokens", 0))
-        if "org_used" in m:  # the org-wide figure from a 429 is the better number
+        # The org-wide figure from a 429 is the better number, until that 429's hint expired
+        # (the rolling window has refilled since, so the figure is stale).
+        if "org_used" in m and not m.get("exhausted_until"):
             org_left = int(m.get("org_limit", self.limits.get(model, DEFAULT_TPD))) - m["org_used"]
             own = min(own, org_left)
         return max(0, own)
@@ -334,10 +357,11 @@ def chat(messages, groq_models=None, gemini_models=None, budget=None, exclude_mo
                     content = (j["choices"][0]["message"].get("content") or "").strip()
                 except (ValueError, KeyError, IndexError, TypeError):
                     j, content = {}, ""
+                if provider == "groq" and budget is not None and isinstance(j, dict):
+                    # billed even when the reply is empty (reasoning used up max_tokens)
+                    budget.record(model, (j.get("usage") or {}).get("total_tokens", 0))
+                    _save(budget, log)
                 if content:
-                    if provider == "groq" and budget is not None:
-                        budget.record(model, (j.get("usage") or {}).get("total_tokens", 0))
-                        _save(budget, log)
                     finish = "length" if j["choices"][0].get("finish_reason") == "length" else None
                     if finish:
                         log(f"[llm] {provider} {model}: reply cut off at max_tokens "
@@ -355,7 +379,11 @@ def chat(messages, groq_models=None, gemini_models=None, budget=None, exclude_mo
             if status == 429 and _is_daily(text):
                 log(f"[llm] {provider} {model}: daily cap reached - next model")
                 if provider == "groq" and budget is not None:
-                    budget.mark_exhausted(model)
+                    hint = parse_duration((headers or {}).get("retry-after"))
+                    if hint is None:
+                        t = _TRY_AGAIN.search(text or "")
+                        hint = parse_duration(t.group(1)) if t else None
+                    budget.mark_exhausted(model, retry_after=hint)
                     m = _ORG_USE.search(text or "")
                     if m:
                         budget.note_org_usage(model, used=int(m.group(2)), limit=int(m.group(1)))
