@@ -34,6 +34,13 @@ class Sandbox(unittest.TestCase):
         self.tmp = tempfile.mkdtemp()
         for f in ("experiments.json", "levers.json", "loop_config.json"):
             shutil.copy(os.path.join(ROOT, f), self.tmp)
+        # The live file gains running tests from CI (hook_card-1 since 10-25); start from none.
+        path = os.path.join(self.tmp, "experiments.json")
+        with open(path, encoding="utf-8") as fh:
+            exps = json.load(fh)
+        exps["experiments"] = []
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(exps, fh)
         mock.patch.object(ln, "HERE", self.tmp).start()
 
     def tearDown(self):
