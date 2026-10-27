@@ -11,7 +11,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -42,7 +42,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -72,7 +72,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -103,7 +103,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -130,10 +130,10 @@
    "head": null,
    "ok": false,
    "failures": [
-    "video check could not run: could not decode a frame at 47.5s"
+    "video check could not run (…)"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -163,7 +163,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -194,7 +194,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -225,7 +225,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -253,10 +253,10 @@
    "head": null,
    "ok": false,
    "failures": [
-    "link in a TikTok caption (…) - off-platform diversion"
+    "link in a TikTok caption (…)"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -286,7 +286,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -315,7 +315,7 @@
    "ok": true,
    "failures": [],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -346,7 +346,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -377,7 +377,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -406,7 +406,7 @@
    "ok": true,
    "failures": [],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -437,7 +437,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -468,7 +468,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -497,7 +497,7 @@
    "ok": true,
    "failures": [],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -526,7 +526,7 @@
    "ok": true,
    "failures": [],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -557,7 +557,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -587,7 +587,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -617,7 +617,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -647,7 +647,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -677,7 +677,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -707,7 +707,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -737,7 +737,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -767,7 +767,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -797,7 +797,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -827,7 +827,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -857,7 +857,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -887,7 +887,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -917,7 +917,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -947,7 +947,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -975,10 +975,10 @@
    "head": null,
    "ok": false,
    "failures": [
-    "video check could not run: could not decode a frame at 39.0s"
+    "video check could not run (…)"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1008,7 +1008,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1037,7 +1037,7 @@
    "ok": true,
    "failures": [],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1066,7 +1066,7 @@
    "ok": true,
    "failures": [],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1095,7 +1095,7 @@
    "ok": true,
    "failures": [],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1126,7 +1126,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1156,7 +1156,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1186,7 +1186,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1216,7 +1216,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1246,7 +1246,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1276,7 +1276,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1306,7 +1306,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1336,7 +1336,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1366,7 +1366,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1396,7 +1396,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1426,7 +1426,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1456,7 +1456,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1486,7 +1486,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1513,10 +1513,10 @@
    "head": null,
    "ok": false,
    "failures": [
-    "video check could not run: could not decode a frame at 48.3s"
+    "video check could not run (…)"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1546,7 +1546,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1577,7 +1577,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1607,7 +1607,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1638,7 +1638,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1668,7 +1668,7 @@
     "AI review unavailable: [unavailable]"
    ],
    "warnings": [
-    "generic reach hashtags #fyp (no reach benefit; can read as spam)"
+    "generic reach hashtags (…)"
    ],
    "gate_version": "2026-10-16",
    "head_similarity": null,
@@ -1698,7 +1698,7 @@
     "AI review: [ai_block] withheld from the public log"
    ],
    "warnings": [
-    "9 hashtags - TikTok search uses the first few"
+    "9 hashtags (…)"
    ],
    "gate_version": "2026-10-23",
    "head_similarity": 0.413,
@@ -2474,6 +2474,182 @@
      "limit": 7000,
      "requested": 7054,
      "predicted_tokens": 4959,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-27T20:28:32+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "d2b0e71c023b521e9023af57de457a941abf7c97e1475da0867bec47285b643e",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.762,
+   "report": {
+    "seconds": 23.93,
+    "lufs": -15.2,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 4392,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-10-27T20:47:17+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "1be5a903f25ba33895cac7eaee86cd647ecf02f08c36a314f477bee4281cf8bf",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.776,
+   "report": {
+    "seconds": 55.47,
+    "lufs": -15.2,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 3657,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7044,
+     "predicted_tokens": 4954,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-27T20:59:47+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "073d9609d72dcd39ca54def10902821bc520ba3b451151eb21aa3a39df4fe10a",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.757,
+   "report": {
+    "seconds": 35.7,
+    "lufs": -14.8,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 5,
+    "quality": 6,
+    "tokens": 4314,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-10-27T21:17:47+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "d5ca2ce7aaa93e96e715460c8c5954ebbee327df3e9d653bc49ff1bf52a7b514",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.674,
+   "report": {
+    "seconds": 57.83,
+    "lufs": -15.1,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3637,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7050,
+     "predicted_tokens": 4951,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-27T21:36:05+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "d931b055e73d2ae17f4bbd5d2426ea9ff5a824de62e074da8b46740bf75edb63",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-23",
+   "head_similarity": 0.687,
+   "report": {
+    "seconds": 50.43,
+    "lufs": -14.8,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 3645,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7058,
+     "predicted_tokens": 4967,
      "stage": "fewer frames"
     }
    }

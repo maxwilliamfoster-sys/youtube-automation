@@ -16,8 +16,8 @@
    "tokens": 58156
   },
   "qwen/qwen3.8-27b": {
-   "requests": 2,
-   "tokens": 7367
+   "requests": 7,
+   "tokens": 27012
   }
  }
 }
