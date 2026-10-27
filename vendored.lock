@@ -24,8 +24,8 @@
       "local_patch": true
     },
     "llm_client.py": {
-      "sha256": "060c472e3cf8c31a5fb12159b63a46f99e4c181999133349ff43e508c7c1d464",
-      "master_sha": "f8486aa58263363317d097d68798a870bb2b4337bf446200ecee4afef2ec36fc",
+      "sha256": "187b2de6d5e589e348ec0aea81ddc33ad42945ec271e842da0c3d7e2f11b9dd2",
+      "master_sha": "98ccaff9d5b6c5bc2ffea6745c91a403ebd83ed69b66346f565d953457dec6f7",
       "local_patch": true
     },
     "upload_gate.py": {

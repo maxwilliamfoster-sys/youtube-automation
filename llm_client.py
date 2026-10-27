@@ -1,4 +1,4 @@
-# vendored from growth-lab/llm_client.py @ dcc0174
+# vendored from growth-lab/llm_client.py @ c0d30e9
 """llm_client: one free-tier LLM router for every bot (growth-lab S2, master copy).
 
 Edit it HERE, then roll it out with sync_vendored.py. Stdlib only.
@@ -63,6 +63,10 @@ GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/openai/chat/compl
 GROQ_MODELS = ("openai/gpt-oss-120b", "openai/gpt-oss-20b")
 # Rolling -latest aliases first: Google retires pinned ids (gemini-2.5-flash 404'd on 2026-10-20).
 GEMINI_MODELS = ("gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.1-flash-lite")
+# reasoning_effort "low" lets Gemini think for up to 1024 tokens, and those count against
+# max_tokens. Added on top of the caller's budget so the answer keeps its own room
+# (a 600-token writer budget capped at 1024 left BCF scripts at ~25 words on 2026-10-27).
+GEMINI_THINKING_TOKENS = 1024
 
 # Tokens per day, per model, per organisation (Groq free plan base limits).
 GROQ_TPD = {
@@ -272,18 +276,17 @@ def _groq_body(model, messages, kw):
 
 def _gemini_body(model, messages, kw):
     body = {"model": model, "messages": messages,
-            # thinking tokens share max_tokens; a low effort leaves room to answer
-            "max_tokens": max(int(kw.get("max_tokens") or 1400), 1024),
+            "max_tokens": int(kw.get("max_tokens") or 1400) + GEMINI_THINKING_TOKENS,
             "reasoning_effort": "low"}
     if kw.get("temperature") is not None:
         body["temperature"] = kw["temperature"]
     return body
 
 
-def _wrap(text, provider, model, usage, headers):
+def _wrap(text, provider, model, usage, headers, finish_reason=None):
     return SimpleNamespace(
         choices=[SimpleNamespace(message=SimpleNamespace(content=text))],
-        provider=provider, model=model, headers=headers,
+        provider=provider, model=model, headers=headers, finish_reason=finish_reason,
         usage=SimpleNamespace(total_tokens=int((usage or {}).get("total_tokens") or 0),
                               prompt_tokens=int((usage or {}).get("prompt_tokens") or 0),
                               completion_tokens=int((usage or {}).get("completion_tokens") or 0)))
@@ -335,7 +338,11 @@ def chat(messages, groq_models=None, gemini_models=None, budget=None, exclude_mo
                     if provider == "groq" and budget is not None:
                         budget.record(model, (j.get("usage") or {}).get("total_tokens", 0))
                         _save(budget, log)
-                    return _wrap(content, provider, model, j.get("usage"), headers)
+                    finish = "length" if j["choices"][0].get("finish_reason") == "length" else None
+                    if finish:
+                        log(f"[llm] {provider} {model}: reply cut off at max_tokens "
+                            f"({len(content.split())} words)")
+                    return _wrap(content, provider, model, j.get("usage"), headers, finish)
                 attempts.append((model, "empty reply"))
                 log(f"[llm] {provider} {model}: empty reply - trying the next model")
                 transient.append((provider, model))

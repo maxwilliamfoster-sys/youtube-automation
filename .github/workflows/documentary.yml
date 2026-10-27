@@ -94,8 +94,13 @@ jobs:
       actions: write    # to start a catch-up run when every video was blocked
 
     steps:
+      # The branch tip, not the trigger commit: a run that queued behind another would
+      # otherwise start from state older than that run's commit, reuse its cases and
+      # ledger, and fail to rebase its own state on top (10-26 22:14, 10-27 17:29).
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v7
