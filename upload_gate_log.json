@@ -2653,6 +2653,151 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-27T22:08:45+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "f1889a00a52e87370aee2c5097ac8f825170a54b5dc31a3a9622e2ab3d50fbcb",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.71,
+   "report": {
+    "seconds": 51.93,
+    "lufs": -15.1,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3669,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7022,
+     "predicted_tokens": 4930,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-27T22:23:38+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "38f7124f9230cf178af79c0458ca6b7651d80e8dce1d6ba6f9aae02c286683cc",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [
+    "8 hashtags (…)"
+   ],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.69,
+   "report": {
+    "seconds": 45.4,
+    "lufs": -14.9,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3686,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7019,
+     "predicted_tokens": 4923,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-27T22:44:50+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "93673498ae2acf76cad2f6c265a983223d4537ee85d7a6822309b17437e25d29",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.75,
+   "report": {
+    "seconds": 55.57,
+    "lufs": -14.8,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3750,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7106,
+     "predicted_tokens": 5007,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-27T22:56:20+00:00",
+   "platform": "tiktok",
+   "file": "She_vanished_without_a_single_traceThe_c_20261027_225438.mp4",
+   "sha256": "78f304977ff8bfdc82df496dbe2478a69a004e5ddc1b148f633b202d95439053",
+   "head": "Claudia Lawrence case. | UK crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.704,
+   "report": {
+    "seconds": 22.4,
+    "lufs": -14.8,
+    "speech_match": 1.0,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4232,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
