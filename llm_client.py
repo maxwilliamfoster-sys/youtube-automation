@@ -1,4 +1,4 @@
-# vendored from growth-lab/llm_client.py @ a0fbaa7
+# vendored from growth-lab/llm_client.py @ e45909d
 """llm_client: one free-tier LLM router for every bot (growth-lab S2, master copy).
 
 Edit it HERE, then roll it out with sync_vendored.py. Stdlib only.
@@ -124,7 +124,8 @@ def parse_duration(v):
 
 def _is_daily(text):
     t = (text or "").lower()
-    return ("per day" in t or "(tpd)" in t or "(rpd)" in t
+    # Gemini names its daily bucket "...PerDayPerProjectPerModel-FreeTier" (no space)
+    return ("per day" in t or "perday" in t or "(tpd)" in t or "(rpd)" in t
             or re.search(r"\btpd\b|\brpd\b", t) is not None)
 
 
@@ -390,6 +391,9 @@ def chat(messages, groq_models=None, gemini_models=None, budget=None, exclude_mo
                 continue
             if status == 404:
                 log(f"[llm] {provider} {model}: HTTP 404 (retired?) - next model")
+                continue
+            if status == 413:                    # the same request stays too large after any wait
+                log(f"[llm] {provider} {model}: HTTP 413 (request too large) - next model")
                 continue
             log(f"[llm] {provider} {model}: HTTP {status} - next model")
             transient.append((provider, model))
