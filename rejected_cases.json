@@ -1,502 +1,4 @@
 {
- "Death of Niall Molloy": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Kidnapping of Debra Puglisi": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Killing of Lasa and Zabala": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Murder of Chloé Ansel": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Kidnapping of Selsela Alikhil": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Kidnapping and murder of Aldo Moro": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Murder of Vera Page": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Murder of Pamela Werner": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Kidnapping of Jayme Closs": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Disappearance of Aimee Semple McPherson": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Beilis affair": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Death of Lim Shiow Rong": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Killing of Jamie Meah": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Murder of Simone Strobel": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Central Park jogger case": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Robert Lee Stinson case": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Murder of Becky O'Connell": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Killing of Charles Walton": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Death of Tina Fontaine": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Death of Manon Dubé": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Murder of Segametsi Mogomotsi": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-13",
-  "strikes": 1
- },
- "Murder of Peggy Hettrick": {
-  "stage": "prefilter",
-  "code": "active_proceedings",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Amanda Duffy": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Jane Clouson": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Disappearance of Fiona Pender": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Bear Brook murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Lundy murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Simon Levy case": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Tanvir Muhammad Taqi": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Killing of Dot King": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murders of Jacqueline Ansell-Lamb and Barbara Mayo": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Oklahoma Girl Scout murders": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Disappearance of Suzanne Lyall": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Kirsty Jones": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Denise McGregor": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Alesha MacPhail": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Killing of Naomi Irion": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Kalinka Bamberski case": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Killing of Shosei Koda": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Shakilus Townsend": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Tina Harmon": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Arlene Arkinson": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Soujanya rape and murder case": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Disappearance of Beverly Potts": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Shooting of Gold Dagal": {
-  "stage": "prefilter",
-  "code": "active_proceedings",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Jessica Ridgeway": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Raonaid Murray": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Ross Parker": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Babes in the Wood murders (Stanley Park)": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Anthony Walker": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Ellie Gould": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Daniel Handley": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Noor Mukadam": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "House of Blood murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Kidnapping of Shannon Matthews": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Henry Nowak": {
-  "stage": "prefilter",
-  "code": "active_proceedings",
-  "date": "2026-10-14",
-  "strikes": 1
- },
- "Murder of Santosh Deshmukh": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Lesley Molseed": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Kriss Donald": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Elianne Andam": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Bowraville murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Zoe Parker": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Mueller family murders": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Abduction of Russian diplomats in Iraq": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Karen Price": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Suzanne Capper": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Katarzyna Zowada": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Kelsey Smith": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Tia Sharp": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Brianna Denison": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Mark Tildesley": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Wendy Sewell": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Death of Noah Donohoe": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Jaidyn Leskie": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Killing of Melanie Carpenter": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Wendy Albano": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Sophie Hook": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Becky Watts": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Disappearance of Alex Sloley": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Murder of Sara Anne Wood": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Disappearance of Helena Andersson": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Abduction of Waliullah and Al Muqaddas": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-15",
-  "strikes": 1
- },
- "Babes in the Wood murders (Epping Forest)": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-16",
-  "strikes": 1
- },
  "North Kanto serial kidnappings and murders": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4169,12 +3671,6 @@
   "date": "2026-10-26",
   "strikes": 1
  },
- "Robert Brown case": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Death of Kent Leppink": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4187,35 +3683,17 @@
   "date": "2026-10-26",
   "strikes": 2
  },
- "Kenneth Noye": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Murder of Mi Gao Huang Chen": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-26",
   "strikes": 2
  },
- "Murder of Raja Ahmed": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Murder of Sabina Nessa": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-26",
   "strikes": 2
- },
- "Murder of Maxwell Garvie": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 1
  },
  "Killing of Sean Brown": {
   "stage": "prescreen",
@@ -4325,12 +3803,6 @@
   "date": "2026-10-26",
   "strikes": 1
  },
- "Murder of Céline Figard": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Murder of Penny Bell": {
   "stage": "prescreen",
   "code": "gore",
@@ -4340,12 +3812,6 @@
  "Murders of John Greenwood and Gary Miller": {
   "stage": "prefilter",
   "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Disappearance of Sarah Burton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-27",
   "strikes": 1
  },
@@ -4373,12 +3839,6 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "Death of Amber Tuccaro": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Lakshmikanthan murder case": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4402,12 +3862,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-10-27",
   "strikes": 1
- },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 22
  },
  "Murder of Keith Blakelock": {
   "stage": "empty_script",
@@ -4445,21 +3899,9 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "Michael Stone (criminal)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Murder of Claire Woolterton": {
   "stage": "prefilter",
   "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Angela Wrightson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-27",
   "strikes": 1
  },
@@ -4631,12 +4073,6 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "Disappearance of Evelyn Hartley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Murder of Marie Goudreau": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4655,23 +4091,11 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 4
- },
  "Murder of Rhys Jones": {
   "stage": "prefilter",
   "code": "minor_victim",
   "date": "2026-10-27",
   "strikes": 1
- },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-27",
-  "strikes": 30
  },
  "Murder of Queenie Hart": {
   "stage": "prescreen",
@@ -4775,27 +4199,603 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 29
- },
  "Megan Williams case": {
   "stage": "prefilter",
   "code": "sexual_violence",
   "date": "2026-10-27",
   "strikes": 1
  },
- "Akiyoshi Umekawa": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 4
- },
  "Murder of Stephanie Crowe": {
   "stage": "prefilter",
   "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Susanne Lindholm": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Anthonette Cayedito": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 23
+ },
+ "Disappearance of Tara Calico": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Edward Drummond": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Nancy Guthrie": {
+  "stage": "prefilter",
+  "code": "active_proceedings",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Jason Spencer": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Mary Margaret Moran": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Kidnapping and murder of Aldo Moro": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Death of Amber Tuccaro": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Killing of Lizzie O'Neill": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Isla Bryson case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Vera Page": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Sarah Burton": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Kidnapping of Jayme Closs": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murders of Christine and Lucy Lee": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Melbourne gangland killings": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Aimee Semple McPherson": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Death of Lim Shiow Rong": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Killing of Lasa and Zabala": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Robert Lee Stinson case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Chloé Ansel": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Asad Shah": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Killing of Charles Walton": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Margaret Perry": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Becky O'Connell": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Killing of Jamie Meah": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Kidnapping of Selsela Alikhil": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Beilis affair": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Pamela Werner": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Death of Tina Fontaine": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Raja Ahmed": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Murder of Amanda Duffy": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Death of Manon Dubé": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Maxwell Garvie": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Kidnapping of Debra Puglisi": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Killing of Dot King": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Kristin Smart": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Peggy Hettrick": {
+  "stage": "prefilter",
+  "code": "active_proceedings",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Suzanne Lyall": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "The Noid": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 5
+ },
+ "Murder of Kirsty Jones": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Central Park jogger case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Lundy murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Alesha MacPhail": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Evelyn Hartley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Simon Levy case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Denise McGregor": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murders of Jacqueline Ansell-Lamb and Barbara Mayo": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Kalinka Bamberski case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-27",
+  "strikes": 32
+ },
+ "Killing of Shosei Koda": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Masego Kgomo": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Soujanya rape and murder case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Bear Brook murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Michael Stone (criminal)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 3
+ },
+ "Killing of Naomi Irion": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Beverly Potts": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Jane Clouson": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Raonaid Murray": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Rania Alayed": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Esther Brown": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Ellie Gould": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Shooting of Gold Dagal": {
+  "stage": "prefilter",
+  "code": "active_proceedings",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Oklahoma Girl Scout murders": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Henry Nowak": {
+  "stage": "prefilter",
+  "code": "active_proceedings",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Ashley Summers": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 30
+ },
+ "Murder of Santosh Deshmukh": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Céline Figard": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "House of Blood murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Robert Brown case": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Murder of Ross Parker": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Shakilus Townsend": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Daniel Handley": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "February 2007 Salvadoran congressmen killings": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Kriss Donald": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Abduction of Russian diplomats in Iraq": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Suzanne Capper": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Death of Niall Molloy": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Kelsey Smith": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Bowraville murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Kidnapping of Shannon Matthews": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Brianna Denison": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Tanvir Muhammad Taqi": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Simone Strobel": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Zoe Parker": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Katarzyna Zowada": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Angela Wrightson": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Babes in the Wood murders (Stanley Park)": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Lesley Molseed": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Noor Mukadam": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Akiyoshi Umekawa": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-27",
+  "strikes": 7
+ },
+ "Murder of Tina Harmon": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Murder of Wendy Sewell": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Kenneth Noye": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-27",
+  "strikes": 2
+ },
+ "Killing of Melanie Carpenter": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-27",
+  "strikes": 1
+ },
+ "Disappearance of Helena Andersson": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
   "date": "2026-10-27",
   "strikes": 1
  }
