@@ -1,58 +1,4 @@
 {
- "Lambeth Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Disappearance of Cédrika Provencher": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Murder of Logan Mwangi": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Killing of Louise Jensen": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Murder of Tia Rigg": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Marković affair": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Death of Luis Andres Colmenares": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Murder of Ang May Hong": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Murder of Helen McCourt": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-19",
-  "strikes": 1
- },
  "Murder of the Lowe family": {
   "stage": "prefilter",
   "code": "sexual_violence",
@@ -4794,6 +4740,60 @@
   "strikes": 1
  },
  "Killing of Damilola Taylor": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Ashikaga murder case": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Disappearance of Krystal Fraser": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Victoria Climbié": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Elizabeth Parravicini": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Paul Quinn": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murders of Helen and Margaret Lynch": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Disappearance of Cédrika Provencher": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Death of Chan Yin-lam": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Ang May Hong": {
   "stage": "prefilter",
   "code": "minor_victim",
   "date": "2026-10-28",

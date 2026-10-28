@@ -3127,6 +3127,35 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-10-28T21:05:41+00:00",
+   "platform": "tiktok",
+   "file": "Stolen_baby_solves_her_own_kidnapping_20261028_210205.mp4",
+   "sha256": "444c11e676576e7fa5e2a97ba19ca6b109aaef4d026287872bfef682a88b6080",
+   "head": "Kidnapping of Carlina White: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.436,
+   "report": {
+    "seconds": 51.27,
+    "lufs": -15.1,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4264,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
