@@ -2798,6 +2798,106 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-10-28T16:29:21+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "0ee16ed4f1fa04ee39220908714dc4071d094b46a7f2d709229ab504d08d0471",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.423,
+   "report": {
+    "seconds": 46.7,
+    "lufs": -15.1,
+    "speech_match": 0.9,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 3676,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7060,
+     "predicted_tokens": 4977,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-28T17:15:42+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "f72bb94681844808ca24e5c6e84ad72d15aaa4d160058b82024271da7b04544f",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.471,
+   "report": {
+    "seconds": 25.67,
+    "lufs": -14.9,
+    "speech_match": 0.89,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 5,
+    "quality": 4,
+    "tokens": 4406,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-10-28T17:32:28+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "98603ae678c459172a9f1782fb49b3d85c27a127250a374a2f312a6891d82543",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.429,
+   "report": {
+    "seconds": 24.67,
+    "lufs": -15.2,
+    "speech_match": 0.87,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 4431,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
   }
  ]
 }
