@@ -3156,6 +3156,80 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-10-28T21:32:29+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "ee256c92b65f323c57670702390a43b558969f526ffa61551100a73a77cf26b1",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.489,
+   "report": {
+    "seconds": 52.83,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 2,
+    "quality": 3,
+    "tokens": 3660,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7013,
+     "predicted_tokens": 4923,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-28T21:47:30+00:00",
+   "platform": "tiktok",
+   "file": "The_Fortune_Teller_Who_Ordered_A_Murder_20261028_214436.mp4",
+   "sha256": "a7c460d8902eba3487aaa800e521bd68ee9b37cacc0e1a1f02482047db8cfcae",
+   "head": "True crime: the Joey Fischer case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.438,
+   "report": {
+    "seconds": 57.0,
+    "lufs": -15.1,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3484,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7033,
+     "predicted_tokens": 4936,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

@@ -1,28 +1,4 @@
 {
- "Murder of the Lowe family": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Pimlico Mystery": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Killing of Amy Joyner-Francis": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Murder of Mona Tinsley": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-19",
-  "strikes": 1
- },
  "Murder of Olly Stephens": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4796,6 +4772,30 @@
  "Murder of Ang May Hong": {
   "stage": "prefilter",
   "code": "minor_victim",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Jimmy Mizen": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Killing of Louise Jensen": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Helen Fleet": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Münsterland murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
   "date": "2026-10-28",
   "strikes": 1
  }
