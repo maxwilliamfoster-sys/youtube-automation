@@ -200,6 +200,7 @@ class SceneMixTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp, \
                 mock.patch.object(ig, "_uk_location_image", side_effect=fake_place), \
+                mock.patch.object(ig, "UK_LOCATION_IMAGES", True), \
                 mock.patch.object(ig, "PEXELS_API_KEY", "x"), \
                 mock.patch.object(ig, "_generate_pexels_queries", return_value=["q"] * 6), \
                 mock.patch.object(ig, "fetch_pexels_video", return_value=False), \

@@ -156,6 +156,26 @@ def _too_recent(text: str, years: int = 2) -> bool:
     return min(found) >= this_year - years + 1
 
 
+_NEVER_CONVICTED = re.compile(
+    r"\b(not\s+proven|never\s+(been\s+)?(charged|convicted|prosecuted)|"
+    r"no\s+(one|other\s+person)\s+(has\s+)?(ever\s+)?been\s+(charged|convicted))\b",
+    re.I,
+)
+
+
+def screen_full_text(text: str) -> str:
+    """The same unconvicted-person check over the WHOLE article, ignoring any conviction.
+    screen_text reads only the intro, and a conviction there let a case through: the legal
+    gate then blocked 28 finished scripts on 24-28 Oct 2026 for a person named deeper in the
+    article who was acquitted, cleared, never charged or released (Paul Dale, Peter Tobin,
+    Kenneth Noye, Winston Silcott...). Each block had already spent the day's writer budget
+    on research, a script, compliance and a fact-check. This check is free (no LLM)."""
+    body = text or ""
+    if _UNCONVICTED.search(body) or _NEVER_CONVICTED.search(body):
+        return "unconvicted_suspect"
+    return ""
+
+
 def screen_text(title: str, text: str) -> str:
     """
     Return a short reason code if this case would fail the final gates, else "".

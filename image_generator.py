@@ -7,6 +7,7 @@ TIP: Register free at https://auth.pollinations.ai to suppress watermarks.
 """
 
 import os
+import random
 import re
 import time
 import urllib.parse
@@ -122,25 +123,49 @@ def generate_image_prompts(
 # Every query below was checked on Pexels portrait video (top results are sombre,
 # case-neutral scenes with no identifiable people doing anything). Scene text picks
 # the theme by keyword; nothing repeats within a video.
+# 2026-10-28: queries narrowed again and every clip now comes from a hand-checked id list
+# (assets/broll_allowlist.json). Search results drift, and "abandoned house", "empty street
+# at night", "car headlights" and "motorway at night" returned homes and readable number
+# plates: the AI review blocked 17 videos for privacy on 24-28 Oct, plus a monkey, birds and
+# children playing football. Only queries with a vetted list are used.
 MOOD_THEMES = [
-    (r"\b(court|trial|jury|judge|convict|sentenc|acquit|verdict|appeal|inquest|charged|prosecut)",
-     ["courthouse", "documents on desk"]),
-    (r"\b(police|investigat|detective|officer|search|inquiry|evidence|forensic|suspect|arrest)",
-     ["police tape", "documents on desk", "empty corridor"]),
-    (r"\b(missing|vanish|disappear|last seen|never seen|never returned|never came home)",
-     ["empty street at night", "foggy road at night", "empty corridor"]),
-    (r"\b(car|drove|driv|road|motorway|vehicle|lorry|van|bus|taxi)", ["car headlights at night", "motorway at night"]),
-    (r"\b(train|station|railway|platform)", ["train station at night"]),
-    (r"\b(sea|coast|beach|cliff|harbour|shore|boat)", ["stormy sea"]),
-    (r"\b(field|farm|rural|countryside|village|moor|woods|forest|park|path)", ["misty field"]),
-    (r"\b(house|home|flat|bedroom|door|room|building)", ["abandoned house", "empty corridor"]),
-    (r"\b(years|decades|hours|minutes|days|weeks|time|clock|still)", ["clock ticking"]),
-    (r"\b(rain|storm|weather|cold|winter)", ["rain on window at night", "storm clouds"]),
-    (r"\b(memor|mourn|funeral|vigil|grief|family|mother|father|parents|remember)", ["candle in the dark"]),
-    (r"\b(night|dark|evening|midnight|late)", ["streetlight at night", "wet pavement at night"]),
+    (r"(court|trial|jury|judge|convict|sentenc|acquit|verdict|appeal|inquest|charged|prosecut)",
+     ["courthouse", "judge gavel", "documents on desk"]),
+    (r"(police|investigat|detective|officer|search|inquiry|evidence|forensic|suspect|arrest)",
+     ["police tape", "magnifying glass", "documents on desk", "empty corridor"]),
+    (r"(photo|picture|letter|note|diary|wrote|written|record|file|statement)",
+     ["old photographs", "typewriter", "documents on desk"]),
+    (r"(missing|vanish|disappear|last seen|never seen|never returned|never came home)",
+     ["foggy forest", "misty field", "empty corridor"]),
+    (r"(car|drove|driv|road|motorway|vehicle|lorry|van|bus|taxi)", ["road at night", "rain on window at night"]),
+    (r"(train|station|railway|platform)", ["railway tracks fog"]),
+    (r"(sea|coast|beach|cliff|harbour|shore|boat)", ["stormy sea"]),
+    (r"(field|farm|rural|countryside|village|moor|woods|forest|park|path)", ["misty field", "foggy forest"]),
+    (r"(house|home|flat|bedroom|door|room|building)", ["empty corridor", "flickering light bulb"]),
+    (r"(years|decades|hours|minutes|days|weeks|time|clock|still)", ["clock ticking"]),
+    (r"(rain|storm|weather|cold|winter)", ["rain on window at night", "storm clouds"]),
+    (r"(memor|mourn|funeral|vigil|grief|family|mother|father|parents|remember)", ["candle in the dark"]),
+    (r"(night|dark|evening|midnight|late)", ["moon behind clouds", "rain on window at night"]),
 ]
-MOOD_DEFAULT = ["storm clouds", "foggy road at night", "rain on window at night", "empty street at night",
-                "candle in the dark", "misty field", "streetlight at night", "wet pavement at night"]
+MOOD_DEFAULT = ["storm clouds", "foggy forest", "rain on window at night", "moon behind clouds",
+                "candle in the dark", "misty field", "stormy sea", "clock ticking", "empty corridor",
+                "documents on desk", "railway tracks fog", "magnifying glass", "flickering light bulb",
+                "old photographs"]
+
+_ALLOWLIST_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "broll_allowlist.json")
+
+
+def _load_allowlist() -> dict:
+    try:
+        import json
+        with open(_ALLOWLIST_FILE, encoding="utf-8") as f:
+            return {k: [int(i) for i in v] for k, v in json.load(f).items() if not k.startswith("_")}
+    except Exception as e:
+        print(f"[Video] b-roll allowlist unreadable ({e}) - no stock footage this run")
+        return {}
+
+
+BROLL_ALLOWLIST = _load_allowlist()
 
 
 def _generate_pexels_queries(story_title: str, segments: list) -> list:
@@ -183,33 +208,26 @@ def fetch_pexels_video(
         return False
 
     headers = {"Authorization": key}
-    params = {"query": query, "orientation": "portrait", "size": "medium", "per_page": 15}
+    # Vetted clips only (see MOOD_THEMES): a query with no list is never searched.
+    ids = [i for i in BROLL_ALLOWLIST.get(query, []) if not seen_ids or i not in seen_ids]
+    if not ids:
+        return False
+    random.shuffle(ids)
 
     try:
-        resp = requests.get(
-            "https://api.pexels.com/videos/search",
-            headers=headers, params=params, timeout=25,
-        )
-        if resp.status_code != 200:
-            print(f"[Video] Pexels HTTP {resp.status_code} for '{query}'")
+        video = None
+        for vid in ids[:3]:
+            resp = requests.get(f"https://api.pexels.com/videos/videos/{vid}",
+                                headers=headers, timeout=25)
+            if resp.status_code == 200:
+                v = resp.json()
+                if v.get("width", 0) < v.get("height", 1) and v.get("duration", 0) >= min_duration:
+                    video = v
+                    break
+            else:
+                print(f"[Video] Pexels HTTP {resp.status_code} for clip {vid} ('{query}')")
+        if video is None:
             return False
-
-        videos = [
-            v for v in resp.json().get("videos", [])
-            if v.get("width", 0) < v.get("height", 1)
-            and v.get("duration", 0) >= min_duration
-        ]
-        if not videos:
-            return False
-
-        # Same repeat problem as the stills: scene queries rhyme, so without this the
-        # same clip lands in several scenes of one video.
-        if seen_ids is not None:
-            unused = [v for v in videos if v.get("id") not in seen_ids]
-            if unused:
-                videos = unused
-
-        video = min(videos, key=lambda v: abs((v["width"] / v["height"]) - (9 / 16)))
 
         # Pick the rendition nearest 1080 wide — smaller needs upscaling, much larger
         # is a slow download we would only crop away.
@@ -542,7 +560,9 @@ def generate_story_images(
             # list of .mp4 and .jpg is expected and fine.
             if USE_VIDEO_BROLL:
                 video_path = os.path.join(output_dir, f"scene_{i + 1:02d}.mp4")
-                if fetch_pexels_video(query, video_path, seen_ids=seen_video_ids):
+                # Another vetted mood before any unvetted still: stills are searched live.
+                tries = [query] + [q for q in MOOD_DEFAULT if q != query][:3]
+                if any(fetch_pexels_video(q, video_path, seen_ids=seen_video_ids) for q in tries):
                     saved_paths.append(video_path)
                     broll_count += 1
                     continue

@@ -2045,6 +2045,7 @@ def _try_series(client: Groq, case: dict, case_name: str):
 
 
 MAX_PRESCREEN_SKIPS = 10
+MAX_FULL_TEXT_SKIPS = 40     # regex only, one Wikipedia fetch each
 
 
 def _rejection_stage(result: dict) -> tuple:
@@ -2097,7 +2098,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
 
     # A pre-screen skip costs one short call, not a whole attempt, so it does not use
     # one up — but it is capped so a run can never loop forever.
-    attempt, prescreen_skips = 0, 0
+    attempt, prescreen_skips, full_text_skips = 0, 0, 0
     while attempt < max_attempts:
         attempt += 1
         print(f"\n[TrueCrime] Attempt {attempt}/{max_attempts} — researching case...")
@@ -2106,6 +2107,16 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         sourced = _pick_fresh_case()
         if not sourced:
             print("[TrueCrime] Could not source a fresh case from Wikipedia — retrying.")
+            continue
+
+        # ── Step 1a: free full-article screen (see case_screen.screen_full_text) ─
+        risk = case_screen.screen_full_text(sourced.get("full_text") or sourced.get("extract", ""))
+        if risk and full_text_skips < MAX_FULL_TEXT_SKIPS:
+            full_text_skips += 1
+            attempt -= 1
+            print(f"[Screen] SKIP '{sourced['title']}' — {risk} (full article).")
+            case_screen.record_rejection(sourced["title"], "prefilter", risk)
+            _USED_CASES.append(sourced["title"])
             continue
 
         # ── Step 1b: Pre-screen BEFORE spending calls on research and a script ─

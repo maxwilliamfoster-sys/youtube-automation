@@ -127,6 +127,17 @@ def _wrap_ffmpeg_text(text: str, max_chars: int = 16) -> str:
     return "\n".join(out)
 
 
+def _line_drawtexts(text: str, font_option: str, top: int, step: int, style: str,
+                    enable: str) -> List[str]:
+    """One drawtext per wrapped line, each centred on its own.
+    A newline inside one drawtext rendered as a box glyph at every line end on the CI
+    FFmpeg (Ubuntu 6.1, HarfBuzz shaping): the upload gate's AI review blocked 4 videos
+    in Oct 2026 for 'garbled characters' on the hook and CTA cards."""
+    return [f"drawtext={font_option}text='{ln}':{style}x=(w-text_w)/2:y={top + i * step}:"
+            f"enable='{enable}'"
+            for i, ln in enumerate(t for t in text.split("\n") if t.strip())]
+
+
 def build_filter_script(
     caption_segments: List[Dict],
     scale_crop: str,
@@ -205,18 +216,16 @@ def build_filter_script(
     if hook_text:
         # 18 chars/line: measured, 21 ran the longest line edge-to-edge on 1080px.
         hook = _wrap_ffmpeg_text(escape_ffmpeg_text(hook_text.upper()), 18)
-        lines.append(
-            f"drawtext={font_option}"
-            f"text='{hook}':"
-            f"fontsize=76:"
-            f"fontcolor=white:"
-            f"borderw=10:bordercolor=black:"
-            f"shadowcolor=black@0.85:shadowx=4:shadowy=5:"
-            f"line_spacing=16:"
-            f"x=(w-text_w)/2:"
-            f"y=h*0.13:"
-            f"enable='between(t,0,1.8)'"
-        )
+        size, step = 76, 92
+        if hook.count("\n") >= 4:
+            # 5+ lines at 76px ran into the captions at 38% (10-28 "Cops ambush" video).
+            hook = _wrap_ffmpeg_text(escape_ffmpeg_text(hook_text.upper()), 21)
+            size, step = 64, 78
+        lines += _line_drawtexts(
+            hook, font_option, top=int(VIDEO_HEIGHT * 0.13), step=step,
+            style=(f"fontsize={size}:fontcolor=white:borderw=10:bordercolor=black:"
+                   f"shadowcolor=black@0.85:shadowx=4:shadowy=5:"),
+            enable="between(t,0,1.8)")
 
     # ── Retention overlay 2: the engagement card (final ~2.6s) ────────────────
     # Amber rather than a red box: it is the genre's signature accent, reads as
@@ -225,18 +234,11 @@ def build_filter_script(
     if cta_text and total_duration:
         cta = _wrap_ffmpeg_text(escape_ffmpeg_text(cta_text.upper()), 14)
         cta_start = max(0.0, float(total_duration) - 2.6)
-        lines.append(
-            f"drawtext={font_option}"
-            f"text='{cta}':"
-            f"fontsize=72:"
-            f"fontcolor=0xFFC42E:"
-            f"borderw=10:bordercolor=black:"
-            f"shadowcolor=black@0.85:shadowx=4:shadowy=5:"
-            f"line_spacing=14:"
-            f"x=(w-text_w)/2:"
-            f"y=h*0.62:"
-            f"enable='between(t,{cta_start:.3f},{float(total_duration):.3f})'"
-        )
+        lines += _line_drawtexts(
+            cta, font_option, top=int(VIDEO_HEIGHT * 0.62), step=86,
+            style=("fontsize=72:fontcolor=0xFFC42E:borderw=10:bordercolor=black:"
+                   "shadowcolor=black@0.85:shadowx=4:shadowy=5:"),
+            enable=f"between(t,{cta_start:.3f},{float(total_duration):.3f})")
 
     # No progress bar. One was tried and removed: it rendered as a static yellow line
     # (drawbox does not re-evaluate a width expression per frame in this FFmpeg build)

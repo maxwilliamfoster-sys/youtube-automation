@@ -214,7 +214,10 @@ USE_VIDEO_BROLL     = True
 # generic stock. Lawful (CC/CC0 via Wikimedia Commons, licence recorded for the
 # copyright gate) and far more specific — the actual street, the actual Old Bailey.
 # Falls through to Pexels when a place yields nothing usable.
-UK_LOCATION_IMAGES  = True
+# OFF since 2026-10-28: Commons returned street maps with road names, photo collages, town
+# signs and real houses, and the upload gate's privacy rule blocked those videos (a real home
+# beside crime narration reads as the crime scene or a suspect's house). Vetted stock only.
+UK_LOCATION_IMAGES  = False
 # Real-place photos fill every Nth scene (3, 6, 9, 12 of 12); the rest, including the
 # opening hook, use footage matched to that line's mood query. 2026-10-13: when places
 # took every scene, the hook frame was e.g. a festive-lit station or a rat.
