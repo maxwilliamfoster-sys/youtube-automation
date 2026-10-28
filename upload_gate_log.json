@@ -2898,6 +2898,168 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_block] withheld from the public log"
    }
+  },
+  {
+   "checked_at": "2026-10-28T18:02:07+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "5a364bd98a05df7422ca3e134999656335f59c5a14e78d2d19a1b15962ff5639",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.467,
+   "report": {
+    "seconds": 46.37,
+    "lufs": -14.9,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 6,
+    "quality": 7,
+    "tokens": 4387,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-10-28T18:12:15+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "93f629466d1c4aecc066ae2361cf4541589524cf4752dfd88ed7904de712639f",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.429,
+   "report": {
+    "seconds": 21.57,
+    "lufs": -14.9,
+    "speech_match": 1.0,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 4322,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-10-28T18:25:04+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "7f2511888fe7ef2b049cf9dc8e010edf9afe254f5b5cd398fe15a67ce7a9a625",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.478,
+   "report": {
+    "seconds": 20.8,
+    "lufs": -14.9,
+    "speech_match": 0.9,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 3,
+    "quality": 2,
+    "tokens": 4290,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-10-28T18:47:22+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "03f821e4b5778a5725b890a93662b875766f4059ad8174f7cc8edcde6da1283a",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.4,
+   "report": {
+    "seconds": 24.37,
+    "lufs": -14.9,
+    "speech_match": 1.0,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 4374,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-10-28T19:05:21+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "ba7961b95575a6cb92c65e71bd9274cdee240c7897ce17a0a88be2f782b19858",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.429,
+   "report": {
+    "seconds": 55.8,
+    "lufs": -14.9,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3644,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7032,
+     "predicted_tokens": 4939,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
