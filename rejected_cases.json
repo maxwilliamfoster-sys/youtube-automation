@@ -1,28 +1,4 @@
 {
- "Death of Chan Yin-lam": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Murders of Helen and Margaret Lynch": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Disappearance of Ruth Wilson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-19",
-  "strikes": 1
- },
- "Ashikaga murder case": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-19",
-  "strikes": 1
- },
  "Lambeth Mystery": {
   "stage": "prefilter",
   "code": "gore",
@@ -4794,6 +4770,30 @@
   "strikes": 36
  },
  "Murder of Ashlynne Mike": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Karin Grech": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Robert McCartney": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Murder of Dini Haryati": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Killing of Damilola Taylor": {
   "stage": "prefilter",
   "code": "minor_victim",
   "date": "2026-10-28",

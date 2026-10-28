@@ -3060,6 +3060,73 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-28T19:31:09+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "374f8148583268c30944c3e2aaa9dbbb8945fe018b29379e6f1e0d5a603d4f5c",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.425,
+   "report": {
+    "seconds": 41.17,
+    "lufs": -15.3,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 2,
+    "quality": 3,
+    "tokens": 3789,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7025,
+     "predicted_tokens": 4945,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-28T19:40:52+00:00",
+   "platform": "tiktok",
+   "file": "Vanished_thirty_yards_from_her_mother_20261028_193749.mp4",
+   "sha256": "f726565fce681c3679039ecaabe0a8ad2d118a1f7bff7fe0912c81bdcd4bf9bf",
+   "head": "The Dulce Maria Alavez case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.465,
+   "report": {
+    "seconds": 24.83,
+    "lufs": -14.8,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4237,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
