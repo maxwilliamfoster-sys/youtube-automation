@@ -1,22 +1,4 @@
 {
- "Murder of Olly Stephens": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Mandy Lemaire": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Anne Noblett": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
  "Murders of Lorraine McNab and Peter Sopow": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4115,12 +4097,6 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "Kenneth Noye": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 4
- },
  "Murder of Ben Kinsella": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4797,6 +4773,30 @@
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-10-28",
+  "strikes": 1
+ },
+ "Pimlico Mystery": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Jessica Lunsford": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Kenneth Noye": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 5
+ },
+ "Killing of Amy Joyner-Francis": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-29",
   "strikes": 1
  }
 }

@@ -3230,6 +3230,42 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-29T16:28:42+00:00",
+   "platform": "tiktok",
+   "file": "Dogs_Howl_After_Helens_Tragic_Murder_20261029_162408.mp4",
+   "sha256": "94dca66635fe5035357807a990b1853315b6cea2238ecf6d7c960272131e59a7",
+   "head": "Inside the Helen Fleet case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.553,
+   "report": {
+    "seconds": 45.5,
+    "lufs": -14.7,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3477,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7012,
+     "predicted_tokens": 4930,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
