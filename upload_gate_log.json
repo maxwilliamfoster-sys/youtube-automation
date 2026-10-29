@@ -3333,6 +3333,42 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-10-29T20:57:07+00:00",
+   "platform": "tiktok",
+   "file": "Missing_Sheila_Fox_BlackBike_Stranger_My_20261029_205239.mp4",
+   "sha256": "a0936efb16edc4a6ccdba63cfadcedfa75f06dc3108651a22dd8ef92f76a254f",
+   "head": "The Sheila Fox (1944) case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.676,
+   "report": {
+    "seconds": 52.77,
+    "lufs": -15.2,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3485,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7031,
+     "predicted_tokens": 4944,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

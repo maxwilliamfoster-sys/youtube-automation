@@ -1,40 +1,4 @@
 {
- "Murder of Brian McDermott": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Peter Weinberger": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Patsy Morris": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Jaclyn Dowaliby": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Killing of Paul Byrne": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Bedford Square Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-20",
-  "strikes": 1
- },
  "White House Farm murders": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4794,6 +4758,42 @@
   "strikes": 1
  },
  "Killing of Marian Beattie": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murders of Lorraine McNab and Peter Sopow": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Disappearance of Ruth Wilson": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Bernadette Walker": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Patsy Morris": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Mona Tinsley": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Disappearance of Mona Blades": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-10-29",
