@@ -1,112 +1,4 @@
 {
- "Murders of Lorraine McNab and Peter Sopow": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Whitehall Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murders of John and Lois McCullough": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Janie Perrin": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Vizconde murders": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Preston Davey": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Gatton murders": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Simon Dale": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Killing of Marian Beattie": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Hena Akhter": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Leanne Tiernan": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Grégory Villemin": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Lake Bodom murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Kayleigh Haywood": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Amber Hagerman": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Jean Townsend": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Jeanine Nicarico": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Jennifer Fairgate case": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-20",
-  "strikes": 1
- },
  "Murder of Brian McDermott": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4205,12 +4097,6 @@
   "date": "2026-10-28",
   "strikes": 1
  },
- "Murder of Shana Grice": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-28",
-  "strikes": 1
- },
  "Murder of Jane Thurgood-Dove": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4661,12 +4547,6 @@
   "date": "2026-10-28",
   "strikes": 1
  },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-28",
-  "strikes": 36
- },
  "Murder of Ashlynne Mike": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4796,6 +4676,126 @@
  "Killing of Amy Joyner-Francis": {
   "stage": "prefilter",
   "code": "minor_victim",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Shana Grice": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 2
+ },
+ "Lambeth Mystery": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Disappearance of Amy Lynn Bradley": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Death of Sonja Engelbrecht": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Logan Mwangi": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Olivia Pratt-Korbel": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Jean McConville": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Preston Davey": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Janie Perrin": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murders of John and Lois McCullough": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Gatton murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Disappearance of Rahul Raju": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of the Lowe family": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Death of Luis Andres Colmenares": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Mandy Lemaire": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-29",
+  "strikes": 37
+ },
+ "Murder of Simon Dale": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Grégory Villemin": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Murder of Hena Akhter": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Killing of Marian Beattie": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
   "date": "2026-10-29",
   "strikes": 1
  }
