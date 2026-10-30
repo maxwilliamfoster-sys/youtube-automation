@@ -1,20 +1,13 @@
 {
- "day": "2026-10-29",
+ "day": "2026-10-30",
  "models": {
   "openai/gpt-oss-120b": {
-   "exhausted": true,
-   "org_limit": 200000,
-   "org_used": 197661,
-   "requests": 83,
-   "tokens": 107038
-  },
-  "openai/gpt-oss-20b": {
-   "requests": 88,
-   "tokens": 109894
+   "requests": 54,
+   "tokens": 82426
   },
   "qwen/qwen3.8-27b": {
-   "requests": 4,
-   "tokens": 14899
+   "requests": 1,
+   "tokens": 3474
   }
  }
 }

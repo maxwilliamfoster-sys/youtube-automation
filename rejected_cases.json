@@ -1,106 +1,4 @@
 {
- "White House Farm murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Ratcliff Highway murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Killing of Gianfranco Cuccuini": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Kidnapping of Elizabeth Smart": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Rachael Anderson": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Killing of Salwan Momika": {
-  "stage": "prefilter",
-  "code": "active_proceedings",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Shafilea Ahmed": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Cannock Chase murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Lillelid murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Disappearance of Immaculate Basil": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "2006 Noida serial murders": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Death of Paulette Gebara Farah": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Killing of Julie Ward": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Renee and Andrew MacRae": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Clement De La Haye": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Disappearance of Lee Boxell": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Disappearance of Heimnot Kassau": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
  "Murder of Shakira Spencer": {
   "stage": "prefilter",
   "code": "gore",
@@ -4481,12 +4379,6 @@
   "date": "2026-10-28",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-28",
-  "strikes": 29
- },
  "Countess of Chester Hospital baby murders": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4703,12 +4595,6 @@
   "date": "2026-10-29",
   "strikes": 1
  },
- "Gatton murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-29",
-  "strikes": 1
- },
  "Disappearance of Rahul Raju": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4797,6 +4683,120 @@
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-10-29",
+  "strikes": 1
+ },
+ "Whitehall Mystery": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murders of Channon Christian and Christopher Newsom": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Tia Rigg": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Jean Townsend": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Helen McCourt": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Ratcliff Highway murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Rachael Anderson": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Gatton murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-30",
+  "strikes": 2
+ },
+ "Murder of Peter Weinberger": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Jennifer Fairgate case": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Bedford Square Mystery": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "White House Farm murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Vizconde murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Lillelid murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Anne Noblett": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 31
+ },
+ "Murder of Renee and Andrew MacRae": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Cannock Chase murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Death of Paulette Gebara Farah": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-30",
   "strikes": 1
  }
 }
