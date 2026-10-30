@@ -1,106 +1,4 @@
 {
- "Murder of Shakira Spencer": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Caroline Glachan": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Arlene Fraser": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 2
- },
- "Killing of Lyhanna Rameau Bernard": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Alexis Murphy": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Byron Carr": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Eastburn family murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Danielle Jones": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Disappearance of Crystal Rogers": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Judith Roberts": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Disappearance of Patrick Warren and David Spencer": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-20",
-  "strikes": 1
- },
- "Murder of Alison Shaughnessy": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-21",
-  "strikes": 1
- },
- "Murder of Udin": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-21",
-  "strikes": 1
- },
- "Whitechapel murders": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-21",
-  "strikes": 1
- },
- "Murder of Meredith Kercher": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-21",
-  "strikes": 1
- },
- "Disappearance of Mary Flanagan": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-22",
-  "strikes": 1
- },
- "Murder of Daniel Pełka": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-22",
-  "strikes": 1
- },
  "Murder of Milly Dowler": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4775,12 +4673,6 @@
   "date": "2026-10-30",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 31
- },
  "Murder of Renee and Andrew MacRae": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4796,6 +4688,114 @@
  "Death of Paulette Gebara Farah": {
   "stage": "prescreen",
   "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Disappearance of Father Francis": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Disappearance of Etan Patz": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Lake Bodom murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Kidnapping of Elizabeth Smart": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Jeanine Nicarico": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Jaclyn Dowaliby": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Clement De La Haye": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Disappearance of Damien Nettles": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Killing of Gianfranco Cuccuini": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Shafilea Ahmed": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Amber Hagerman": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Killing of Lyhanna Rameau Bernard": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Arlene Fraser": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 32
+ },
+ "Murder of Leanne Tiernan": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Disappearance of Crystal Rogers": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Murder of Brian McDermott": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-10-30",
+  "strikes": 1
+ },
+ "Paraquat murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
   "date": "2026-10-30",
   "strikes": 1
  }

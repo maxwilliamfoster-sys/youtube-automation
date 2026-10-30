@@ -3405,6 +3405,35 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-30T18:36:01+00:00",
+   "platform": "tiktok",
+   "file": "Ruislips_1954_disappearance_police_files_20261030_183337.mp4",
+   "sha256": "da5ca14b22ae834fdf2a22913677f842b6a4a1ee6e228dae7e0ac7b09c7e0dcd",
+   "head": "UK crime: the Jean Townsend case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.698,
+   "report": {
+    "seconds": 19.3,
+    "lufs": -14.8,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4198,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
