@@ -3434,6 +3434,42 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-10-30T20:24:09+00:00",
+   "platform": "tiktok",
+   "file": "Masked_Men_Strip_Journalists_Gear_Vanish_20261030_202052.mp4",
+   "sha256": "65c420196be2aaba398c4497a28b4b5ce9ca8d031468c764b8a4838d4a63aa51",
+   "head": "Inside the Zane Plemmons case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.714,
+   "report": {
+    "seconds": 57.8,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3497,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7046,
+     "predicted_tokens": 4947,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
