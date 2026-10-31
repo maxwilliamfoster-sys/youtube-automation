@@ -1,28 +1,4 @@
 {
- "Lewis–Clark Valley murders": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Murder of Paige Birgfeld": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 2
- },
- "Death of Chow Tsz-lok": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 2
- },
- "Burger Chef murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Rettendon murders": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4739,12 +4715,6 @@
   "date": "2026-10-31",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 37
- },
  "Death of Vishal Mehrotra": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4796,6 +4766,36 @@
  "Disappearance of Jorge Julio López": {
   "stage": "prescreen",
   "code": "other",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Disappearance of Heather Elvis": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Murder of Alice Gross": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-31",
+  "strikes": 38
+ },
+ "Murders of Margaret and Seana Tapp": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Murder of Byron Carr": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
   "date": "2026-10-31",
   "strikes": 1
  }

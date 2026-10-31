@@ -3597,6 +3597,35 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-10-31T19:44:12+00:00",
+   "platform": "tiktok",
+   "file": "The_Fake_Social_Worker_Who_Stole_Baby_Ma_20261031_194258.mp4",
+   "sha256": "e5ad9117a33987a6201fd915b66d74873660e6b3a98beff2cd52e41d45fe369d",
+   "head": "Kidnapping of Mary Agnes Moroney: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.742,
+   "report": {
+    "seconds": 20.07,
+    "lufs": -14.9,
+    "speech_match": 1.0,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 9,
+    "tokens": 4196,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
