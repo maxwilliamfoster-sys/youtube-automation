@@ -1,34 +1,4 @@
 {
- "Death of Corrie McKeague": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 2
- },
- "Murder of Marie Wilks": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Disappearance of Jorge Julio López": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-23",
-  "strikes": 2
- },
- "Disappearance of Russell Bohling": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Murder of Reagan Simmons-Hancock": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-10-23",
-  "strikes": 1
- },
  "Lewis–Clark Valley murders": {
   "stage": "prescreen",
   "code": "gore",
@@ -4613,12 +4583,6 @@
   "date": "2026-10-31",
   "strikes": 1
  },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-31",
-  "strikes": 39
- },
  "Murder of Billie-Jo Jenkins": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4796,6 +4760,42 @@
  "Towpath murders": {
   "stage": "prescreen",
   "code": "minor_victim",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Murder of Emily Armstrong": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Killing of Kaylea Titford": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Abduction of Shin Sang-ok and Choi Eun-hee": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Killing of Shani Louk": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-10-31",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-10-31",
+  "strikes": 40
+ },
+ "Disappearance of Jorge Julio López": {
+  "stage": "prescreen",
+  "code": "other",
   "date": "2026-10-31",
   "strikes": 1
  }

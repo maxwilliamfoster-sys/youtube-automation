@@ -3530,6 +3530,73 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-31T17:46:08+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "220180ae7775b3d87861087180f2bca6229c49081016cde1573e9a2b04cab38c",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.6,
+   "report": {
+    "seconds": 55.8,
+    "lufs": -15.1,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "tokens": 3689,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7026,
+     "predicted_tokens": 4931,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-10-31T18:02:13+00:00",
+   "platform": "tiktok",
+   "file": "He_walked_into_the_sunset_and_vanished_20261031_175929.mp4",
+   "sha256": "ff251210d5d1728e84721798a19cd5b0782e8a5e0f3c01a03bf0d7d6c1712a89",
+   "head": "The Owen Harding case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.706,
+   "report": {
+    "seconds": 34.57,
+    "lufs": -15.0,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4235,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
