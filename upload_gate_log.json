@@ -3470,6 +3470,66 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-10-31T15:49:39+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "e255fce2404a3735dcbf7fcafc7e2e2ecef06fabfa693925f05a50d6dd00785a",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "2.4s of black picture"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.704,
+   "report": {
+    "seconds": 48.93,
+    "lufs": -15.2,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-10-31T16:25:57+00:00",
+   "platform": "tiktok",
+   "file": "The_Doorstep_Murder_That_Shocked_Scotlan_20261031_161935.mp4",
+   "sha256": "d5676bf16f682b509fadb6724e7ae89bf43f3f162e22c26ed2b13e10b0c6eec5",
+   "head": "Alistair Wilson case. | UK crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.771,
+   "report": {
+    "seconds": 62.27,
+    "lufs": -15.1,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3499,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7050,
+     "predicted_tokens": 4954,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
