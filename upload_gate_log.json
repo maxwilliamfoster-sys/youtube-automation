@@ -3662,6 +3662,42 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-01T18:28:57+00:00",
+   "platform": "tiktok",
+   "file": "Deadly_Farm_Lane_Essexs_Triple_Murder_20261101_182428.mp4",
+   "sha256": "cdefb82758e8c2ed3131aaea80c93ae9531a54d9404c3ca76a476b650afd2978",
+   "head": "UK crime: the Rettendon murders case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.697,
+   "report": {
+    "seconds": 61.1,
+    "lufs": -15.0,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3481,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7042,
+     "predicted_tokens": 4944,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
