@@ -1,28 +1,4 @@
 {
- "Murders of Koby Mandell and Yosef Ishran": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "World's End Murders": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-23",
-  "strikes": 1
- },
- "Great Mull Air Mystery": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-23",
-  "strikes": 2
- },
- "Death of Madison Scott": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
  "Murders of Bibaa Henry and Nicole Smallman": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4277,12 +4253,6 @@
   "date": "2026-10-31",
   "strikes": 1
  },
- "Murder of Sheila Anderson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-31",
-  "strikes": 1
- },
  "Tottenham Court Road Mystery": {
   "stage": "prefilter",
   "code": "gore",
@@ -4352,12 +4322,6 @@
  "Murder of Andrea Scherpf and Bernd Göricke": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of the monks of Tibhirine": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-31",
   "strikes": 1
  },
@@ -4798,5 +4762,41 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-01",
   "strikes": 1
+ },
+ "Murder of Sophie Toscan du Plantier": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-01",
+  "strikes": 1
+ },
+ "Death of Chow Tsz-lok": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-01",
+  "strikes": 1
+ },
+ "Death of Jeanette Bishop and Gabriella Guerin": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-01",
+  "strikes": 1
+ },
+ "Murder of Sheila Anderson": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-01",
+  "strikes": 2
+ },
+ "Kidnapping and killing of Margaret Hassan": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-01",
+  "strikes": 1
+ },
+ "Murder of the monks of Tibhirine": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-01",
+  "strikes": 2
  }
 }

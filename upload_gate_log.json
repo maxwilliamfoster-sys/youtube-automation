@@ -3698,6 +3698,42 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-01T20:22:20+00:00",
+   "platform": "tiktok",
+   "file": "Lost_Boy_Found_Alive_After_73_Years_20261101_201733.mp4",
+   "sha256": "5f71fadf9c95e1fa776afb24b48615470379993cda895e1870694451e8d30886",
+   "head": "Inside the Kidnapping of Luis Albino case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.571,
+   "report": {
+    "seconds": 54.07,
+    "lufs": -15.0,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3502,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7045,
+     "predicted_tokens": 4952,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
