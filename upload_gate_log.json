@@ -3626,6 +3626,42 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-01T16:19:16+00:00",
+   "platform": "tiktok",
+   "file": "Midnight_Birthday_Disappearance_Car_Vani_20261101_161409.mp4",
+   "sha256": "b09179da6300be76e84d66239f6442cecf91e93ea7ccd79509171e61c04c751e",
+   "head": "Steven Cooper: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.702,
+   "report": {
+    "seconds": 48.6,
+    "lufs": -14.9,
+    "speech_match": 0.85,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3471,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7022,
+     "predicted_tokens": 4936,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
