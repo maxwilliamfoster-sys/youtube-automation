@@ -3878,6 +3878,37 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-02T23:27:06+00:00",
+   "platform": "tiktok",
+   "file": "The_Queen_of_Crime_Vanishes_Without_Trac_20261102_232426.mp4",
+   "sha256": "8328056d8803b36b183dabdffcb007b35b2d83952aff7c1f98af5f36ced7177d",
+   "head": "The Agatha Christie case, explained. Part 2/3",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "near-duplicate first caption line (…)"
+   ],
+   "gate_version": "2026-10-27",
+   "head_similarity": 1.0,
+   "report": {
+    "seconds": 34.33,
+    "lufs": -15.4,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4244,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
