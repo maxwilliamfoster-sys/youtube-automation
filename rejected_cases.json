@@ -1,16 +1,4 @@
 {
- "Hawker Hunter Tower Bridge incident": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Disappearance of Sandy Davidson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
  "Death of Ophélie Bretnacher": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4796,6 +4784,18 @@
  "Murders of Bibaa Henry and Nicole Smallman": {
   "stage": "compliance",
   "code": "age_restricted",
+  "date": "2026-11-02",
+  "strikes": 1
+ },
+ "Murder of Lisa Hession": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-02",
+  "strikes": 1
+ },
+ "Murder of Reagan Simmons-Hancock": {
+  "stage": "prescreen",
+  "code": "gore",
   "date": "2026-11-02",
   "strikes": 1
  }
