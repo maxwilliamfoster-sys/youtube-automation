@@ -78,5 +78,17 @@ class TestFullTextScreen(unittest.TestCase):
             "In 2004 Brown was found guilty of murder and sentenced to life imprisonment."), "")
 
 
+class KeyWordCaptions(unittest.TestCase):
+    def test_numbers_and_mid_sentence_names_are_gold(self):
+        from video_composer import _is_key_word
+        for word, prev in (("1951", "in"), ("Nineteen", "in"), ("Six-year-old", "."), ("Albino", "Luis"), ("Oakland,", "in")):
+            self.assertTrue(_is_key_word(word, prev), word)
+
+    def test_plain_words_and_sentence_starts_stay_white(self):
+        from video_composer import _is_key_word
+        for word, prev in (("vanished", "Luis"), ("Police", "gone."), ("She", "and"), ("The", "of")):
+            self.assertFalse(_is_key_word(word, prev), word)
+
+
 if __name__ == "__main__":
     unittest.main()

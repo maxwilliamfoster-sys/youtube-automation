@@ -747,10 +747,10 @@ Style rules:
   not go in the script. These are real people with real families.
 - Being sparse is allowed. If the source is thin, write a shorter script rather than padding it
   with plausible-sounding detail.
-- Write 100-120 words (~40-45 seconds spoken). NEVER fewer than 95 — a script under
+- Write 85-100 words (~35-40 seconds spoken). NEVER fewer than 80 — a script under
   that is too thin to tell the case and leaves the viewer with nothing. Completion
-  rate drives reach, and a viewer who finishes a 45-second video is worth far more
-  than one who abandons a 70-second one. Cut every sentence that is not the hook,
+  rate drives reach: our videos under 45 seconds are watched 33%, longer ones 22%,
+  and viewers on average leave at about 11 seconds. Cut every sentence that is not the hook,
   a hard fact, the turn, or the closing question.
 - NO "In this video", NO "In this short", NO channel name, NO "subscribe". The only meta line allowed is the final comment-bait CTA.
 - Output ONLY the spoken script text. No headings, no labels, no stage directions."""
@@ -1044,8 +1044,8 @@ def _part_instruction(part: dict) -> str:
                   "named person).")
     return (
         f"This case is told in {n} parts. Series plan:\n{plan}\n\n"
-        f"Write PART {k} of {n} ONLY - cover only: {part['beat']}. 100-120 words (never "
-        f"fewer than 95). {opening} Keep an open loop running throughout. {ending}"
+        f"Write PART {k} of {n} ONLY - cover only: {part['beat']}. 85-100 words (never "
+        f"fewer than 80). {opening} Keep an open loop running throughout. {ending}"
     )
 
 
@@ -1091,7 +1091,7 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
                     f"{grounding}"
                     + (_part_instruction(part) if part else
-                       "Write the 100-120 word documentary script now (never fewer than 95). Open with the cold open "
+                       "Write the 85-100 word documentary script now (never fewer than 80). Open with the cold open "
                        "(one complete sentence of 10 words or fewer on the single most shocking verifiable detail), "
                        "keep an open loop running throughout, add a retention-spike "
                        "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA.")
@@ -1211,10 +1211,10 @@ MIN_FALLBACK_ACCURACY = 6
 MIN_SCRIPT_WORDS = 40
 # ~250 words is about 95 seconds narrated — already past the sweet spot.
 MAX_SCRIPT_WORDS = 260
-# Trim to this before rejecting. ~115 words is about 45 seconds narrated.
+# Trim to this before rejecting. ~100 words is about 40 seconds narrated.
 # Short-form reach follows completion rate, and a 45s video is far likelier
 # to be watched to the end than a 70s one — the previous target.
-TRIM_SCRIPT_WORDS = 115
+TRIM_SCRIPT_WORDS = 100
 # How much source the SCRIPT WRITER sees. The fact-checker still gets the full
 # article. With 6000 characters in front of it the model tried to cover the whole
 # piece and ran to 380-620 words against a 150-185 target — it treats a long source
@@ -1987,7 +1987,7 @@ def _plan_series(client: Groq, case: dict, max_parts: int):
         resp = _groq_call(client, model=GROQ_MODEL, max_tokens=1200, messages=[
             {"role": "system", "content": (
                 "You plan short true crime TikTok series. Each part is a ~45-second "
-                "narration (100-120 words). Decide whether this case has enough DISTINCT, "
+                "narration (85-100 words). Decide whether this case has enough DISTINCT, "
                 "well-documented developments in the source to fill 2 or 3 parts without "
                 "padding or repetition, each part with its own revelation and an "
                 "unresolved cliffhanger. Most cases do NOT - say no unless it clearly "

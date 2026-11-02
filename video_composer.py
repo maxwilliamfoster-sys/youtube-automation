@@ -4,6 +4,7 @@ Output: 1080x1920 (9:16), 30fps, high quality MP4 with burned-in captions.
 """
 
 import os
+import re
 import random
 import glob
 import subprocess
@@ -13,7 +14,7 @@ from typing import List, Dict
 from datetime import datetime
 from config import (
     VIDEO_WIDTH, VIDEO_HEIGHT, VIDEO_FPS,
-    CAPTION_FONT_SIZE, CAPTION_FONT_COLOR,
+    CAPTION_FONT_SIZE, CAPTION_FONT_COLOR, CAPTION_ACCENT_COLOR,
     CAPTION_STROKE_COLOR, CAPTION_STROKE_WIDTH,
     CAPTION_POSITION, OUTPUT_DIR, ASSETS_DIR
 )
@@ -138,6 +139,21 @@ def _line_drawtexts(text: str, font_option: str, top: int, step: int, style: str
             for i, ln in enumerate(t for t in text.split("\n") if t.strip())]
 
 
+_NUMBER_WORD = re.compile(r"^(one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|"
+                          r"seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million)\b", re.I)
+_COMMON_CAPS = {"I", "A", "An", "The", "But", "And", "He", "She", "They", "His", "Her", "It", "We", "You", "No", "Nobody"}
+
+
+def _is_key_word(word, previous):
+    """Gold captions pick out what makes a case concrete: numbers, and names mid-sentence."""
+    word = word.strip()
+    if any(c.isdigit() for c in word) or _NUMBER_WORD.match(word):
+        return True
+    if previous.rstrip().endswith((".", "!", "?")):
+        return False   # a sentence's first word is capitalised anyway
+    return word[:1].isupper() and word.strip(",.!?;:") not in _COMMON_CAPS
+
+
 def build_filter_script(
     caption_segments: List[Dict],
     scale_crop: str,
@@ -184,6 +200,7 @@ def build_filter_script(
         end   = seg["end"]
         if idx == 0 and 0 < start <= 1.0:
             start = 0.0
+        color = CAPTION_ACCENT_COLOR if _is_key_word(seg["text"], caption_segments[idx - 1]["text"] if idx else ".") else CAPTION_FONT_COLOR
 
         # Single-quoted text (apostrophes already stripped, safe on Windows subprocess)
         # x centres the text; fix_bounds=1 clamps to frame if any word still runs wide
@@ -191,7 +208,7 @@ def build_filter_script(
             f"drawtext={font_option}"
             f"text='{text}':"
             f"fontsize={CAPTION_FONT_SIZE}:"
-            f"fontcolor={CAPTION_FONT_COLOR}:"
+            f"fontcolor={color}:"
             f"borderw={CAPTION_STROKE_WIDTH}:"
             f"bordercolor={CAPTION_STROKE_COLOR}:"
             f"shadowcolor=black@0.8:shadowx=3:shadowy=4:"

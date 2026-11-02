@@ -136,13 +136,14 @@ CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.5"))
 #   v3-calm-world: 2026-10-10 ..            (sombre ref 0.45/0.5, overcast grade, spoken
 #                  numbers, worldwide cases ranked by intrigue + Wikipedia pageviews,
 #                  occasional 2-3 part series; series parts carry series_part in the log)
+#   v5-tight: 2026-11-02 .. (85-100 word scripts, narrator 0.90 -> 1.05, gold numbers and names)
 #   v4-mood-visuals: 2026-10-13 .. (hook + 2/3 of scenes use per-line mood footage, real-
 #                  place photos only every 3rd scene, title must name the place, vivid/
 #                  animal/painting/shop photos refused, EXIF rotation applied)
-FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v4-mood-visuals")
+FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v5-tight")
 
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
-TTS_DOCUMENTARY_SPEED = 0.90          # 10% slower = gravitas (Kokoro speed multiplier)
+TTS_DOCUMENTARY_SPEED = 1.05          # 2026-11-02: 0.90 turned a 115-word script into 50-60 s. Under 45 s is watched 33% vs 22%, same views
 # Good alternatives: "am_michael" (American deep), "am_adam" (American natural)
 KOKORO_MODEL_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "kokoro_models")
 
@@ -164,6 +165,7 @@ CAPTION_FONT_SIZE  = 84      # Heavy type is the current look; 60px read thin an
                              # so 84 keeps a safe margin inside the 1080px frame.
                              # Two words at this size WOULD overflow — hence 1 below.
 CAPTION_FONT_COLOR = "white"
+CAPTION_ACCENT_COLOR = "0xFFC42E"   # numbers and names, same gold as the end card
 CAPTION_STROKE_COLOR = "black"
 CAPTION_STROKE_WIDTH = 8     # Thick outline — what keeps big type readable over moving
                              # footage now that the background boxes are gone.
