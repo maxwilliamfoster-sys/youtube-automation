@@ -449,7 +449,7 @@ def _is_valid_title(title: str) -> bool:
     wc = len(title.split())
     if wc == 0 or wc > 12 or len(title) > 100:
         return False
-    return not _has_hard_meta(title)
+    return not _has_hard_meta(title) and not _LURID.search(title)
 
 
 def _clamp_to_words(text: str, max_words: int) -> str:
@@ -885,6 +885,9 @@ COLD_OPEN_MAX_WORDS = 10
 _MONTH = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*"
 _DATED_OPEN = re.compile(rf"^(?:back\s+)?(?:in|on|during|at|by)\s+(?:the\s+|early\s+|late\s+|a\s+)*"
                          rf"(?:\d|{_MONTH}\b|(?:\w+\s+)?{_MONTH}\b|\w+(?:-\w+)?\s+of\s+{_MONTH}\b|(?:mon|tues|wednes|thurs|fri|satur|sun)day\b)", re.I)
+# 2026-11-02: "lead with the strangest fact" gave "Theresa Allore's body was found in a lake, naked." The AI review blocks that, but
+# only after 15 minutes of rendering, and a victim's body is never the hook anyway.
+_LURID = re.compile(r"\b(?:naked|nude|undressed|unclothed|topless|raped?|sexual(?:ly)?|genitals?)\b", re.I)
 
 
 def _first_sentence(script: str) -> str:
@@ -905,6 +908,8 @@ def _cold_open_issues(line: str, case: dict) -> list:
     out = [f"{i.code}: {i.message}" for i in bad]
     if _DATED_OPEN.match(line.strip()):
         out.append("dated_open: starts with a date; lead with the strangest fact")
+    if _LURID.search(line):
+        out.append("lurid_open: uses a victim's body or a sexual detail as the hook")
     return out
 
 
@@ -926,6 +931,7 @@ def _write_cold_open(client, case: dict, script: str) -> str:
             "- It must contain one concrete specific from the script: a number or year, a "
             "place, or a name.\n"
             "- Use ONLY facts stated in the script below. No greeting, no 'in this video'.\n"
+            "- Never mention nudity, sexual details or the state of a victim's body.\n"
             "- Lead with the strangest or most unexplained fact. NEVER start with a date: no "
             "'In 1978', no 'On 3 November'. A year may only come at the end of the sentence.\n"
             "  GOOD: 'Her car was found running, and she was never seen.'\n"

@@ -104,6 +104,11 @@ class ColdOpenDates(unittest.TestCase):
         for line in ("Ann Lee vanished from Leeds in 1978.", "In Leeds, one car was left running.", "On her desk, 3 letters stayed unopened."):
             self.assertFalse(any("dated_open" in i for i in sg._cold_open_issues(line, self.CASE)), line)
 
+    def test_lurid_openings_are_rejected(self):
+        import story_generator as sg
+        self.assertTrue(any("lurid_open" in i for i in sg._cold_open_issues("Ann Lee's body was found in Leeds, naked.", self.CASE)))
+        self.assertFalse(any("lurid_open" in i for i in sg._cold_open_issues("Ann Lee vanished from Leeds in 1978.", self.CASE)))
+
 
 class NarrationTempo(unittest.TestCase):
     def test_speed_up_shortens_audio_and_tempo_one_is_a_no_op(self):
