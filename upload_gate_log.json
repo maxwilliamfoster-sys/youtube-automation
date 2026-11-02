@@ -3734,6 +3734,121 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-02T19:58:09+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "4b949839f1f4116bd752c813aa640362ab61545d4e1b2e7920ac1b9b31b0e96b",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "2.6s of black picture"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.557,
+   "report": {
+    "seconds": 36.1,
+    "lufs": -15.3,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-11-02T20:10:15+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "94bfb27d3fdc2acbc96889006ac8c9fa590a4744b9d2f774185988bcc575f786",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.648,
+   "report": {
+    "seconds": 37.63,
+    "lufs": -14.9,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 5,
+    "quality": 8,
+    "tokens": 3584,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7012,
+     "predicted_tokens": 4928,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-02T20:22:51+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "3d747ad2e70385aef0cd6d06f01bcfc21038f591d1178294c4b485d410eefadd",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "1.6s of black picture"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.516,
+   "report": {
+    "seconds": 37.5,
+    "lufs": -15.1,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-11-02T20:36:05+00:00",
+   "platform": "tiktok",
+   "file": "Friends_left_Her_truck_stayed_She_vanish_20261102_203330.mp4",
+   "sha256": "ce1b30d118697de4e8b7e365fcbc823c0661701878e5ac614cf84f50b16a21b1",
+   "head": "Madison Scott case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.686,
+   "report": {
+    "seconds": 25.9,
+    "lufs": -14.8,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4213,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
