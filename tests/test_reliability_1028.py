@@ -90,5 +90,39 @@ class KeyWordCaptions(unittest.TestCase):
             self.assertFalse(_is_key_word(word, prev), word)
 
 
+class ColdOpenDates(unittest.TestCase):
+    CASE = {"case_name": "Ann Lee", "location": "Leeds", "year": 1978}
+
+    def test_date_openings_are_rejected(self):
+        import story_generator as sg
+        for line in ("On 3 December 1926, her car was found.", "In 2020, two sisters left Leeds.", "On third November, 1978, Ann Lee left.",
+                     "On the twenty-third of May, Ann Lee left.", "Back in 1978 Ann Lee left Leeds.", "On Tuesday Ann Lee left Leeds."):
+            self.assertTrue(any("dated_open" in i for i in sg._cold_open_issues(line, self.CASE)), line)
+
+    def test_fact_led_openings_pass_the_date_rule(self):
+        import story_generator as sg
+        for line in ("Ann Lee vanished from Leeds in 1978.", "In Leeds, one car was left running.", "On her desk, 3 letters stayed unopened."):
+            self.assertFalse(any("dated_open" in i for i in sg._cold_open_issues(line, self.CASE)), line)
+
+
+class NarrationTempo(unittest.TestCase):
+    def test_speed_up_shortens_audio_and_tempo_one_is_a_no_op(self):
+        import subprocess
+        import tempfile
+        import chatterbox_narrator as cn
+        from video_composer import FFMPEG
+        with tempfile.TemporaryDirectory() as d:
+            wav = os.path.join(d, "a.wav")
+            subprocess.run([FFMPEG, "-y", "-f", "lavfi", "-i", "sine=frequency=220:duration=6", wav], capture_output=True, check=True)
+            self.assertEqual(cn._speed_up(wav, 1.0, 6.0), 6.0)
+            self.assertAlmostEqual(cn._speed_up(wav, 1.2, 6.0), 5.0)
+            out = subprocess.run([FFMPEG, "-hide_banner", "-i", wav], capture_output=True, text=True).stderr
+            self.assertIn("Duration: 00:00:05", out)
+
+    def test_failed_ffmpeg_keeps_the_original(self):
+        import chatterbox_narrator as cn
+        self.assertEqual(cn._speed_up("/no/such/file.wav", 1.2, 6.0), 6.0)
+
+
 if __name__ == "__main__":
     unittest.main()

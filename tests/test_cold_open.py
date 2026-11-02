@@ -41,7 +41,7 @@ class ColdOpenLine(unittest.TestCase):
     def test_a_long_first_sentence_gets_a_separate_cold_open(self):
         script = ("When the estate agent left her office that afternoon nobody imagined it would be "
                   "the last time she was seen. " + BODY)
-        new = "In 1986, a Fulham estate agent went to a viewing."
+        new = "A Fulham estate agent went to a viewing in 1986."
         with mock.patch.object(sg, "_groq_call", return_value=_reply(new)) as call:
             line, out = sg._cold_open(None, CASE, script)
         call.assert_called_once()
@@ -61,7 +61,7 @@ class ColdOpenLine(unittest.TestCase):
 
     def test_a_line_that_states_guilt_about_a_named_person_is_rejected(self):
         script = "John Smith murdered his wife in Leeds in 1990. " + BODY
-        safe = "In 1990, a Leeds woman vanished from her home."
+        safe = "A Leeds woman vanished from her home in 1990."
         with mock.patch.object(sg, "_groq_call", return_value=_reply(safe)):
             line, out = sg._cold_open(None, CASE, script)
         self.assertEqual(line, safe)
@@ -119,7 +119,7 @@ class ColdOpenIsReviewed(unittest.TestCase):
     def test_a_prepended_cold_open_reaches_every_review(self):
         script = ("When the estate agent left her office that afternoon nobody imagined it would be "
                   "the last time she was seen. " + BODY)
-        new = "In 1986, a Fulham estate agent went to a viewing."
+        new = "A Fulham estate agent went to a viewing in 1986."
         result, status, seen = self._finalise(script, cold_reply=new)
         self.assertEqual(status, "approved")
         self.assertEqual(result["hook"], new)

@@ -128,7 +128,10 @@ CHATTERBOX_EXAGGERATION = float(os.getenv("CHATTERBOX_EXAGGERATION", "0.45"))
 # Lower cfg_weight = slower, more deliberate delivery.
 CHATTERBOX_CFG_WEIGHT  = float(os.getenv("CHATTERBOX_CFG_WEIGHT", "0.5"))
 # Beat between sentences, so each fact lands.
-CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.5"))
+CHATTERBOX_SENTENCE_GAP = float(os.getenv("CHATTERBOX_SENTENCE_GAP", "0.35"))
+# 2026-11-02: Chatterbox has no speed setting and speaks about 2 words a second, so 100 words ran 50 s. Under 45 s is watched
+# 33% vs 22%. atempo keeps the pitch. REVERT: CHATTERBOX_TEMPO=1.0, CHATTERBOX_SENTENCE_GAP=0.5
+CHATTERBOX_TEMPO = float(os.getenv("CHATTERBOX_TEMPO", "1.2"))
 
 # Tag written into analytics/posts_log.csv for every post, so scheduled reviews can
 # compare cohorts. Bump it whenever the format/narrator changes; see QUALITY_LOG.md.

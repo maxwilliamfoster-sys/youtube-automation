@@ -880,6 +880,11 @@ def _extract_hook(script: str, max_words: int = 12) -> str:
 
 # ── Cold open (MASTER_PLAN #12): one complete line of <= 10 words, never truncated ──────
 COLD_OPEN_MAX_WORDS = 10
+# 2026-11-02: the script prompt bans "In [year]" / "On [date]" openings, but nothing enforced it and the rewriter below
+# happily wrote them ("On 3 December 1926, ..."), so viewers' first 3 seconds were a date. Viewers average 11 s.
+_MONTH = r"(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*"
+_DATED_OPEN = re.compile(rf"^(?:back\s+)?(?:in|on|during|at|by)\s+(?:the\s+|early\s+|late\s+|a\s+)*"
+                         rf"(?:\d|{_MONTH}\b|(?:\w+\s+)?{_MONTH}\b|\w+(?:-\w+)?\s+of\s+{_MONTH}\b|(?:mon|tues|wednes|thurs|fri|satur|sun)day\b)", re.I)
 
 
 def _first_sentence(script: str) -> str:
@@ -897,7 +902,10 @@ def _cold_open_issues(line: str, case: dict) -> list:
     r = hook_lint.lint(hook=line, true_crime=True, max_words=COLD_OPEN_MAX_WORDS,
                        specifics=specifics)
     bad = list(r.fails) + [w for w in r.warns if w.code == "legal_guilt_unqualified"]
-    return [f"{i.code}: {i.message}" for i in bad]
+    out = [f"{i.code}: {i.message}" for i in bad]
+    if _DATED_OPEN.match(line.strip()):
+        out.append("dated_open: starts with a date; lead with the strangest fact")
+    return out
 
 
 def _hook_for(script: str, case: dict) -> str:
@@ -918,6 +926,10 @@ def _write_cold_open(client, case: dict, script: str) -> str:
             "- It must contain one concrete specific from the script: a number or year, a "
             "place, or a name.\n"
             "- Use ONLY facts stated in the script below. No greeting, no 'in this video'.\n"
+            "- Lead with the strangest or most unexplained fact. NEVER start with a date: no "
+            "'In 1978', no 'On 3 November'. A year may only come at the end of the sentence.\n"
+            "  GOOD: 'Her car was found running, and she was never seen.'\n"
+            "  BAD: 'On 3 December 1926, her car was found abandoned.'\n"
             "- Never state or imply that anyone not convicted by a court is guilty; use "
             "'accused' or the court outcome if a suspect is mentioned at all. Prefer the "
             "victim, the place or the mystery.\n"
@@ -1214,7 +1226,7 @@ MAX_SCRIPT_WORDS = 260
 # Trim to this before rejecting. ~100 words is about 40 seconds narrated.
 # Short-form reach follows completion rate, and a 45s video is far likelier
 # to be watched to the end than a 70s one — the previous target.
-TRIM_SCRIPT_WORDS = 100
+TRIM_SCRIPT_WORDS = 90   # the cold open and spoken-out numbers add about 15 more
 # How much source the SCRIPT WRITER sees. The fact-checker still gets the full
 # article. With 6000 characters in front of it the model tried to cover the whole
 # piece and ran to 380-620 words against a 150-185 target — it treats a long source

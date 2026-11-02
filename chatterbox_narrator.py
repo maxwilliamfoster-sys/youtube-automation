@@ -32,7 +32,7 @@ import subprocess
 
 from config import (
     AUDIO_DIR, CHATTERBOX_ENABLED, CHATTERBOX_REFERENCE,
-    CHATTERBOX_EXAGGERATION, CHATTERBOX_CFG_WEIGHT, CHATTERBOX_SENTENCE_GAP,
+    CHATTERBOX_EXAGGERATION, CHATTERBOX_CFG_WEIGHT, CHATTERBOX_SENTENCE_GAP, CHATTERBOX_TEMPO,
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -69,6 +69,21 @@ def _sentences(text: str) -> list:
         else:
             merged.append(buf)
     return merged
+
+
+def _speed_up(wav_path: str, tempo: float, duration: float) -> float:
+    """Speed the narration up in place without changing its pitch. Returns the new length. If ffmpeg
+    fails the original take is kept: a slower video beats no video."""
+    if tempo == 1.0:
+        return duration
+    from video_composer import FFMPEG
+    tmp = wav_path + ".tempo.wav"
+    r = subprocess.run([FFMPEG, "-y", "-i", wav_path, "-filter:a", f"atempo={tempo}", tmp], capture_output=True)
+    if r.returncode != 0 or not os.path.exists(tmp):
+        print(f"[Chatterbox] tempo {tempo} failed, keeping normal speed")
+        return duration
+    os.replace(tmp, wav_path)
+    return duration / tempo
 
 
 def generate(text: str, filename_prefix: str = "doc") -> dict:
@@ -125,6 +140,7 @@ def generate(text: str, filename_prefix: str = "doc") -> dict:
     wav_path = os.path.join(AUDIO_DIR, f"{filename_prefix}_chatterbox.wav")
     mp3_path = os.path.join(AUDIO_DIR, f"{filename_prefix}_chatterbox.mp3")
     torchaudio.save(wav_path, full, model.sr)
+    duration = _speed_up(wav_path, CHATTERBOX_TEMPO, duration)
 
     # The rest of the pipeline expects mp3, and it is a fraction of the size.
     from video_composer import FFMPEG
