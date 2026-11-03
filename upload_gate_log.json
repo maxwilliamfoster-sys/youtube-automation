@@ -4045,6 +4045,42 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-03T21:33:57+00:00",
+   "platform": "tiktok",
+   "file": "Unsolved_1989_Richmond_Murder_Mysterious_20261103_213116.mp4",
+   "sha256": "8aa7c4c50ee01bdd5531f5fb7d64bc0be6ddb7c9279358d25e1b59b1f0b02a25",
+   "head": "Cindy James case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.676,
+   "report": {
+    "seconds": 45.33,
+    "lufs": -14.9,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3468,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7018,
+     "predicted_tokens": 4931,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
