@@ -3940,6 +3940,111 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-03T20:09:41+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "28af54112d90b49d049948076f0b70c7afadbb1b0d6b58e0474b965547ba899b",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.563,
+   "report": {
+    "seconds": 33.07,
+    "lufs": -14.9,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 4409,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-03T20:30:16+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "29d4c0aead6a4058b103d25e2131925045cd9e6232182510507c22b9bc2a1245",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.575,
+   "report": {
+    "seconds": 34.77,
+    "lufs": -15.2,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 2,
+    "quality": 3,
+    "tokens": 3684,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7005,
+     "predicted_tokens": 4926,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-03T20:47:08+00:00",
+   "platform": "tiktok",
+   "file": "Missing_Mom_and_Baby_Vanish_at_Cattle_Sa_20261103_204357.mp4",
+   "sha256": "bd33d4cb8ec44fb14832da33b380ca91bf8dbb5ce7f698011b68932227c680fb",
+   "head": "Inside the Harvey and Jeannette Crewe case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.519,
+   "report": {
+    "seconds": 36.77,
+    "lufs": -15.1,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3475,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7001,
+     "predicted_tokens": 4921,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

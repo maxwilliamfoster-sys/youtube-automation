@@ -1,88 +1,4 @@
 {
- "Death of Ophélie Bretnacher": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Shark Arm case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Blue Ridge Savings Bank murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Simonetta Ferrero": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Claire Holland": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Disappearance of Ilias Ali": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Harvey and Jeannette Crewe": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Bogle–Chandler case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Kidnapping of Alan Johnston": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Disappearance of April Fabb": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Sian O'Callaghan": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Sandyford murder case": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Stephen Tibble": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Lauren Burk": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Killing of Jermaine Baker": {
   "stage": "prescreen",
   "code": "active_proceedings",
@@ -3287,12 +3203,6 @@
   "date": "2026-10-28",
   "strikes": 1
  },
- "Porn Murders": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-28",
-  "strikes": 10
- },
  "Dyatlov Pass incident": {
   "stage": "quality",
   "code": "low_accuracy",
@@ -4259,12 +4169,6 @@
   "date": "2026-10-31",
   "strikes": 1
  },
- "Disappearance of Amber Cates": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-31",
-  "strikes": 1
- },
  "Murder of Ellie Butler": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4571,12 +4475,6 @@
   "date": "2026-10-31",
   "strikes": 1
  },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 38
- },
  "Murder of Gemma Hayter": {
   "stage": "prefilter",
   "code": "gore",
@@ -4685,12 +4583,6 @@
   "date": "2026-10-31",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 38
- },
  "Murders of Margaret and Seana Tapp": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4797,6 +4689,114 @@
   "stage": "prescreen",
   "code": "gore",
   "date": "2026-11-02",
+  "strikes": 1
+ },
+ "Disappearance of Amber Cates": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-03",
+  "strikes": 2
+ },
+ "Murder of Claire Tiltman": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Disappearance of Russell Bohling": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Murder of Paige Birgfeld": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Murder of Melanie Hall": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "McMahon killings": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Disappearance of Jason Jolkowski": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Porn Murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-03",
+  "strikes": 11
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-03",
+  "strikes": 41
+ },
+ "Murder of Samaira Nazir": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-03",
+  "strikes": 40
+ },
+ "Liland affair": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Kidnapping of Heinrich Kreipe": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Blue Ridge Savings Bank murders": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Disappearance of Subramaniam Ramachandran": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Great Mull Air Mystery": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Death of Cindy James": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-03",
+  "strikes": 1
+ },
+ "Disappearance of April Fabb": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-03",
   "strikes": 1
  }
 }
