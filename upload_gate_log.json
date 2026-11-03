@@ -3909,6 +3909,37 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-03T17:20:20+00:00",
+   "platform": "tiktok",
+   "file": "The_Most_Bizarre_Mystery_Of_Agatha_Chris_20261103_171830.mp4",
+   "sha256": "0e9d459a832dd482e3e60b92b52787722b654bf854dfb4e63e67d52259316814",
+   "head": "The Agatha Christie case, explained. Part 3/3",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "near-duplicate first caption line (…)"
+   ],
+   "gate_version": "2026-10-27",
+   "head_similarity": 1.0,
+   "report": {
+    "seconds": 32.0,
+    "lufs": -15.1,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4233,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
