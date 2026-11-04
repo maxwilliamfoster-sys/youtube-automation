@@ -54,6 +54,30 @@ class TestMoodFootage(unittest.TestCase):
         self.assertEqual(len(set(qs)), len(qs))
         self.assertFalse(any(w in " ".join(qs) for w in ("roast", "sheep", "food", "dinner")))
 
+    def test_a_line_gets_footage_matching_what_it_says(self):
+        # 28 Oct - 4 Nov 2026: every pattern was unmatchable, so every video used the
+        # same 12 fallback moods in the same order and nothing noticed.
+        for line, expected in (
+            ("Police searched the woods.", "police tape"),
+            ("The trial collapsed.", "courthouse"),
+            ("A letter arrived at the house.", "old photographs"),
+            ("The boat drifted off the coast.", "stormy sea"),
+            ("Her family holds a vigil.", "candle in the dark"),
+        ):
+            self.assertEqual(ig._generate_pexels_queries("x", [line]), [expected], line)
+
+    def test_different_stories_get_different_footage(self):
+        court = ["The jury took four hours.", "The judge ordered a retrial.", "He was acquitted."]
+        coast = ["The boat drifted off the coast.", "A storm passed.", "Her diary was found."]
+        self.assertNotEqual(ig._generate_pexels_queries("x", court),
+                            ig._generate_pexels_queries("x", coast))
+
+    def test_no_control_characters_in_the_picker_source(self):
+        # How the patterns broke: a patch script wrote the two characters \b as one backspace.
+        with open(ig.__file__, "rb") as f:
+            source = f.read()
+        self.assertEqual([c for c in source if c < 32 and c not in (9, 10, 13)], [])
+
 
 class TestCredits(unittest.TestCase):
     def test_cc_by_photos_are_credited_in_the_caption(self):
