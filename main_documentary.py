@@ -191,7 +191,7 @@ def _generate_one() -> tuple:
     # The real place carries the visuals. story['location'] comes from the Wikipedia
     # article, so it is the actual town/borough the case happened in.
     uk_place = (story.get("location") or "").strip()
-    image_paths, word_segments, used_images = generate_story_images(
+    image_paths, word_segments, used_images, clips = generate_story_images(
         story_title=story["title"],
         story_text=story["script"],
         output_dir=image_dir,
@@ -201,6 +201,7 @@ def _generate_one() -> tuple:
     )
     # Licences travel with the story so the copyright gate can check them before send.
     story["images"] = used_images
+    story["clips"] = clips
     uk_count = len(used_images)
     print(f"  {len(image_paths)} images ready ({uk_count} real UK locations)")
     # A silent fall-through to stock is how a whole run shipped with zero UK imagery
@@ -839,6 +840,10 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                     import series_queue
                     series_queue.mark_blocked(story)
                 continue
+
+            if not sample:
+                import image_generator
+                image_generator.remember_clips(story.get("clips", []))
 
             # Everything in ONE message: the video and its ready-to-paste caption.
             # Telegram renders <pre> as a code block with a copy button, so posting is

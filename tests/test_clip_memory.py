@@ -7,8 +7,11 @@ import unittest
 from unittest import mock
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import image_generator as ig
+import main_documentary as md
+import test_retry_until_pass as base
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT = ("Police searched the moor for three weeks and found nothing at all. The jury took four hours "
@@ -45,12 +48,15 @@ class ClipMemoryCase(unittest.TestCase):
             patcher.start()
             self.addCleanup(patcher.stop)
 
-    def make_video(self):
+    def make_video(self, passes_review=True):
         """Make one 12-scene video through the real picker; return the clip ids it used."""
         pexels = FakePexels()
         with mock.patch.object(ig.requests, "get", pexels):
-            paths, _, _ = ig.generate_story_images("t", SCRIPT, self.tmp.name, num_images=12)
+            paths, _, _, clips = ig.generate_story_images("t", SCRIPT, self.tmp.name, num_images=12)
         self.assertEqual(len(paths), 12)
+        self.assertEqual(set(clips), set(pexels.asked))
+        if passes_review:
+            ig.remember_clips(clips)
         return pexels.asked
 
 
@@ -96,6 +102,71 @@ class TestClipMemory(ClipMemoryCase):
             get.return_value.status_code = 404
             self.assertFalse(ig.fetch_pexels_video("storm clouds", os.path.join(self.tmp.name, "x.mp4")))
         self.assertFalse(os.path.exists(self.file))
+
+
+class TestBlockedVideosDoNotCount(ClipMemoryCase):
+    """Run 41876185252: 3 of 4 attempts were blocked, so 36 clips nobody saw counted as used."""
+
+    def test_making_a_video_does_not_use_up_memory(self):
+        self.make_video(passes_review=False)
+        self.assertFalse(os.path.exists(self.file))
+
+    def test_a_clip_seen_again_moves_to_the_newest_end(self):
+        ig.remember_clips([1, 2, 3])
+        ig.remember_clips([2, 9])
+        self.assertEqual(ig._load_recent_clips(), [1, 3, 2, 9])
+
+    def test_remembering_nothing_writes_nothing(self):
+        ig.remember_clips([])
+        self.assertFalse(os.path.exists(self.file))
+
+
+class TestOnlyVideosThatPassAreRemembered(unittest.TestCase):
+    def setUp(self):
+        base.TestRetryUntilPass.setUp(self)
+        self.addCleanup(base.TestRetryUntilPass.tearDown, self)
+        self.remembered = []
+        made = iter(range(1, 100))
+
+        def gen():
+            n = next(made)
+            return dict(base._story(n), clips=[n]), self.tmp.name
+        mock.patch.object(md, "_generate_one", gen).start()
+        mock.patch.object(ig, "remember_clips", self.remembered.append).start()
+
+    def _gate_seq(self, verdicts):
+        base.TestRetryUntilPass._gate_seq(self, verdicts)
+
+    def test_blocked_attempts_are_left_out(self):
+        block = {"ok": False, "failures": ["AI review: unverified claims"], "ai": {"available": True}}
+        self._gate_seq([block, block, {"ok": True, "failures": []}])
+        md.run_cloud_deliver(count=1)
+        self.assertEqual(self.remembered, [[3]])
+
+    def test_a_sample_is_left_out(self):
+        self._gate_seq([{"ok": True, "failures": []}])
+        md.run_cloud_deliver(count=1, sample=True)
+        self.assertEqual(self.remembered, [])
+
+    def test_the_real_pipeline_hands_its_clips_to_the_story(self):
+        # _generate_one is too large to run here; a real run confirms the rest.
+        with open(md.__file__, encoding="utf-8") as f:
+            self.assertIn('story["clips"] = clips', f.read())
+
+
+class TestDarkClipsStayOut(unittest.TestCase):
+    """Read frame by frame on 4 Nov with the upload gate's own black-picture test."""
+    BLACK = {15667292: "candle, black throughout", 9376344: "moon, first 0.44 s",
+             4727543: "staircase, first 1 s", 30728867: "light bulb, first 1.5 s",
+             36601677: "road, 6 stretches", 38312133: "road, nearly black throughout"}
+
+    def test_none_are_on_the_list(self):
+        listed = {c for mood in ig.BROLL_ALLOWLIST.values() for c in mood}
+        self.assertEqual(listed & set(self.BLACK), set())
+
+    def test_every_mood_still_has_enough_clips(self):
+        for mood, clips in ig.BROLL_ALLOWLIST.items():
+            self.assertGreaterEqual(len(clips), 5, mood)
 
 
 class TestMemoryIsKept(unittest.TestCase):

@@ -171,7 +171,7 @@ BROLL_ALLOWLIST = _load_allowlist()
 # Clips used by earlier videos, oldest first (committed by the workflow). Picks used to
 # forget everything between runs, so the same clip could come back in the very next video.
 RECENT_CLIPS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "recent_clips.json")
-RECENT_CLIP_WINDOW = 120   # clips, so about the last 10 videos: not reused while others are free
+RECENT_CLIP_WINDOW = 120   # clips, so about the last 10 approved videos: not reused while others are free
 RECENT_CLIPS_KEEP = 600    # older than this counts as never used
 
 
@@ -192,6 +192,13 @@ def _save_recent_clips(clips: list) -> None:
             json.dump(clips[-RECENT_CLIPS_KEEP:], f)
     except OSError as e:
         print(f"[Video] could not save clip memory: {e}")
+
+
+def remember_clips(clips: list) -> None:
+    """Count these clips as used. Call once a video passes the upload gate: a blocked video
+    never reached anyone, so its clips stay free."""
+    if clips:
+        _save_recent_clips([c for c in _load_recent_clips() if c not in clips] + sorted(clips))
 
 
 def _freshest_first(ids: list, recent: list) -> list:
@@ -643,16 +650,13 @@ def generate_story_images(
 
         saved_paths.append(output_path)
 
-    if seen_video_ids:
-        _save_recent_clips([c for c in recent_clips if c not in seen_video_ids] + sorted(seen_video_ids))
-
     print(f"\n[Images] Done: {len(saved_paths)} scene images")
-    return saved_paths, word_segments, used_images
+    return saved_paths, word_segments, used_images, sorted(seen_video_ids)
 
 
 if __name__ == "__main__":
     # Quick test
-    paths, _segs, _used = generate_story_images(
+    paths, _segs, _used, _clips = generate_story_images(
         story_title="The Somerton Man",
         story_text="A dead man found on a beach with no identity, a hidden pocket containing Persian words meaning 'it is finished', and an undeciphered code.",
         output_dir="./test_images",
