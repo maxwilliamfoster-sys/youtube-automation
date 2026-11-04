@@ -1,16 +1,4 @@
 {
- "Killing of Jermaine Baker": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Adnan Patrawala": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "1901 Redpath Mansion murders": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4445,12 +4433,6 @@
   "date": "2026-10-31",
   "strikes": 1
  },
- "Akiyoshi Umekawa": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-31",
-  "strikes": 8
- },
  "Murder of Michelle O'Keefe": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4703,12 +4685,6 @@
   "date": "2026-11-03",
   "strikes": 1
  },
- "Disappearance of Russell Bohling": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-03",
-  "strikes": 1
- },
  "Murder of Paige Birgfeld": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4739,23 +4715,11 @@
   "date": "2026-11-03",
   "strikes": 11
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-03",
-  "strikes": 41
- },
  "Murder of Samaira Nazir": {
   "stage": "compliance",
   "code": "fyf_ineligible",
   "date": "2026-11-03",
   "strikes": 1
- },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-03",
-  "strikes": 40
  },
  "Liland affair": {
   "stage": "prefilter",
@@ -4798,5 +4762,41 @@
   "code": "minor_victim",
   "date": "2026-11-03",
   "strikes": 1
+ },
+ "Disappearance of Russell Bohling": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-04",
+  "strikes": 2
+ },
+ "Akiyoshi Umekawa": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-04",
+  "strikes": 9
+ },
+ "Death of Alberto Nisman": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 41
+ },
+ "Murders of Koby Mandell and Yosef Ishran": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 44
  }
 }

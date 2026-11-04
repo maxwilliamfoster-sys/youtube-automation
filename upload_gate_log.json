@@ -4081,6 +4081,123 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-04T18:02:39+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "34e3f8e56dca59eacf019e1e1136a0a1b0e5883bd2b59858bc941278411619ab",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.583,
+   "report": {
+    "seconds": 30.57,
+    "lufs": -15.1,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4312,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-04T18:14:50+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "26f09cab2195251ade5d19594e624ff14e8497a78b8eef251197f88703bfd755",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "1.9s of black picture"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.571,
+   "report": {
+    "seconds": 36.77,
+    "lufs": -14.8,
+    "speech_match": 0.89,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-11-04T18:25:10+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "ccf36140793050e00ca0660e58d60c71a9c0688ba2d83934982241c3ef8e041b",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review unavailable: [http_400]"
+   ],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.568,
+   "report": {
+    "seconds": 24.07,
+    "lufs": -15.1,
+    "speech_match": 0.89,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "retryable": false,
+    "reason": "http_400"
+   }
+  },
+  {
+   "checked_at": "2026-11-04T18:43:21+00:00",
+   "platform": "tiktok",
+   "file": "White_Buses_Circle_Banani_Ilias_Ali_Disa_20261104_183943.mp4",
+   "sha256": "5529757c590ceae5605e5e16f4bbc2723b7fde77147720fbd50571d7c01cac70",
+   "head": "The Ilias Ali case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-10-27",
+   "head_similarity": 0.592,
+   "report": {
+    "seconds": 40.77,
+    "lufs": -15.2,
+    "speech_match": 0.85,
+    "longest_freeze": 0.0
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 3474,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7012,
+     "predicted_tokens": 4928,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
