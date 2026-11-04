@@ -23,7 +23,7 @@ from config import (
     CAPTION_STROKE_COLOR, CAPTION_STROKE_WIDTH,
     CAPTION_POSITION, OUTPUT_DIR,
     MUSIC_ENABLED, DOC_MUSIC_DIR, DOC_MUSIC_VOLUME,
-    AUDIO_LUFS_TARGET,
+    AUDIO_LUFS_TARGET, AUDIO_SAMPLE_RATE,
 )
 
 
@@ -507,6 +507,7 @@ def mix_background_music(narration_path: str, duration: float, work_dir: str) ->
         "-map",   "[aout]",
         "-t",     str(round(duration + 1.5, 2)),
         "-c:a",   "aac",
+        "-ar",    str(AUDIO_SAMPLE_RATE),
         "-b:a",   "192k",
         mixed_path,
     ]
@@ -551,7 +552,8 @@ def _master_narration_only(narration_path: str, duration: float, work_dir: str) 
         FFMPEG, "-y", "-i", os.path.abspath(narration_path).replace("\\", "/"),
         "-af", (f"highpass=f=85,acompressor=threshold=-18dB:ratio=3:attack=5:release=120,"
                 f"loudnorm=I={AUDIO_LUFS_TARGET}:TP=-1.5:LRA=11"),
-        "-t", str(round(duration + 1.5, 2)), "-c:a", "aac", "-b:a", "192k", out,
+        "-t", str(round(duration + 1.5, 2)), "-c:a", "aac", "-ar", str(AUDIO_SAMPLE_RATE),
+        "-b:a", "192k", out,
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
@@ -630,6 +632,7 @@ def add_audio_and_captions(
         "-preset", "medium",
         "-crf", "18",
         "-c:a", "aac",
+        "-ar", str(AUDIO_SAMPLE_RATE),
         "-b:a", "192k",
         "-r", str(VIDEO_FPS),
         "-pix_fmt", "yuv420p",

@@ -252,6 +252,9 @@ DOC_MUSIC_VOLUME = 0.10  # melodic, so a touch under the old drones' 12%
 # roughly -14 LUFS; delivering quieter just means the platform turns everything up,
 # noise included. The old mix measured -28 LUFS.
 AUDIO_LUFS_TARGET = -14.0
+# loudnorm resamples to 192 kHz internally, and with no output rate set the AAC encoder
+# settled on 96 kHz. Every step that writes audio has to set this. YouTube recommends 48 kHz.
+AUDIO_SAMPLE_RATE = 48000
 
 # ─── TikTok Posting Schedule (UK / GMT) ──────────────────────────────────────
 # Optimal times based on TikTok analytics research (Sprout Social / Hootsuite 2024)
