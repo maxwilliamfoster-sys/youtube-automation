@@ -6,6 +6,7 @@ TIP: Register free at https://auth.pollinations.ai to suppress watermarks.
      After registering, set POLLINATIONS_TOKEN in your .env file.
 """
 
+import json
 import os
 import random
 import re
@@ -167,6 +168,49 @@ def _load_allowlist() -> dict:
 
 BROLL_ALLOWLIST = _load_allowlist()
 
+# Clips used by earlier videos, oldest first (committed by the workflow). Picks used to
+# forget everything between runs, so the same clip could come back in the very next video.
+RECENT_CLIPS_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "recent_clips.json")
+RECENT_CLIP_WINDOW = 120   # clips, so about the last 10 videos: not reused while others are free
+RECENT_CLIPS_KEEP = 600    # older than this counts as never used
+
+
+def _load_recent_clips() -> list:
+    """Never stops a video: a missing or damaged file just means no memory this run."""
+    try:
+        with open(RECENT_CLIPS_FILE, encoding="utf-8") as f:
+            return [int(i) for i in json.load(f)]
+    except (OSError, ValueError, TypeError) as e:
+        if not isinstance(e, FileNotFoundError):
+            print(f"[Video] clip memory unreadable ({e}) - starting fresh")
+        return []
+
+
+def _save_recent_clips(clips: list) -> None:
+    try:
+        with open(RECENT_CLIPS_FILE, "w", encoding="utf-8") as f:
+            json.dump(clips[-RECENT_CLIPS_KEEP:], f)
+    except OSError as e:
+        print(f"[Video] could not save clip memory: {e}")
+
+
+def _freshest_first(ids: list, recent: list) -> list:
+    """Never-used clips in random order, then used ones with the longest-ago first."""
+    last_used = {clip: i for i, clip in enumerate(recent)}
+    shuffled = list(ids)
+    random.shuffle(shuffled)
+    return sorted(shuffled, key=lambda clip: last_used.get(clip, -1))
+
+
+def _moods_to_try(query: str, avoid: set) -> list:
+    """The scene's own mood, then up to 3 general moods, all with a clip not in `avoid`."""
+    def has_free_clip(mood):
+        return any(clip not in avoid for clip in BROLL_ALLOWLIST.get(mood, []))
+
+    others = [q for q in MOOD_DEFAULT if q != query and has_free_clip(q)]
+    random.shuffle(others)
+    return ([query] if has_free_clip(query) else []) + others[:3]
+
 
 def _generate_pexels_queries(story_title: str, segments: list) -> list:
     """One curated mood query per scene (no LLM: see MOOD_THEMES)."""
@@ -192,6 +236,8 @@ def fetch_pexels_video(
     api_key: str = None,
     seen_ids: set = None,
     min_duration: float = 3.0,
+    recent: list = None,
+    avoid: set = None,
 ) -> bool:
     """
     Download a portrait Pexels *video* clip matching `query`.
@@ -209,10 +255,11 @@ def fetch_pexels_video(
 
     headers = {"Authorization": key}
     # Vetted clips only (see MOOD_THEMES): a query with no list is never searched.
-    ids = [i for i in BROLL_ALLOWLIST.get(query, []) if not seen_ids or i not in seen_ids]
+    ids = [i for i in BROLL_ALLOWLIST.get(query, [])
+           if i not in (seen_ids or ()) and i not in (avoid or ())]
     if not ids:
         return False
-    random.shuffle(ids)
+    ids = _freshest_first(ids, recent or [])
 
     try:
         video = None
@@ -530,6 +577,8 @@ def generate_story_images(
     seen_uk_ids: set = set()
     used_images: list = []        # licence + credit for the copyright gate
     seen_video_ids: set = set()
+    recent_clips = _load_recent_clips()
+    avoid_clips = set(recent_clips[-RECENT_CLIP_WINDOW:])
     broll_count = 0
     for i in range(num_images):
         output_path = os.path.join(output_dir, f"scene_{i + 1:02d}.jpg")
@@ -561,8 +610,13 @@ def generate_story_images(
             if USE_VIDEO_BROLL:
                 video_path = os.path.join(output_dir, f"scene_{i + 1:02d}.mp4")
                 # Another vetted mood before any unvetted still: stills are searched live.
+                # A clip from the last few videos only when nothing else is left.
                 tries = [query] + [q for q in MOOD_DEFAULT if q != query][:3]
-                if any(fetch_pexels_video(q, video_path, seen_ids=seen_video_ids) for q in tries):
+                if any(fetch_pexels_video(q, video_path, seen_ids=seen_video_ids,
+                                          recent=recent_clips, avoid=avoid_clips)
+                       for q in _moods_to_try(query, avoid_clips | seen_video_ids)) \
+                        or any(fetch_pexels_video(q, video_path, seen_ids=seen_video_ids,
+                                                  recent=recent_clips) for q in tries):
                     saved_paths.append(video_path)
                     broll_count += 1
                     continue
@@ -586,6 +640,9 @@ def generate_story_images(
             _create_dark_fallback(output_path)
 
         saved_paths.append(output_path)
+
+    if seen_video_ids:
+        _save_recent_clips([c for c in recent_clips if c not in seen_video_ids] + sorted(seen_video_ids))
 
     print(f"\n[Images] Done: {len(saved_paths)} scene images")
     return saved_paths, word_segments, used_images

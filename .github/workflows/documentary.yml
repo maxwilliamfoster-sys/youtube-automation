@@ -201,7 +201,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          for f in recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json upload_gate_log.json groq_budget.json; do
+          for f in recent_cases.json rejected_cases.json case_pool.json analytics/posts_log.csv series_queue.json upload_gate_log.json groq_budget.json recent_clips.json; do
             if [ -f "$f" ]; then git add "$f"; fi
           done
           git diff --staged --quiet && { echo "No new case to persist."; exit 0; }
