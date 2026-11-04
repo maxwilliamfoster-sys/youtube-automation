@@ -131,18 +131,18 @@ def generate_image_prompts(
 # children playing football. Only queries with a vetted list are used.
 MOOD_THEMES = [
     (r"\b(court|trial|jury|judge|convict|sentenc|acquit|verdict|appeal|inquest|charged|prosecut)",
-     ["courthouse", "judge gavel", "documents on desk"]),
+     ["courthouse", "judge gavel", "law books", "documents on desk"]),
     (r"\b(police|investigat|detective|officer|search|inquiry|evidence|forensic|suspect|arrest)",
      ["police tape", "magnifying glass", "documents on desk", "empty corridor"]),
     (r"\b(photo|picture|letter|note|diary|wrote|written|record|file|statement)",
-     ["old photographs", "typewriter", "documents on desk"]),
+     ["old photographs", "typewriter", "law books", "documents on desk"]),
     (r"\b(missing|vanish|disappear|last seen|never seen|never returned|never came home)",
      ["foggy forest", "misty field", "empty corridor"]),
     (r"\b(car|drove|driv|road|motorway|vehicle|lorry|van|bus|taxi)", ["road at night", "rain on window at night"]),
     (r"\b(train|station|railway|platform)", ["railway tracks fog"]),
     (r"\b(sea|coast|beach|cliff|harbour|shore|boat)", ["stormy sea"]),
     (r"\b(field|farm|rural|countryside|village|moor|woods|forest|park|path)", ["misty field", "foggy forest"]),
-    (r"\b(house|home|flat|bedroom|door|room|building)", ["empty corridor", "flickering light bulb"]),
+    (r"\b(house|home|flat|bedroom|door|room|building)", ["empty corridor", "dark staircase", "flickering light bulb"]),
     (r"\b(years|decades|hours|minutes|days|weeks|time|clock|still)", ["clock ticking"]),
     (r"\b(rain|storm|weather|cold|winter)", ["rain on window at night", "storm clouds"]),
     (r"\b(memor|mourn|funeral|vigil|grief|family|mother|father|parents|remember)", ["candle in the dark"]),
@@ -151,7 +151,7 @@ MOOD_THEMES = [
 MOOD_DEFAULT = ["storm clouds", "foggy forest", "rain on window at night", "moon behind clouds",
                 "candle in the dark", "misty field", "stormy sea", "clock ticking", "empty corridor",
                 "documents on desk", "railway tracks fog", "magnifying glass", "flickering light bulb",
-                "old photographs"]
+                "old photographs", "dark staircase", "law books"]
 
 _ALLOWLIST_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "broll_allowlist.json")
 
@@ -213,18 +213,20 @@ def _moods_to_try(query: str, avoid: set) -> list:
 
 
 def _generate_pexels_queries(story_title: str, segments: list) -> list:
-    """One curated mood query per scene (no LLM: see MOOD_THEMES)."""
+    """One curated mood query per scene (no LLM: see MOOD_THEMES). Random within a theme and
+    within the backups: a fixed order gave nearly every video the same opening shot."""
     used, out = set(), []
     for seg in segments:
         text = (seg or "").lower()
         pick = None
         for pat, queries in MOOD_THEMES:
             if re.search(pat, text):
-                pick = next((q for q in queries if q not in used), None)
-                if pick:
+                unused = [q for q in queries if q not in used]
+                if unused:
+                    pick = random.choice(unused)
                     break
         if pick is None:
-            pick = next((q for q in MOOD_DEFAULT if q not in used), MOOD_DEFAULT[len(out) % len(MOOD_DEFAULT)])
+            pick = random.choice([q for q in MOOD_DEFAULT if q not in used] or MOOD_DEFAULT)
         used.add(pick)
         out.append(pick)
     return out

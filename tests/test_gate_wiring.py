@@ -58,13 +58,24 @@ class TestMoodFootage(unittest.TestCase):
         # 28 Oct - 4 Nov 2026: every pattern was unmatchable, so every video used the
         # same 12 fallback moods in the same order and nothing noticed.
         for line, expected in (
-            ("Police searched the woods.", "police tape"),
-            ("The trial collapsed.", "courthouse"),
-            ("A letter arrived at the house.", "old photographs"),
-            ("The boat drifted off the coast.", "stormy sea"),
-            ("Her family holds a vigil.", "candle in the dark"),
+            ("Police searched the woods.", {"police tape", "magnifying glass", "documents on desk", "empty corridor"}),
+            ("The trial collapsed.", {"courthouse", "judge gavel", "law books", "documents on desk"}),
+            ("A letter arrived at the house.", {"old photographs", "typewriter", "law books", "documents on desk"}),
+            ("The boat drifted off the coast.", {"stormy sea"}),
+            ("Her family holds a vigil.", {"candle in the dark"}),
         ):
-            self.assertEqual(ig._generate_pexels_queries("x", [line]), [expected], line)
+            for _ in range(10):
+                self.assertIn(ig._generate_pexels_queries("x", [line])[0], expected, line)
+
+    def test_a_line_with_no_theme_does_not_always_open_the_same_way(self):
+        # Scripts split into 12 short chunks, so many match no theme. A fixed backup order
+        # gave storm clouds as the opening shot of nearly every video.
+        openings = {ig._generate_pexels_queries("x", ["Nothing to match here."])[0] for _ in range(40)}
+        self.assertGreater(len(openings), 4)
+
+    def test_the_same_theme_does_not_always_lead_with_the_same_mood(self):
+        moods = {ig._generate_pexels_queries("x", ["The trial collapsed."])[0] for _ in range(40)}
+        self.assertGreater(len(moods), 1)
 
     def test_different_stories_get_different_footage(self):
         court = ["The jury took four hours.", "The judge ordered a retrial.", "He was acquitted."]
