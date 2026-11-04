@@ -554,6 +554,7 @@ def _credit_line(images, limit=400) -> str:
 def _gate_profile(sample=False):
     """Upload-gate settings for the documentaries (see upload_gate.DEFAULT_PROFILE)."""
     return {
+        "bot": "bcf",                    # media_qc's rules for this bot; the gate's own window stays the default
         "width": 1080, "height": 1920, "fps": 30, "seconds": (15, 180),
         "min_video_kbps": 1000,
         "max_silence": 3.0,
