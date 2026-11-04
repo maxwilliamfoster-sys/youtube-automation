@@ -5094,6 +5094,78 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-04T21:59:25+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "e8ee08ecfabfd678363dfa1eef2f3fe683cf62edb0582ffc0794177418cf7244",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.657,
+   "report": {
+    "seconds": 34.9,
+    "lufs": -15.2,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "tokens": 4454,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-04T22:44:39+00:00",
+   "platform": "tiktok",
+   "file": "She_held_her_own_cat_hostage_in_1994_20261104_224207.mp4",
+   "sha256": "641dcde954ad76513cf8202cf52c63bd2b9f78496c01fb50adfbdd0f8cf0c85a",
+   "head": "True crime: the Gresham cat hostage taking incident case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.489,
+   "report": {
+    "seconds": 24.37,
+    "lufs": -15.6,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4219,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

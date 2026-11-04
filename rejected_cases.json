@@ -1,82 +1,4 @@
 {
- "Death of Eliza and Henrietta Huszti": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Castration serial murders": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Libby Squire": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Carol Wardell": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Nikki Allan": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Gresham cat hostage taking incident": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Asama-Sansō incident": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Death of Pyotr Ilyich Tchaikovsky": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Gilles Andruet": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Death of Jean Perera Sinnappa": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Tynong North and Frankston murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Pesseghini case": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Kidnapping of Shahbaz Taseer": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Death of Colin Roach": {
   "stage": "prescreen",
   "code": "other",
@@ -1709,12 +1631,6 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "Shafqat Emmanuel and Shagufta Kausar blasphemy case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Murder of Karmein Chan": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -2777,12 +2693,6 @@
   "date": "2026-10-27",
   "strikes": 1
  },
- "Levi Bellfield": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 3
- },
  "Murder of Dana Bradley": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -3191,12 +3101,6 @@
   "date": "2026-10-28",
   "strikes": 1
  },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 14
- },
  "Murder of Elizabeth Parravincina": {
   "stage": "prefilter",
   "code": "sexual_violence",
@@ -3388,12 +3292,6 @@
   "code": "active_proceedings",
   "date": "2026-10-28",
   "strikes": 1
- },
- "Operation Synytsia": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-28",
-  "strikes": 11
  },
  "Murder of Martine Vik Magnussen": {
   "stage": "prefilter",
@@ -4673,12 +4571,6 @@
   "date": "2026-11-03",
   "strikes": 1
  },
- "Kidnapping of Heinrich Kreipe": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-03",
-  "strikes": 1
- },
  "Blue Ridge Savings Bank murders": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4715,29 +4607,11 @@
   "date": "2026-11-04",
   "strikes": 9
  },
- "Death of Alberto Nisman": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 41
- },
  "Murders of Koby Mandell and Yosef Ishran": {
   "stage": "prescreen",
   "code": "minor_victim",
   "date": "2026-11-04",
   "strikes": 1
- },
- "Murder of Janet Brown": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-11-04",
-  "strikes": 41
  },
  "Death of Daniel Nolan": {
   "stage": "prescreen",
@@ -4754,12 +4628,6 @@
  "Murder of Adnan Patrawala": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "Alta View Hospital hostage incident": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-04",
   "strikes": 1
  },
@@ -4781,12 +4649,6 @@
   "date": "2026-11-04",
   "strikes": 2
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 45
- },
  "Hawker Hunter Tower Bridge incident": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4798,5 +4660,143 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-04",
   "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-04",
+  "strikes": 42
+ },
+ "Murder of Luigia Borrelli": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Murder of Sarah Payne": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Alta View Hospital hostage incident": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 2
+ },
+ "Disappearance of Kristen Modafferi": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Death of Brian Egg": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Murder of Claire Holland": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Kidnapping of Heinrich Kreipe": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-04",
+  "strikes": 2
+ },
+ "Bogle–Chandler case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Murder of Surjit Singh Chhokar": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Shafqat Emmanuel and Shagufta Kausar blasphemy case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 2
+ },
+ "Murder of Marie Wilks": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Murder of Lauren Burk": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Sandyford murder case": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 50
+ },
+ "Operation Synytsia": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-04",
+  "strikes": 12
+ },
+ "Murder of Carol Wardell": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Death of Alberto Nisman": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-04",
+  "strikes": 2
+ },
+ "Murder of George Harry Storrs": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Levi Bellfield": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 4
+ },
+ "Murder of Yingying Zhang": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 17
+ },
+ "The Disappeared (Northern Ireland)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-04",
+  "strikes": 42
  }
 }
