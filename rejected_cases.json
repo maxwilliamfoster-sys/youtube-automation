@@ -1,28 +1,4 @@
 {
- "Killing of Harry Stanley": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Kidnapping of Swiss tourists in Balochistan": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Caligula case": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Kidnapping of Joshua Boyle and Caitlan Coleman": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Abduction of Yusuf and Zahra Shikder": {
   "stage": "prescreen",
   "code": "other",
@@ -4727,12 +4703,6 @@
   "date": "2026-11-04",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 50
- },
  "Operation Synytsia": {
   "stage": "prescreen",
   "code": "other",
@@ -4798,5 +4768,35 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-05",
   "strikes": 3
+ },
+ "Death of Jean Perera Sinnappa": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-05",
+  "strikes": 1
+ },
+ "Shark Arm case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-05",
+  "strikes": 1
+ },
+ "Murder of Libby Squire": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-05",
+  "strikes": 1
+ },
+ "2008 Noida double murder case": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-05",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-05",
+  "strikes": 51
  }
 }

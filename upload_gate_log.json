@@ -5201,6 +5201,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-05T20:34:04+00:00",
+   "platform": "tiktok",
+   "file": "Mansion_Murder_No_Police_No_Justice_20261105_203047.mp4",
+   "sha256": "0565f08d132771e88813e9a29bc3a073cced1badcefb16d33c59a243e78f8801",
+   "head": "1901 Redpath Mansion murders case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.707,
+   "report": {
+    "seconds": 36.83,
+    "lufs": -14.9,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4252,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
