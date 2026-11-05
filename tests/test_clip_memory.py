@@ -176,7 +176,8 @@ class TestWrongClipsStayOut(unittest.TestCase):
              7230788: "woman in handcuffs, could imply guilt",
              6406024: "knocking on a front door, the privacy rule blocks these",
              34839556: "counting cash, could suggest a motive",
-             7431687: "modern phone on a map"}
+             7431687: "modern phone on a map",
+             40069680: "tape on a race course with a dirt bike riding past"}
 
     def test_none_are_on_the_list(self):
         listed = {c for mood in ig.BROLL_ALLOWLIST.values() for c in mood}
