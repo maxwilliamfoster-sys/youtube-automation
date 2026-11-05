@@ -5166,6 +5166,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-05T17:40:47+00:00",
+   "platform": "tiktok",
+   "file": "Manga_Student_Murdered_on_Midnight_Bike__20261105_173753.mp4",
+   "sha256": "c876fa0244d678c88bb2d0485c26285ac3e0c130e3023ba0515f3537cf805638",
+   "head": "Inside the Daisaku Chiba case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.629,
+   "report": {
+    "seconds": 30.07,
+    "lufs": -14.9,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4247,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

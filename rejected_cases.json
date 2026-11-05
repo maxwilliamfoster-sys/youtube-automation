@@ -1,10 +1,4 @@
 {
- "Death of Colin Roach": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Killing of Harry Stanley": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -2056,12 +2050,6 @@
   "code": "minor_victim",
   "date": "2026-10-27",
   "strikes": 1
- },
- "Robert Brown case": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 2
  },
  "Murder of Ross Parker": {
   "stage": "prefilter",
@@ -4553,12 +4541,6 @@
   "date": "2026-11-03",
   "strikes": 1
  },
- "Porn Murders": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-11-03",
-  "strikes": 11
- },
  "Murder of Samaira Nazir": {
   "stage": "compliance",
   "code": "fyf_ineligible",
@@ -4798,5 +4780,23 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-04",
   "strikes": 42
+ },
+ "Porn Murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-05",
+  "strikes": 12
+ },
+ "Disappearance of Sarah MacDiarmid": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-05",
+  "strikes": 1
+ },
+ "Robert Brown case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-05",
+  "strikes": 3
  }
 }
