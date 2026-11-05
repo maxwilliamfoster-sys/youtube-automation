@@ -170,8 +170,13 @@ class TestDarkClipsStayOut(unittest.TestCase):
 
 
 class TestWrongClipsStayOut(unittest.TestCase):
-    """The AI review blocked a video on 4 Nov over this clip. It opens on a dark doorway, then a clown appears."""
-    WRONG = {5427490: "creepy clown with a red balloon, listed under empty corridor"}
+    """Clips that are wrong beside true crime, found from Pexels' names and stills on 5 Nov."""
+    WRONG = {5427490: "creepy clown with a red balloon, listed under empty corridor",
+             5994037: "typewriter types a political slogan",
+             7230788: "woman in handcuffs, could imply guilt",
+             6406024: "knocking on a front door, the privacy rule blocks these",
+             34839556: "counting cash, could suggest a motive",
+             7431687: "modern phone on a map"}
 
     def test_none_are_on_the_list(self):
         listed = {c for mood in ig.BROLL_ALLOWLIST.values() for c in mood}
