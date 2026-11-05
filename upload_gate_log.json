@@ -5236,6 +5236,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-05T21:49:40+00:00",
+   "platform": "tiktok",
+   "file": "Alone_at_Home_Killer_Ignored_Panic_Alarm_20261105_214714.mp4",
+   "sha256": "77a9c378440d9c24cff8fe6aa1075888831dff80b2344f93b9130ef45d47a9af",
+   "head": "The Janet Brown case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.724,
+   "report": {
+    "seconds": 27.5,
+    "lufs": -14.9,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 9,
+    "tokens": 4240,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

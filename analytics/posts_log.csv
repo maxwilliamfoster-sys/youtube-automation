@@ -50,3 +50,4 @@ posted_utc,video_id,format,narrator_ref,exaggeration,cfg_weight,grade,duration_s
 2026-11-04T22:47,,v5-tight,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,24.4,Gresham cat hostage taking incident,,False,False,She took her own pet cat hostage in 1994.,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
 2026-11-05T17:44,7704744258950958368,v5-tight,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,30.1,Murder of Daisaku Chiba,,False,True,,"{""buriedcasefiles-hook_card-1"": ""variant""}",chatterbox
 2026-11-05T20:37,7704788814442614049,v5-tight,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,36.8,1901 Redpath Mansion murders,,False,False,"No police ever arrived despite a coroner’s inquest, 1901.","{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
+2026-11-05T21:52,7704808289132973345,v5-tight,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,27.5,Murder of Janet Brown,,True,True,,"{""buriedcasefiles-hook_card-1"": ""variant""}",chatterbox
