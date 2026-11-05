@@ -169,6 +169,15 @@ class TestDarkClipsStayOut(unittest.TestCase):
             self.assertGreaterEqual(len(clips), 5, mood)
 
 
+class TestWrongClipsStayOut(unittest.TestCase):
+    """The AI review blocked a video on 4 Nov over this clip. It opens on a dark doorway, then a clown appears."""
+    WRONG = {5427490: "creepy clown with a red balloon, listed under empty corridor"}
+
+    def test_none_are_on_the_list(self):
+        listed = {c for mood in ig.BROLL_ALLOWLIST.values() for c in mood}
+        self.assertEqual(listed & set(self.WRONG), set())
+
+
 class TestMemoryIsKept(unittest.TestCase):
     def test_the_workflow_commits_the_memory_back(self):
         with open(os.path.join(ROOT, ".github", "workflows", "documentary.yml"), encoding="utf-8") as f:
