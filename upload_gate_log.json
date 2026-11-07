@@ -5304,6 +5304,78 @@
     "quota": true,
     "reason": "quota"
    }
+  },
+  {
+   "checked_at": "2026-11-07T16:03:16+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "23aa0a6c1fac3b684fc182bda7c328bcf3a5157e7314441f0f91a9d6e1f5498e",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.667,
+   "report": {
+    "seconds": 34.77,
+    "lufs": -15.3,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 4432,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-07T16:17:07+00:00",
+   "platform": "tiktok",
+   "file": "American_IRA_Sniper_Escapes_London_Polic_20261107_161330.mp4",
+   "sha256": "8c562670c84f0d088c9d641e2b47b58e77b840a1a8f7e0c927052ef8f66ca316",
+   "head": "Stephen Tibble: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.557,
+   "report": {
+    "seconds": 37.27,
+    "lufs": -15.2,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4215,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
