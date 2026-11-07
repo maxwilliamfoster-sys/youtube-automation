@@ -5376,6 +5376,39 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-07T16:47:31+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "98f8f583cf06f4481f475b41ac78828310d9f22c3678e922d7c446d01895d4ab",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review unavailable: [quota]"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.533,
+   "report": {
+    "seconds": 39.53,
+    "lufs": -14.9,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "retryable": false,
+    "quota": true,
+    "reason": "quota"
+   }
   }
  ]
 }

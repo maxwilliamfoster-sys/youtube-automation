@@ -1,16 +1,4 @@
 {
- "Disappearance of Isabella Skelton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Ann Arbor Hospital murders": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Christopher Alaneme": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4493,12 +4481,6 @@
   "date": "2026-11-03",
   "strikes": 1
  },
- "Disappearance of Subramaniam Ramachandran": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-03",
-  "strikes": 1
- },
  "Death of Cindy James": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4733,12 +4715,6 @@
   "date": "2026-11-05",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-05",
-  "strikes": 51
- },
  "Asama-Sansō incident": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4798,5 +4774,29 @@
   "code": "active_proceedings",
   "date": "2026-11-07",
   "strikes": 44
+ },
+ "Disappearance of Subramaniam Ramachandran": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-07",
+  "strikes": 2
+ },
+ "Kidnapping of Melissa Brannen": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-07",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-07",
+  "strikes": 53
+ },
+ "Murder of Sophie Lancaster": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-07",
+  "strikes": 1
  }
 }
