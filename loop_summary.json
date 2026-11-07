@@ -1,13 +1,13 @@
 {
- "updated": "2026-11-06 02:46 UTC",
+ "updated": "2026-11-07 02:13 UTC",
  "summary": {
-  "views": 14397,
-  "retention": 0.19789473684210526,
+  "views": 12798,
+  "retention": 0.20866666666666667,
   "swipe_away": null,
-  "posts": 21,
+  "posts": 18,
   "note": "views = latest totals of posts from the last 7 days; retention = median avg % watched; TikTok gives no swipe-away via Buffer"
  },
  "actions": [
-  "buriedcasefiles: running buriedcasefiles-hook_card-1 (buriedcasefiles-hook_card-1 · avg % watched at 72h: KEEP RUNNING — treatment 1.06x control (21.5 vs 20.3; 90% CI 0.62–1.52, p=0.961), n=10 vs 7 (min 15, max 30))"
+  "buriedcasefiles: running buriedcasefiles-hook_card-1 (buriedcasefiles-hook_card-1 · avg % watched at 72h: KEEP RUNNING — treatment 1.08x control (21.5 vs 20; 90% CI 0.72–1.38, p=1.000), n=12 vs 8 (min 15, max 30))"
  ]
 }
