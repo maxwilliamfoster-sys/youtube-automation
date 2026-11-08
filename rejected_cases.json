@@ -1,10 +1,4 @@
 {
- "Pistachio ice cream case": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Harry Collinson": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4796,6 +4790,12 @@
  "Castration serial murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Kidnapping of Joshua Boyle and Caitlan Coleman": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
   "date": "2026-11-08",
   "strikes": 1
  }

@@ -5476,6 +5476,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-08T18:19:20+00:00",
+   "platform": "tiktok",
+   "file": "Body_Found_Hours_After_Dredging_BeganMys_20261108_181624.mp4",
+   "sha256": "146ab1d16a740da0146c55f72cd3f668d923fee106487b793f33cb470a645478",
+   "head": "UK crime: the Ricky Reel case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.514,
+   "report": {
+    "seconds": 30.87,
+    "lufs": -15.2,
+    "speech_match": 1.0,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4245,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
