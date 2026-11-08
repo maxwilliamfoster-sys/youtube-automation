@@ -1,16 +1,4 @@
 {
- "Murder of Christopher Alaneme": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Death of Robert Stevens": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Pistachio ice cream case": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -298,12 +286,6 @@
   "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 2
- },
- "Kidnapping of Sharon Commins and Hilda Kawuki": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
  },
  "Abduction of Chloe Ayling": {
   "stage": "empty_script",
@@ -1430,12 +1412,6 @@
  "Kidnapping of Shelly Kittleson": {
   "stage": "prefilter",
   "code": "active_proceedings",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Mushin Ahmed": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-27",
   "strikes": 1
  },
@@ -4787,16 +4763,40 @@
   "date": "2026-11-07",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-07",
-  "strikes": 53
- },
  "Murder of Sophie Lancaster": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-11-07",
+  "strikes": 1
+ },
+ "Murders of Kate Bushell and Lyn Bryant": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Kidnapping of Sharon Commins and Hilda Kawuki": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-08",
+  "strikes": 2
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 54
+ },
+ "Murder of Mushin Ahmed": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-08",
+  "strikes": 2
+ },
+ "Castration serial murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
   "strikes": 1
  }
 }
