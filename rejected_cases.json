@@ -1,40 +1,4 @@
 {
- "Murder of Harry Collinson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Death of Davina Buff Jones": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Elizabeth Chantrelle": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Olive Balchin": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Carol Lannen": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Kidnapping and murder of Lesley Whittle": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Sally Ann McGrath": {
   "stage": "prescreen",
   "code": "sexual_violence",
@@ -4649,12 +4613,6 @@
   "date": "2026-11-04",
   "strikes": 42
  },
- "Porn Murders": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-11-05",
-  "strikes": 12
- },
  "Robert Brown case": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4696,12 +4654,6 @@
   "code": "script_unusable",
   "date": "2026-11-07",
   "strikes": 2
- },
- "Death of Eliza and Henrietta Huszti": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-07",
-  "strikes": 1
  },
  "2006 Noida serial murders": {
   "stage": "prefilter",
@@ -4763,23 +4715,11 @@
   "date": "2026-11-07",
   "strikes": 1
  },
- "Murders of Kate Bushell and Lyn Bryant": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-08",
-  "strikes": 1
- },
  "Kidnapping of Sharon Commins and Hilda Kawuki": {
   "stage": "empty_script",
   "code": "script_unusable",
   "date": "2026-11-08",
   "strikes": 2
- },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-08",
-  "strikes": 54
  },
  "Murder of Mushin Ahmed": {
   "stage": "empty_script",
@@ -4798,5 +4738,65 @@
   "code": "sexual_violence",
   "date": "2026-11-08",
   "strikes": 1
+ },
+ "Best Bakery case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Porn Murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-08",
+  "strikes": 13
+ },
+ "Bilkis Bano case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Death of Eliza and Henrietta Huszti": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-08",
+  "strikes": 2
+ },
+ "Disappearance of Claudia Lawrence": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Murders of Kate Bushell and Lyn Bryant": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-08",
+  "strikes": 2
+ },
+ "Killing of Harry Stanley": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Pistachio ice cream case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Tynong North and Frankston murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-08",
+  "strikes": 56
  }
 }

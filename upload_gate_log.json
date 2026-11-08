@@ -5511,6 +5511,73 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-08T20:25:30+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "246e1e4b63131cdddb45a3f955570308c45b72ef2c0289d3d662f4b6a086fbbe",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "0.8s of black picture"
+   ],
+   "warnings": [
+    "QC black (…)"
+   ],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.636,
+   "report": {
+    "seconds": 28.63,
+    "lufs": -15.2,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-11-08T20:35:20+00:00",
+   "platform": "tiktok",
+   "file": "Butsfield_Incident_Live_Confrontation_Tu_20261108_203309.mp4",
+   "sha256": "5e759e3591ad90d451b104746c96bf581dc67a584942f20542c2f6ccd1dd7134",
+   "head": "Inside the Harry Collinson case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.667,
+   "report": {
+    "seconds": 23.2,
+    "lufs": -14.9,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4175,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
