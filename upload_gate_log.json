@@ -5578,6 +5578,80 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-09T20:24:09+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "628c31f8a0334e4ad8144ad479fb4826ae76e4ae51dd8610956ec5f836bbe696",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [
+    "near-duplicate first caption line (…)"
+   ],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.815,
+   "report": {
+    "seconds": 38.1,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "tokens": 4381,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-09T20:37:22+00:00",
+   "platform": "tiktok",
+   "file": "Colin_Roach_Suicide_or_Mystery_20261109_203527.mp4",
+   "sha256": "8832b9ad154750516f5317577a36d4f3b67cafd0ee57cb73a0d76bfcacac7613",
+   "head": "Colin Roach case. | UK crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.59,
+   "report": {
+    "seconds": 34.33,
+    "lufs": -14.7,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4244,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
