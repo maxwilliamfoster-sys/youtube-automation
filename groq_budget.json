@@ -13,6 +13,7 @@
    "tokens": 200546
   },
   "qwen/qwen3.8-27b": {
+   "exhausted": true,
    "requests": 5,
    "tokens": 21039
   }
