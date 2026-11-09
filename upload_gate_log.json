@@ -5652,6 +5652,85 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-09T21:25:36+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "68163f2da2ccfae607bab22acaaad73d37dae8cb1c3fb0d5a5d919c5caf39ca2",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.69,
+   "report": {
+    "seconds": 38.83,
+    "lufs": -15.2,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 2,
+    "quality": 3,
+    "tokens": 3673,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7011,
+     "predicted_tokens": 4930,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-09T21:57:48+00:00",
+   "platform": "tiktok",
+   "file": "Billionaire_Vanishes_Behind_a_Fake_Wall_20261109_215407.mp4",
+   "sha256": "02422ad04056cfa97f95e304b22d81c17036f0fdac368d55cda9e15e225d22f5",
+   "head": "Kidnapping of Freddy Heineken case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.585,
+   "report": {
+    "seconds": 39.17,
+    "lufs": -15.1,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4537,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

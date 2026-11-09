@@ -1,94 +1,4 @@
 {
- "Murder of Anni Dewani": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Octavio Rojas Hernández": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Zarema Sadulayeva and Alik Dzhabrailov": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Disappearance of Vadivel Nimalarajah": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Kidnapping of Freddy Heineken": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Jonathan Henry": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murders of Nicola Hughes and Fiona Bone": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of April Jones": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Kidnapping of Virginia Piper": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Kidnapping of Angelo dela Cruz": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Sharon Beshenivsky": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Death of Brian Murphy": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Garry Newlove": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Una Crown": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Abduction of Chloe Ayling": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Halsman murder case": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -236,12 +146,6 @@
  "Scottish Criminal Cases Review Commission": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Kidnapping of Maria Àngels Feliu": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-24",
   "strikes": 1
  },
@@ -2735,12 +2639,6 @@
   "date": "2026-10-28",
   "strikes": 1
  },
- "Dyatlov Pass incident": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-10-28",
-  "strikes": 1
- },
  "Geeta and Sanjay Chopra kidnapping case": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4643,12 +4541,6 @@
   "date": "2026-11-09",
   "strikes": 1
  },
- "Murder of Sally Ann McGrath": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-09",
-  "strikes": 1
- },
  "Murder of Muriel McKay": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4670,18 +4562,6 @@
  "Peterborough ditch murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Disappearance of Isabella Skelton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Murder of Marine Boisseranc": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-09",
   "strikes": 1
  },
@@ -4718,12 +4598,6 @@
  "1918 Grande Prairie murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Murder of Matt Ratana": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-09",
   "strikes": 1
  },
@@ -4775,12 +4649,6 @@
   "date": "2026-11-09",
   "strikes": 45
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 64
- },
  "Murder of Charlotte Dymond": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4795,6 +4663,138 @@
  },
  "Murder of Olive Balchin": {
   "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Disappearance of Michaela Garecht": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Dyatlov Pass incident": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 2
+ },
+ "Murder of Lynette White": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murder of Elizabeth Chantrelle": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murder of Marine Boisseranc": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 2
+ },
+ "Kidnapping of Kamiyah Mobley": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Disappearance of Isabella Skelton": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-09",
+  "strikes": 2
+ },
+ "Murder of Sally Ann McGrath": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-09",
+  "strikes": 2
+ },
+ "Murder of Patricia Jeschke": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murder of Luis Espinoza": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murder of Christopher Alaneme": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Killing of Fausto and Iaio": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Disappearance of Vadivel Nimalarajah": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 68
+ },
+ "Kidnapping of Maria Àngels Feliu": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-09",
+  "strikes": 2
+ },
+ "Murder of Octavio Rojas Hernández": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murders of Nicola Hughes and Fiona Bone": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murder of Matt Ratana": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-09",
+  "strikes": 2
+ },
+ "Ardlamont mystery": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Murder of Jenny Nicholl": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Kidnapping and murder of Lesley Whittle": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Death of Brian Murphy": {
+  "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-09",
   "strikes": 1
