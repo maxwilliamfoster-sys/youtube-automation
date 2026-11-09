@@ -5731,6 +5731,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-09T22:35:14+00:00",
+   "platform": "tiktok",
+   "file": "A_fatal_radio_call_20261109_223220.mp4",
+   "sha256": "b4ca299440c5d1161a73c6339968736a969bc941dd9e67bbcaa1cb979f943a56",
+   "head": "Davina Buff Jones case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-04",
+   "head_similarity": 0.689,
+   "report": {
+    "seconds": 29.07,
+    "lufs": -14.8,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4204,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

@@ -1,16 +1,4 @@
 {
- "Halsman murder case": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Michael Causer": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 1
- },
  "Murder of Tina Baker": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4795,6 +4783,18 @@
  },
  "Death of Brian Murphy": {
   "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Disappearance of Genette Tate": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-09",
+  "strikes": 1
+ },
+ "Disappearance of Myra Lewis": {
+  "stage": "legal",
   "code": "unconvicted_suspect",
   "date": "2026-11-09",
   "strikes": 1
