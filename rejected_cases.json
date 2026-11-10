@@ -1,40 +1,4 @@
 {
- "Murder of Tina Baker": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Dacer–Corbito double murder case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "SOS incident": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Pelican Point Murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Hanifa Abubakar": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Rukhsana Naz": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
  "Killing of David Black": {
   "stage": "prescreen",
   "code": "other",
@@ -4307,12 +4271,6 @@
   "date": "2026-11-04",
   "strikes": 1
  },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 17
- },
  "The Disappeared (Northern Ireland)": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4637,12 +4595,6 @@
   "date": "2026-11-09",
   "strikes": 45
  },
- "Murder of Charlotte Dymond": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-09",
-  "strikes": 1
- },
  "Murder of Gilles Andruet": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4733,12 +4685,6 @@
   "date": "2026-11-09",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 68
- },
  "Kidnapping of Maria Àngels Feliu": {
   "stage": "compliance",
   "code": "age_restricted",
@@ -4798,5 +4744,59 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-09",
   "strikes": 1
+ },
+ "Murder of Urban Höglin and Heidi Paakkonen": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Murder of Nikki Allan": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Murder of Sharon Beshenivsky": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 18
+ },
+ "Murder of Anni Dewani": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Murder of Jonathan Henry": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Murder of Charlotte Dymond": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 2
+ },
+ "Murder of Hanifa Abubakar": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 72
  }
 }
