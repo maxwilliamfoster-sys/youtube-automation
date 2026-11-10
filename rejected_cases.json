@@ -1,40 +1,4 @@
 {
- "Killing of David Black": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Arnon Street killings": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Shooting of Brian Stack": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Death of Kevin Hjalmarsson": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Disappearance of Carlos Ornelas Puga": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Murder of Lyn Bryant": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
  "Murder of Eliyahu Asheri": {
   "stage": "prescreen",
   "code": "other",
@@ -791,12 +755,6 @@
   "date": "2026-10-26",
   "strikes": 2
  },
- "Hungerford police murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Thames Torso Murders": {
   "stage": "prefilter",
   "code": "gore",
@@ -1310,12 +1268,6 @@
  "Kidnapping of Jayme Closs": {
   "stage": "prefilter",
   "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murders of Christine and Lucy Lee": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-10-27",
   "strikes": 1
  },
@@ -4103,12 +4055,6 @@
   "date": "2026-11-04",
   "strikes": 2
  },
- "Akiyoshi Umekawa": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-11-04",
-  "strikes": 9
- },
  "Murders of Koby Mandell and Yosef Ishran": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4475,12 +4421,6 @@
   "date": "2026-11-09",
   "strikes": 2
  },
- "Kidnapping of Shahbaz Taseer": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-09",
-  "strikes": 1
- },
  "Murder of Alexandra Wiwcharuk": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4564,12 +4504,6 @@
   "code": "script_unusable",
   "date": "2026-11-09",
   "strikes": 1
- },
- "Bradford murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 5
  },
  "Pesseghini case": {
   "stage": "prescreen",
@@ -4793,10 +4727,76 @@
   "date": "2026-11-10",
   "strikes": 1
  },
+ "Akiyoshi Umekawa": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-10",
+  "strikes": 10
+ },
+ "Halsman murder case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Dacer–Corbito double murder case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Bradford murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 6
+ },
+ "Disappearance of Dulce Maria Alavez": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Hungerford police murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 2
+ },
+ "Killing of Peggy Knobloch": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
  "Murder of Jessie Earl": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-10",
-  "strikes": 72
+  "strikes": 75
+ },
+ "Kidnapping of Shahbaz Taseer": {
+  "stage": "factcheck_unsafe",
+  "code": "factcheck_unsafe",
+  "date": "2026-11-10",
+  "strikes": 2
+ },
+ "Killing of Azelle Rodney": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Murders of Christine and Lucy Lee": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-10",
+  "strikes": 2
+ },
+ "Shooting of Brian Stack": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-10",
+  "strikes": 1
  }
 }
