@@ -1133,6 +1133,22 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
     return script
 
 
+# Two ways a script can be wrong without inventing anything, both checked against the
+# source. (1) The Sophie Lancaster video (2026-11-08) said the "motive remains unclear"
+# although the court found she was attacked for how she dressed: a mystery added for
+# drama. (2) Channel rule: nobody is described as guilty unless a court convicted them.
+COURT_RECORD_RULES = (
+    "Two more accuracy rules, each one alone means accuracy below 7 and an entry in issues: "
+    "(a) The script must not call the motive, the culprit or the outcome 'unknown', "
+    "'unclear', 'unsolved' or 'a mystery' when the source records one (a conviction, a "
+    "court finding or a stated motive). "
+    "(b) The script must not state or imply that a person committed the crime unless the "
+    "source says a court convicted them of it. Someone who was only suspected, arrested, "
+    "charged, tried and acquitted, or never charged must be described exactly that way "
+    "('accused', 'alleged', 'was acquitted'), never as the person who did it. "
+)
+
+
 def _fact_check(client: Groq, case: dict, script: str) -> dict:
     """
     Fact-check, quality-score, and TikTok community-guidelines check.
@@ -1183,6 +1199,7 @@ def _fact_check(client: Groq, case: dict, script: str) -> dict:
                         "events match that source. Any claim in the script that the source "
                         "does not support is an invented claim — list it in issues and score "
                         "accuracy below 7. "
+                        + COURT_RECORD_RULES
                         if case.get("source_text") else
                         f"Script:\n{script}\n\n"
                         "Check: Are all facts accurate? Are dates/names/events real? "

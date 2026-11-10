@@ -613,6 +613,34 @@ def _github_output(name: str, value: str) -> None:
             fh.write(f"{name}={value}\n")
 
 
+def _vision_quota_left(opener=None) -> bool:
+    """False only when Groq says the review model's DAILY quota is used up. Anything else
+    (no key, a busy minute, a network error, an odd reply) is True: the gate itself deals
+    with those, and this check must never be the reason a run does not happen."""
+    import json as _json
+    import urllib.error
+    import urllib.request
+    import upload_gate
+    key = os.environ.get("GROQ_API_KEY", "").strip()
+    if not key:
+        return True
+    body = {"model": upload_gate.AI_MODEL, "max_tokens": 3, "reasoning_effort": "none",
+            "messages": [{"role": "user", "content": "Reply ok."}]}
+    req = urllib.request.Request(upload_gate.AI_URL, data=_json.dumps(body).encode(), headers={
+        "Authorization": f"Bearer {key}", "Content-Type": "application/json", "User-Agent": "upload-gate"})
+    try:
+        with (opener or urllib.request.urlopen)(req, timeout=30):
+            return True
+    except urllib.error.HTTPError as e:
+        try:
+            text = e.read().decode("utf-8", "replace")
+        except Exception:
+            text = ""
+        return "per day" not in text
+    except Exception:
+        return True
+
+
 def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     """
     Cloud mode (GitHub Actions): make `count` videos, run every gate, send each to
@@ -663,6 +691,17 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
         return False
 
     if not _budget_ok():
+        _github_output("catchup", "false")
+        return
+
+    # The gate's AI review is required, and its free daily quota is shared with the other
+    # bots. 7 runs between 6 and 9 Nov 2026 wrote and rendered a whole video (and spent
+    # the writer's budget) only to be blocked at the very end because that quota was
+    # already gone. Ask first (about 20 tokens); a later scheduled run tries again.
+    if not sample and not _vision_quota_left():
+        msg = "the AI review's daily quota is used up, so no video could pass the gate - skipping this run"
+        print(f"[Cloud] {msg}")
+        _app("ai_quota", "warn", "BuriedCasefiles: AI review quota spent, no video this run", msg)
         _github_output("catchup", "false")
         return
 
