@@ -94,13 +94,13 @@ class TestNightly(Sandbox):
         exps = self.read("experiments.json")["experiments"]
         self.assertEqual(exps[0]["status"], "promoted")
         self.assertIs(self.read("loop_config.json")["values"]["hook_card"], False)
-        self.assertEqual(exps[1]["lever"], "cta_card")       # next in the queue
+        self.assertEqual(exps[1]["lever"], "case_tag")       # next in the queue (2026-11-11)
         with mock.patch.object(ln, "collect",
                                return_value=(fake_posts(exps[1]["id"], 16, 45, 30), {})):
             ln.main([])
         exps = self.read("experiments.json")["experiments"]
         self.assertEqual(exps[1]["status"], "reverted")
-        self.assertIs(self.read("loop_config.json")["values"]["cta_card"], True)
+        self.assertIs(self.read("loop_config.json")["values"]["case_tag"], False)
         self.assertIs(self.read("loop_config.json")["values"]["hook_card"], False)
 
     def test_dry_run_writes_nothing(self):

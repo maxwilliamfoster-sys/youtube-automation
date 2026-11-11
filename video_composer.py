@@ -154,6 +154,10 @@ def _is_key_word(word, previous):
     return word[:1].isupper() and word.strip(",.!?;:") not in _COMMON_CAPS
 
 
+# Set per video by main_documentary (like documentary_composer.DOC_MUSIC_VOLUME). "" = no tag.
+CASE_TAG = ""
+
+
 def build_filter_script(
     caption_segments: List[Dict],
     scale_crop: str,
@@ -243,6 +247,18 @@ def build_filter_script(
             style=(f"fontsize={size}:fontcolor=white:borderw=10:bordercolor=black:"
                    f"shadowcolor=black@0.85:shadowx=4:shadowy=5:"),
             enable="between(t,0,1.8)")
+
+    # ── Case tag (lever case_tag): "LEEDS, 1994" for the first 3 s ─────────────
+    # Something on screen that belongs to THIS case from the first frame. Narration
+    # over stock clips with the same look every time is what TikTok calls content with
+    # little added (view-cap research, 2026-11-10). Small, amber, above the hook card;
+    # set by main_documentary only when the place and year are in the case's source.
+    if CASE_TAG:
+        lines += _line_drawtexts(
+            escape_ffmpeg_text(CASE_TAG.upper()), font_option, top=int(VIDEO_HEIGHT * 0.10), step=50,
+            style=("fontsize=44:fontcolor=0xFFC42E:borderw=6:bordercolor=black:"
+                   "shadowcolor=black@0.85:shadowx=3:shadowy=4:"),
+            enable="between(t,0,3.0)")
 
     # ── Retention overlay 2: the engagement card (final ~2.6s) ────────────────
     # Amber rather than a red box: it is the genre's signature accent, reads as

@@ -223,6 +223,8 @@ def _generate_one() -> tuple:
     if "music_volume" in loop_vals:
         documentary_composer.DOC_MUSIC_VOLUME = float(loop_vals["music_volume"])
     hook_text = story.get("hook", "") if loop_vals.get("hook_card", True) else ""
+    import video_composer
+    video_composer.CASE_TAG = (story.get("case_tag") or "") if loop_vals.get("case_tag", False) else ""
     # Never wired up before, so every video fell back to the composer's default
     # "Follow for more unsolved cases" — the same generic ask on every post.
     cta_text = (story.get("cta") or None) if loop_vals.get("cta_card", True) else ""

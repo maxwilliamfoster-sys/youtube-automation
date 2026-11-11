@@ -910,7 +910,64 @@ def _cold_open_issues(line: str, case: dict) -> list:
         out.append("dated_open: starts with a date; lead with the strangest fact")
     if _LURID.search(line):
         out.append("lurid_open: uses a victim's body or a sexual detail as the hook")
+    key = _opening_key(line)
+    if key and key in _recent_openings():
+        out.append(f"opening_reused: one of the last {OPENING_LOOKBACK} videos also started "
+                   f"'{' '.join(line.split()[:OPENING_WORDS])}'; open differently")
     return out
+
+
+# The same first words on video after video is the kind of repetition TikTok stops
+# recommending, and "She vanished" had opened 4 of 43 videos (view-cap research, 2026-11-10).
+OPENING_WORDS = 3
+OPENING_LOOKBACK = 15
+POSTS_LOG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analytics", "posts_log.csv")
+
+
+def _opening_key(line: str) -> str:
+    """The first three words, lower-case and without punctuation ('' if there are fewer)."""
+    words = re.findall(r"[a-z0-9']+", (line or "").lower().replace("’", "'"))
+    return " ".join(words[:OPENING_WORDS]) if len(words) >= OPENING_WORDS else ""
+
+
+def _recent_openings(path: str = None) -> set:
+    """Opening keys of the hooks on the last 15 posted videos. A missing or unreadable log
+    means no check, never a blocked video."""
+    import csv
+    try:
+        with open(path or POSTS_LOG, encoding="utf-8", newline="") as fh:
+            hooks = [r.get("hook") or "" for r in csv.DictReader(fh)]
+    except (OSError, csv.Error, UnicodeError):
+        return set()
+    return {k for k in (_opening_key(h) for h in hooks[-OPENING_LOOKBACK:]) if k}
+
+
+CASE_TAG_MAX = 26
+
+
+def case_tag(case: dict) -> str:
+    """'Leeds, 1994' for the on-screen case tag, or '' when it cannot be shown safely.
+    The place and year come from the research model, so each must appear word for word in
+    the case's source text: an on-screen fact about a real case is never taken on trust."""
+    src = (case.get("source_text") or "").lower()
+    place = re.sub(r"\s+", " ", str(case.get("location") or "")).strip()
+    place = place.split(",")[0].strip()                       # "Leeds, England" -> "Leeds"
+    year = str(case.get("year") or "").strip()
+    if not src or not re.fullmatch(r"(1[89]|20)\d\d", year) or year not in src:
+        return ""
+    if not place or len(place) < 3 or place.lower() not in src or not re.fullmatch(r"[A-Za-z .'-]+", place):
+        return ""
+    tag = f"{place}, {year}"       # a plain comma: other marks have rendered as boxes on the cloud FFmpeg
+    return tag if len(tag) <= CASE_TAG_MAX else ""
+
+
+def _avoid_openings_line() -> str:
+    """One prompt line listing how recent videos began, so the writer starts differently."""
+    recent = sorted(_recent_openings())
+    if not recent:
+        return ""
+    return ("- Recent videos began with these words; do NOT begin with any of them: "
+            + "; ".join(f"'{k}'" for k in recent) + ".\n")
 
 
 def _hook_for(script: str, case: dict) -> str:
@@ -940,6 +997,7 @@ def _write_cold_open(client, case: dict, script: str) -> str:
             "'accused' or the court outcome if a suspect is mentioned at all. Prefer the "
             "victim, the place or the mystery.\n"
             "- No injuries, weapons or the state of a body.\n"
+            + _avoid_openings_line() +
             "Output ONLY the sentence.\n\n"
             f"Case: {case.get('case_name', '')}, {case.get('location', '')}, {case.get('year', '')}\n"
             f"Script:\n{script}"),
@@ -1927,6 +1985,7 @@ def _finalise(client: Groq, case: dict, case_name: str, script: str, part: tuple
         # photographs of the location.
         "location":       (case.get("location") or "").strip(),
         "year":           (str(case.get("year") or "")).strip(),
+        "case_tag":       case_tag(case),
         "uk":             uk,
         "hashtags":       tags,
         "caption":        caption,
