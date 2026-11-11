@@ -1,22 +1,4 @@
 {
- "Murder of Brooke Wilberger": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Death of Ayakannu Marithamuthu": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Julie Pacey": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Caroline Mary Luard": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4739,12 +4721,6 @@
   "date": "2026-11-11",
   "strikes": 2
  },
- "Kidnapping of Dr. Rajkumar": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-11",
-  "strikes": 1
- },
  "Murder of Ravindra Mhatre": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4793,10 +4769,34 @@
   "date": "2026-11-11",
   "strikes": 1
  },
+ "Murder of Linda Smith": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Kidnapping of Dr. Rajkumar": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 2
+ },
+ "Death of Keith Lyon": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
  "Murder of Jessie Earl": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-11",
-  "strikes": 82
+  "strikes": 86
+ },
+ "Murder of Garry Newlove": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 1
  }
 }

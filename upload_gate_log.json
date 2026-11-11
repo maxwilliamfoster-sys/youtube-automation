@@ -6046,6 +6046,152 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-11T22:31:34+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "809ee1dd9cb61ca4086dbc25a8fc1ffecdfcd8ab32d722acd512d32e1cd7d009",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.655,
+   "report": {
+    "seconds": 31.07,
+    "lufs": -14.8,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 4424,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-11T22:45:17+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "e7f4e316adb4815cbe94bd6bf1b13404e0a63854a0b89d21f257652bcc653839",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.632,
+   "report": {
+    "seconds": 35.2,
+    "lufs": -15.5,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 4357,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-11T22:59:28+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "c4bfede281807ad67cee581c95b5fbb9ed657311433b329d690f82f82b90aafc",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.529,
+   "report": {
+    "seconds": 34.97,
+    "lufs": -15.0,
+    "speech_match": 0.89,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4513,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log"
+   }
+  },
+  {
+   "checked_at": "2026-11-11T23:13:35+00:00",
+   "platform": "tiktok",
+   "file": "Priest_Vanishes_Four-Day_Silence_Gunmen__20261111_231023.mp4",
+   "sha256": "65a523a8edc5408f7b06a679d5998f92260caaa234496236a166e356db03928f",
+   "head": "Inside the Carlos Ornelas Puga case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.636,
+   "report": {
+    "seconds": 35.3,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4260,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
