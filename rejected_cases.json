@@ -1,76 +1,4 @@
 {
- "Stratton Brothers case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Killing of Pelumi Onifade": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Leigh Matthews": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Killing of Abraham Grünbaum": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Scottish Criminal Cases Review Commission": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Stephen Oake": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "1984 Libyan hostage incident": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "2018 Los Angeles hostage incident": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Death of Keith Lyon": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Henry's Pub hostage incident": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Linda Smith": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murders of Terrence and Christine Hodson": {
-  "stage": "prescreen",
-  "code": "prescreen_other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Brooke Wilberger": {
   "stage": "prescreen",
   "code": "sexual_violence",
@@ -2843,12 +2771,6 @@
   "date": "2026-10-28",
   "strikes": 1
  },
- "Disappearance of Edward and Stephania Andrews": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-28",
-  "strikes": 1
- },
  "Countess of Chester Hospital baby murders": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4709,12 +4631,6 @@
   "date": "2026-11-10",
   "strikes": 1
  },
- "Bradford murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 6
- },
  "Disappearance of Dulce Maria Alavez": {
   "stage": "compliance",
   "code": "fyf_ineligible",
@@ -4757,12 +4673,6 @@
   "date": "2026-11-10",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-11",
-  "strikes": 76
- },
  "Murder of Nurin Jazlin": {
   "stage": "prescreen",
   "code": "sexual_violence",
@@ -4781,12 +4691,6 @@
   "date": "2026-11-11",
   "strikes": 1
  },
- "Kidnapping of Carlina White": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-11",
-  "strikes": 1
- },
  "Death of Kevin Hjalmarsson": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4798,5 +4702,101 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-11",
   "strikes": 1
+ },
+ "Khamar-Daban incident": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Disappearance of Carlos Ornelas Puga": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Disappearance of Alfredo Jiménez Mota": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Death of Robert Stevens": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Shiregreen child murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Disappearance of Edward and Stephania Andrews": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-11",
+  "strikes": 2
+ },
+ "Kidnapping of Dr. Rajkumar": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Murder of Ravindra Mhatre": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Murder of Stephen Oake": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Bradford murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 7
+ },
+ "Kidnapping of David Rohde": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Kidnapping of Anabel Segura": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Murder of Leigh Matthews": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Kidnapping of Carlina White": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-11",
+  "strikes": 2
+ },
+ "Murder of Laetitia Toureaux": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 82
  }
 }

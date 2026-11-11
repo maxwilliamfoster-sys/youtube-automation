@@ -5979,6 +5979,73 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-11T20:12:04+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "0949a7320a6403068e15fb9eb592fe37c71d4aa5071494d6ffe56880bd4ece24",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review unavailable: [http_400]"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.679,
+   "report": {
+    "seconds": 28.03,
+    "lufs": -15.0,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "retryable": false,
+    "reason": "http_400"
+   }
+  },
+  {
+   "checked_at": "2026-11-11T20:32:10+00:00",
+   "platform": "tiktok",
+   "file": "Twin_Mask_Clues_Reveal_1905_Murder_Myste_20261111_202805.mp4",
+   "sha256": "ae5702679ed73bffdf3524fb02a377275421a21b8c9972e4693f592307fa26ff",
+   "head": "UK crime: the Stratton Brothers case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.698,
+   "report": {
+    "seconds": 39.27,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4239,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
