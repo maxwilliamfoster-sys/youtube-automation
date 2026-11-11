@@ -5937,6 +5937,48 @@
     "quota": true,
     "reason": "quota"
    }
+  },
+  {
+   "checked_at": "2026-11-11T17:34:16+00:00",
+   "platform": "tiktok",
+   "file": "Veteran_Found_Dead_Under_Boxes_20261111_173052.mp4",
+   "sha256": "82f6ac49b083526c3aabe65a39e4d342633b6604e69f231da4a76c1e274737b6",
+   "head": "Frank Newbery: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.644,
+   "report": {
+    "seconds": 35.8,
+    "lufs": -15.1,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3460,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7002,
+     "predicted_tokens": 4922,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

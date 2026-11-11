@@ -1,40 +1,4 @@
 {
- "Murder of Eliyahu Asheri": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Disappearance of Alfredo Jiménez Mota": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Kidnapping of Dr. Rajkumar": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Kidnapping of Anabel Segura": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-24",
-  "strikes": 2
- },
- "Kızıldere Incident": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 1
- },
- "Murder of Laetitia Toureaux": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-24",
-  "strikes": 2
- },
  "Stratton Brothers case": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4769,12 +4733,6 @@
   "date": "2026-11-10",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 75
- },
  "Kidnapping of Shahbaz Taseer": {
   "stage": "factcheck_unsafe",
   "code": "factcheck_unsafe",
@@ -4797,6 +4755,48 @@
   "stage": "prescreen",
   "code": "other",
   "date": "2026-11-10",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 76
+ },
+ "Murder of Nurin Jazlin": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Murder of Lyn Bryant": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Murder of Michael Causer": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Kidnapping of Carlina White": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Death of Kevin Hjalmarsson": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
+  "strikes": 1
+ },
+ "Murder of Carol Lannen": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-11",
   "strikes": 1
  }
 }
