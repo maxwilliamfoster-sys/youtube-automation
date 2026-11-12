@@ -6192,6 +6192,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-12T18:23:41+00:00",
+   "platform": "tiktok",
+   "file": "Missing_at_Noon_Alex_Sloleys_Vanishing_M_20261112_182015.mp4",
+   "sha256": "c4ff11129c824aadce805b627b13dc9919286d4be3c99f065ad07e3950e91a6a",
+   "head": "Alex Sloley case. | UK crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.73,
+   "report": {
+    "seconds": 35.3,
+    "lufs": -14.9,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4217,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

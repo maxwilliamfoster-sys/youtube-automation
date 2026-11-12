@@ -1,16 +1,4 @@
 {
- "Murder of Caroline Mary Luard": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Gay gang murders": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Killing of Michael Ovsjannikov": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4343,12 +4331,6 @@
   "date": "2026-11-09",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 7
- },
  "1918 Grande Prairie murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4366,12 +4348,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-09",
   "strikes": 7
- },
- "Murder of Sagar Sarowar and Meherun Runi": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-09",
-  "strikes": 1
  },
  "Pesseghini case": {
   "stage": "prescreen",
@@ -4798,5 +4774,29 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-11",
   "strikes": 1
+ },
+ "Murder of Sagar Sarowar and Meherun Runi": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-12",
+  "strikes": 2
+ },
+ "Murder of Julie Pacey": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-12",
+  "strikes": 1
+ },
+ "Murder of Michalis Katsouris": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-12",
+  "strikes": 1
+ },
+ "The Noid": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-12",
+  "strikes": 8
  }
 }
