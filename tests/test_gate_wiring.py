@@ -58,7 +58,7 @@ class TestMoodFootage(unittest.TestCase):
         # 28 Oct - 4 Nov 2026: every pattern was unmatchable, so every video used the
         # same 12 fallback moods in the same order and nothing noticed.
         for line, expected in (
-            ("Police searched the woods.", {"police tape", "magnifying glass", "documents on desk", "empty corridor"}),
+            ("Police searched the woods.", {"police tape", "magnifying glass", "documents on desk"}),
             ("The trial collapsed.", {"courthouse", "judge gavel", "law books", "documents on desk"}),
             ("A letter arrived at the house.", {"old photographs", "typewriter", "law books", "documents on desk"}),
             ("The boat drifted off the coast.", {"stormy sea"}),

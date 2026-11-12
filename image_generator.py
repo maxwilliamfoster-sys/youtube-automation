@@ -133,25 +133,50 @@ MOOD_THEMES = [
     (r"\b(court|trial|jury|judge|convict|sentenc|acquit|verdict|appeal|inquest|charged|prosecut)",
      ["courthouse", "judge gavel", "law books", "documents on desk"]),
     (r"\b(police|investigat|detective|officer|search|inquiry|evidence|forensic|suspect|arrest)",
-     ["police tape", "magnifying glass", "documents on desk", "empty corridor"]),
+     ["police tape", "magnifying glass", "documents on desk"]),
     (r"\b(photo|picture|letter|note|diary|wrote|written|record|file|statement)",
      ["old photographs", "typewriter", "law books", "documents on desk"]),
     (r"\b(missing|vanish|disappear|last seen|never seen|never returned|never came home)",
-     ["foggy forest", "misty field", "empty corridor"]),
+     ["foggy forest", "misty field", "moon behind clouds"]),
     (r"\b(car|drove|driv|road|motorway|vehicle|lorry|van|bus|taxi)", ["road at night", "rain on window at night"]),
     (r"\b(train|station|railway|platform)", ["railway tracks fog"]),
     (r"\b(sea|coast|beach|cliff|harbour|shore|boat)", ["stormy sea"]),
     (r"\b(field|farm|rural|countryside|village|moor|woods|forest|park|path)", ["misty field", "foggy forest"]),
-    (r"\b(house|home|flat|bedroom|door|room|building)", ["empty corridor", "dark staircase", "flickering light bulb"]),
+    (r"\b(house|home|flat|bedroom|door|room|building)", ["flickering light bulb", "candle in the dark"]),
     (r"\b(years|decades|hours|minutes|days|weeks|time|clock|still)", ["clock ticking"]),
     (r"\b(rain|storm|weather|cold|winter)", ["rain on window at night", "storm clouds"]),
     (r"\b(memor|mourn|funeral|vigil|grief|family|mother|father|parents|remember)", ["candle in the dark"]),
     (r"\b(night|dark|evening|midnight|late)", ["moon behind clouds", "rain on window at night"]),
 ]
 MOOD_DEFAULT = ["storm clouds", "foggy forest", "rain on window at night", "moon behind clouds",
-                "candle in the dark", "misty field", "stormy sea", "clock ticking", "empty corridor",
+                "candle in the dark", "misty field", "stormy sea", "clock ticking",
                 "documents on desk", "railway tracks fog", "magnifying glass", "flickering light bulb",
-                "old photographs", "dark staircase", "law books"]
+                "old photographs", "law books"]
+
+# Retired 2026-11-12: stock hallways and staircases read as a real person's home. The AI reviewer blocked
+# 3 of the 4 videos made on 11 Nov for "the interior of a private home", and every one of them used both.
+RETIRED_MOODS = {"dark staircase", "empty corridor"}
+
+# Moods that show a kind of place. Only used when the story happens somewhere like that: on 11 Nov a farm
+# case got city skyscrapers, a library and the sea, and the reviewer scored it 4/10 for coherence.
+PLACE_MOODS = {
+    "stormy sea": r"\b(sea|coast|beach|cliff|harbour|shore|boat|bay|pier|ferry)",
+    "railway tracks fog": r"\b(train|station|railway|platform|rail)",
+    "road at night": r"\b(car|drove|driv|road|motorway|vehicle|lorry|van|bus|taxi|lay-by|hitchhik)",
+    "misty field": r"\b(field|farm|rural|countryside|village|moor|meadow|common|hill)",
+    "foggy forest": r"\b(wood|forest|copse|park|path|trail|moor|hill)",
+    "courthouse": r"\b(court|trial|jury|judge|inquest|verdict|appeal)",
+    "judge gavel": r"\b(court|trial|jury|judge|verdict|sentenc)",
+    "law books": r"\b(court|trial|jury|judge|law|legal|appeal|verdict)",
+}
+
+
+def allowed_moods(story: str) -> set:
+    """Moods that fit this story: every neutral one, plus place moods its text mentions."""
+    text = (story or "").lower()
+    every = {q for _, qs in MOOD_THEMES for q in qs} | set(MOOD_DEFAULT)
+    return {q for q in every if q not in RETIRED_MOODS
+            and (q not in PLACE_MOODS or re.search(PLACE_MOODS[q], text))}
 
 _ALLOWLIST_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "broll_allowlist.json")
 
@@ -160,7 +185,8 @@ def _load_allowlist() -> dict:
     try:
         import json
         with open(_ALLOWLIST_FILE, encoding="utf-8") as f:
-            return {k: [int(i) for i in v] for k, v in json.load(f).items() if not k.startswith("_")}
+            return {k: [int(i) for i in v] for k, v in json.load(f).items()
+                    if not k.startswith("_") and k not in RETIRED_MOODS}
     except Exception as e:
         print(f"[Video] b-roll allowlist unreadable ({e}) - no stock footage this run")
         return {}
@@ -209,12 +235,12 @@ def _freshest_first(ids: list, recent: list) -> list:
     return sorted(shuffled, key=lambda clip: last_used.get(clip, -1))
 
 
-def _moods_to_try(query: str, avoid: set) -> list:
-    """The scene's own mood, then up to 3 general moods, all with a clip not in `avoid`."""
+def _moods_to_try(query: str, avoid: set, ok: set = None) -> list:
+    """The scene's own mood, then up to 3 general moods that fit the story, all with a clip not in `avoid`."""
     def has_free_clip(mood):
         return any(clip not in avoid for clip in BROLL_ALLOWLIST.get(mood, []))
 
-    others = [q for q in MOOD_DEFAULT if q != query and has_free_clip(q)]
+    others = [q for q in MOOD_DEFAULT if q != query and has_free_clip(q) and (ok is None or q in ok)]
     random.shuffle(others)
     return ([query] if has_free_clip(query) else []) + others[:3]
 
@@ -222,18 +248,20 @@ def _moods_to_try(query: str, avoid: set) -> list:
 def _generate_pexels_queries(story_title: str, segments: list) -> list:
     """One curated mood query per scene (no LLM: see MOOD_THEMES). Random within a theme and
     within the backups: a fixed order gave nearly every video the same opening shot."""
+    ok = allowed_moods(" ".join([story_title or ""] + [s or "" for s in segments]))
+    fillers = [q for q in MOOD_DEFAULT if q in ok]
     used, out = set(), []
     for seg in segments:
         text = (seg or "").lower()
         pick = None
         for pat, queries in MOOD_THEMES:
             if re.search(pat, text):
-                unused = [q for q in queries if q not in used]
+                unused = [q for q in queries if q not in used and q in ok]
                 if unused:
                     pick = random.choice(unused)
                     break
         if pick is None:
-            pick = random.choice([q for q in MOOD_DEFAULT if q not in used] or MOOD_DEFAULT)
+            pick = random.choice([q for q in fillers if q not in used] or fillers)
         used.add(pick)
         out.append(pick)
     return out
@@ -588,6 +616,7 @@ def generate_story_images(
     seen_video_ids: set = set()
     recent_clips = _load_recent_clips()
     avoid_clips = set(recent_clips[-RECENT_CLIP_WINDOW:])
+    fits = allowed_moods(f"{story_title} {story_text}")
     broll_count = 0
     for i in range(num_images):
         output_path = os.path.join(output_dir, f"scene_{i + 1:02d}.jpg")
@@ -620,10 +649,10 @@ def generate_story_images(
                 video_path = os.path.join(output_dir, f"scene_{i + 1:02d}.mp4")
                 # Another vetted mood before any unvetted still: stills are searched live.
                 # A clip from the last few videos only when nothing else is left.
-                tries = [query] + [q for q in MOOD_DEFAULT if q != query][:3]
+                tries = [query] + [q for q in MOOD_DEFAULT if q != query and q in fits][:3]
                 if any(fetch_pexels_video(q, video_path, seen_ids=seen_video_ids,
                                           recent=recent_clips, avoid=avoid_clips)
-                       for q in _moods_to_try(query, avoid_clips | seen_video_ids)) \
+                       for q in _moods_to_try(query, avoid_clips | seen_video_ids, fits)) \
                         or any(fetch_pexels_video(q, video_path, seen_ids=seen_video_ids,
                                                   recent=recent_clips) for q in tries):
                     saved_paths.append(video_path)

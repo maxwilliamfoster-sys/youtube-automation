@@ -42,6 +42,66 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 _MIN_DURATION_RATIO = 0.55
 _WORDS_PER_SECOND = 2.6          # measured pace of this narrator
 
+# Per-sentence check (2026-11-12). Chatterbox sometimes mumbles, skips or repeats words in one sentence, and
+# the only check was the whole video's speech match (70%), so one garbled sentence could still go out: Whisper
+# heard 83-98% of the script across the 14 videos posted 28 Oct-11 Nov. Each sentence is now transcribed as
+# soon as it's made and retaken up to twice if too little of it is heard. Names are left out of the score,
+# because Whisper spells "Worlebury" or "Toureaux" however it likes. A sentence never fails the run: the best
+# take is kept and the upload gate still checks the finished video.
+SENTENCE_MIN_MATCH = 0.8
+MAX_RETAKES = 2
+
+
+def _words(text: str) -> list:
+    return re.findall(r"[a-z0-9']+", (text or "").lower().replace("’", "'"))
+
+
+def sentence_match(heard: str, sentence: str) -> float:
+    """Share of the sentence's ordinary words that Whisper heard, in order. Capitalised words after the
+    first (names, places) don't count against a take."""
+    from difflib import SequenceMatcher
+
+    def names_in(text):
+        raw = re.findall(r"[A-Za-z0-9'’]+", text or "")
+        return {w.lower().replace("’", "'") for k, w in enumerate(raw) if k > 0 and w[:1].isupper()}
+
+    names = names_in(sentence) | names_in(heard)       # Whisper capitalises the names it misspells too
+    want = [w for w in _words(sentence) if w not in names]
+    if not want:
+        return 1.0
+    got = [w for w in _words(heard) if w not in names]
+    blocks = SequenceMatcher(None, want, got, autojunk=False).get_matching_blocks()
+    matched = sum(b.size for b in blocks) / len(want)
+    extra = max(0, len(got) - len(want)) / len(want)     # repeated or invented words
+    return max(0.0, matched - extra)
+
+
+class _SentenceChecker:
+    """Whisper small, loaded once per narration. If it can't load, every take passes (as before)."""
+
+    def __init__(self):
+        self.model = None
+        try:
+            from faster_whisper import WhisperModel
+            self.model = WhisperModel("small", device="cpu", compute_type="int8")
+        except Exception as e:
+            print(f"[Chatterbox] sentence check off ({e})")
+
+    def score(self, wav, sr: int, sentence: str) -> float:
+        if self.model is None:
+            return 1.0
+        try:
+            import numpy as np
+            import torchaudio.functional as AF
+            # Whisper reads a raw array as 16 kHz (24 kHz audio passed raw was garbled in Bodge's pilot)
+            audio = AF.resample(wav.detach().cpu().float(), sr, 16000).squeeze().numpy().astype(np.float32)
+            segments, _ = self.model.transcribe(audio, language="en", beam_size=1, vad_filter=False,
+                                                condition_on_previous_text=False)
+            return sentence_match(" ".join(s.text for s in segments), sentence)
+        except Exception as e:
+            print(f"[Chatterbox] sentence check skipped ({e})")
+            return 1.0
+
 
 def is_available() -> bool:
     if not CHATTERBOX_ENABLED:
@@ -114,13 +174,25 @@ def generate(text: str, filename_prefix: str = "doc") -> dict:
 
     pieces = []
     gap = torch.zeros(1, int(model.sr * CHATTERBOX_SENTENCE_GAP))
+    checker = _SentenceChecker()
     for i, sentence in enumerate(chunks_text, 1):
-        wav = model.generate(
-            sentence,
-            audio_prompt_path=ref,
-            exaggeration=CHATTERBOX_EXAGGERATION,
-            cfg_weight=CHATTERBOX_CFG_WEIGHT,
-        )
+        best, best_score = None, -1.0
+        for take in range(1 + MAX_RETAKES):
+            wav = model.generate(
+                sentence,
+                audio_prompt_path=ref,
+                exaggeration=CHATTERBOX_EXAGGERATION,
+                cfg_weight=CHATTERBOX_CFG_WEIGHT,
+            )
+            score = checker.score(wav, model.sr, sentence)
+            if score > best_score:
+                best, best_score = wav, score
+            if score >= SENTENCE_MIN_MATCH:
+                break
+            print(f"[Chatterbox]   sentence {i}: heard {score:.0%} of it (take {take + 1}), retaking")
+        if best_score < SENTENCE_MIN_MATCH:
+            print(f"[Chatterbox]   sentence {i}: best take heard {best_score:.0%}; kept, the upload gate checks the whole video")
+        wav = best
         pieces.append(wav)
         if i < len(chunks_text):
             pieces.append(gap)
