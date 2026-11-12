@@ -1,4 +1,4 @@
-"""The length lever's 'short' arm (2026-11-12): a 50-60 word script and a seamless loop end."""
+"""The length lever's 'short' arm (2026-11-12): a 55-65 word script and a seamless loop end."""
 import inspect
 import os
 import subprocess
@@ -25,10 +25,10 @@ class ShortScript(unittest.TestCase):
         self.assertEqual(sg._length_text(sg.TRUE_CRIME_SCRIPT_PROMPT), sg.TRUE_CRIME_SCRIPT_PROMPT)
         with mock.patch.object(sg, "SHORT_SCRIPT", True):
             short = sg._length_text(sg.TRUE_CRIME_SCRIPT_PROMPT)
-        self.assertIn("50-60 words (~20-25 seconds spoken)", short)
+        self.assertIn("55-65 words (~20-25 seconds spoken)", short)
         self.assertNotIn("85-100", short)
 
-    def test_short_scripts_are_trimmed_to_55_words_keeping_the_closing_line(self):
+    def test_short_scripts_are_trimmed_to_65_words_keeping_the_closing_line(self):
         script = " ".join(f"Sentence number {i} has exactly seven words." for i in range(14)) + " Who did it?"
         self.assertEqual(len(sg._fit_length(script).split()), 87)        # 12 sentences + the question
         with mock.patch.object(sg, "SHORT_SCRIPT", True):

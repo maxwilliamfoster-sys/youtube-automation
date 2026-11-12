@@ -1310,17 +1310,17 @@ MAX_SCRIPT_WORDS = 260
 TRIM_SCRIPT_WORDS = 90   # the cold open and spoken-out numbers add about 15 more
 # The experiment loop's 'length' lever, arm 'short' (2026-11-12): a 20-25 s video. Every post lands at
 # 702-740 views and viewers stay ~7 s of 36 s (21%), so most of each video goes unwatched. main_documentary
-# sets SHORT_SCRIPT before the case is written; the prompts ask for 50-60 words and the trim keeps 55
-# (the cold open and spoken-out numbers add ~15, ~3.2 words a second). A short video tells one whole case,
-# so no series is started.
+# sets SHORT_SCRIPT before the case is written; the prompts ask for 55-65 words and the trim keeps 65, cold
+# open included (the 12 Nov sample spoke 52 words in 18.7 s, 2.8 a second, so 65 is ~23 s). A short video
+# tells one whole case, so no series is started.
 SHORT_SCRIPT = False
-SHORT_TRIM_WORDS = 55
+SHORT_TRIM_WORDS = 65
 SHORT_SUBS = (
     ("85-100 words (~35-40 seconds spoken). NEVER fewer than 80",
-     "50-60 words (~20-25 seconds spoken). NEVER fewer than 45"),
+     "55-65 words (~20-25 seconds spoken). NEVER fewer than 50"),
     ("85-100 word documentary script now (never fewer than 80)",
-     "50-60 word documentary script now (never fewer than 45)"),
-    ("Keep the script 95-120 words.", "Keep the script 55-70 words."),
+     "55-65 word documentary script now (never fewer than 50)"),
+    ("Keep the script 95-120 words.", "Keep the script 55-65 words."),
 )
 
 
