@@ -6227,6 +6227,50 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-12T20:44:35+00:00",
+   "platform": "tiktok",
+   "file": "CCTV_caught_him_smoking_purple_mystery_r_20261112_204031.mp4",
+   "sha256": "5e039129eab409c4ae61860655a697359988528f8c3e616842f243699c4d538e",
+   "head": "The Peter Bergmann case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "QC flash_estimate (…)"
+   ],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.656,
+   "report": {
+    "seconds": 37.33,
+    "lufs": -15.0,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3461,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7002,
+     "predicted_tokens": 4923,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
