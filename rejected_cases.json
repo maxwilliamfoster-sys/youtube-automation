@@ -1,34 +1,4 @@
 {
- "Killing of Michael Ovsjannikov": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Oddingley murders": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Case of the Basse-Pointe 16": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of James Young": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Penmaenmawr Killings": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Breck Bednar": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -556,12 +526,6 @@
   "code": "script_unusable",
   "date": "2026-10-26",
   "strikes": 2
- },
- "Murder of Faiza Ashraf": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 1
  },
  "Death of Kent Leppink": {
   "stage": "prescreen",
@@ -3131,12 +3095,6 @@
   "date": "2026-10-30",
   "strikes": 1
  },
- "Disappearance of Father Francis": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-30",
-  "strikes": 1
- },
  "Disappearance of Etan Patz": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4763,12 +4721,6 @@
   "date": "2026-11-11",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-11",
-  "strikes": 86
- },
  "Murder of Garry Newlove": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4798,5 +4750,53 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-12",
   "strikes": 8
+ },
+ "Scottish Criminal Cases Review Commission": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-12",
+  "strikes": 1
+ },
+ "Killing of Pelumi Onifade": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-12",
+  "strikes": 1
+ },
+ "Death of Gareth Williams": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-12",
+  "strikes": 1
+ },
+ "Disappearance of Father Francis": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-12",
+  "strikes": 2
+ },
+ "Murder of Joey Fischer": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-12",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-12",
+  "strikes": 88
+ },
+ "Murder of Faiza Ashraf": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-12",
+  "strikes": 2
+ },
+ "Killing of Abraham Grünbaum": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-12",
+  "strikes": 1
  }
 }

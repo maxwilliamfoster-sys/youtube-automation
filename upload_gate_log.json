@@ -6271,6 +6271,41 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-12T22:25:57+00:00",
+   "platform": "tiktok",
+   "file": "Sealed_Files_1954_Murder_Jean_Townsends__20261112_222424.mp4",
+   "sha256": "aa8bc57ff404f41469916deaf8ca8010c0ad6ca8ac5204f2b14e0901a36582bb",
+   "head": "Jean Townsend: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.714,
+   "report": {
+    "seconds": 18.13,
+    "lufs": -14.7,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4209,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
