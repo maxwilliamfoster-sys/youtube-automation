@@ -129,10 +129,13 @@ jobs:
 
       # ── System deps: only FFmpeg + audio libs. No browser, no Xvfb. ───────────
       - name: Install system packages
+        timeout-minutes: 12          # apt hung 45 min on a runner with broken DNS (GifTok, 2026-11-11)
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends \
-            ffmpeg espeak-ng libsndfile1 libgomp1
+          for try in 1 2 3; do
+            sudo timeout 150 apt-get update -qq; sudo timeout 240 apt-get install -y -qq --no-install-recommends ffmpeg espeak-ng libsndfile1 libgomp1 && exit 0
+            echo "apt attempt $try failed or timed out"; sleep 20
+          done
+          exit 1
 
       - name: Install Python dependencies
         run: pip install -r requirements.txt
