@@ -1,5 +1,5 @@
 {
- "_doc": "Allowed levers for the nightly experiment loop (experiment_loop.py). ONLY these levers and values can ever be applied. Order = test queue. Every value must render cleanly (hook/cta '' = no card; music_volume is the documentary music bed, default config.DOC_MUSIC_VOLUME 0.10).",
+ "_doc": "Allowed levers for the nightly experiment loop (experiment_loop.py). ONLY these levers and values can ever be applied. Order = test queue. Every value must render cleanly (hook/cta '' = no card; music_volume is the documentary music bed, default config.DOC_MUSIC_VOLUME 0.10). length 'short' (2026-11-12) = a 50-60 word script and a loop end; judged on views@72h, since a shorter video gets a higher % watched for free.",
  "channel": "buriedcasefiles",
  "metric": "avg % watched at 72h",
  "min_n": 15,
@@ -9,6 +9,8 @@
  "levers": [
   {"lever": "hook_card", "kind": "hook style", "control": true, "variants": [false],
    "hypothesis": "Dropping the 1.8s hook title card (straight into the spoken cold open) raises avg % watched; research says a cold open beats a title card."},
+  {"lever": "length", "kind": "length", "control": "normal", "variants": ["short"], "primary": "views72",
+   "hypothesis": "A 20-25 s case (50-60 words) whose end dissolves back into its first frame gets watched through and replayed, which TikTok rewards with more views than the 32-38 s video (every post lands at 702-740; viewers stay ~7 s)."},
   {"lever": "case_tag", "kind": "hook style", "control": false, "variants": [true],
    "hypothesis": "A small place-and-year tag in the first 3 seconds (only when both are in the case's source) gives every video something of its own from the first frame, raising avg % watched and making videos less alike (view-cap research 2026-11-10)."},
   {"lever": "cta_card", "kind": "length", "control": true, "variants": [false],

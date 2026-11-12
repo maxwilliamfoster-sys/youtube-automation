@@ -91,7 +91,7 @@ def _ensure_ffmpeg_on_path():
 def _loop_values():
     """Lever values for this post from the nightly experiment loop, and its arms.
 
-    Allowed levers: levers.json (hook_card, cta_card, music_volume). Missing or
+    Allowed levers: levers.json (hook_card, case_tag, length, cta_card, music_volume). Missing or
     broken loop files give ({}, {}) and the video renders exactly as before.
     LOOP_FORCE_VALUES (JSON) previews a queued value; LOOP_FORCE_ARM pins the arm.
     """
@@ -135,6 +135,11 @@ def _generate_one() -> tuple:
     print("\n" + "=" * 60)
     print(f"  @buriedcasefiles — {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 60)
+
+    # The loop values are read before the case is written: the length lever changes the script.
+    loop_vals, loop_arms = _loop_values()
+    import story_generator
+    story_generator.SHORT_SCRIPT = loop_vals.get("length") == "short"
 
     # ── 1. Research & write story ─────────────────────────────────────────────
     print("\n--- STEP 1: Researching True Crime Story ---")
@@ -213,13 +218,18 @@ def _generate_one() -> tuple:
 
     # ── 5. Compose ────────────────────────────────────────────────────────────
     print("\n--- STEP 5: Composing Video ---")
-    loop_vals, story["loop_arms"] = _loop_values()
+    story["loop_arms"] = loop_arms
+    if story.get("series_part"):
+        # A queued series part was written at full length before the length test - keep it out of that test.
+        loop_vals.pop("length", None)
+        story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "length" not in k}
     if story.get("series_part") and "cta_card" in loop_vals:
         # A series part's closing card is "Part N next" - never drop it, and keep
         # these posts out of the cta test so they can't confound it.
         loop_vals.pop("cta_card")
         story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "cta" not in k}
     import documentary_composer
+    documentary_composer.LOOP_END = loop_vals.get("length") == "short"
     if "music_volume" in loop_vals:
         documentary_composer.DOC_MUSIC_VOLUME = float(loop_vals["music_volume"])
     hook_text = story.get("hook", "") if loop_vals.get("hook_card", True) else ""

@@ -21,12 +21,12 @@ import experiment_loop as el  # noqa: E402
 import loop_nightly as ln  # noqa: E402
 
 
-def fake_posts(exp_id, n, hold_c, hold_v, seed=0):
+def fake_posts(exp_id, n, hold_c, hold_v, seed=0, views_c=400, views_v=400):
     rng = random.Random(seed)
     return ([{"id": f"c{i}", "arms": {exp_id: "control"}, "hold": hold_c + rng.uniform(-2, 2),
-              "views72": 400} for i in range(n)] +
+              "views72": views_c * rng.uniform(0.9, 1.1)} for i in range(n)] +
             [{"id": f"v{i}", "arms": {exp_id: "variant"}, "hold": hold_v + rng.uniform(-2, 2),
-              "views72": 400} for i in range(n)])
+              "views72": views_v * rng.uniform(0.9, 1.1)} for i in range(n)])
 
 
 class Sandbox(unittest.TestCase):
@@ -94,13 +94,13 @@ class TestNightly(Sandbox):
         exps = self.read("experiments.json")["experiments"]
         self.assertEqual(exps[0]["status"], "promoted")
         self.assertIs(self.read("loop_config.json")["values"]["hook_card"], False)
-        self.assertEqual(exps[1]["lever"], "case_tag")       # next in the queue (2026-11-11)
+        self.assertEqual(exps[1]["lever"], "length")         # next in the queue (2026-11-12), judged on views@72h
         with mock.patch.object(ln, "collect",
-                               return_value=(fake_posts(exps[1]["id"], 16, 45, 30), {})):
+                               return_value=(fake_posts(exps[1]["id"], 16, 30, 45, views_c=800, views_v=400), {})):
             ln.main([])
         exps = self.read("experiments.json")["experiments"]
-        self.assertEqual(exps[1]["status"], "reverted")
-        self.assertIs(self.read("loop_config.json")["values"]["case_tag"], False)
+        self.assertEqual(exps[1]["status"], "reverted")      # more % watched, fewer views: views decide
+        self.assertEqual(self.read("loop_config.json")["values"]["length"], "normal")
         self.assertIs(self.read("loop_config.json")["values"]["hook_card"], False)
 
     def test_dry_run_writes_nothing(self):

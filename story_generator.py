@@ -1156,7 +1156,7 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
     )
 
     messages_for_retry = [
-            {"role": "system", "content": TRUE_CRIME_SCRIPT_PROMPT},
+            {"role": "system", "content": _length_text(TRUE_CRIME_SCRIPT_PROMPT)},
             {
                 "role": "user",
                 "content": (
@@ -1166,11 +1166,11 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
                     f"Key facts:\n{facts}\n\n"
                     f"Still unresolved: {case.get('unresolved','')}\n\n"
                     f"{grounding}"
-                    + (_part_instruction(part) if part else
+                    + (_part_instruction(part) if part else _length_text(
                        "Write the 85-100 word documentary script now (never fewer than 80). Open with the cold open "
                        "(one complete sentence of 10 words or fewer on the single most shocking verifiable detail), "
                        "keep an open loop running throughout, add a retention-spike "
-                       "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA.")
+                       "twist near the two-thirds mark, and end on the unresolved question with a comment-bait CTA."))
                 ),
             },
     ]
@@ -1308,6 +1308,29 @@ MAX_SCRIPT_WORDS = 260
 # Short-form reach follows completion rate, and a 45s video is far likelier
 # to be watched to the end than a 70s one — the previous target.
 TRIM_SCRIPT_WORDS = 90   # the cold open and spoken-out numbers add about 15 more
+# The experiment loop's 'length' lever, arm 'short' (2026-11-12): a 20-25 s video. Every post lands at
+# 702-740 views and viewers stay ~7 s of 36 s (21%), so most of each video goes unwatched. main_documentary
+# sets SHORT_SCRIPT before the case is written; the prompts ask for 50-60 words and the trim keeps 55
+# (the cold open and spoken-out numbers add ~15, ~3.2 words a second). A short video tells one whole case,
+# so no series is started.
+SHORT_SCRIPT = False
+SHORT_TRIM_WORDS = 55
+SHORT_SUBS = (
+    ("85-100 words (~35-40 seconds spoken). NEVER fewer than 80",
+     "50-60 words (~20-25 seconds spoken). NEVER fewer than 45"),
+    ("85-100 word documentary script now (never fewer than 80)",
+     "50-60 word documentary script now (never fewer than 45)"),
+    ("Keep the script 95-120 words.", "Keep the script 55-70 words."),
+)
+
+
+def _length_text(text: str) -> str:
+    """The prompt as written, or its 50-60 word version when the short arm is on."""
+    if SHORT_SCRIPT:
+        for long_, short in SHORT_SUBS:
+            text = text.replace(long_, short)
+    return text
+
 # How much source the SCRIPT WRITER sees. The fact-checker still gets the full
 # article. With 6000 characters in front of it the model tried to cover the whole
 # piece and ran to 380-620 words against a 150-185 target — it treats a long source
@@ -1838,7 +1861,7 @@ def _soften_for_guidelines(client: Groq, script: str, description: str, cta: str
     worst = verdict.get("worst_line") or ""
     try:
         resp = _groq_call(client, model=GROQ_MODEL, max_tokens=1400, messages=[
-            {"role": "system", "content": (
+            {"role": "system", "content": _length_text(
                 "You edit true crime TikTok scripts so they pass TikTok's Community "
                 "Guidelines and stay eligible for the For You feed. Remove or neutralise "
                 "every graphic, gory, sexual or sensationalised detail: injuries, weapons "
@@ -1898,14 +1921,15 @@ def _fit_length(script: str) -> str:
         print(f"[TrueCrime] Rejected — script too short ({word_count} words, "
               f"need {MIN_SCRIPT_WORDS}).")
         return ""
-    if word_count > TRIM_SCRIPT_WORDS:
+    trim_to = SHORT_TRIM_WORDS if SHORT_SCRIPT else TRIM_SCRIPT_WORDS
+    if word_count > trim_to:
         sentences = re.split(r"(?<=[.!?])\s+", script)
         if len(sentences) > 2:
             closing = sentences[-1]
             kept, running = [], len(closing.split())
             for sent in sentences[:-1]:
                 n = len(sent.split())
-                if running + n > TRIM_SCRIPT_WORDS:
+                if running + n > trim_to:
                     break
                 kept.append(sent)
                 running += n
@@ -2244,7 +2268,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         print(f"[TrueCrime] Case: {case_name} ({case.get('year','?')}, {case.get('location','?')})")
 
         # ── Series: an occasional long, rich case is told in 2-3 parts ────────
-        series = _try_series(client, case, case_name)
+        series = None if SHORT_SCRIPT else _try_series(client, case, case_name)
         if series:
             _save_recent_case(case_name)
             return series

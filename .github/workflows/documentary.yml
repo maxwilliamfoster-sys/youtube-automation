@@ -44,6 +44,10 @@ on:
         description: 'Internal: catch-up round (set by a run whose videos were all blocked)'
         default: '0'
         required: false
+      loop_force:
+        description: 'Sample mode only: lever values to preview as JSON, e.g. {"length": "short"}'
+        default: ''
+        required: false
 
 jobs:
   check-buffer:
@@ -184,6 +188,8 @@ jobs:
         run: python main_documentary.py --cloud --count ${{ github.event.inputs.count || '1' }} ${{ github.event.inputs.mode == 'sample' && '--sample' || '' }}
         env:
           PYTHONUNBUFFERED: "1"
+          # Preview a queued lever value (main_documentary._loop_values); never on a run that posts.
+          LOOP_FORCE_VALUES: ${{ github.event.inputs.mode == 'sample' && github.event.inputs.loop_force || '' }}
           # Per-model Groq token ledger (growth-lab llm_client): lets a run stop before
           # rendering when today's writer/review budget is spent. Committed below.
           GROQ_BUDGET_LEDGER: groq_budget.json

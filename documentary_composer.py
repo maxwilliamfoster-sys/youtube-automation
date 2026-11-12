@@ -648,6 +648,40 @@ def add_audio_and_captions(
     return output_path
 
 
+# ─── Seamless loop end ────────────────────────────────────────────────────────
+# The length lever's 'short' arm (2026-11-12) also ends on a 0.5 s dissolve into the video's own first frame
+# (hook text and all), with the sound faded over the last 0.3 s, so TikTok's automatic replay looks seamless
+# and replays add watch time. main_documentary sets LOOP_END for that arm only.
+LOOP_END = False
+LOOP_D = 0.5
+
+
+def loop_filter(duration: float, d: float = LOOP_D) -> str:
+    return (f"[0:v]split[m][f];[f]trim=end_frame=1,setpts=PTS-STARTPTS,"
+            f"tpad=stop_mode=clone:stop_duration={d}[f0];"
+            f"[m][f0]xfade=transition=fade:duration={d}:offset={duration - d:.3f},format=yuv420p[v]")
+
+
+def add_loop_end(path: str) -> str:
+    """Re-encode `path` in place so its last LOOP_D s dissolve into its first frame. On any ffmpeg error the
+    video is kept as it was (a plain ending is still a good video)."""
+    dur = get_video_duration(path)
+    tmp = path[:-4] + "_loop.mp4"
+    cmd = [FFMPEG, "-y", "-i", os.path.abspath(path).replace("\\", "/"),
+           "-filter_complex", loop_filter(dur), "-map", "[v]", "-map", "0:a:0",
+           "-af", f"afade=t=out:st={dur - 0.3:.3f}:d=0.3", "-t", f"{dur:.3f}",
+           "-c:v", "libx264", "-preset", "medium", "-crf", "18", "-c:a", "aac",
+           "-ar", str(AUDIO_SAMPLE_RATE), "-b:a", "192k", "-r", str(VIDEO_FPS), "-pix_fmt", "yuv420p",
+           "-movflags", "+faststart", os.path.abspath(tmp).replace("\\", "/")]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0 or not os.path.exists(tmp):
+        print(f"[DocCompose] Loop end failed, keeping the plain ending:\n{result.stderr[-600:]}")
+        return path
+    os.replace(tmp, path)
+    print(f"[DocCompose] Loop end: last {LOOP_D}s dissolves into the first frame.")
+    return path
+
+
 # ─── Main composer ────────────────────────────────────────────────────────────
 
 def compose_documentary(
@@ -766,6 +800,8 @@ def compose_documentary(
         bg_path, final_audio, caption_segments, audio_duration, output_path,
         hook_text=hook_text, cta_text=cta_text,
     )
+    if LOOP_END:
+        add_loop_end(output_path)
 
     # ── Cleanup ────────────────────────────────────────────────────────────────
     try:

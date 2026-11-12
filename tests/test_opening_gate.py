@@ -79,12 +79,14 @@ class CaseTag(unittest.TestCase):
         self.assertIn("between(t,0,3.0)", src)
         self.assertEqual(vc.CASE_TAG, "")
 
-    def test_lever_is_off_by_default_and_queued_after_the_hook_card_test(self):
+    def test_lever_is_off_by_default_and_queued_after_the_length_test(self):
+        # 2026-11-12: the 20-25 s looping length test went between hook_card and case_tag
         import json
         with open(os.path.join(ROOT, "levers.json"), encoding="utf-8") as fh:
             levers = json.load(fh)["levers"]
         names = [lv["lever"] for lv in levers]
-        self.assertEqual(names.index("case_tag"), names.index("hook_card") + 1)
+        self.assertEqual(names.index("case_tag"), names.index("length") + 1)
+        self.assertEqual(names.index("length"), names.index("hook_card") + 1)
         self.assertIs(next(lv for lv in levers if lv["lever"] == "case_tag")["control"], False)
 
 
