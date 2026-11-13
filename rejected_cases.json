@@ -1,34 +1,4 @@
 {
- "Murder of Breck Bednar": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Shepherd's Bush murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Killing of Cenida Ramos": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Murder of Gordon Semple": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Kidnapping of Howard Woolverton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
  "Assassination of Sokratis Giolias": {
   "stage": "prescreen",
   "code": "other",
@@ -4325,12 +4295,6 @@
   "date": "2026-11-09",
   "strikes": 1
  },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-11-09",
-  "strikes": 45
- },
  "Murder of Gilles Andruet": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4781,12 +4745,6 @@
   "date": "2026-11-12",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-12",
-  "strikes": 88
- },
  "Murder of Faiza Ashraf": {
   "stage": "compliance",
   "code": "age_restricted",
@@ -4797,6 +4755,48 @@
   "stage": "quality",
   "code": "low_accuracy",
   "date": "2026-11-12",
+  "strikes": 1
+ },
+ "Death of Ayakannu Marithamuthu": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-13",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-13",
+  "strikes": 89
+ },
+ "Arnon Street killings": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-13",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-13",
+  "strikes": 46
+ },
+ "Murder of Rukhsana Naz": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-13",
+  "strikes": 1
+ },
+ "Disappearance of Zane Plemmons": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-13",
+  "strikes": 1
+ },
+ "Death of Esther Dingley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-13",
   "strikes": 1
  }
 }

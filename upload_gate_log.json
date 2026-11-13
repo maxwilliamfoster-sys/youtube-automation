@@ -6306,6 +6306,48 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-13T17:39:25+00:00",
+   "platform": "tiktok",
+   "file": "Bullet_Through_Heart_Then_Gone_Forever_20261113_173706.mp4",
+   "sha256": "aac735c64e77e3a785b6f78910c53ac17490064a4bd0e8f86d3d1ca6a0ed6b87",
+   "head": "UK crime: the Thomas Bates case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.677,
+   "report": {
+    "seconds": 35.3,
+    "lufs": -15.3,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3474,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7008,
+     "predicted_tokens": 4931,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
