@@ -1,10 +1,4 @@
 {
- "Killing of Pascal Suleiman": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Murder of Michele Brown": {
   "stage": "prescreen",
   "code": "active_proceedings",
@@ -4613,12 +4607,6 @@
   "date": "2026-11-11",
   "strikes": 2
  },
- "Murder of Ravindra Mhatre": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-11",
-  "strikes": 1
- },
  "Murder of Stephen Oake": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4798,5 +4786,17 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-13",
   "strikes": 91
+ },
+ "Murder of Una Crown": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-13",
+  "strikes": 1
+ },
+ "Murder of Ravindra Mhatre": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-13",
+  "strikes": 2
  }
 }

@@ -6383,6 +6383,48 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-13T21:55:47+00:00",
+   "platform": "tiktok",
+   "file": "Phone_Pinged_London_Then_He_Disappeared__20261113_215229.mp4",
+   "sha256": "ddf6d07dcc6c687ff72291b8c26c2c49a56ed51bb6e6fb94dd98aa6b3df3b582",
+   "head": "Owen Harding case. | UK crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.698,
+   "report": {
+    "seconds": 32.43,
+    "lufs": -14.9,
+    "speech_match": 0.87,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3465,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7011,
+     "predicted_tokens": 4947,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
