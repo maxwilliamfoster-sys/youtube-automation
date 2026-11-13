@@ -1,10 +1,4 @@
 {
- "Assassination of Sokratis Giolias": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Killing of Pascal Suleiman": {
   "stage": "prescreen",
   "code": "other",
@@ -4763,12 +4757,6 @@
   "date": "2026-11-13",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-13",
-  "strikes": 89
- },
  "Arnon Street killings": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4798,5 +4786,17 @@
   "code": "script_unusable",
   "date": "2026-11-13",
   "strikes": 1
+ },
+ "Murder of Alistair Wilson": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-13",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-13",
+  "strikes": 91
  }
 }

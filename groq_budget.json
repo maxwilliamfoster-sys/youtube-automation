@@ -2,12 +2,12 @@
  "day": "2026-11-13",
  "models": {
   "openai/gpt-oss-120b": {
-   "requests": 32,
-   "tokens": 45564
+   "requests": 63,
+   "tokens": 83276
   },
   "qwen/qwen3.8-27b": {
-   "requests": 1,
-   "tokens": 3474
+   "requests": 2,
+   "tokens": 7688
   }
  }
 }

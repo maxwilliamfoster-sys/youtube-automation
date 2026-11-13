@@ -6348,6 +6348,41 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-13T20:22:05+00:00",
+   "platform": "tiktok",
+   "file": "Red_Bag_Mystery_No_Prints_20261113_201911.mp4",
+   "sha256": "a8cb19cf43121a855ed634347a90bb07b3a2ee98fc6ae201856e28f689c5635c",
+   "head": "Inside the Gareth Williams case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.557,
+   "report": {
+    "seconds": 35.67,
+    "lufs": -15.2,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4214,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
