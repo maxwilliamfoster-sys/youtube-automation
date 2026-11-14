@@ -6462,6 +6462,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-14T19:10:27+00:00",
+   "platform": "tiktok",
+   "file": "Japanese_Hostage_Taker_Deadly_Demand_20261114_190722.mp4",
+   "sha256": "b409aff88801e8675e38925c2b9d7659a21bc16fccb9b0a7aa09b96d2b4972b4",
+   "head": "Akiyoshi Umekawa: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.644,
+   "report": {
+    "seconds": 31.77,
+    "lufs": -15.2,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4243,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

@@ -1,136 +1,4 @@
 {
- "Shinjuku–Kabukicho Love Hotel murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Nicholas Churton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Murder of Toni-Ann and Bertram Byfield": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Hauwa Liman": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murders at Stanfield Hall": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Murder of Jody Dobrowski": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Kidnapping of Tiede Herrema": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Mellory Manning": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Nathan Blenner": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Francesca Bimpson": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Kidnapping of Tanya Nicole Kach": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Nada Cella": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Marey affair": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Maxwell Confait": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "2006 Ulvila homicide case": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of the Faddoul brothers": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Brian Bishop": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Death of Mark Saunders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Perch Garage murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "3 July Affair": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Death of Yolanda Klug": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
- "Templeton Woods murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
  "Kidnapping of Abilio Diniz": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -3911,12 +3779,6 @@
   "date": "2026-11-04",
   "strikes": 1
  },
- "Operation Synytsia": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-11-04",
-  "strikes": 12
- },
  "Murder of Carol Wardell": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4637,12 +4499,6 @@
   "date": "2026-11-12",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-12",
-  "strikes": 8
- },
  "Scottish Criminal Cases Review Commission": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4733,12 +4589,6 @@
   "date": "2026-11-13",
   "strikes": 2
  },
- "Kidnapping of Mary Agnes Moroney": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-14",
-  "strikes": 1
- },
  "Death of Corrie McKeague": {
   "stage": "compliance",
   "code": "fyf_ineligible",
@@ -4762,12 +4612,6 @@
   "code": "script_unusable",
   "date": "2026-11-14",
   "strikes": 2
- },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-14",
-  "strikes": 95
  },
  "Murder of James Young": {
   "stage": "prescreen",
@@ -4796,6 +4640,162 @@
  "Killing of Türkan Feyzullah": {
   "stage": "prescreen",
   "code": "minor_victim",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Mpumalanga killings": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Disappearance of Steven Cooper": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murder of Lakhvinder Cheema": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Kidnapping of Mary Agnes Moroney": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 2
+ },
+ "Murder of Caroline Mary Luard": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murder of Gordon Semple": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "The Noid": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 9
+ },
+ "Gay gang murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Kızıldere Incident": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Killing of Jermaine Baker": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murders of Terrence and Christine Hodson": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Caligula case": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 100
+ },
+ "Murder of Jody Dobrowski": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murder of Zarema Sadulayeva and Alik Dzhabrailov": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Operation Synytsia": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-14",
+  "strikes": 13
+ },
+ "Shinjuku–Kabukicho Love Hotel murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Death of Salman Shah": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murder of Maxwell Confait": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Pelican Point Murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Kidnapping of Tanya Nicole Kach": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Killing of Ramapiram Kannickaisparry": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Kidnapping of Tiede Herrema": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "2006 Ulvila homicide case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "2018 Los Angeles hostage incident": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "George Brinkman murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
   "date": "2026-11-14",
   "strikes": 1
  }
