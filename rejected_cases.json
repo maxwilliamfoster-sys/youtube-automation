@@ -1,10 +1,4 @@
 {
- "Kidnapping of Abilio Diniz": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 2
- },
  "Killing of Jay Abatan": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4271,12 +4265,6 @@
   "date": "2026-11-10",
   "strikes": 1
  },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 18
- },
  "Murder of Anni Dewani": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4798,5 +4786,17 @@
   "code": "age_restricted",
   "date": "2026-11-14",
   "strikes": 1
+ },
+ "Rettendon murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 19
  }
 }
