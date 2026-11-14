@@ -1,46 +1,4 @@
 {
- "Murder of Michele Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Thomas Coleman": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Murder of Krista Harrison": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Mpumalanga killings": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "George Brinkman murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Killing of Ramapiram Kannickaisparry": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-25",
-  "strikes": 1
- },
- "Killamarsh murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-25",
-  "strikes": 1
- },
  "Shinjuku–Kabukicho Love Hotel murders": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4619,18 +4577,6 @@
   "date": "2026-11-11",
   "strikes": 7
  },
- "Kidnapping of David Rohde": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-11",
-  "strikes": 1
- },
- "Kidnapping of Anabel Segura": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-11",
-  "strikes": 1
- },
  "Murder of Leigh Matthews": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4769,23 +4715,11 @@
   "date": "2026-11-13",
   "strikes": 1
  },
- "Death of Esther Dingley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-13",
-  "strikes": 1
- },
  "Murder of Alistair Wilson": {
   "stage": "legal",
   "code": "unconvicted_suspect",
   "date": "2026-11-13",
   "strikes": 1
- },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-13",
-  "strikes": 91
  },
  "Murder of Una Crown": {
   "stage": "prefilter",
@@ -4798,5 +4732,71 @@
   "code": "fyf_ineligible",
   "date": "2026-11-13",
   "strikes": 2
+ },
+ "Kidnapping of Mary Agnes Moroney": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Death of Corrie McKeague": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murder of Eliyahu Asheri": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Death of Esther Dingley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 2
+ },
+ "Kidnapping of Anabel Segura": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 2
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 95
+ },
+ "Murder of James Young": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Kidnapping of David Rohde": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-14",
+  "strikes": 2
+ },
+ "Shepherd's Bush murders": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Murder of Breck Bednar": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-14",
+  "strikes": 1
+ },
+ "Killing of Türkan Feyzullah": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-14",
+  "strikes": 1
  }
 }

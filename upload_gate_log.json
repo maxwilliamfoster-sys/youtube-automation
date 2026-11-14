@@ -6425,6 +6425,43 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-14T16:12:31+00:00",
+   "platform": "tiktok",
+   "file": "Envelope_of_1000_Francs_Found_on_Murdere_20261114_161115.mp4",
+   "sha256": "f76b5dfa3335b9afa76be27d5f66b3040ffae17989b135fc8754bea9ddf70f34",
+   "head": "The Abraham Grünbaum case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [
+    "narration only 79% matched (…)"
+   ],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.609,
+   "report": {
+    "seconds": 16.27,
+    "lufs": -15.2,
+    "speech_match": 0.79,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4203,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
