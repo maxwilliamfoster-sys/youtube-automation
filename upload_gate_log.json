@@ -6539,6 +6539,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-15T17:19:07+00:00",
+   "platform": "tiktok",
+   "file": "Vanished_gang_kills_Sheffield_war_hero_1_20261115_171556.mp4",
+   "sha256": "1e51158ce2609caac46a74a5ab2736214b74459300da9b5f7f86ccfafa19f420",
+   "head": "Inside the William Plommer case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.742,
+   "report": {
+    "seconds": 36.4,
+    "lufs": -15.4,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3484,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7003,
+     "predicted_tokens": 4921,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
