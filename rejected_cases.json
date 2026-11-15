@@ -1,10 +1,4 @@
 {
- "Murder of George Gutteridge": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
  "Rey-Maupin affair": {
   "stage": "compliance",
   "code": "age_restricted",
@@ -4439,12 +4433,6 @@
   "date": "2026-11-14",
   "strikes": 1
  },
- "Gay gang murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-14",
-  "strikes": 1
- },
  "Kızıldere Incident": {
   "stage": "prescreen",
   "code": "other",
@@ -4796,6 +4784,18 @@
  "Perch Garage murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
+  "date": "2026-11-15",
+  "strikes": 1
+ },
+ "Gay gang murders": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-15",
+  "strikes": 2
+ },
+ "Deaths of Kris Kremers and Lisanne Froon": {
+  "stage": "compliance",
+  "code": "age_restricted",
   "date": "2026-11-15",
   "strikes": 1
  }

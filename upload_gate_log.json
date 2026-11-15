@@ -6581,6 +6581,41 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-15T19:32:19+00:00",
+   "platform": "tiktok",
+   "file": "Ferry_Fire_32_Lost_3_Men_Captured_20261115_192956.mp4",
+   "sha256": "edd4e65717a775a7d3295ad5fc4e368db656166e91e19c02ed88ef9310466bcf",
+   "head": "Qiandao Lake incident case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.622,
+   "report": {
+    "seconds": 31.23,
+    "lufs": -15.1,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4217,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
