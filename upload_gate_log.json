@@ -6730,6 +6730,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-16T23:00:43+00:00",
+   "platform": "tiktok",
+   "file": "Hauwa_Liman_Missing_Captured_and_Never_R_20261116_225841.mp4",
+   "sha256": "d5d0f8e44ff7eae9a4b99b141b135ceac047ab845b49b8654026cef1ce62a961",
+   "head": "True crime: the Hauwa Liman case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.656,
+   "report": {
+    "seconds": 20.0,
+    "lufs": -14.9,
+    "speech_match": 0.86,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4184,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

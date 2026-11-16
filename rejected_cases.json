@@ -1,52 +1,4 @@
 {
- "Khadim's case": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Kidnapping of Rubaiya Sayeed": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Disappearance of Melissa Highsmith": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Murder of Suzanne Pilley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Abduction of Jakub Fiszman": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Death of Nina Mackay": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Murder of Chaskel Werzberger": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Kidnapping of Antonio Pampliega, José Manuel López and Ángel Sastre": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Claustre Affair": {
   "stage": "prescreen",
   "code": "other",
@@ -826,12 +778,6 @@
   "code": "minor_victim",
   "date": "2026-10-27",
   "strikes": 1
- },
- "Michael Stone (criminal)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 3
  },
  "Killing of Naomi Irion": {
   "stage": "prefilter",
@@ -4505,12 +4451,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "Kidnapping of Luis Albino": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-15",
-  "strikes": 1
- },
  "Murder of Jody Dobrowski": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4532,12 +4472,6 @@
  "Death of Yolanda Klug": {
   "stage": "legal",
   "code": "unconvicted_suspect",
-  "date": "2026-11-15",
-  "strikes": 1
- },
- "Murder of Brian Bishop": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-15",
   "strikes": 1
  },
@@ -4679,12 +4613,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-15",
-  "strikes": 106
- },
  "Murder of Nicholas Churton": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4745,12 +4673,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "Death of Madison Scott": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-16",
-  "strikes": 1
- },
  "Killing of Emily Salvini": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4798,5 +4720,83 @@
   "code": "gore",
   "date": "2026-11-16",
   "strikes": 1
+ },
+ "Dikko affair": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Killing of Ami Shachori": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Disappearance of Agatha Christie": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Penmaenmawr Killings": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Disappearance of Melissa Highsmith": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Death of Madison Scott": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 2
+ },
+ "Kidnapping of Luis Albino": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 2
+ },
+ "Murder of Brian Bishop": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 2
+ },
+ "Murder of Menachem Stark": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Kidnapping of Rubaiya Sayeed": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Kidnapping of Colleen Stan": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Michael Stone (criminal)": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 4
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 108
  }
 }
