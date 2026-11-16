@@ -1,28 +1,4 @@
 {
- "Kidnapping of Amber Swartz-Garcia": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Tom ap Rhys Pryce": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Carnkie murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Ceylanpınar incident": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-26",
-  "strikes": 1
- },
  "Khadim's case": {
   "stage": "prescreen",
   "code": "other",
@@ -3281,12 +3257,6 @@
   "date": "2026-11-01",
   "strikes": 1
  },
- "Death of Jeanette Bishop and Gabriella Guerin": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-01",
-  "strikes": 1
- },
  "Murder of Sheila Anderson": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4529,12 +4499,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "Disappearance of Stefanie Damron": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-15",
-  "strikes": 1
- },
  "Templeton Woods murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4643,12 +4607,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-15",
-  "strikes": 11
- },
  "Levi Bellfield": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4684,12 +4642,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-15",
   "strikes": 9
- },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-15",
-  "strikes": 20
  },
  "Johnny Lee Wilson case": {
   "stage": "prefilter",
@@ -4781,12 +4733,6 @@
   "date": "2026-11-15",
   "strikes": 2
  },
- "Death of Mark Saunders": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-15",
-  "strikes": 1
- },
  "Death of Jack Avery": {
   "stage": "quality",
   "code": "low_accuracy",
@@ -4797,6 +4743,60 @@
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-15",
+  "strikes": 1
+ },
+ "Death of Madison Scott": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Killing of Emily Salvini": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "The Noid": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 12
+ },
+ "Death of Jeanette Bishop and Gabriella Guerin": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 2
+ },
+ "Disappearance of Stefanie Damron": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 2
+ },
+ "Death of Mark Saunders": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-16",
+  "strikes": 2
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 21
+ },
+ "Murder of Moll McCarthy": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Murder of Shibli Sadiq Hridoy": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-16",
   "strikes": 1
  }
 }
