@@ -1,34 +1,4 @@
 {
- "Claustre Affair": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of John Monckton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Death of Kent Leppink": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Catherine Carroll": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Murder of Mi Gao Huang Chen": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
  "Murder of Sabina Nessa": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4349,12 +4319,6 @@
   "date": "2026-11-14",
   "strikes": 1
  },
- "Operation Synytsia": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-11-14",
-  "strikes": 13
- },
  "Shinjuku–Kabukicho Love Hotel murders": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4517,12 +4481,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "Murder of Michele Brown": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-15",
-  "strikes": 1
- },
  "Killing of Michael Ovsjannikov": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4679,12 +4637,6 @@
   "date": "2026-11-16",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-16",
-  "strikes": 12
- },
  "Death of Jeanette Bishop and Gabriella Guerin": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4702,12 +4654,6 @@
   "code": "low_accuracy",
   "date": "2026-11-16",
   "strikes": 2
- },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-16",
-  "strikes": 21
  },
  "Murder of Moll McCarthy": {
   "stage": "empty_script",
@@ -4742,12 +4688,6 @@
  "Penmaenmawr Killings": {
   "stage": "prescreen",
   "code": "other",
-  "date": "2026-11-16",
-  "strikes": 1
- },
- "Disappearance of Melissa Highsmith": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-16",
   "strikes": 1
  },
@@ -4793,10 +4733,70 @@
   "date": "2026-11-16",
   "strikes": 4
  },
- "Murder of Jessie Earl": {
+ "Murder of the Kumari-Baker sisters": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Disappearance of Melissa Highsmith": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-16",
+  "strikes": 2
+ },
+ "The Noid": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-16",
-  "strikes": 108
+  "strikes": 13
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 22
+ },
+ "Disappearance of Sandy Davidson": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Kidnapping of Jack Teich": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-16",
+  "strikes": 1
+ },
+ "Murder of Michele Brown": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-17",
+  "strikes": 2
+ },
+ "Murder of Fawziyah Javed": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-17",
+  "strikes": 1
+ },
+ "1984 Libyan hostage incident": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-17",
+  "strikes": 1
+ },
+ "Operation Synytsia": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-17",
+  "strikes": 14
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-17",
+  "strikes": 115
  }
 }
