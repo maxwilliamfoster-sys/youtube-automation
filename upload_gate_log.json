@@ -6800,6 +6800,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-17T18:58:17+00:00",
+   "platform": "tiktok",
+   "file": "Kidnappers_Playlist_Murder_on_Election_D_20261117_185625.mp4",
+   "sha256": "dc0059769061f4004383d0b4661facbe9e687259a20dafb94ca1db2f267537f1",
+   "head": "Kidnapping of Abilio Diniz case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.575,
+   "report": {
+    "seconds": 35.33,
+    "lufs": -14.9,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4257,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

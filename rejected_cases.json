@@ -1,28 +1,4 @@
 {
- "Murder of Sabina Nessa": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Killing of Sean Brown": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Lucia de Berk case": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Franciscan University murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
  "Murder of Bernard Oliver": {
   "stage": "prescreen",
   "code": "gore",
@@ -4499,12 +4475,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "Levi Bellfield": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-15",
-  "strikes": 5
- },
  "Kidnapping of Howard Woolverton": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4667,12 +4637,6 @@
   "date": "2026-11-16",
   "strikes": 1
  },
- "Dikko affair": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-16",
-  "strikes": 1
- },
  "Killing of Ami Shachori": {
   "stage": "prescreen",
   "code": "other",
@@ -4793,10 +4757,46 @@
   "date": "2026-11-17",
   "strikes": 14
  },
+ "Khadim's case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-17",
+  "strikes": 1
+ },
+ "Abduction and killing of Nachshon Wachsman": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-17",
+  "strikes": 1
+ },
+ "Dikko affair": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-17",
+  "strikes": 2
+ },
+ "Killing of Sean Brown": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-17",
+  "strikes": 1
+ },
+ "Lucia de Berk case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-17",
+  "strikes": 1
+ },
+ "Levi Bellfield": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-17",
+  "strikes": 6
+ },
  "Murder of Jessie Earl": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-17",
-  "strikes": 115
+  "strikes": 118
  }
 }
