@@ -887,7 +887,9 @@ _DATED_OPEN = re.compile(rf"^(?:back\s+)?(?:in|on|during|at|by)\s+(?:the\s+|earl
                          rf"(?:\d|{_MONTH}\b|(?:\w+\s+)?{_MONTH}\b|\w+(?:-\w+)?\s+of\s+{_MONTH}\b|(?:mon|tues|wednes|thurs|fri|satur|sun)day\b)", re.I)
 # 2026-11-02: "lead with the strangest fact" gave "Theresa Allore's body was found in a lake, naked." The AI review blocks that, but
 # only after 15 minutes of rendering, and a victim's body is never the hook anyway.
-_LURID = re.compile(r"\b(?:naked|nude|undressed|unclothed|topless|raped?|sexual(?:ly)?|genitals?)\b", re.I)
+_LURID = re.compile(r"\b(?:naked|nude|undressed|unclothed|topless|raped?|sexual(?:ly)?|genitals?|"
+                    r"underwear|lingerie|underclothes|half-?dressed|partially\s+(?:clothed|dressed))\b", re.I)
+# 2026-11-16 (autopilot): "Her body was found wearing only underwear" opened a posted video ('underwear' was missing).
 
 
 def _first_sentence(script: str) -> str:
@@ -1007,6 +1009,26 @@ def _write_cold_open(client, case: dict, script: str) -> str:
     return line
 
 
+def _strip_banned_opening(script: str, case: dict) -> str:
+    """Used when no valid cold open could be found (2026-11-16: a posted video still began
+    'On the 11th of August 2009, ...' because only the card was dropped). A dated first sentence
+    loses its date clause; a lurid one is dropped. Scripts of under 3 sentences, or a cut that
+    would leave under 4 words, are left as they are."""
+    sentences = re.split(r"(?<=[.!?])\s+", (script or "").strip())
+    if len(sentences) < 3:
+        return script
+    first, rest = sentences[0], sentences[1:]
+    if _LURID.search(first):
+        return " ".join(rest)
+    if _DATED_OPEN.match(first.strip()) and "," in first:
+        tail = first.split(",", 1)[1].strip()
+        if re.match(r"^\d{4}\s*,", tail):          # "On 3 November, 1978, Ann Lee left."
+            tail = tail.split(",", 1)[1].strip()
+        if len(tail.split()) >= 4:
+            return " ".join([tail[0].upper() + tail[1:]] + rest)
+    return script
+
+
 def _cold_open(client, case: dict, script: str):
     """(cold_open, script). Keeps the script's first sentence when it already is a valid cold
     open; otherwise asks the writer for one (one cheap call) and puts it in front of the script,
@@ -1021,11 +1043,11 @@ def _cold_open(client, case: dict, script: str):
         line = _write_cold_open(client, case, script)
     except Exception as e:
         print(f"[ColdOpen] writer failed ({str(e)[:120]}) - no hook card")
-        return "", script
+        return "", _strip_banned_opening(script, case)
     issues = _cold_open_issues(line, case) if line else ["hook_empty"]
     if issues:
         print(f"[ColdOpen] rewrite rejected ({'; '.join(issues)[:160]}): {line[:120]!r} - no hook card")
-        return "", script
+        return "", _strip_banned_opening(script, case)
     if not line.endswith((".", "!", "?")):
         line += "."
     print(f"[ColdOpen] {line}")
@@ -1188,7 +1210,40 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
         resp = _groq_call(client, model=GROQ_MODEL, max_tokens=600,
                           messages=messages_for_retry)
         script = (resp.choices[0].message.content or "").strip()
+    if script and _reply_cut(resp):
+        # 2026-11-17 (autopilot): the Gemini backup stopped at max_tokens (42 and 53 words) and a
+        # posted video ended on "In September,". One retry with more room; _fit_length trims length.
+        print("[TrueCrime] Script was cut off at the token limit - retrying once with more room...")
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=900,
+                          messages=messages_for_retry)
+        script = (resp.choices[0].message.content or "").strip() or script
     return script
+
+
+def _reply_cut(resp) -> bool:
+    """True when the model stopped at max_tokens (llm_client sets resp.finish_reason; the Groq
+    SDK sets choices[0].finish_reason)."""
+    if getattr(resp, "finish_reason", None) == "length":
+        return True
+    try:
+        return getattr(resp.choices[0], "finish_reason", None) == "length"
+    except (AttributeError, IndexError, TypeError):
+        return False
+
+
+_SENTENCE_END = re.compile(r"[.!?][\"'”’)]*$")
+
+
+def _drop_unfinished_tail(script: str) -> str:
+    """A script that stops mid-sentence ("... In September,") loses the unfinished fragment."""
+    script = (script or "").strip()
+    if not script or _SENTENCE_END.search(script):
+        return script
+    sentences = re.split(r"(?<=[.!?])\s+", script)
+    if len(sentences) < 2:
+        return script
+    print(f"[TrueCrime] Script ended mid-sentence - dropped {sentences[-1][:60]!r}")
+    return " ".join(sentences[:-1]).strip()
 
 
 # Two ways a script can be wrong without inventing anything, both checked against the
@@ -1914,7 +1969,7 @@ def _fit_length(script: str) -> str:
     always keeping the last sentence (the closing question / "Part two next."), because
     the model reliably ignores the word count and rejecting cost whole runs.
     """
-    script = (script or "").strip()
+    script = _drop_unfinished_tail(script)
     word_count = len(script.split())
     print(f"[TrueCrime] Script: {word_count} words")
     if word_count < MIN_SCRIPT_WORDS:
