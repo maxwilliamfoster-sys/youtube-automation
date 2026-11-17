@@ -6835,6 +6835,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-17T21:42:35+00:00",
+   "platform": "tiktok",
+   "file": "One_phone_call_changed_British_policing__20261117_214030.mp4",
+   "sha256": "1095940d31024ba575542999c3ce833e1227e8187aa730b1bbdc9123b35556e7",
+   "head": "The George Gutteridge case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.639,
+   "report": {
+    "seconds": 21.37,
+    "lufs": -14.9,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4194,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
