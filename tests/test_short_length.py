@@ -37,7 +37,7 @@ class ShortScript(unittest.TestCase):
         self.assertTrue(out.endswith("Who did it?"))
 
     def test_no_series_is_started_for_a_short_video(self):
-        self.assertIn("None if SHORT_SCRIPT else _try_series(", inspect.getsource(sg))
+        self.assertIn("None if (SHORT_SCRIPT or LONG_SCRIPT) else _try_series(", inspect.getsource(sg))
 
 
 class LoopEnd(unittest.TestCase):

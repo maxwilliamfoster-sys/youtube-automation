@@ -140,6 +140,7 @@ def _generate_one() -> tuple:
     loop_vals, loop_arms = _loop_values()
     import story_generator
     story_generator.SHORT_SCRIPT = loop_vals.get("length") == "short"
+    story_generator.LONG_SCRIPT = loop_vals.get("length") == "long"
 
     # ── 1. Research & write story ─────────────────────────────────────────────
     print("\n--- STEP 1: Researching True Crime Story ---")

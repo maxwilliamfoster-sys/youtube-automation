@@ -1166,7 +1166,7 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
         source = case.get("full_text") or source
     source_block = (
         f"SOURCE (the encyclopaedia entry — the ONLY permitted source of facts):\n"
-        f"{source[:SERIES_SOURCE_CHARS if part else SCRIPT_SOURCE_CHARS]}\n\n"
+        f"{source[:SERIES_SOURCE_CHARS if part else (LONG_SOURCE_CHARS if LONG_SCRIPT else SCRIPT_SOURCE_CHARS)]}\n\n"
         if source else ""
     )
     grounding = (
@@ -1200,7 +1200,8 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
     # 600 deliberately. At 900 the model rambled to ~600 words (a 3.5-minute video);
     # at 600 it lands on 180-210 and scores 9/10. It ignores the word count in the
     # prompt, so the token ceiling is what actually holds the script to length.
-    resp = _groq_call(client, model=GROQ_MODEL, max_tokens=600,
+    first_budget = 900 if LONG_SCRIPT else 600     # the long arm writes ~2x the words
+    resp = _groq_call(client, model=GROQ_MODEL, max_tokens=first_budget,
                       messages=messages_for_retry)
     script = (resp.choices[0].message.content or "").strip()
     if not script:
@@ -1214,7 +1215,7 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
         # 2026-11-17 (autopilot): the Gemini backup stopped at max_tokens (42 and 53 words) and a
         # posted video ended on "In September,". One retry with more room; _fit_length trims length.
         print("[TrueCrime] Script was cut off at the token limit - retrying once with more room...")
-        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=900,
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=first_budget + 300,
                           messages=messages_for_retry)
         script = (resp.choices[0].message.content or "").strip() or script
     return script
@@ -1379,11 +1380,32 @@ SHORT_SUBS = (
 )
 
 
+# The length lever's 'long' arm (autopilot 2026-11-17, stage 3 "new format"): a full case file of 190-220
+# words (~70-80 s) telling the whole case: setup, the turn, the court outcome, the open question. Every
+# 20-40 s post lands at ~700 views (n=52 in 28 d) whatever its hold, while the UK true-crime TikTok accounts
+# that break out tell whole cases over minutes (truecrimecaitlyn 50K-330K on 4-8 min; charleybournetruecrime
+# 183K on 4 min). Judged on views at 72 h. A full case is one video, so no series is started.
+LONG_SCRIPT = False
+LONG_TRIM_WORDS = 220
+LONG_SOURCE_CHARS = 4200
+LONG_SUBS = (
+    ("85-100 words (~35-40 seconds spoken). NEVER fewer than 80",
+     "190-220 words (~70-80 seconds spoken). NEVER fewer than 180"),
+    ("85-100 word documentary script now (never fewer than 80)",
+     "190-220 word documentary script now (never fewer than 180): the whole case, setup, the turn, "
+     "what the court decided, then the open question"),
+    ("Keep the script 95-120 words.", "Keep the script 190-220 words."),
+)
+
+
 def _length_text(text: str) -> str:
-    """The prompt as written, or its 50-60 word version when the short arm is on."""
+    """The prompt as written, or its short/long version when that length arm is on."""
     if SHORT_SCRIPT:
         for long_, short in SHORT_SUBS:
             text = text.replace(long_, short)
+    elif LONG_SCRIPT:
+        for normal, long_ in LONG_SUBS:
+            text = text.replace(normal, long_)
     return text
 
 # How much source the SCRIPT WRITER sees. The fact-checker still gets the full
@@ -1976,7 +1998,7 @@ def _fit_length(script: str) -> str:
         print(f"[TrueCrime] Rejected — script too short ({word_count} words, "
               f"need {MIN_SCRIPT_WORDS}).")
         return ""
-    trim_to = SHORT_TRIM_WORDS if SHORT_SCRIPT else TRIM_SCRIPT_WORDS
+    trim_to = SHORT_TRIM_WORDS if SHORT_SCRIPT else (LONG_TRIM_WORDS if LONG_SCRIPT else TRIM_SCRIPT_WORDS)
     if word_count > trim_to:
         sentences = re.split(r"(?<=[.!?])\s+", script)
         if len(sentences) > 2:
@@ -2323,7 +2345,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         print(f"[TrueCrime] Case: {case_name} ({case.get('year','?')}, {case.get('location','?')})")
 
         # ── Series: an occasional long, rich case is told in 2-3 parts ────────
-        series = None if SHORT_SCRIPT else _try_series(client, case, case_name)
+        series = None if (SHORT_SCRIPT or LONG_SCRIPT) else _try_series(client, case, case_name)
         if series:
             _save_recent_case(case_name)
             return series
