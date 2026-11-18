@@ -14,18 +14,18 @@
    "max_n": 30,
    "metric": "avg % watched at 72h",
    "control_metrics": {
-    "n": 18,
+    "n": 20,
     "median": 19.6599,
     "views72": 706.2745
    },
    "variant_metrics": {
-    "n": 19,
-    "median": 21.4094,
-    "views72": 698.2263
+    "n": 20,
+    "median": 21.2819,
+    "views72": 698.4251
    },
    "verdict": "keep running",
-   "last_judged": "2026-11-17",
-   "result": "buriedcasefiles-hook_card-1 · avg % watched at 72h: KEEP RUNNING — treatment 1.09x control (21.4 vs 19.7; 90% CI 0.82–1.21, p=0.843), n=19 vs 18 (min 15, max 30)"
+   "last_judged": "2026-11-18",
+   "result": "buriedcasefiles-hook_card-1 · avg % watched at 72h: KEEP RUNNING — treatment 1.08x control (21.3 vs 19.7; 90% CI 0.81–1.20, p=0.946), n=20 vs 20 (min 15, max 30)"
   }
  ]
 }
