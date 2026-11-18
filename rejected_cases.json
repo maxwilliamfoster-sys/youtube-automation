@@ -1,94 +1,4 @@
 {
- "Thames Torso Murders": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Killing of Helen Bailey": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Margaret Cook": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Ann Heron": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Daniel Morgan": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murders of Anne Castle and William Bryan": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Murder of Rita Ellis": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Hammersmith Ghost murder case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-26",
-  "strikes": 2
- },
- "Killing of Rachel Nickell": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Mee Kuen Chong": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Françoise Chabé": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-26",
-  "strikes": 1
- },
- "Murder of Penny Bell": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murders of John Greenwood and Gary Miller": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Killing of Mark Duggan": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Disappearance of Kyron Horman": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Disappearance of Morgan Nick": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -3257,12 +3167,6 @@
   "date": "2026-11-03",
   "strikes": 1
  },
- "Death of Cindy James": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-03",
-  "strikes": 1
- },
  "Disappearance of April Fabb": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4463,12 +4367,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "John Darwin disappearance case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-15",
-  "strikes": 1
- },
  "Murder of April Jones": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -4528,12 +4426,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-15",
   "strikes": 1
- },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-11-15",
-  "strikes": 49
  },
  "Perch Garage murders": {
   "stage": "prefilter",
@@ -4697,12 +4589,6 @@
   "date": "2026-11-16",
   "strikes": 13
  },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-16",
-  "strikes": 22
- },
  "Disappearance of Sandy Davidson": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4769,12 +4655,6 @@
   "date": "2026-11-17",
   "strikes": 6
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-17",
-  "strikes": 118
- },
  "Murder of Fawziyah Javed": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4797,6 +4677,126 @@
   "stage": "prescreen",
   "code": "unconvicted_suspect",
   "date": "2026-11-17",
+  "strikes": 1
+ },
+ "Death of Cindy James": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-18",
+  "strikes": 2
+ },
+ "Barry Bonds perjury case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "John Darwin disappearance case": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-18",
+  "strikes": 2
+ },
+ "Marey affair": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Thames Torso Murders": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Diana Miller": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 23
+ },
+ "Murder of Bernard Oliver": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Killing of Helen Bailey": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Kidnapping of Antonio Pampliega, José Manuel López and Ángel Sastre": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Evaldo Rosa case": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 119
+ },
+ "Ding family murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Daniel Morgan": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-18",
+  "strikes": 50
+ },
+ "Killing of Rachel Nickell": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Hausjärvi Gravel Pit Murders": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Brenda Page": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Kidnapping of Virginia Piper": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Killing of Jay Abatan": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
   "strikes": 1
  }
 }

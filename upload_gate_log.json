@@ -6870,6 +6870,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-18T18:40:26+00:00",
+   "platform": "tiktok",
+   "file": "Vest_Gone_Murder_in_1997_20261118_183747.mp4",
+   "sha256": "93853c3a44fb8be8efa2b4e422bfa1aa598fc7d9b4278cb451b917f72e0e8a53",
+   "head": "Nina Mackay: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.702,
+   "report": {
+    "seconds": 36.47,
+    "lufs": -15.0,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 8,
+    "quality": 8,
+    "tokens": 4313,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }
