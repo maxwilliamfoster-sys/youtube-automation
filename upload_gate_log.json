@@ -7060,6 +7060,41 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_block] withheld from the public log"
    }
+  },
+  {
+   "checked_at": "2026-11-19T00:31:05+00:00",
+   "platform": "tiktok",
+   "file": "Missing_Teen_Vanishes_on_Way_to_School_20261119_002923.mp4",
+   "sha256": "fbc27e52684705c9ae613cb8b33155358a10294726fc3a1d1634d2e433747a71",
+   "head": "True crime: the Jason Jolkowski case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.667,
+   "report": {
+    "seconds": 27.83,
+    "lufs": -14.8,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4246,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

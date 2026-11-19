@@ -1,10 +1,4 @@
 {
- "2012 Karlsruhe murders": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-27",
-  "strikes": 2
- },
  "Murder of Heshu Yones": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4721,12 +4715,6 @@
   "date": "2026-11-18",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-18",
-  "strikes": 122
- },
  "Murder of Helen Gorrie": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4798,5 +4786,17 @@
   "code": "sexual_violence",
   "date": "2026-11-19",
   "strikes": 1
+ },
+ "Killing of Scott Guy": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-19",
+  "strikes": 123
  }
 }
