@@ -155,12 +155,18 @@ def _layout_props(props):
     return [(pr, s) for pr, s in _assign_slots(props, [], 1e9)]
 
 
+TEXT_COVER_OK = 0.05    # share of a pop-up the text may graze (half of cartoon.qc's COVER_MAX)
+SLOT_ORDER = {"stamp": 0, "label": 1, "icon": 2}
+
+
 def _assign_slots(props, zones, t_end):
-    """First slot for each pop-up that keeps it off the text shown while it is up and off
-    the pop-ups already placed. A pop-up with no clear slot takes the first slot not
-    covered by another pop-up (cartoon.qc then reports the clash); one with neither is dropped."""
+    """A slot for each pop-up that keeps it off the text shown while it is up and off the
+    pop-ups already placed. Stamps are placed first, then labels, then icons, so a wide
+    stamp is never squeezed under the captions by an icon that popped up on the same word
+    (BTK sample, 2026-11-19). A pop-up with no slot clear of the text is dropped: a missing
+    icon is better than a video the cartoon gate blocks."""
     out, boxes, stamped = [], [], False
-    for pr in props:
+    for pr in sorted(props, key=lambda pr: SLOT_ORDER.get(pr["kind"], 3)):
         if pr["kind"] == "stamp":
             if stamped:
                 continue
@@ -168,12 +174,15 @@ def _assign_slots(props, zones, t_end):
         else:
             cands = LABEL_SLOTS if pr["kind"] == "label" else ICON_SLOTS
         text = [z["box"] for z in active(zones, pr["t"], t_end)]
+
+        def covered(c):
+            box = prop_box(pr, c)
+            return sum(overlap(box, b) for b in text) / max(1.0, (box[2] - box[0]) * (box[3] - box[1]))
         free = [c for c in cands if not any(overlap(prop_box(pr, c), b) for b in boxes)]
-        clear = [c for c in free if not any(overlap(prop_box(pr, c), b) for b in text)]
-        pick = (clear or free or [None])[0]
-        if pick:
-            out.append((pr, pick))
-            boxes.append(prop_box(pr, pick))
+        clear = [c for c in free if covered(c) == 0] or [c for c in free if covered(c) <= TEXT_COVER_OK]
+        if clear:
+            out.append((pr, clear[0]))
+            boxes.append(prop_box(pr, clear[0]))
     return out
 
 

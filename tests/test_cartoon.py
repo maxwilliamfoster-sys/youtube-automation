@@ -161,6 +161,20 @@ class TestTextZones(unittest.TestCase):
         self.assertAlmostEqual(z["end card"]["t0"], 37.4)
         self.assertNotIn("case tag", z)
 
+    def test_stamp_beats_an_icon_on_the_same_word(self):
+        # BTK sample: the gavel took the top slot first and pushed CASE CLOSED under the captions.
+        from cartoon import layout
+        zones = layout.text_zones(65.0, "A serial killer asked police for advice", "Would you?")
+        props = [{"kind": "icon", "value": "gavel", "cue": 1, "t": 58.6},
+                 {"kind": "stamp", "value": "CASE CLOSED", "cue": 1, "t": 58.6}]
+        placed = dict((p["kind"], s) for p, s in engine._assign_slots(props, zones, 60.0))
+        self.assertEqual(placed["stamp"], engine.STAMP_SLOT)
+        for p, s in engine._assign_slots(props, zones, 60.0):
+            box = engine.prop_box(p, s)
+            for z in layout.active(zones, p["t"], 60.0):
+                self.assertLessEqual(layout.overlap(box, z["box"]),
+                                     engine.TEXT_COVER_OK * layout.area(box), (p["value"], z["name"]))
+
 
 def _court_plan(duration=6.0):
     script = "The trial lasted a week. In 2019 he was convicted and sentenced to life in prison."
