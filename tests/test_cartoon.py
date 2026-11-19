@@ -244,6 +244,13 @@ class TestSentenceMatch(unittest.TestCase):
                        "props": [{"label": "Mark Hill", "cue": "car"}]}, "Her car was found by the river at 9pm.")
         self.assertEqual(out["props"], [])
 
+    def test_house_exterior_never_used(self):
+        out = self._v({"set": "house", "actors": [{"role": "police"}]}, "Police knocked on the front door of her house.")
+        self.assertEqual(out["set"], "street_day")
+        pl = planner.plan("Police went to the house where she lived. Her neighbour saw nothing.",
+                          [], 6.0, use_llm=False, log=lambda *a: None)
+        self.assertNotIn("house", [sc["set"] for sc in pl["scenes"]])
+
     def test_icon_fits(self):
         self.assertTrue(planner.icon_fits("map_pin", "He murdered ten people in Kansas."))
         self.assertTrue(planner.icon_fits("floppy", "He mailed a purple floppy disk."))

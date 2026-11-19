@@ -171,7 +171,7 @@ def _llm_plan(title, sentences):
     from config import GROQ_API_KEY, GROQ_MODEL
     from groq import Groq
     system = SYSTEM % {
-        "sets": ", ".join(SETS), "roles": ", ".join(ROLES), "moods": ", ".join(MOODS),
+        "sets": ", ".join(s for s in SETS if s not in RETIRED_SETS), "roles": ", ".join(ROLES), "moods": ", ".join(MOODS),
         "actions": ", ".join(sorted(ACTIONS)), "cameras": ", ".join(sorted(CAMERAS)),
         "icons": ", ".join(ICONS), "stamps": ", ".join(STAMPS),
     }
@@ -195,13 +195,17 @@ SET_RULES = [
     (r"\b(car|road|drove|driv\w*|motorway|van|lorry|lay-by)\b", "road_night"),
     (r"\b(shop|store|pub|bar|cafe|restaurant|petrol station|supermarket)\b", "shop"),
     (r"\b(bedroom|kitchen|living room|indoors|inside|sofa)\b", "home_interior"),
-    (r"\b(home|house|flat|front door|doorstep|neighbou?r\w*)\b", "house"),
+    (r"\b(home|house|flat|front door|doorstep|neighbou?r\w*)\b", "street_day"),
     (r"\b(night|street|walk\w*|alley|town centre|bus stop|evening)\b", "street_night"),
     (r"\b(map|miles|village|county|border|town|city)\b", "map"),
     (r"\b(evidence|clue\w*|case|theor\w*|investigat\w*)\b", "incident_room"),
     (r"\b(police|detective\w*|officer\w*|appeal|search\w*)\b", "office"),
 ]
 GENERIC_SETS = ("office", "incident_room")
+# Sets never used, and what replaces them. The AI review blocked a cartoon on 2026-11-19
+# (run 44527156471) because the drawn house's front door and driveway read as "a real
+# private home" under the upload gate's privacy rule.
+RETIRED_SETS = {"house": "street_day"}
 
 
 def strong_set(sentence):
@@ -338,7 +342,7 @@ def _flat(s):
 def rule_scene(i, sentence, toks, span, convicted, prev_set=None):
     """Keyword storyboard for one sentence (no LLM needed)."""
     a, b = span
-    st = _first(SET_RULES, sentence, None) or ["office", "street_day", "incident_room", "house"][i % 4]
+    st = _first(SET_RULES, sentence, None) or ["office", "street_day", "incident_room", "home_interior"][i % 4]
     if st == prev_set and st in ("office", "incident_room"):
         st = "incident_room" if st == "office" else "office"
     mood = _first(MOOD_RULES, sentence, "neutral")
@@ -381,7 +385,8 @@ def validate_scene(raw, i, sentence, toks, span, script, convicted, prev_set=Non
         return None
     a, b = span
     mid = (a + b) // 2
-    st = raw.get("set")
+    st = raw.get("set") if isinstance(raw.get("set"), str) else None
+    st = RETIRED_SETS.get(st, st)
     if st not in SETS:
         return None
     # A sentence that names a place or setting is acted out there, not in a generic office

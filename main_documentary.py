@@ -616,6 +616,8 @@ def _visual_context() -> str:
                 "labels and stamps. Real people are never drawn realistically; an unidentified or convicted "
                 "culprit is a faceless shadow figure. No violence is ever shown. A hook card opens the video "
                 "and a closing card asks viewers what they think. The post has no separate title. "
+                "Every set is an invented generic drawing, never a real place: a drawn room or street is "
+                "not a photo of a real private home. "
                 "Check that the scenes, in order, follow the narration script, and flag any frame where "
                 "on-screen text covers a character's face or a pop-up.")
     return ("BuriedCasefiles: calm, factual true-crime documentaries about real cases. "
