@@ -191,34 +191,8 @@ def _generate_one() -> tuple:
     captions = get_captions(tts, AUDIO_DIR, prefix=prefix, script_text=story["script"])
     print(f"  {len(captions)} caption segments")
 
-    # ── 4. Scene images ───────────────────────────────────────────────────────
-    print("\n--- STEP 4: Fetching Scene Images ---")
-    image_dir = os.path.join(SCENE_IMAGES_DIR, prefix)
-    # The real place carries the visuals. story['location'] comes from the Wikipedia
-    # article, so it is the actual town/borough the case happened in.
-    uk_place = (story.get("location") or "").strip()
-    image_paths, word_segments, used_images, clips = generate_story_images(
-        story_title=story["title"],
-        story_text=story["script"],
-        output_dir=image_dir,
-        num_images=NUM_SCENE_IMAGES,
-        uk_place=uk_place,
-        uk=story.get("uk", True),
-    )
-    # Licences travel with the story so the copyright gate can check them before send.
-    story["images"] = used_images
-    story["clips"] = clips
-    uk_count = len(used_images)
-    print(f"  {len(image_paths)} images ready ({uk_count} real UK locations)")
-    # A silent fall-through to stock is how a whole run shipped with zero UK imagery
-    # while reporting success. If the feature is on and produced nothing, say so
-    # loudly — it means the case was not UK, or the place name did not resolve.
-    if UK_LOCATION_IMAGES and uk_count == 0:
-        print(f"  [WARN] UK imagery is enabled but produced NOTHING for "
-              f"place={uk_place!r} — every scene fell back to stock footage.")
-
-    # ── 5. Compose ────────────────────────────────────────────────────────────
-    print("\n--- STEP 5: Composing Video ---")
+    # The on-screen cards are settled before the visuals, so the cartoon can keep faces
+    # and pop-ups out from under them.
     story["loop_arms"] = loop_arms
     if story.get("series_part"):
         # A queued series part was written at full length before the length test - keep it out of that test.
@@ -229,26 +203,90 @@ def _generate_one() -> tuple:
         # these posts out of the cta test so they can't confound it.
         loop_vals.pop("cta_card")
         story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "cta" not in k}
-    import documentary_composer
-    documentary_composer.LOOP_END = loop_vals.get("length") == "short"
-    if "music_volume" in loop_vals:
-        documentary_composer.DOC_MUSIC_VOLUME = float(loop_vals["music_volume"])
     hook_text = story.get("hook", "") if loop_vals.get("hook_card", True) else ""
     import video_composer
     video_composer.CASE_TAG = (story.get("case_tag") or "") if loop_vals.get("case_tag", False) else ""
     # Never wired up before, so every video fell back to the composer's default
     # "Follow for more unsolved cases" — the same generic ask on every post.
     cta_text = (story.get("cta") or None) if loop_vals.get("cta_card", True) else ""
-    video_path = compose_documentary(
-        image_paths=image_paths,
-        audio_path=tts["audio_path"],
-        caption_segments=captions,
-        title=story["title"],
-        audio_duration=tts["duration"],
-        word_segments=word_segments,
-        hook_text=hook_text,
-        cta_text=cta_text,
-    )
+
+    # ── 4a. Cartoon visuals (default since 2026-11-19) ────────────────────────
+    import config as _C
+    cartoon_bg = plan = None
+    if _C.VISUAL_STYLE == "cartoon":
+        print("\n--- STEP 4: Animating Cartoon Scenes ---")
+        try:
+            import cartoon
+            cartoon_bg, plan = cartoon.make_background(
+                story["script"], tts.get("word_timings") or [], tts["duration"],
+                os.path.join(SCENE_IMAGES_DIR, prefix, "cartoon_bg.mp4"), title=story["title"],
+                hook_text=hook_text, cta_text=cta_text or "", case_tag=video_composer.CASE_TAG)
+            story["visual"] = "cartoon"
+            story["cartoon_scenes"] = [{"set": s["set"], "source": s["source"]} for s in plan["scenes"]]
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            print(f"[Cartoon] FAILED ({str(e)[:200]}) - this video falls back to stock footage.")
+            cartoon_bg = None
+    if cartoon_bg:
+        story["images"], story["clips"] = [], []
+        image_paths = word_segments = None
+    else:
+        story["visual"] = "stock"
+
+    # ── 4b. Scene images (stock path, or the fallback when the cartoon failed) ──
+    if not cartoon_bg:
+        print("\n--- STEP 4: Fetching Scene Images ---")
+        image_dir = os.path.join(SCENE_IMAGES_DIR, prefix)
+        # The real place carries the visuals. story['location'] comes from the Wikipedia
+        # article, so it is the actual town/borough the case happened in.
+        uk_place = (story.get("location") or "").strip()
+        image_paths, word_segments, used_images, clips = generate_story_images(
+            story_title=story["title"],
+            story_text=story["script"],
+            output_dir=image_dir,
+            num_images=NUM_SCENE_IMAGES,
+            uk_place=uk_place,
+            uk=story.get("uk", True),
+        )
+        # Licences travel with the story so the copyright gate can check them before send.
+        story["images"] = used_images
+        story["clips"] = clips
+        uk_count = len(used_images)
+        print(f"  {len(image_paths)} images ready ({uk_count} real UK locations)")
+        # A silent fall-through to stock is how a whole run shipped with zero UK imagery
+        # while reporting success. If the feature is on and produced nothing, say so
+        # loudly — it means the case was not UK, or the place name did not resolve.
+        if UK_LOCATION_IMAGES and uk_count == 0:
+            print(f"  [WARN] UK imagery is enabled but produced NOTHING for "
+                  f"place={uk_place!r} — every scene fell back to stock footage.")
+
+    # ── 5. Compose ────────────────────────────────────────────────────────────
+    print("\n--- STEP 5: Composing Video ---")
+    import documentary_composer
+    documentary_composer.LOOP_END = loop_vals.get("length") == "short"
+    if "music_volume" in loop_vals:
+        documentary_composer.DOC_MUSIC_VOLUME = float(loop_vals["music_volume"])
+    if cartoon_bg:
+        video_path = documentary_composer.compose_cartoon(
+            cartoon_bg, tts["audio_path"], captions, title=story["title"],
+            audio_duration=tts["duration"], hook_text=hook_text, cta_text=cta_text)
+        # The cartoon gate (cartoon/qc.py): no text over faces or pop-ups, and every scene on
+        # screen while its sentence is spoken. run_cloud_deliver blocks a video that fails it.
+        print("\n--- STEP 5b: Cartoon Gate ---")
+        from cartoon import qc as cartoon_qc
+        story["cartoon_qc"] = cartoon_qc.check(plan, video_path)
+    else:
+        video_path = compose_documentary(
+            image_paths=image_paths,
+            audio_path=tts["audio_path"],
+            caption_segments=captions,
+            title=story["title"],
+            audio_duration=tts["duration"],
+            word_segments=word_segments,
+            hook_text=hook_text,
+            cta_text=cta_text,
+        )
 
     # ── 6. Log ────────────────────────────────────────────────────────────────
     _log({
@@ -426,7 +464,9 @@ def _log_post(detail: str, story: dict, video_path: str) -> None:
     row = {
         "posted_utc":   datetime.utcnow().strftime("%Y-%m-%dT%H:%M"),
         "video_id":     m.group(1) if m else "",
-        "format":       C.FORMAT_VERSION,
+        # a cartoon run whose renderer failed posts the stock version: log it as that format
+        "format":       ("v5-tight" if (C.FORMAT_VERSION == "v6-cartoon" and story.get("visual") == "stock")
+                         else C.FORMAT_VERSION),
         "narrator_ref": os.path.basename(C.CHATTERBOX_REFERENCE),
         "exaggeration": C.CHATTERBOX_EXAGGERATION,
         "cfg_weight":   C.CHATTERBOX_CFG_WEIGHT,
@@ -565,6 +605,27 @@ def _credit_line(images, limit=400) -> str:
     return line if len(line) <= limit else line[:limit - 1] + "…"
 
 
+def _visual_context() -> str:
+    """What the AI reviewer should expect to see (it judges frames against this)."""
+    import config as C
+    if C.VISUAL_STYLE == "cartoon":
+        return ("BuriedCasefiles: calm, factual true-crime shorts about real cases. An AI narrator reads "
+                "the script while simple original 2D cartoon scenes act out each sentence as it is spoken: "
+                "round-headed stick characters (detectives, police, a judge, ordinary people) in simple sets "
+                "such as a police office, a courtroom, a street at night or a map, with pop-up icons, short "
+                "labels and stamps. Real people are never drawn realistically; an unidentified or convicted "
+                "culprit is a faceless shadow figure. No violence is ever shown. A hook card opens the video "
+                "and a closing card asks viewers what they think. The post has no separate title. "
+                "Every set is an invented generic drawing, never a real place: a drawn room or street is "
+                "not a photo of a real private home. "
+                "Check that the scenes, in order, follow the narration script, and flag any frame where "
+                "on-screen text covers a character's face or a pop-up.")
+    return ("BuriedCasefiles: calm, factual true-crime documentaries about real cases. "
+            "An AI narrator reads the script over sombre mood footage (fog, rain, empty "
+            "streets, police tape), photos of the real place, and archive images; a hook "
+            "card opens the video and a closing card asks viewers what they think.")
+
+
 def _gate_profile(sample=False):
     """Upload-gate settings for the documentaries (see upload_gate.DEFAULT_PROFILE)."""
     return {
@@ -577,10 +638,7 @@ def _gate_profile(sample=False):
         "ai_review": "required",         # no coherence review = no post
         "ai_daily_cap": AI_DAILY_CAP,
         "ai_realistic": True,            # AI narrator over real places -> TikTok AI label
-        "ai_context": ("BuriedCasefiles: calm, factual true-crime documentaries about real cases. "
-                       "An AI narrator reads the script over sombre mood footage (fog, rain, empty "
-                       "streets, police tape), photos of the real place, and archive images; a hook "
-                       "card opens the video and a closing card asks viewers what they think."),
+        "ai_context": _visual_context(),
         "ledger": None if sample else os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                                    "upload_gate_log.json"),
     }
@@ -794,6 +852,18 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                     f"Not sent. Nothing to post."
                 )
                 print(f"[Cloud] BLOCKED by guidelines gate ({verdict}) — not delivering.")
+                continue
+
+            # The cartoon gate (cartoon/qc.py, run in _generate_one): text over a face or a
+            # pop-up, or a scene out of step with the narration, holds the video back.
+            cqc = story.get("cartoon_qc")
+            if story.get("visual") == "cartoon" and not (cqc or {}).get("ok"):
+                reasons = chr(10).join(f"• {f}" for f in ((cqc or {}).get("failures") or ["cartoon gate did not run"])[:6])
+                _app("gate_blocked", "warn", "BuriedCasefiles: cartoon gate held a video back",
+                     f"{story.get('title', '?')}\n\n{reasons}\n\nNot sent. Making another video.")
+                send_alert("🛑 <b>Video blocked — cartoon gate</b>" + chr(10) * 2 + esc(story.get("title", "?"))
+                           + chr(10) * 2 + esc(reasons) + chr(10) * 2 + "Not sent. Making another video.")
+                print("[Cloud] BLOCKED by the cartoon gate:" + "".join(f"\n    ! {f}" for f in (cqc or {}).get("failures", [])))
                 continue
 
             # Lead the caption with the case-name title the working UK crime accounts
