@@ -7095,6 +7095,76 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-19T17:53:39+00:00",
+   "platform": "tiktok",
+   "file": "She_vanished_for_six_weeks_Nobody_notice_20261119_175031.mp4",
+   "sha256": "e9d3c355360306bce5bf1d19c7bc30a9e3bc54cbfaa12efce735f507737bda78",
+   "head": "Inside the Joy Morgan case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.692,
+   "report": {
+    "seconds": 35.6,
+    "lufs": -15.0,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4236,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
+  },
+  {
+   "checked_at": "2026-11-19T18:07:13+00:00",
+   "platform": "tiktok",
+   "file": "Cold_Blooded_Murder_Inside_Historic_Stan_20261119_180513.mp4",
+   "sha256": "ac64bc33523fca1f2b06dea53db833b4329284447a25fcb5ba655f647af21706",
+   "head": "Murders at Stanfield Hall case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.589,
+   "report": {
+    "seconds": 18.63,
+    "lufs": -14.9,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 4183,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]"
+   }
   }
  ]
 }

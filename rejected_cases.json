@@ -1,124 +1,4 @@
 {
- "Murder of Heshu Yones": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Battersea Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Kidnapping and killing of Anson Que": {
-  "stage": "prefilter",
-  "code": "active_proceedings",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Marie Goudreau": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Death of Katrien De Cuyper": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Dawn Magyar": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Rhys Jones": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Queenie Hart": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Nurbank murder case": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Aamir Siddiqi": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Kidnapping of Ese Oruru": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Sara Sharif": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Karmein Chan": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Mary-Ann Leneghan": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Susana Morales": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Fanny Adams": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Disappearance of Elizabeth Clarke": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Julia Martha Thomas": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "2014 Colchester murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murder of Victoria Hall": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Green Bicycle Case": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4433,12 +4313,6 @@
   "date": "2026-11-17",
   "strikes": 2
  },
- "Kidnapping of Swiss tourists in Balochistan": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-17",
-  "strikes": 1
- },
  "3 July Affair": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4667,12 +4541,6 @@
   "date": "2026-11-18",
   "strikes": 1
  },
- "Claustre Affair": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-18",
-  "strikes": 1
- },
  "Ceylanpınar incident": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4696,12 +4564,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-18",
   "strikes": 1
- },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-11-18",
-  "strikes": 51
  },
  "Murder of Mee Kuen Chong": {
   "stage": "prefilter",
@@ -4793,10 +4655,148 @@
   "date": "2026-11-19",
   "strikes": 1
  },
+ "Murder of Jakob von Metzler": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Kidnapping of Swiss tourists in Balochistan": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-19",
+  "strikes": 2
+ },
+ "Kidnapping of Shelly Kittleson": {
+  "stage": "prefilter",
+  "code": "active_proceedings",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Hammersmith Ghost murder case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Sally Anne Bowman": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Marie Goudreau": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Prosper family murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Claire Woolterton": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-19",
+  "strikes": 52
+ },
+ "Death of Katrien De Cuyper": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Simonetta Ferrero": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Battersea Mystery": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Dawn Magyar": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Kidnapping and killing of Anson Que": {
+  "stage": "prefilter",
+  "code": "active_proceedings",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Rhys Jones": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Death of Ophélie Bretnacher": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Kidnapping of Ese Oruru": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
  "Murder of Jessie Earl": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-19",
-  "strikes": 123
+  "strikes": 124
+ },
+ "Murder of Karmein Chan": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Sara Sharif": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Claustre Affair": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-19",
+  "strikes": 2
+ },
+ "Nurbank murder case": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Julia Martha Thomas": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Guaratuba child murders": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-19",
+  "strikes": 1
  }
 }
