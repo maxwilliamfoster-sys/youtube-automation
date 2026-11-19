@@ -19,7 +19,8 @@ REAL_AUTOPOST = md._autopost_tiktok
 
 def _story(n):
     return {"title": f"Case {n}", "script": "words", "caption": "cap", "images": [],
-            "compliance": {"verdict": "OK"}, "legal": {"ok": True}}
+            "compliance": {"verdict": "OK"}, "legal": {"ok": True},
+            "visual": "cartoon", "cartoon_qc": {"ok": True, "failures": [], "stats": {}}}
 
 
 class TestRetryUntilPass(unittest.TestCase):
@@ -71,6 +72,37 @@ class TestRetryUntilPass(unittest.TestCase):
         self.assertEqual(self.made, 5)
         self.assertEqual(self.posted, ["Case 5"])
         self.assertIn("catchup=false", self._output())
+
+    def test_a_stock_video_is_never_posted(self):
+        # Every upload on this account is animated: a video that is not a cartoon is held
+        # back even when every other gate passes, and the run makes another one.
+        stock = iter([True, False])
+        real_gen = md._generate_one
+
+        def gen():
+            story, path = real_gen()
+            if next(stock, False):
+                story = dict(story, visual="stock", cartoon_qc=None)
+            return story, path
+        mock.patch.object(md, "_generate_one", gen).start()
+        self._gate_seq([{"ok": True, "failures": []}] * 2)
+        md.run_cloud_deliver(count=1)
+        self.assertEqual(self.made, 2)
+        self.assertEqual(self.posted, ["Case 2"])
+
+    def test_cartoon_gate_fail_is_not_posted(self):
+        real_gen = md._generate_one
+        first = iter([True])
+
+        def gen():
+            story, path = real_gen()
+            if next(first, False):
+                story = dict(story, cartoon_qc={"ok": False, "failures": ["end card covers a face"]})
+            return story, path
+        mock.patch.object(md, "_generate_one", gen).start()
+        self._gate_seq([{"ok": True, "failures": []}] * 2)
+        md.run_cloud_deliver(count=1)
+        self.assertEqual(self.posted, ["Case 2"])
 
     def test_ai_outage_rechecks_the_same_video(self):
         down = {"ok": False, "failures": ["AI review unavailable: HTTP 503"],

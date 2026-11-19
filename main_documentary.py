@@ -226,15 +226,16 @@ def _generate_one() -> tuple:
         except Exception as e:
             import traceback
             traceback.print_exc()
-            print(f"[Cartoon] FAILED ({str(e)[:200]}) - this video falls back to stock footage.")
-            cartoon_bg = None
+            # Every video on this account is animated (Max, 2026-11-19): a failed cartoon
+            # drops this video instead of quietly posting stock footage.
+            raise RuntimeError(f"cartoon animation failed, video dropped (no stock fallback): {str(e)[:200]}")
     if cartoon_bg:
         story["images"], story["clips"] = [], []
         image_paths = word_segments = None
     else:
         story["visual"] = "stock"
 
-    # ── 4b. Scene images (stock path, or the fallback when the cartoon failed) ──
+    # ── 4b. Scene images (only when VISUAL_STYLE is "stock"; never posted while it is "cartoon") ──
     if not cartoon_bg:
         print("\n--- STEP 4: Fetching Scene Images ---")
         image_dir = os.path.join(SCENE_IMAGES_DIR, prefix)
@@ -856,8 +857,14 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
 
             # The cartoon gate (cartoon/qc.py, run in _generate_one): text over a face or a
             # pop-up, or a scene out of step with the narration, holds the video back.
+            # With VISUAL_STYLE "cartoon" (the default), a video that is not a cartoon is
+            # never posted: every upload on this account is animated.
+            import config as _cfg
+            all_cartoon = _cfg.VISUAL_STYLE == "cartoon"
             cqc = story.get("cartoon_qc")
-            if story.get("visual") == "cartoon" and not (cqc or {}).get("ok"):
+            if all_cartoon and story.get("visual") != "cartoon":
+                cqc = {"ok": False, "failures": ["not an animated video (every post on this account must be a cartoon)"]}
+            if (all_cartoon or story.get("visual") == "cartoon") and not (cqc or {}).get("ok"):
                 reasons = chr(10).join(f"• {f}" for f in ((cqc or {}).get("failures") or ["cartoon gate did not run"])[:6])
                 _app("gate_blocked", "warn", "BuriedCasefiles: cartoon gate held a video back",
                      f"{story.get('title', '?')}\n\n{reasons}\n\nNot sent. Making another video.")
