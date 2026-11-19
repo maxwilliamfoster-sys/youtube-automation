@@ -1,214 +1,4 @@
 {
- "Disappearance of Morgan Nick": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Hinterkaifeck murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Lakshmikanthan murder case": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murders of Tay Chow Lyang and Tony Tan Poh Chuan": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Lambeth slavery case": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murder of George Murdoch": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Keith Blakelock": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murder of James Bulger": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Allan Chappelow": {
-  "stage": "factcheck_unsafe",
-  "code": "factcheck_unsafe",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Kidnapping of Jaycee Dugard": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Musharraf high treason case": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Killing of Peter Connelly": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Claire Woolterton": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Claire Leveque": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murder of Jeanne Van Calck": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murders of Vanja Gjorchevska and Panche Zhezhovski": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Killing of Usama Nadeem Satti": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murder of Kacie Woody": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Killing of Scott Guy": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Pottery Cottage murders": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Disappearance of the Ameen family": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Xuzhou chained woman incident": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Cecilia Zhang": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Helen Gorrie": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Moorhouse Affair": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murder of June Anne Devaney": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Jakob von Metzler": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Holly Bobo": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Kidnapping of Shelly Kittleson": {
-  "stage": "prefilter",
-  "code": "active_proceedings",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Prosper family murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Guaratuba child murders": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Sandeep Kothari": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murders of Eve Stratford and Lynne Weedon": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Killing of David Morley": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-27",
-  "strikes": 2
- },
- "Murder of Sally Anne Bowman": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "2012 Karlsruhe murders": {
   "stage": "prescreen",
   "code": "other",
@@ -4319,12 +4109,6 @@
   "date": "2026-11-15",
   "strikes": 1
  },
- "Robert Brown case": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-15",
-  "strikes": 4
- },
  "Murder of Michalis Katsouris": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4649,12 +4433,6 @@
   "date": "2026-11-17",
   "strikes": 1
  },
- "Levi Bellfield": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-17",
-  "strikes": 6
- },
  "Murder of Fawziyah Javed": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4745,12 +4523,6 @@
   "date": "2026-11-18",
   "strikes": 1
  },
- "Murder of Jessie Earl": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-18",
-  "strikes": 119
- },
  "Ding family murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4762,12 +4534,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-18",
   "strikes": 1
- },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-11-18",
-  "strikes": 50
  },
  "Killing of Rachel Nickell": {
   "stage": "prefilter",
@@ -4797,6 +4563,240 @@
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Penny Bell": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Ann Heron": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Joy Morgan": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Disappearance of Morgan Nick": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murders of Tay Chow Lyang and Tony Tan Poh Chuan": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Suzanne Pilley": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Rey-Maupin affair": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Disappearance of Kyron Horman": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Lambeth slavery case": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Margaret Cook": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Kidnapping of Jaycee Dugard": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Rita Ellis": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Levi Bellfield": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 8
+ },
+ "Hinterkaifeck murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Killing of Peter Connelly": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Keith Blakelock": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of James Bulger": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Lakshmikanthan murder case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Claustre Affair": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Ceylanpınar incident": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Jeanne Van Calck": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murders of Vanja Gjorchevska and Panche Zhezhovski": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of George Murdoch": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-18",
+  "strikes": 51
+ },
+ "Murder of Mee Kuen Chong": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Michelle Gardner-Quinn": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Jessie Earl": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 122
+ },
+ "Murder of Helen Gorrie": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Sabina Nessa": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Kacie Woody": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Robert Brown case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 5
+ },
+ "Murders of John Greenwood and Gary Miller": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Teresa De Simone": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of June Anne Devaney": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Holly Bobo": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-18",
+  "strikes": 1
+ },
+ "Murder of Maëlys de Araujo": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Pottery Cottage murders": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Murder of Allan Chappelow": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-19",
+  "strikes": 1
+ },
+ "Xuzhou chained woman incident": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-19",
   "strikes": 1
  }
 }
