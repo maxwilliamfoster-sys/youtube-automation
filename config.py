@@ -143,7 +143,12 @@ CHATTERBOX_TEMPO = float(os.getenv("CHATTERBOX_TEMPO", "1.2"))
 #   v4-mood-visuals: 2026-10-13 .. (hook + 2/3 of scenes use per-line mood footage, real-
 #                  place photos only every 3rd scene, title must name the place, vivid/
 #                  animal/painting/shop photos refused, EXIF rotation applied)
-FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v5-tight")
+#   v6-cartoon: 2026-11-19 .. (stock footage replaced by generated 2D cartoon scenes, one per
+#                  sentence, actions timed to the spoken words: cartoon/; same voice/captions/gates)
+# VISUAL_STYLE: "cartoon" (default since 2026-11-19) or "stock" (the old Pexels b-roll path).
+# A cartoon failure falls back to stock for that one video, so a renderer bug never loses a post.
+VISUAL_STYLE = os.getenv("VISUAL_STYLE", "cartoon").strip().lower()
+FORMAT_VERSION = os.getenv("FORMAT_VERSION", "v6-cartoon" if VISUAL_STYLE == "cartoon" else "v5-tight")
 
 TTS_DOCUMENTARY_VOICE = "bm_george"   # British male, deep documentary narrator
 TTS_DOCUMENTARY_SPEED = 1.05          # 2026-11-02: 0.90 turned a 115-word script into 50-60 s. Under 45 s is watched 33% vs 22%, same views

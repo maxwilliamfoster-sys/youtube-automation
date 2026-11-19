@@ -572,9 +572,11 @@ def add_audio_and_captions(
     output_path: str,
     hook_text: str = None,
     cta_text: str = None,
+    grade_name: str = None,
 ) -> str:
     """Burn captions (plus optional hook + follow CTA overlays) and mix audio
-    onto the background documentary video."""
+    onto the background documentary video. grade_name='none' skips the colour
+    grade (the cartoon visuals are already graded and must stay vivid)."""
 
     # A single cinematic grade over everything. Each video stitches ~12 stock clips
     # shot by different people in different light, and untouched they read as a pile
@@ -608,7 +610,8 @@ def add_audio_and_captions(
             "vignette=PI/5.5"
         ),
     }
-    grade = grades.get(os.getenv("VISUAL_GRADE", "overcast"), grades["overcast"])
+    grades["none"] = "null"
+    grade = grades.get(grade_name or os.getenv("VISUAL_GRADE", "overcast"), grades["overcast"])
     # Safety net only (the background is already asserted >= audio + 0.5 s): a
     # sub-second clone of the last frame so a stray frame shortfall can never leave
     # the end of the video undecodable. -t below still sets the exact length; no
@@ -620,11 +623,22 @@ def add_audio_and_captions(
         hook_text=hook_text, cta_text=cta_text, total_duration=audio_duration,
     )
 
+    # Windows caps a command line at 32,767 chars and a long caption filter can pass that
+    # (WinError 206). There the filter goes in a file read with FFmpeg 7+'s "-/vf"; Linux CI
+    # (FFmpeg 6, no such limit) keeps the plain -vf.
+    vf_args = ["-vf", vf_filter]
+    filter_file = None
+    if os.name == "nt" and len(vf_filter) > 20000:
+        filter_file = os.path.abspath(output_path) + ".vf.txt"
+        with open(filter_file, "w", encoding="utf-8") as fh:
+            fh.write(vf_filter)
+        vf_args = ["-/vf", filter_file.replace("\\", "/")]
+
     cmd = [
         FFMPEG, "-y",
         "-i", os.path.abspath(bg_video).replace("\\", "/"),
         "-i", os.path.abspath(audio_path).replace("\\", "/"),
-        "-vf", vf_filter,
+        *vf_args,
         "-map", "0:v:0",
         "-map", "1:a:0",
         "-t", str(audio_duration + 0.5),
@@ -641,6 +655,8 @@ def add_audio_and_captions(
     ]
 
     result = subprocess.run(cmd, capture_output=True, text=True)
+    if filter_file and os.path.exists(filter_file):
+        os.remove(filter_file)
     if result.returncode != 0:
         print(f"[DocCompose] Caption/audio error:\n{result.stderr[-2000:]}")
         raise RuntimeError("Audio + caption overlay failed")
@@ -680,6 +696,38 @@ def add_loop_end(path: str) -> str:
     os.replace(tmp, path)
     print(f"[DocCompose] Loop end: last {LOOP_D}s dissolves into the first frame.")
     return path
+
+
+# ─── Cartoon composer (2026-11-19) ────────────────────────────────────────────
+def compose_cartoon(
+    bg_path: str,
+    audio_path: str,
+    caption_segments: List[Dict],
+    title: str = "true_crime",
+    audio_duration: float = None,
+    hook_text: str = None,
+    cta_text: str = "Follow for more unsolved cases",
+) -> str:
+    """Finish a cartoon background (cartoon.make_background) exactly like a stock-footage
+    one: same captions, hook + CTA cards, music bed and loop end - minus the colour grade."""
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    safe_title = "".join(c for c in title if c.isalnum() or c in " _-").replace(" ", "_")[:40]
+    output_path = os.path.join(OUTPUT_DIR, f"{safe_title}_{timestamp}.mp4")
+    work_dir = os.path.join(OUTPUT_DIR, f"_tmp_{timestamp}")
+    os.makedirs(work_dir, exist_ok=True)
+    if audio_duration is None:
+        audio_duration = get_video_duration(audio_path)
+    _ensure_background_covers(bg_path, audio_duration)
+    final_audio = mix_background_music(audio_path, audio_duration, work_dir) if MUSIC_ENABLED else audio_path
+    add_audio_and_captions(bg_path, final_audio, caption_segments, audio_duration, output_path,
+                           hook_text=hook_text, cta_text=cta_text, grade_name="none")
+    if LOOP_END:
+        add_loop_end(output_path)
+    shutil.rmtree(work_dir, ignore_errors=True)
+    print(f"\n[DocCompose] Cartoon complete: {output_path} "
+          f"({os.path.getsize(output_path) / (1024 * 1024):.1f} MB)")
+    return output_path
 
 
 # ─── Main composer ────────────────────────────────────────────────────────────

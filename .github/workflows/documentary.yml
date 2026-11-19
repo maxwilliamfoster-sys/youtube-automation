@@ -136,7 +136,7 @@ jobs:
         timeout-minutes: 12          # apt hung 45 min on a runner with broken DNS (GifTok, 2026-11-11)
         run: |
           for try in 1 2 3; do
-            sudo timeout 150 apt-get update -qq; sudo timeout 240 apt-get install -y -qq --no-install-recommends ffmpeg espeak-ng libsndfile1 libgomp1 && exit 0
+            sudo timeout 150 apt-get update -qq; sudo timeout 240 apt-get install -y -qq --no-install-recommends ffmpeg espeak-ng libsndfile1 libgomp1 libcairo2-dev pkg-config fonts-dejavu-core fontconfig && exit 0
             echo "apt attempt $try failed or timed out"; sleep 20
           done
           exit 1
@@ -160,6 +160,16 @@ jobs:
       # The old music downloads 404'd on every run.
       - name: Download caption font
         run: python setup_music.py --font-only
+
+      # Cartoon visuals (cartoon/): pycairo draws text through fontconfig, so the
+      # bold label/stamp font must be installed system-wide, not just sit in assets/.
+      - name: Install cartoon fonts
+        run: |
+          mkdir -p ~/.local/share/fonts
+          cp assets/MontserratBold.ttf ~/.local/share/fonts/
+          fc-cache -f >/dev/null
+          fc-list | grep -ci montserrat
+          python -c "import cairo; print('pycairo', cairo.version)"
 
       # ── Secrets → .env (generation keys + Telegram delivery) ──────────────────
       - name: Write .env
