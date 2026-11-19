@@ -202,6 +202,16 @@ class TestCartoonGate(unittest.TestCase):
         failures, _ = qc.check_sync(pl, late)
         self.assertTrue(any("scene 2" in f for f in failures), failures)
 
+    def test_scene_may_start_a_little_early_but_not_late(self):
+        from cartoon import qc
+        script, pl = _court_plan(9.0)
+        engine.prepare(pl, [], seed=1)
+        words = _words(script, 0.4)
+        early = [{**w, "start": w["start"] + 0.9, "end": w["end"] + 0.9} for w in words]   # scene 0.9 s early
+        self.assertFalse(any("starts" in f for f in qc.check_sync(pl, early)[0]))
+        late = [{**w, "start": w["start"] - 0.9, "end": w["end"] - 0.9} for w in words]    # scene 0.9 s late
+        self.assertTrue(any("after its first word" in f for f in qc.check_sync(pl, late)[0]))
+
     def test_sync_fails_closed_without_a_transcript(self):
         from cartoon import qc
         _, pl = _court_plan()

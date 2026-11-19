@@ -25,7 +25,9 @@ MIN_CLASH_S = 0.25      # shorter clashes are a pop-in overshoot, not a problem
 COVERAGE_MIN = 0.5      # share of the script Whisper must find before timing is judged
 SCENE_SYNC_MIN = 0.7    # share of a scene's heard words spoken while it is on screen
 SYNC_SLACK = 0.35       # a word this close to a scene change may sit either side
-START_SLACK = 0.7       # a scene may start this far from its first spoken word
+START_SLACK = 0.7       # a scene may start this far AFTER its first spoken word...
+EARLY_SLACK = 1.2       # ...or this far before it (it shows in the pause before the sentence; a
+                        # 0.8 s early start blocked a fine video in run 44585277817)
 CUE_SLACK = 0.6         # a pop-up or gesture may land this far from its word
 MOVING_ACTIONS = {"walk_in", "walk_out", "point", "shrug", "look_up", "hold", "phone", "slam", "write", "nod",
                   "react"}
@@ -99,8 +101,8 @@ def check_sync(plan, heard_words):
             if len(said) >= 3 and share < SCENE_SYNC_MIN:
                 failures.append(f"scene {k + 1} ('{quote}') is on screen at {sc['t0']:.1f}-{sc['t1']:.1f} s "
                                 f"but the narrator says it at {min(said):.1f}-{max(said):.1f} s")
-        if k and heard[a] is not None and abs(heard[a] - sc["t0"]) > START_SLACK:
-            gap = sc["t0"] - heard[a]
+        gap = sc["t0"] - heard[a] if heard[a] is not None else 0.0
+        if k and (gap > START_SLACK or -gap > EARLY_SLACK):
             failures.append(f"scene {k + 1} ('{quote}') starts {abs(gap):.1f} s "
                             f"{'after' if gap > 0 else 'before'} its first word")
         for item in sc["props"] + sc["actors"]:
