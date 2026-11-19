@@ -233,7 +233,8 @@ jobs:
         # 'true' = all blocked; also a crash before the script could say (no output at all)
         if: >-
           always() && github.event.inputs.mode != 'sample'
-          && (steps.make.outputs.catchup == 'true' || (steps.make.outcome == 'failure' && steps.make.outputs.catchup == ''))
+          && (steps.make.outputs.catchup == 'true'
+              || ((steps.make.outcome == 'failure' || steps.make.outcome == 'skipped') && steps.make.outputs.catchup == ''))
           && fromJSON(github.event.inputs.catchup || '0') < 2
         env:
           GH_TOKEN: ${{ github.token }}
@@ -247,6 +248,26 @@ jobs:
           NEXT=$((ROUND + 1))
           gh workflow run documentary.yml --ref "${GITHUB_REF_NAME}" -f mode=generate -f count=${{ github.event.inputs.count || '1' }} -f catchup="$NEXT"
           echo "Catch-up run $NEXT/2 started."
+
+      # ── Keep the day on schedule: GitHub starts crons hours late ───────────────
+      # After a run that delivered, if today has fewer videos than the slots already due
+      # (09:15 / 12:45 / 15:45 UK), start the next run now rather than waiting for the next
+      # late cron (Nov 2026: crons ~9 h late, 1 post on 18 Nov). Stops at 3 a day and after
+      # 21:00 UK; never after a failed run (the capped catch-up above handles those).
+      - name: Start the next video if the day is behind
+        if: >-
+          always() && github.event.inputs.mode != 'sample'
+          && steps.make.outcome == 'success' && steps.make.outputs.catchup != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python slot_logic.py chain | tee /tmp/chain.txt
+          grep -q "chain=True" /tmp/chain.txt || exit 0
+          OTHERS=$(gh run list -R "$GITHUB_REPOSITORY" -w documentary.yml --json databaseId,status \
+            -q "[.[] | select(.databaseId != ${GITHUB_RUN_ID} and (.status==\"queued\" or .status==\"in_progress\" or .status==\"waiting\" or .status==\"pending\"))] | length")
+          if [ "$OTHERS" != "0" ]; then echo "Another documentary run is queued or running - it makes the next video."; exit 0; fi
+          gh workflow run documentary.yml --ref "${GITHUB_REF_NAME}" -f mode=generate -f count=1
+          echo "Day is behind schedule - next video's run started."
 
       # ── Backup copy: downloadable from the run page for 2 days ─────────────────
       # Telegram is the real delivery path; this is only a fallback. It is allowed to

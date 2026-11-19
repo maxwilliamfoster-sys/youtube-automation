@@ -86,5 +86,22 @@ class TestCloudRunStopsAtTheCap(unittest.TestCase):
         gen.assert_not_called()
 
 
+class TestChain(unittest.TestCase):
+    def test_slots_due_by_uk_time(self):
+        self.assertEqual(slot_logic.due_by(datetime(2026, 11, 19, 9, 0)), 0)
+        self.assertEqual(slot_logic.due_by(datetime(2026, 11, 19, 12, 45)), 2)
+        self.assertEqual(slot_logic.due_by(datetime(2026, 11, 19, 17, 0)), 3)
+
+    def test_late_day_chains_until_caught_up(self):
+        # 18 Nov 2026: the first cron started at ~17:00; the day needs 3 videos by then
+        self.assertTrue(slot_logic.should_chain(1, datetime(2026, 11, 19, 17, 40)))
+        self.assertTrue(slot_logic.should_chain(2, datetime(2026, 11, 19, 18, 30)))
+        self.assertFalse(slot_logic.should_chain(3, datetime(2026, 11, 19, 19, 10)))
+
+    def test_no_chain_when_on_schedule_or_too_late(self):
+        self.assertFalse(slot_logic.should_chain(1, datetime(2026, 11, 19, 10, 0)))   # only one slot due
+        self.assertFalse(slot_logic.should_chain(0, datetime(2026, 11, 19, 21, 5)))   # past the last start
+
+
 if __name__ == "__main__":
     unittest.main()
