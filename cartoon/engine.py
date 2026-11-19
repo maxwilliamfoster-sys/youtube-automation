@@ -14,7 +14,9 @@ import zlib
 
 import cairo
 
-from .kit import (W, H, SafeCtx, back, card, clamp, draw_icon, eio, lerp, p, person, src, stamp, vignette)
+from .kit import (W, H, SafeCtx, back, card, clamp, draw_icon, eio, fit_size, lerp, p, person, src, stamp,
+                  text_width, vignette)
+from .layout import active, overlap
 from .sets import SETS
 
 FPS = 30
@@ -118,19 +120,60 @@ def _actor_kwargs(a, sc, t, floor, tint):
 
 
 # ---------- props ----------
+STAMP_SLOTS = [STAMP_SLOT, (540, 905)]
+_MEASURE = None
+
+
+def _measure():
+    global _MEASURE
+    if _MEASURE is None:
+        _MEASURE = SafeCtx(cairo.ImageSurface(cairo.FORMAT_ARGB32, 4, 4))
+    return _MEASURE
+
+
+def prop_box(pr, slot):
+    """Screen box a pop-up covers once fully in (its drop shadow and bob included)."""
+    x, y = slot
+    if pr["kind"] == "icon":
+        r = 118 * (0.8 if y < 700 else 0.64) + 6
+        return (x - r, y - r - 6, x + r + 6, y + r + 16)
+    ctx = _measure()
+    if pr["kind"] == "label":
+        size = fit_size(ctx, pr["value"], 860 - 70, 66)
+        w, h = text_width(ctx, pr["value"], size) + 70, size * 1.55
+        return (x - w / 2 - 4, y - h / 2 - 10, x + w / 2 + 10, y + h / 2 + 16)
+    size = fit_size(ctx, pr["value"], 900 - 80, 96)
+    w, h = text_width(ctx, pr["value"], size) + 74, size * 1.44 + 14
+    bw, bh = w * math.cos(0.14) + h * math.sin(0.14), w * math.sin(0.14) + h * math.cos(0.14)
+    return (x - bw / 2, y - bh / 2 - 6, x + bw / 2, y + bh / 2 + 6)
+
+
 def _layout_props(props):
-    out, icons, labels, stamped = [], list(ICON_SLOTS), list(LABEL_SLOTS), False
+    """Slots chosen by prepare(); a plan rendered without it gets the first free slots."""
+    if all("slot" in pr for pr in props):
+        return [(pr, tuple(pr["slot"])) for pr in props if pr["slot"]]
+    return [(pr, s) for pr, s in _assign_slots(props, [], 1e9)]
+
+
+def _assign_slots(props, zones, t_end):
+    """First slot for each pop-up that keeps it off the text shown while it is up and off
+    the pop-ups already placed. A pop-up with no clear slot takes the first slot not
+    covered by another pop-up (cartoon.qc then reports the clash); one with neither is dropped."""
+    out, boxes, stamped = [], [], False
     for pr in props:
-        if pr["kind"] == "stamp" and not stamped:
-            stamped = True
-            out.append((pr, STAMP_SLOT))
-            if (540, 470) in labels:
-                labels.remove((540, 470))
-            icons = [s for s in icons if s[1] != 470]
-        elif pr["kind"] == "label" and labels:
-            out.append((pr, labels.pop(0)))
-        elif pr["kind"] == "icon" and icons:
-            out.append((pr, icons.pop(0)))
+        if pr["kind"] == "stamp":
+            if stamped:
+                continue
+            stamped, cands = True, STAMP_SLOTS
+        else:
+            cands = LABEL_SLOTS if pr["kind"] == "label" else ICON_SLOTS
+        text = [z["box"] for z in active(zones, pr["t"], t_end)]
+        free = [c for c in cands if not any(overlap(prop_box(pr, c), b) for b in boxes)]
+        clear = [c for c in free if not any(overlap(prop_box(pr, c), b) for b in text)]
+        pick = (clear or free or [None])[0]
+        if pick:
+            out.append((pr, pick))
+            boxes.append(prop_box(pr, pick))
     return out
 
 
@@ -149,20 +192,139 @@ def _draw_prop(ctx, pr, slot, t):
         draw_icon(ctx, pr["value"], x, y, s * back(k), t=t, rot=math.sin(t * 1.7 + x) * 0.05)
 
 
-# ---------- frames ----------
-def draw_frame(ctx, plan, t, seed):
+# ---------- keeping faces and pop-ups clear of the burned-in text ----------
+# Head box around the head centre in units of the actor's scale: the face (R=88) plus
+# hats, wigs and hair, so the camera keeps a margin. cartoon.qc checks the face alone.
+HEAD_SAFE = (-112, -140, 112, 100)
+FACE_R = 88
+FACE_MARGIN = (-96, -100, 96, 96)
+SAFE_Y = (150, 1560)        # heads stay below the status bar and above TikTok's bottom UI
+# Parts of a set that carry meaning (world boxes), kept clear like faces.
+SET_KEYS = {"newsroom": [("the NEWS screen", (300, 600, 780, 780))]}
+CAM_SHIFTS = sorted(range(-360, 361, 8), key=abs)
+ZOOM_CAPS = (None, 1.15, 1.08, 1.02)
+
+
+def _scene_at(plan, t):
     scenes = plan["scenes"]
     sc = next((s for s in scenes if s["t0"] <= t < s["t1"]), scenes[-1])
-    idx = scenes.index(sc)
+    return sc, scenes.index(sc)
+
+
+def _poses(sc, t, seed):
+    floor = SETS[sc["set"]]["floor"]
+    return [_actor_kwargs(a, sc, t, floor, (seed + zlib.crc32(f"{a['role']}{a['spot']}".encode())) % 97)
+            for a in sc["actors"]]
+
+
+def _head_world(x, y, s, box=HEAD_SAFE):
+    cy = y - 422 * s                      # person(): feet at y, head centre LEG + 150 + 72 above
+    return (x + box[0] * s, cy + box[1] * s, x + box[2] * s, cy + box[3] * s)
+
+
+def _to_screen(b, cam):
+    z, cx, cy = cam
+    return ((b[0] - cx) * z + W / 2, (b[1] - cy) * z + H / 2, (b[2] - cx) * z + W / 2, (b[3] - cy) * z + H / 2)
+
+
+def _fixed(cam, fix):
+    z, cx, cy = cam
+    d, zc = fix or (0, None)
+    if zc and z > zc:
+        z = zc
+    return z, cx, cy - d / z
+
+
+def _camera_at(sc, t, poses):
+    return _fixed(_camera(sc, t, [(x, y) for x, y, _ in poses]), sc.get("cam_fix"))
+
+
+def _clash(cam, heads, avoid):
+    """Area of heads covered by the avoid boxes, plus any head pushed off the safe height."""
+    cost = 0.0
+    for hb in heads:
+        sb = _to_screen(hb, cam)
+        if sb[2] < 0 or sb[0] > W:        # walked off screen
+            continue
+        if sb[1] < SAFE_Y[0] or sb[3] > SAFE_Y[1]:
+            cost += 1e4
+        for a in avoid:
+            cost += overlap(sb, a)
+    return cost
+
+
+def _plan_camera(sc, zones, seed):
+    """One vertical offset (and, if that is not enough, a zoom cap) for the whole scene,
+    the smallest that keeps every head clear of the text and the pop-ups at every moment.
+    Tries the roomy head box (hats, hair) first, then the face with a small margin."""
+    dur = sc["t1"] - sc["t0"]
+    n = max(2, min(60, int(dur / 0.1)))
+    cands = sorted(((d, zc) for zc in ZOOM_CAPS for d in CAM_SHIFTS),
+                   key=lambda c: abs(c[0]) + 260 * ZOOM_CAPS.index(c[1]))
+    best = (0, None)
+    for head_box in (HEAD_SAFE, FACE_MARGIN):
+        samples = []
+        for i in range(n + 1):
+            t = sc["t0"] + dur * i / n
+            poses = _poses(sc, t, seed)
+            heads = [_head_world(x, y, kw["s"], head_box) for x, y, kw in poses]
+            heads += [b for _, b in SET_KEYS.get(sc["set"], [])]
+            avoid = [z["box"] for z in active(zones, t)]
+            avoid += [prop_box(pr, pr["slot"]) for pr in sc["props"] if pr.get("slot") and t >= pr["t"] - 0.05]
+            samples.append((_camera(sc, t, [(x, y) for x, y, _ in poses]), heads, avoid))
+        best_cost = None
+        for fix in cands:
+            cost = 0.0
+            for cam, heads, avoid in samples:
+                cost += _clash(_fixed(cam, fix), heads, avoid)
+                if best_cost is not None and cost >= best_cost:
+                    break
+            if cost == 0:
+                return list(fix)
+            if best_cost is None or cost < best_cost:
+                best, best_cost = fix, cost
+    return list(best)
+
+
+def prepare(plan, zones, seed):
+    """Fix each scene's pop-up slots and camera offset against the text zones. Stored on
+    the plan (pr["slot"], sc["cam_fix"]), so draw_frame and cartoon.qc see the same layout."""
+    plan["zones"], plan["seed"] = zones, seed
+    for sc in plan["scenes"]:
+        placed = dict((id(pr), s) for pr, s in _assign_slots(sc["props"], zones, sc["t1"]))
+        for pr in sc["props"]:
+            pr["slot"] = list(placed[id(pr)]) if id(pr) in placed else None
+        sc["cam_fix"] = _plan_camera(sc, zones, seed)
+    return plan
+
+
+def important_boxes(plan, t, seed=None):
+    """What a viewer must be able to see at time t, as (what, screen box): every face on
+    screen, the set's key items and every pop-up that is fully in."""
+    seed = plan.get("seed", 0) if seed is None else seed
+    sc, _ = _scene_at(plan, t)
+    poses = _poses(sc, t, seed)
+    cam = _camera_at(sc, t, poses)
+    out = []
+    for (x, y, kw), a in zip(poses, sc["actors"]):
+        fb = _to_screen(_head_world(x, y, kw["s"], (-FACE_R, -FACE_R, FACE_R, FACE_R)), cam)
+        if fb[2] > 0 and fb[0] < W:
+            out.append((f"the {a['role'].replace('_', ' ')}'s face", fb))
+    out += [(name, _to_screen(b, cam)) for name, b in SET_KEYS.get(sc["set"], [])]
+    for pr, slot in _layout_props(sc["props"]):
+        if t >= pr["t"] + 0.3:
+            out.append((f"the '{pr['value']}' pop-up", prop_box(pr, slot)))
+    return out
+
+
+# ---------- frames ----------
+def draw_frame(ctx, plan, t, seed):
+    sc, idx = _scene_at(plan, t)
     spec = SETS[sc["set"]]
-    floor = spec["floor"]
     src(ctx, "#1c1838")
     ctx.paint()
-    poses = []
-    for j, a in enumerate(sc["actors"]):
-        tint = (seed + zlib.crc32(f"{a['role']}{a['spot']}".encode())) % 97
-        poses.append(_actor_kwargs(a, sc, t, floor, tint))
-    z, cx, cy = _camera(sc, t, [(x, y) for x, y, _ in poses])
+    poses = _poses(sc, t, seed)
+    z, cx, cy = _camera_at(sc, t, poses)
     ctx.save()
     ctx.translate(W / 2, H / 2)
     ctx.scale(z, z)
@@ -190,9 +352,14 @@ def draw_frame(ctx, plan, t, seed):
         _draw_prop(ctx, pr, slot, t)
 
 
-def render(plan, out_path, seed_text="", fps=FPS, log=print):
-    """Silent background MP4 covering the narration + 0.6 s."""
+def render(plan, out_path, seed_text="", fps=FPS, log=print, zones=None):
+    """Silent background MP4 covering the narration + 0.6 s. zones (cartoon.layout.text_zones)
+    are the captions and cards the composer will burn in; faces and pop-ups are kept off them."""
     seed = zlib.crc32(seed_text.encode()) % 10000
+    prepare(plan, zones or [], seed)
+    moved = sum(1 for sc in plan["scenes"] if sc["cam_fix"] != [0, None])
+    if moved:
+        log(f"[Cartoon] camera moved in {moved} scene(s) to keep faces clear of the text")
     n = int(math.ceil(plan["scenes"][-1]["t1"] * fps))
     os.makedirs(os.path.dirname(os.path.abspath(out_path)), exist_ok=True)
     cmd = [_ffmpeg(), "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgra", "-s", f"{W}x{H}",

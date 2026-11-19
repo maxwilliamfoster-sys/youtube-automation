@@ -97,21 +97,30 @@ def split_sentences(script, min_words=5, max_scenes=18):
 
 
 # ---------- 2. timing ----------
-def align_times(toks, word_timings, duration):
-    """Start time for every script token. Greedy match against the narrator's timed
-    words; anything unmatched is interpolated, so a bad transcript never breaks it."""
-    n = len(toks)
-    times = [None] * n
+def match_times(toks, word_timings):
+    """Heard start time for each script token, or None where the transcript has no match
+    (greedy, in order, looking at most 6 heard words ahead)."""
+    times = [None] * len(toks)
     heard = [(norm(w.get("word", "")), float(w.get("start", 0))) for w in (word_timings or []) if norm(w.get("word", ""))]
     j = 0
     for i, tok in enumerate(toks):
         a = norm(tok)
+        if not a:
+            continue
         for k in range(j, min(j + 6, len(heard))):
             b = heard[k][0]
             if a == b or (len(a) > 2 and len(b) > 2 and (a.startswith(b[:4]) or b.startswith(a[:4]))):
                 times[i] = heard[k][1]
                 j = k + 1
                 break
+    return times
+
+
+def align_times(toks, word_timings, duration):
+    """Start time for every script token. Greedy match against the narrator's timed
+    words; anything unmatched is interpolated, so a bad transcript never breaks it."""
+    n = len(toks)
+    times = match_times(toks, word_timings)
     # interpolate the gaps (and the ends) linearly
     known = [(i, t) for i, t in enumerate(times) if t is not None]
     if not known:
@@ -192,6 +201,15 @@ SET_RULES = [
     (r"\b(evidence|clue\w*|case|theor\w*|investigat\w*)\b", "incident_room"),
     (r"\b(police|detective\w*|officer\w*|appeal|search\w*)\b", "office"),
 ]
+GENERIC_SETS = ("office", "incident_room")
+
+
+def strong_set(sentence):
+    """The set a sentence clearly names (court, TV station, lab, road...), or None. The
+    last two SET_RULES (evidence -> incident_room, police -> office) are only defaults."""
+    return _first(SET_RULES[:-2], sentence, None)
+
+
 ICON_RULES = [
     (r"\b(phone\w*|calls?|rang|texted|text message|voicemail|999)\b", "phone"),
     (r"\b(letter\w*|note\w*|wrote|written|diary)\b", "letter"),
@@ -217,6 +235,48 @@ ICON_RULES = [
     (r"\b(date|day|days|weeks?|months?|years? later|anniversary)\b", "calendar"),
     (r"\b(home|house|flat)\b", "house"),
 ]
+# Wider word lists for "does this icon belong to this sentence?" (validator and qc). An icon
+# fits when its ICON_RULES pattern or the pattern here matches the sentence.
+ICON_EXTRA = {
+    "question": r"\?|\b(ask\w*|advice|wonder\w*|puzzl\w*|strange|odd|secret|nobody|no one|unsolved|unexplained)\b",
+    "document": r"\b(document\w*|files?|reports?|records?|papers?|disk|forms?|statements?|ad|adverts?|wrote|"
+                r"letters?|warrant|notes?|said|says|listed|name)\b",
+    "map_pin": r"\b(town|city|village|county|street|road|area|state|country|miles?|where|place)\b",
+    "newspaper": r"\b(papers?|ad|adverts?|press|media|reporters?|journalists?|news)\b",
+    "letter": r"\b(mail\w*|posted|sent|send|envelope|message)\b",
+    "floppy": r"\b(floppy|disks?|discs?)\b",
+    "gavel": r"\b(court\w*|trial|judge|jury|guilty|sentenc\w*|pleaded|convicted|acquitted|verdict|charged|prison|"
+             r"jail\w*|life)\b",
+    "magnifier": r"\b(investigat\w*|detectives?|police|inquir\w*|look\w*|found|discover\w*|trac\w*|clues?|checked)\b",
+    "cctv": r"\b(seen|spotted|filmed|recorded|cameras?)\b",
+    "clock": r"\b(time|night|morning|evening|late|later|minutes?|hours?|seconds?)\b",
+    "calendar": r"\b((?:19|20)\d\d|january|february|march|april|may|june|july|august|september|october|"
+                r"november|december|weeks?|months?|years?|days?|later|date|birthday)\b",
+    "house": r"\b(home|house|flat|lived|neighbou?r\w*|door|bedroom|kitchen|garden)\b",
+    "car": r"\b(vehicle|road|parked|motorway|boot)\b",
+    "money": r"\b(paid|pay|stole|stolen|robbery|robbed|bank|wealth\w*|rich)\b",
+    "pills": r"\b(pills?|drugs?|overdose|poison\w*|tablets?|medicin\w*|prescri\w*|dose)\b",
+    "fingerprint": r"\b(prints?)\b",
+    "dna": r"\b(forensic\w*|samples?|blood|hair|genetic\w*|genealog\w*)\b",
+    "computer": r"\b(files?|disks?|data|metadata|hard drive|records|saved|software)\b",
+    "tv": r"\b(broadcast\w*|news|station\w*|appeal\w*)\b",
+    "key": r"\b(lock\w*|door)\b",
+    "bulb": r"\b(idea|realis\w*|clues?|breakthrough|discover\w*|twist|noticed|worked out|figured|mistake)\b",
+    "camera": r"\b(images?|snapshots?|selfies?)\b",
+}
+
+
+PLACE_NAME_RE = re.compile(r"\b(?:in|near|across|from|at|outside)\s+[A-Z][a-z]+")  # case-sensitive: "in Kansas"
+
+
+def icon_fits(icon, sentence):
+    """True when the sentence says something this icon shows."""
+    if icon == "map_pin" and PLACE_NAME_RE.search(sentence):
+        return True
+    pats = [rx for rx, ic in ICON_RULES if ic == icon] + ([ICON_EXTRA[icon]] if icon in ICON_EXTRA else [])
+    return any(re.search(rx, sentence, re.I) for rx in pats)
+
+
 LABEL_RE = re.compile(r"(£[\d,]+(?:\.\d+)?|\b\d{1,2}(?::\d{2})?\s?(?:am|pm)\b|\b(?:1[89]|20)\d{2}\b|\b\d+\s(?:years?|miles|days|hours)\b)", re.I)
 MOOD_RULES = [
     (r"\b(shock\w*|stunn\w*|discover\w*|realis\w*|twist|suddenly)\b", "shocked"),
@@ -324,6 +384,14 @@ def validate_scene(raw, i, sentence, toks, span, script, convicted, prev_set=Non
     st = raw.get("set")
     if st not in SETS:
         return None
+    # A sentence that names a place or setting is acted out there, not in a generic office
+    # (one LLM storyboard put 15 of 18 BTK scenes in the office, TV station and lab lines included).
+    named = strong_set(sentence)
+    swapped = bool(named and st in GENERIC_SETS and named != st)
+    if swapped:
+        st = named
+    elif st in GENERIC_SETS and st == prev_set:
+        st = "incident_room" if st == "office" else "office"
     risky = risky_sentence(sentence, script, convicted)
     actors, used = [], set()
     for ad in (raw.get("actors") or [])[:3]:
@@ -346,25 +414,36 @@ def validate_scene(raw, i, sentence, toks, span, script, convicted, prev_set=Non
         used.add(spot)
         action = ad.get("action") if ad.get("action") in ACTIONS else "stand"
         hold = ad.get("hold") if ad.get("hold") in ICONS else None
+        if hold and not (icon_fits(hold, sentence) or (hold == "gavel" and (role == "judge" or st == "courtroom"))):
+            hold = None                        # nothing in the hands that the narrator isn't talking about
         actors.append({"role": role, "spot": spot, "mood": mood, "action": action,
                        "cue": _cue_index(ad.get("cue"), toks, span, a + 1 if b - a > 2 else a), "hold": hold})
     if not actors:
         return None
+    if swapped and not any(a["role"] in {r for r, _ in DEFAULT_CAST[st]} for a in actors):
+        role, spot = DEFAULT_CAST[st][0]       # the set's own lead: a judge on the bench, a reporter...
+        if spot not in {a["spot"] for a in actors[1:]}:
+            actors[0].update(role=role, spot=spot)
+        else:
+            actors[0]["role"] = role
     props = []
-    flat_script = _flat(script)
+    # Every pop-up must belong to THIS sentence, so it appears while the narrator says it:
+    # labels are words of the sentence, icons and stamps need a matching word in it.
+    flat_sent = _flat(sentence)
     for pd in (raw.get("props") or [])[:3]:
         if not isinstance(pd, dict):
             continue
         cue = _cue_index(pd.get("cue"), toks, span, mid)
         if pd.get("icon") in ICONS:
-            props.append({"kind": "icon", "value": pd["icon"], "cue": cue})
+            if icon_fits(pd["icon"], sentence):
+                props.append({"kind": "icon", "value": pd["icon"], "cue": cue})
         elif pd.get("label"):
             lab = str(pd["label"]).strip().strip(".,;:!?\"'")
-            if 0 < len(lab.split()) <= 4 and len(lab) <= 28 and _flat(lab) and f" {_flat(lab)} " in f" {flat_script} ":
+            if 0 < len(lab.split()) <= 4 and len(lab) <= 28 and _flat(lab) and f" {_flat(lab)} " in f" {flat_sent} ":
                 props.append({"kind": "label", "value": lab, "cue": cue})
         elif pd.get("stamp"):
             stp = str(pd["stamp"]).upper().strip()
-            if stp in STAMPS and re.search(STAMPS[stp], script, re.I):
+            if stp in STAMPS and re.search(STAMPS[stp], sentence, re.I):
                 if stp in ("GUILTY", "GUILTY PLEA", "CONVICTED", "LIFE SENTENCE", "JAILED", "CASE CLOSED") and not convicted:
                     continue
                 props.append({"kind": "stamp", "value": stp, "cue": cue})
@@ -403,6 +482,7 @@ def plan(script, word_timings, duration, title="", use_llm=True, log=print):
         a, b = span
         sc["t0"] = 0.0 if i == 0 else max(0.0, times[a] - 0.1)
         sc["text"] = sent
+        sc["span"] = [a, b]
         for item in sc["actors"] + sc["props"]:
             item["t"] = times[min(item["cue"], len(times) - 1)]
         scenes.append(sc)
@@ -411,4 +491,4 @@ def plan(script, word_timings, duration, title="", use_llm=True, log=print):
         s["t1"] = nxt["t0"]
     scenes[-1]["t1"] = duration + 0.6
     log(f"[Cartoon] plan: {len(scenes)} scenes ({n_llm} from the LLM, {len(scenes) - n_llm} from rules)")
-    return {"scenes": scenes, "duration": duration, "convicted": convicted}
+    return {"scenes": scenes, "duration": duration, "convicted": convicted, "tokens": toks}

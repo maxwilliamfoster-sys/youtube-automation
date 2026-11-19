@@ -152,5 +152,103 @@ class TestRender(unittest.TestCase):
             self.assertGreaterEqual(float(dur), 3.4)
 
 
+class TestTextZones(unittest.TestCase):
+    def test_zones_follow_the_composer(self):
+        from cartoon import layout
+        z = {d["name"]: d for d in layout.text_zones(40.0, "A serial killer asked police for advice", "Would you?")}
+        self.assertEqual(z["captions"]["box"][1], 729 - layout.PAD)      # CAPTION_POSITION 0.38 of 1920
+        self.assertEqual((z["hook card"]["t0"], z["hook card"]["t1"]), (0.0, 1.8))
+        self.assertAlmostEqual(z["end card"]["t0"], 37.4)
+        self.assertNotIn("case tag", z)
+
+
+def _court_plan(duration=6.0):
+    script = "The trial lasted a week. In 2019 he was convicted and sentenced to life in prison."
+    pl = planner.plan(script, _words(script, 0.4), duration, use_llm=False, log=lambda *a: None)
+    return script, pl
+
+
+class TestCartoonGate(unittest.TestCase):
+    def test_engine_keeps_faces_off_the_text(self):
+        from cartoon import layout, qc
+        _, pl = _court_plan()
+        zones = layout.text_zones(6.0, "A hook card that runs over a few lines", "Would you have believed him?")
+        engine.prepare(pl, zones, seed=1)
+        failures, stats = qc.check_layout(pl)
+        self.assertEqual(failures, [])
+        self.assertGreater(stats["frames_checked"], 50)
+
+    def test_gate_catches_text_over_a_face(self):
+        from cartoon import qc
+        _, pl = _court_plan()
+        engine.prepare(pl, [], seed=1)                     # rendered without avoiding anything...
+        pl["zones"] = [{"name": "captions", "t0": 0, "t1": 99, "box": (0, 800, 1080, 1400)}]   # ...text over the heads
+        failures, _ = qc.check_layout(pl)
+        self.assertTrue(any("covers" in f and "face" in f for f in failures), failures)
+
+    def test_sync_passes_when_in_step(self):
+        from cartoon import qc
+        script, pl = _court_plan()
+        engine.prepare(pl, [], seed=1)
+        failures, stats = qc.check_sync(pl, _words(script, 0.4))
+        self.assertEqual(failures, [])
+        self.assertEqual(stats["coverage"], 1.0)
+
+    def test_sync_catches_picture_running_ahead_of_the_voice(self):
+        from cartoon import qc
+        script, pl = _court_plan(9.0)
+        engine.prepare(pl, [], seed=1)
+        late = [{**w, "start": w["start"] + 2.5, "end": w["end"] + 2.5} for w in _words(script, 0.4)]
+        failures, _ = qc.check_sync(pl, late)
+        self.assertTrue(any("scene 2" in f for f in failures), failures)
+
+    def test_sync_fails_closed_without_a_transcript(self):
+        from cartoon import qc
+        _, pl = _court_plan()
+        failures, _ = qc.check_sync(pl, [])
+        self.assertTrue(failures and "heard" in failures[0])
+
+    def test_content_catches_unrelated_popups_and_generic_sets(self):
+        from cartoon import qc
+        _, pl = _court_plan()
+        engine.prepare(pl, [], seed=1)
+        sc = pl["scenes"][1]
+        sc["props"].append({"kind": "icon", "value": "boat", "cue": sc["span"][0], "t": sc["t0"], "slot": [250, 905]})
+        sc["set"] = "office"
+        failures = qc.check_content(pl)
+        self.assertTrue(any("boat icon" in f for f in failures), failures)
+        self.assertTrue(any("courtroom scene" in f for f in failures), failures)
+
+
+class TestSentenceMatch(unittest.TestCase):
+    def _v(self, raw, sentence, script=SCRIPT, prev=None):
+        toks = planner.tokens_of(sentence)
+        return planner.validate_scene(raw, 0, sentence, toks, (0, len(toks)), script,
+                                      bool(planner.CONVICTED_RE.search(script)), prev)
+
+    def test_generic_office_moves_to_the_named_place(self):
+        out = self._v({"set": "office", "actors": [{"role": "detective", "spot": "center"}]},
+                      "Years later DNA from the car led detectives to a stranger.")
+        self.assertEqual(out["set"], "lab")
+        self.assertEqual(out["actors"][0]["role"], "forensic")
+
+    def test_unrelated_icon_and_hold_dropped(self):
+        out = self._v({"set": "road_night", "actors": [{"role": "police", "hold": "boat"}],
+                       "props": [{"icon": "boat", "cue": "car"}, {"icon": "car", "cue": "car"}]},
+                      "Her car was found by the river at 9pm.")
+        self.assertEqual([p["value"] for p in out["props"]], ["car"])
+        self.assertIsNone(out["actors"][0]["hold"])
+
+    def test_label_must_be_in_its_own_sentence(self):
+        out = self._v({"set": "road_night", "actors": [{"role": "police"}],
+                       "props": [{"label": "Mark Hill", "cue": "car"}]}, "Her car was found by the river at 9pm.")
+        self.assertEqual(out["props"], [])
+
+    def test_icon_fits(self):
+        self.assertTrue(planner.icon_fits("map_pin", "He murdered ten people in Kansas."))
+        self.assertTrue(planner.icon_fits("floppy", "He mailed a purple floppy disk."))
+        self.assertFalse(planner.icon_fits("boat", "A DNA test matched him."))
+
+
 if __name__ == "__main__":
     unittest.main()

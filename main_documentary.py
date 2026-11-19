@@ -191,16 +191,36 @@ def _generate_one() -> tuple:
     captions = get_captions(tts, AUDIO_DIR, prefix=prefix, script_text=story["script"])
     print(f"  {len(captions)} caption segments")
 
+    # The on-screen cards are settled before the visuals, so the cartoon can keep faces
+    # and pop-ups out from under them.
+    story["loop_arms"] = loop_arms
+    if story.get("series_part"):
+        # A queued series part was written at full length before the length test - keep it out of that test.
+        loop_vals.pop("length", None)
+        story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "length" not in k}
+    if story.get("series_part") and "cta_card" in loop_vals:
+        # A series part's closing card is "Part N next" - never drop it, and keep
+        # these posts out of the cta test so they can't confound it.
+        loop_vals.pop("cta_card")
+        story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "cta" not in k}
+    hook_text = story.get("hook", "") if loop_vals.get("hook_card", True) else ""
+    import video_composer
+    video_composer.CASE_TAG = (story.get("case_tag") or "") if loop_vals.get("case_tag", False) else ""
+    # Never wired up before, so every video fell back to the composer's default
+    # "Follow for more unsolved cases" — the same generic ask on every post.
+    cta_text = (story.get("cta") or None) if loop_vals.get("cta_card", True) else ""
+
     # ── 4a. Cartoon visuals (default since 2026-11-19) ────────────────────────
     import config as _C
-    cartoon_bg = None
+    cartoon_bg = plan = None
     if _C.VISUAL_STYLE == "cartoon":
         print("\n--- STEP 4: Animating Cartoon Scenes ---")
         try:
             import cartoon
             cartoon_bg, plan = cartoon.make_background(
                 story["script"], tts.get("word_timings") or [], tts["duration"],
-                os.path.join(SCENE_IMAGES_DIR, prefix, "cartoon_bg.mp4"), title=story["title"])
+                os.path.join(SCENE_IMAGES_DIR, prefix, "cartoon_bg.mp4"), title=story["title"],
+                hook_text=hook_text, cta_text=cta_text or "", case_tag=video_composer.CASE_TAG)
             story["visual"] = "cartoon"
             story["cartoon_scenes"] = [{"set": s["set"], "source": s["source"]} for s in plan["scenes"]]
         except Exception as e:
@@ -243,30 +263,19 @@ def _generate_one() -> tuple:
 
     # ── 5. Compose ────────────────────────────────────────────────────────────
     print("\n--- STEP 5: Composing Video ---")
-    story["loop_arms"] = loop_arms
-    if story.get("series_part"):
-        # A queued series part was written at full length before the length test - keep it out of that test.
-        loop_vals.pop("length", None)
-        story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "length" not in k}
-    if story.get("series_part") and "cta_card" in loop_vals:
-        # A series part's closing card is "Part N next" - never drop it, and keep
-        # these posts out of the cta test so they can't confound it.
-        loop_vals.pop("cta_card")
-        story["loop_arms"] = {k: v for k, v in story["loop_arms"].items() if "cta" not in k}
     import documentary_composer
     documentary_composer.LOOP_END = loop_vals.get("length") == "short"
     if "music_volume" in loop_vals:
         documentary_composer.DOC_MUSIC_VOLUME = float(loop_vals["music_volume"])
-    hook_text = story.get("hook", "") if loop_vals.get("hook_card", True) else ""
-    import video_composer
-    video_composer.CASE_TAG = (story.get("case_tag") or "") if loop_vals.get("case_tag", False) else ""
-    # Never wired up before, so every video fell back to the composer's default
-    # "Follow for more unsolved cases" — the same generic ask on every post.
-    cta_text = (story.get("cta") or None) if loop_vals.get("cta_card", True) else ""
     if cartoon_bg:
         video_path = documentary_composer.compose_cartoon(
             cartoon_bg, tts["audio_path"], captions, title=story["title"],
             audio_duration=tts["duration"], hook_text=hook_text, cta_text=cta_text)
+        # The cartoon gate (cartoon/qc.py): no text over faces or pop-ups, and every scene on
+        # screen while its sentence is spoken. run_cloud_deliver blocks a video that fails it.
+        print("\n--- STEP 5b: Cartoon Gate ---")
+        from cartoon import qc as cartoon_qc
+        story["cartoon_qc"] = cartoon_qc.check(plan, video_path)
     else:
         video_path = compose_documentary(
             image_paths=image_paths,
@@ -606,7 +615,9 @@ def _visual_context() -> str:
                 "such as a police office, a courtroom, a street at night or a map, with pop-up icons, short "
                 "labels and stamps. Real people are never drawn realistically; an unidentified or convicted "
                 "culprit is a faceless shadow figure. No violence is ever shown. A hook card opens the video "
-                "and a closing card asks viewers what they think. The post has no separate title.")
+                "and a closing card asks viewers what they think. The post has no separate title. "
+                "Check that the scenes, in order, follow the narration script, and flag any frame where "
+                "on-screen text covers a character's face or a pop-up.")
     return ("BuriedCasefiles: calm, factual true-crime documentaries about real cases. "
             "An AI narrator reads the script over sombre mood footage (fog, rain, empty "
             "streets, police tape), photos of the real place, and archive images; a hook "
@@ -839,6 +850,18 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
                     f"Not sent. Nothing to post."
                 )
                 print(f"[Cloud] BLOCKED by guidelines gate ({verdict}) — not delivering.")
+                continue
+
+            # The cartoon gate (cartoon/qc.py, run in _generate_one): text over a face or a
+            # pop-up, or a scene out of step with the narration, holds the video back.
+            cqc = story.get("cartoon_qc")
+            if story.get("visual") == "cartoon" and not (cqc or {}).get("ok"):
+                reasons = chr(10).join(f"• {f}" for f in ((cqc or {}).get("failures") or ["cartoon gate did not run"])[:6])
+                _app("gate_blocked", "warn", "BuriedCasefiles: cartoon gate held a video back",
+                     f"{story.get('title', '?')}\n\n{reasons}\n\nNot sent. Making another video.")
+                send_alert("🛑 <b>Video blocked — cartoon gate</b>" + chr(10) * 2 + esc(story.get("title", "?"))
+                           + chr(10) * 2 + esc(reasons) + chr(10) * 2 + "Not sent. Making another video.")
+                print("[Cloud] BLOCKED by the cartoon gate:" + "".join(f"\n    ! {f}" for f in (cqc or {}).get("failures", [])))
                 continue
 
             # Lead the caption with the case-name title the working UK crime accounts
