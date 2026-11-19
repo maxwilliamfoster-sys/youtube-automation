@@ -204,6 +204,13 @@ def build_filter_script(
         end   = seg["end"]
         if idx == 0 and 0 < start <= 1.0:
             start = 0.0
+        # Never two captions at once: Whisper's word times can overlap, and two words drawn
+        # on top of each other ("LMOVEDE") made the AI review block a cartoon as garbled text
+        # (2026-11-19, run 44544915448). End each word as the next one starts.
+        if idx + 1 < len(caption_segments):
+            end = min(end, caption_segments[idx + 1]["start"] - 0.001)
+        if end <= start:
+            continue
         color = CAPTION_ACCENT_COLOR if _is_key_word(seg["text"], caption_segments[idx - 1]["text"] if idx else ".") else CAPTION_FONT_COLOR
 
         # Single-quoted text (apostrophes already stripped, safe on Windows subprocess)

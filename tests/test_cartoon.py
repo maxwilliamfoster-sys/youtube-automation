@@ -251,6 +251,26 @@ class TestSentenceMatch(unittest.TestCase):
                           [], 6.0, use_llm=False, log=lambda *a: None)
         self.assertNotIn("house", [sc["set"] for sc in pl["scenes"]])
 
+    def test_guilt_stamps_become_case_closed(self):
+        script = "In 2019 he pleaded guilty to murder and was sentenced to life in prison."
+        out = self._v({"set": "courtroom", "actors": [{"role": "judge"}], "props": [{"stamp": "GUILTY", "cue": "guilty"}]},
+                      script, script)
+        self.assertEqual([p["value"] for p in out["props"]], ["CASE CLOSED"])
+        charged = "He was charged with murder."
+        out = self._v({"set": "courtroom", "actors": [{"role": "judge"}], "props": [{"stamp": "CHARGED", "cue": "charged"}]},
+                      charged, charged)
+        self.assertEqual(out["props"], [])
+
+    def test_captions_never_overlap(self):
+        import re as _re
+        import video_composer
+        segs = [{"text": "moved", "start": 0.0, "end": 0.6}, {"text": "from", "start": 0.4, "end": 0.9},
+                {"text": "Canada", "start": 0.9, "end": 1.5}]
+        vf = video_composer.build_filter_script(segs, "null")
+        spans = [tuple(map(float, m)) for m in _re.findall(r"between\(t,([\d.]+),([\d.]+)\)", vf)]
+        for (a0, a1), (b0, b1) in zip(spans, spans[1:]):
+            self.assertLessEqual(a1, b0)
+
     def test_icon_fits(self):
         self.assertTrue(planner.icon_fits("map_pin", "He murdered ten people in Kansas."))
         self.assertTrue(planner.icon_fits("floppy", "He mailed a purple floppy disk."))

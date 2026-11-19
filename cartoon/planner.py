@@ -28,6 +28,12 @@ CONVICTED_RE = re.compile(r"\b(convicted|found guilty|pleaded guilty|pled guilty
 SUSPECT_RE = re.compile(r"\b(suspect\w*|arrest\w*|charged|question\w*|accused|released|cleared|acquitted|"
                         r"denied|denies|trial|alleged\w*|person of interest|interviewed)\b", re.I)
 
+# Stamps that name a person's guilt are never drawn: the AI review blocked a cartoon on
+# 2026-11-19 (run 44544915448) for a GUILTY stamp even though the script stated the plea.
+# The court outcome shows as a neutral CASE CLOSED instead; CHARGED (not convicted) is dropped.
+STAMP_SWAP = {"GUILTY": "CASE CLOSED", "GUILTY PLEA": "CASE CLOSED", "CONVICTED": "CASE CLOSED",
+              "LIFE SENTENCE": "CASE CLOSED", "JAILED": "CASE CLOSED"}
+
 # stamp text -> the script must match this before the stamp may appear
 STAMPS = {
     "MISSING": r"\b(missing|disappear\w*|vanish\w*)\b",
@@ -35,15 +41,10 @@ STAMPS = {
                 r"nobody (?:has ever been|was ever)|remains? a mystery|cold case)\b",
     "COLD CASE": r"\b(cold case|unsolved|years later|decades later|reopened)\b",
     "REOPENED": r"\b(reopen\w*|re-open\w*|new investigation|fresh appeal)\b",
-    "CASE CLOSED": r"\b(convicted|sentenced|solved|case closed|jailed)\b",
-    "GUILTY": r"\b(found guilty|pleaded guilty|pled guilty|convicted|guilty verdict)\b",
-    "GUILTY PLEA": r"\b(pleaded guilty|pled guilty|admitted)\b",
-    "CONVICTED": r"\b(convicted|found guilty)\b",
-    "LIFE SENTENCE": r"\b(life sentence|life in prison|jailed for life|sentenced to life)\b",
-    "JAILED": r"\b(jailed|imprisoned|sentenced to \w+ years|years in prison)\b",
+    "CASE CLOSED": r"\b(convicted|sentenced|solved|case closed|jailed|imprisoned|found guilty|pleaded guilty|"
+                   r"pled guilty|guilty verdict|life in prison)\b",
     "NOT GUILTY": r"\b(not guilty|acquitted)\b",
     "ACQUITTED": r"\b(acquitted)\b",
-    "CHARGED": r"\b(charged)\b",
     "NO CHARGES": r"\b(never charged|no charges|not charged|released without charge)\b",
     "MATCH": r"\b(match\w*|identified)\b",
     "EVIDENCE": r"\b(evidence|clue\w*|found|discovered)\b",
@@ -157,7 +158,7 @@ Rules:
 - One scene per sentence, same order, "s" = sentence number. 1-3 actors, 0-2 props.
 - "cue" is ONE word copied from THAT sentence: the word on which the action or pop-up happens.
 - label = 1-4 words copied EXACTLY from the sentence (a name, place, date, time, age or number). Never invent text.
-- Use stamps only when the sentence says it (MISSING when someone goes missing, GUILTY only after a guilty verdict or plea).
+- Use stamps only when the sentence says it (MISSING when someone goes missing, CASE CLOSED only after a guilty verdict or plea). Never stamp guilt on a person.
 - Pick the set where the sentence happens; change set when the story moves; vary the camera.
 - NEVER show violence, weapons, injuries, blood or bodies. Victims appear only alive in everyday moments, never harmed. Never draw children: use an icon instead.
 - "shadow" = an unidentified culprit, or a person a court has convicted. "convict" = someone already convicted, after the script says so.
@@ -371,7 +372,8 @@ def rule_scene(i, sentence, toks, span, convicted, prev_set=None):
         hit = _hit(next(p for p, v in ICON_RULES if v == icon), toks, a, b)
         props.append({"kind": "icon", "value": icon, "cue": _cue_index(hit, toks, span, mid)})
     for stamp, pat in STAMPS.items():
-        if stamp in ("MISSING", "GUILTY", "NOT GUILTY", "CHARGED", "LIFE SENTENCE", "UNSOLVED") and re.search(pat, sentence, re.I):
+        usable = stamp in ("MISSING", "NOT GUILTY", "UNSOLVED") or (stamp == "CASE CLOSED" and convicted)
+        if usable and re.search(pat, sentence, re.I):
             hit = _hit(pat, toks, a, b)
             props.append({"kind": "stamp", "value": stamp, "cue": _cue_index(hit, toks, span, mid)})
             break
@@ -448,8 +450,9 @@ def validate_scene(raw, i, sentence, toks, span, script, convicted, prev_set=Non
                 props.append({"kind": "label", "value": lab, "cue": cue})
         elif pd.get("stamp"):
             stp = str(pd["stamp"]).upper().strip()
+            stp = STAMP_SWAP.get(stp, stp)
             if stp in STAMPS and re.search(STAMPS[stp], sentence, re.I):
-                if stp in ("GUILTY", "GUILTY PLEA", "CONVICTED", "LIFE SENTENCE", "JAILED", "CASE CLOSED") and not convicted:
+                if stp == "CASE CLOSED" and not convicted:
                     continue
                 props.append({"kind": "stamp", "value": stp, "cue": cue})
     cam = raw.get("camera") if raw.get("camera") in CAMERAS else CAMERA_CYCLE[i % len(CAMERA_CYCLE)]
