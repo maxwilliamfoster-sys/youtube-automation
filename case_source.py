@@ -558,6 +558,13 @@ def pick_case(is_duplicate, tries: int = 8, shortlist: int = 12,
         summary = get_summary(title)
         if not summary:
             continue
+        # get_summary follows Wikipedia redirects, so the article can be a different,
+        # already-used case ("Murder of Carolanne Jackson" -> "Murder of Janet Brown",
+        # 20 Nov 2026: 6 wasted attempts in one run). Check the title it resolved to.
+        real = summary.get("title") or title
+        if real != title and not _usable(real):
+            print(f"[CaseSource] Skipping {title!r} — redirects to {real!r}, already used.")
+            continue
         summary["intrigue"] = intrigue_score(summary)
         views = monthly_pageviews(title)
         summary["monthly_views"] = views

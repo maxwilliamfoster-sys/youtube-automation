@@ -158,6 +158,26 @@ class RejectedMemoryTests(unittest.TestCase):
         self.assertEqual(picked["title"], "Murder of Fine")
         self.assertNotIn("Murder of Rejected", seen)
 
+    def test_pick_case_skips_redirect_to_used_case(self):
+        # 20 Nov 2026: pool title "Murder of Carolanne Jackson" is a Wikipedia redirect to
+        # the already-posted "Murder of Janet Brown". The pool title passed the used-case
+        # check, get_summary followed the redirect, and the run spent 6 of its attempts on
+        # a case it then rejected as "used before".
+        import case_source
+
+        def fake_summary(title):
+            real = {"Murder of Alias": "Murder of Used"}.get(title, title)
+            return {"title": real, "extract": "x" * 300, "url": ""}
+
+        with mock.patch.object(case_source, "load_pool",
+                               return_value=["Murder of Alias", "Murder of Fine"]), \
+             mock.patch.object(case_source, "get_summary", side_effect=fake_summary), \
+             mock.patch.object(case_source, "intrigue_score",
+                               side_effect=lambda s: 20.0 if s["title"] == "Murder of Used" else 10.0), \
+             mock.patch.object(case_source, "monthly_pageviews", return_value=0):
+            picked = case_source.pick_case(lambda t: t == "Murder of Used")
+        self.assertEqual(picked["title"], "Murder of Fine")
+
 
 def _png_header_only(width: int, height: int) -> bytes:
     """A PNG whose header claims width x height, with a token IDAT (never decoded)."""
