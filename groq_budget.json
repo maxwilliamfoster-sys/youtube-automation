@@ -6,10 +6,14 @@
    "tokens": 202628
   },
   "openai/gpt-oss-20b": {
-   "requests": 45,
-   "tokens": 54085
+   "exhausted": true,
+   "org_limit": 200000,
+   "org_used": 199015,
+   "requests": 46,
+   "tokens": 55997
   },
   "qwen/qwen3.8-27b": {
+   "exhausted": true,
    "requests": 1,
    "tokens": 3586
   }

@@ -7207,6 +7207,39 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-20T21:22:38+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "1d359d3efcd46d35a9d6dc1da7eb3eaa4fa9567d35220272d1aaae626c0d489b",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review unavailable: [quota]"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.621,
+   "report": {
+    "seconds": 34.47,
+    "lufs": -15.0,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": false,
+    "ok": false,
+    "retryable": false,
+    "quota": true,
+    "reason": "quota"
+   }
   }
  ]
 }
