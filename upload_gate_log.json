@@ -7165,6 +7165,48 @@
     "model": "qwen/qwen3.8-27b",
     "summary": "[ai_pass]"
    }
+  },
+  {
+   "checked_at": "2026-11-20T20:55:17+00:00",
+   "platform": "tiktok",
+   "file": "Sarah_Burton_vanished_midnight_crash_end_20261120_205459.mp4",
+   "sha256": "d79693b996329cb756995f72c1952959af55271376b63f279403538b785a46c1",
+   "head": "The Sarah Burton case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-11",
+   "head_similarity": 0.687,
+   "report": {
+    "seconds": 35.6,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3586,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7118,
+     "predicted_tokens": 5043,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
