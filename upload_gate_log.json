@@ -7326,6 +7326,182 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-21T17:33:50+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "757daeea2c108e6defb73662f3ad133a8137da56392510360df08b10f7b6af54",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.635,
+   "report": {
+    "seconds": 38.3,
+    "lufs": -14.9,
+    "speech_match": 0.89,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 5,
+    "quality": 6,
+    "tokens": 3808,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7130,
+     "predicted_tokens": 5049,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-21T17:42:35+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "111492259d9ab10af6196b18f1c807e2f80efb1b9118a239bd3b42c93d3e0318",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.615,
+   "report": {
+    "seconds": 36.03,
+    "lufs": -14.9,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3721,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7135,
+     "predicted_tokens": 5055,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-21T18:06:19+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "7df046fee2d7d6ff1c4ece79e6f373b7c0d002429f500325a9c0b6bfdc790a04",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [
+    "near-duplicate first caption line (…)"
+   ],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.806,
+   "report": {
+    "seconds": 35.8,
+    "lufs": -15.1,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "tokens": 3697,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7102,
+     "predicted_tokens": 5023,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-21T18:28:38+00:00",
+   "platform": "tiktok",
+   "file": "Vanished_in_Aleppo_Journalists_Midnight__20261121_182821.mp4",
+   "sha256": "1207fb49838be8d01277cb69e78e676346e4c1ed6d7b4f621fce839ac2b14cba",
+   "head": "True crime: the Kidnapping of Antonio Pampliega, José Manuel López and Ángel Sastre case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.454,
+   "report": {
+    "seconds": 32.6,
+    "lufs": -15.0,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3618,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7138,
+     "predicted_tokens": 5071,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
