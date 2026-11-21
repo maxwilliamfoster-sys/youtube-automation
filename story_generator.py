@@ -1147,6 +1147,15 @@ def _part_instruction(part: dict) -> str:
     )
 
 
+EMPTY_RETRY_BUDGET = 1800     # tokens for the retry after an empty reply (reasoning + ~200 words)
+
+
+class NoSafeCaseError(RuntimeError):
+    """Every case this run tried was rejected on content (empty or short script, legal,
+    guidelines or fact-check). A content outcome, not a broken pipeline: it must not count
+    towards the "same failure 3 times in a row" stop, so a catch-up run can still start."""
+
+
 def _write_script(client: Groq, case: dict, part: dict = None) -> str:
     """
     Write a documentary script based on the researched case.
@@ -1205,10 +1214,13 @@ def _write_script(client: Groq, case: dict, part: dict = None) -> str:
                       messages=messages_for_retry)
     script = (resp.choices[0].message.content or "").strip()
     if not script:
-        # gpt-oss occasionally spends its whole budget on hidden reasoning and returns
-        # an empty string. One retry is almost always enough.
-        print("[TrueCrime] Script came back empty — retrying once...")
-        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=600,
+        # gpt-oss sometimes spends its whole budget on hidden reasoning and returns an
+        # empty string. 2026-11-20 (run 44787096162): 11 of 24 cases came back empty and 9
+        # were still empty after a retry at the SAME 600 tokens, because the model just
+        # thought through the same budget again. The retry gets much more room so the
+        # reasoning can finish and the script still fits; _fit_length trims any extra length.
+        print("[TrueCrime] Script came back empty — retrying once with more room...")
+        resp = _groq_call(client, model=GROQ_MODEL, max_tokens=EMPTY_RETRY_BUDGET,
                           messages=messages_for_retry)
         script = (resp.choices[0].message.content or "").strip()
     if script and _reply_cut(resp):
@@ -2389,7 +2401,7 @@ def generate_true_crime_story(max_attempts: int = 5) -> dict:
         return best_safe
 
     # Nothing both safe and accurate. No video is the correct outcome.
-    raise RuntimeError(
+    raise NoSafeCaseError(
         f"No guidelines-safe case found in {max_attempts} attempts. No video produced — "
         f"refusing to post content that failed the TikTok Community Guidelines review."
     )

@@ -662,6 +662,7 @@ AI_OUTAGE_MAX_RECHECKS = 12
 # Reaching it behaves like Groq's own "quota used up" answer: no post, stop.
 AI_DAILY_CAP = 20
 SYSTEMIC_STOP = "same failure 3 times in a row - stopping (not a content problem; check the log)"
+CONTENT_EXHAUSTED_STOP = 2     # "no guidelines-safe case" batches per run before handing over to catch-up
 
 
 def _only_ai_unavailable(gate_v) -> bool:
@@ -788,6 +789,7 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     import upload_gate
     blocked_sent = False
     keys, broken, ai_down = [], False, False  # infrastructure-failure keys (upload_gate.failure_key)
+    no_safe = 0                                # batches where every case was rejected on content
     while delivered < count:
         i += 1
         if (i > CLOUD_MAX_ATTEMPTS + count
@@ -1036,7 +1038,20 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
             print(f"[Cloud] Video {i} errored: {exc}")
             _log({"timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
                   "status": "error", "error": str(exc)})
-            keys.append(upload_gate.failure_key([f"pipeline step could not run: {exc}"]))
+            if isinstance(exc, story_generator.NoSafeCaseError):
+                # 2026-11-20 (run 44787096162): three of these in a row were read as "something
+                # is broken", so no catch-up run started and the day posted nothing. Every case
+                # was rejected on content, which is not breakage: count it as a content failure.
+                # Each one costs ~12 min and 8 cases of writer quota, so after
+                # CONTENT_EXHAUSTED_STOP the run ends and leaves the rest to the catch-up run.
+                keys.append("")
+                no_safe += 1
+                if no_safe >= CONTENT_EXHAUSTED_STOP:
+                    print(f"[Cloud] no guidelines-safe case in {no_safe} batches - stopping; "
+                          "the catch-up run tries fresh cases.")
+                    break
+            else:
+                keys.append(upload_gate.failure_key([f"pipeline step could not run: {exc}"]))
             if upload_gate.systemic(keys):
                 print(f"[Cloud] {SYSTEMIC_STOP}")
                 broken = True
