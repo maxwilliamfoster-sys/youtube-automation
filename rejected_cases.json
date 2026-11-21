@@ -1,58 +1,4 @@
 {
- "Murder of Yasuko Watanabe": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Tair Rada": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Anthony Walker": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Jodi Parrack": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Kidnapping of Peggy McMath": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Willington Quay child abduction case": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Death of Linda Chua": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Murder of Segametsi Mogomotsi": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-27",
-  "strikes": 1
- },
- "Death of Hanna Lalango": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-27",
-  "strikes": 1
- },
  "Murder of Bijan Ebrahimi": {
   "stage": "prefilter",
   "code": "sexual_violence",
@@ -3401,12 +3347,6 @@
   "date": "2026-11-16",
   "strikes": 2
  },
- "Murder of Moll McCarthy": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-16",
-  "strikes": 1
- },
  "Murder of Shibli Sadiq Hridoy": {
   "stage": "prescreen",
   "code": "gore",
@@ -4127,12 +4067,6 @@
   "date": "2026-11-20",
   "strikes": 1
  },
- "Murder of Tom ap Rhys Pryce": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-20",
-  "strikes": 1
- },
  "Murder of Heshu Yones": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4565,12 +4499,6 @@
   "date": "2026-11-20",
   "strikes": 1
  },
- "Kenneth Noye": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-20",
-  "strikes": 9
- },
  "Babes in the Wood murders (Stanley Park)": {
   "stage": "prefilter",
   "code": "minor_victim",
@@ -4797,6 +4725,78 @@
   "stage": "prefilter",
   "code": "sexual_violence",
   "date": "2026-11-20",
+  "strikes": 1
+ },
+ "Murder of Diane Sindall": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Murder of Zoe Nelson": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Murder of Moll McCarthy": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-21",
+  "strikes": 2
+ },
+ "Murder of Katarzyna Zowada": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Mueller family murders": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Kenneth Noye": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-21",
+  "strikes": 10
+ },
+ "Murder of Arlene Arkinson": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Murder of Paiche Onyemaechi": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Murder of Tom ap Rhys Pryce": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-21",
+  "strikes": 2
+ },
+ "Beenham murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Kidnapping of Peggy McMath": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Willington Quay child abduction case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-21",
   "strikes": 1
  }
 }

@@ -7240,6 +7240,92 @@
     "quota": true,
     "reason": "quota"
    }
+  },
+  {
+   "checked_at": "2026-11-21T17:03:56+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "60d2cd6e57f71c6fb6f666dac453a2499d387aaafd4ab9f014f76255678187da",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.741,
+   "report": {
+    "seconds": 33.3,
+    "lufs": -14.8,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3811,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7095,
+     "predicted_tokens": 5016,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-21T17:15:26+00:00",
+   "platform": "tiktok",
+   "file": "Missing_Lady_Caregivers_Convicted_Withou_20261121_171512.mp4",
+   "sha256": "58fb9c3b632a654e1e9639e8873b3536a0d983ed3f68ea9ab18f991afaf226f4",
+   "head": "Margaret Fleming: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.667,
+   "report": {
+    "seconds": 33.23,
+    "lufs": -15.0,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3574,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7101,
+     "predicted_tokens": 5024,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
