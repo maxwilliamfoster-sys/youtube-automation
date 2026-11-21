@@ -194,15 +194,20 @@ def writer_preflight():
         return SimpleNamespace(ok=True, reason="no ledger")
     import upload_gate
     writers = [GROQ_MODEL] + [m for m, _ in GROQ_SIBLING_MODELS if m not in REVIEW_ONLY_MODELS]
+    # 2026-11-21: the gate now has backup reviewers (Gemini, OpenRouter) when their keys are set,
+    # so a spent Groq review bucket no longer means "no video can pass" (20 Nov skipped a render).
+    backup_review = bool(upload_gate.fallback_reviewers()) if hasattr(upload_gate, "fallback_reviewers") else False
     review = llm_client.preflight(b, [(REVIEW_NEED_TOKENS, [upload_gate.AI_MODEL])])
-    if not review.ok:
+    if not review.ok and not backup_review:
         return SimpleNamespace(ok=False, reason=f"review: {review.reason}")
-    writer = llm_client.preflight(b, [(WRITER_NEED_TOKENS, writers),
-                                      (REVIEW_NEED_TOKENS, [upload_gate.AI_MODEL])])
+    needs = [(WRITER_NEED_TOKENS, writers)] + ([] if not review.ok else
+                                               [(REVIEW_NEED_TOKENS, [upload_gate.AI_MODEL])])
+    writer = llm_client.preflight(b, needs)
+    note = "" if review.ok else " - review on the backup reviewers"
     if writer.ok:
-        return SimpleNamespace(ok=True, reason=f"ok (writer {writer.plan.get(0)})")
-    if GOOGLE_API_KEY:
-        return SimpleNamespace(ok=True, reason=f"writer on the Gemini backup ({writer.reason})")
+        return SimpleNamespace(ok=True, reason=f"ok (writer {writer.plan.get(0)}){note}")
+    if GOOGLE_API_KEY or os.environ.get("OPENROUTER_API_KEY"):
+        return SimpleNamespace(ok=True, reason=f"writer on the Gemini/OpenRouter backup ({writer.reason}){note}")
     return SimpleNamespace(ok=False, reason=f"writer: {writer.reason}")
 
 

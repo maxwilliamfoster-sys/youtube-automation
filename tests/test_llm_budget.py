@@ -21,6 +21,21 @@ import llm_client  # noqa: E402
 import story_generator as sg  # noqa: E402
 
 
+# 2026-11-21: upload_gate / llm_client now fall back to Gemini, OpenRouter and Cloudflare when their
+# keys are set, and this repo's .env sets some of them locally. These tests are about the Groq path,
+# so the backup keys are blanked for the whole module.
+_BACKUP_KEYS = ("GOOGLE_API_KEY", "OPENROUTER_API_KEY", "CLOUDFLARE_AI_TOKEN", "CLOUDFLARE_AI_ACCOUNT_ID")
+_env_patch = mock.patch.dict(os.environ, {k: "" for k in _BACKUP_KEYS})
+
+
+def setUpModule():
+    _env_patch.start()
+
+
+def tearDownModule():
+    _env_patch.stop()
+
+
 def _ok(text="VERDICT"):
     return 200, {}, json.dumps({"choices": [{"message": {"content": text}}]})
 
@@ -40,7 +55,9 @@ class _Transport:
 class GeminiFallThrough(unittest.TestCase):
     def setUp(self):
         mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True).start()
-        mock.patch.dict(os.environ, {"GOOGLE_API_KEY": "k", "GROQ_API_KEY": "g"}).start()
+        # tearDown's stopall() also ends the module-level patch, so the backup keys are blanked here too
+        mock.patch.dict(os.environ, {"GOOGLE_API_KEY": "k", "GROQ_API_KEY": "g", "OPENROUTER_API_KEY": "",
+                                     "CLOUDFLARE_AI_TOKEN": "", "CLOUDFLARE_AI_ACCOUNT_ID": ""}).start()
         mock.patch.object(sg, "_groq_sibling_call", side_effect=RuntimeError("tokens per day")).start()
         self.sleeps = []
         mock.patch.object(sg.time, "sleep", self.sleeps.append).start()
@@ -164,6 +181,7 @@ class Preflight(unittest.TestCase):
         os.close(fd)
         os.remove(self.path)
         sg.enable_budget(self.path)
+        mock.patch.dict(os.environ, {k: "" for k in _BACKUP_KEYS}).start()
 
     def tearDown(self):
         mock.patch.stopall()
@@ -197,6 +215,15 @@ class Preflight(unittest.TestCase):
             res = sg.writer_preflight()
         self.assertTrue(res.ok)
         self.assertIn("gemini", res.reason.lower())
+
+    def test_spent_review_model_with_a_backup_reviewer_carries_on(self):
+        # 2026-11-21: the gate asks Gemini / OpenRouter when Groq's review bucket is empty
+        import upload_gate
+        sg.groq_budget().mark_exhausted(upload_gate.AI_MODEL)
+        with mock.patch.dict(os.environ, {"OPENROUTER_API_KEY": "o"}):
+            res = sg.writer_preflight()
+        self.assertTrue(res.ok, res.reason)
+        self.assertIn("backup reviewers", res.reason)
 
     def test_spent_review_model_stops_the_run(self):
         import upload_gate

@@ -22,6 +22,21 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import upload_gate as ug  # noqa: E402
 
+
+# 2026-11-21: upload_gate / llm_client now fall back to Gemini, OpenRouter and Cloudflare when their
+# keys are set, and this repo's .env sets some of them locally. These tests are about the Groq path,
+# so the backup keys are blanked for the whole module.
+_BACKUP_KEYS = ("GOOGLE_API_KEY", "OPENROUTER_API_KEY", "CLOUDFLARE_AI_TOKEN", "CLOUDFLARE_AI_ACCOUNT_ID")
+_env_patch = mock.patch.dict(os.environ, {k: "" for k in _BACKUP_KEYS})
+
+
+def setUpModule():
+    _env_patch.start()
+
+
+def tearDownModule():
+    _env_patch.stop()
+
 PASS = {"choices": [{"message": {"content": json.dumps(
     {"verdict": "PASS", "coherence": 9, "quality": 9, "policy_issues": [], "quality_issues": [], "summary": "ok"})}}],
     "usage": {"total_tokens": 6000}}

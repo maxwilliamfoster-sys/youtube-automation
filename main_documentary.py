@@ -771,7 +771,9 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
     # bots. 7 runs between 6 and 9 Nov 2026 wrote and rendered a whole video (and spent
     # the writer's budget) only to be blocked at the very end because that quota was
     # already gone. Ask first (about 20 tokens); a later scheduled run tries again.
-    if not sample and not _vision_quota_left():
+    import upload_gate as _ug
+    # 2026-11-21: with a backup reviewer key set (Gemini / OpenRouter), a spent Groq quota is not fatal.
+    if not sample and not _ug.fallback_reviewers() and not _vision_quota_left():
         msg = "the AI review's daily quota is used up, so no video could pass the gate - skipping this run"
         print(f"[Cloud] {msg}")
         _app("ai_quota", "warn", "BuriedCasefiles: AI review quota spent, no video this run", msg)

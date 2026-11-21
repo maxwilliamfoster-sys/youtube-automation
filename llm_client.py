@@ -1,4 +1,4 @@
-# vendored from growth-lab/llm_client.py @ e45909d
+# vendored from growth-lab/llm_client.py @ f5f6c46
 """llm_client: one free-tier LLM router for every bot (growth-lab S2, master copy).
 
 Edit it HERE, then roll it out with sync_vendored.py. Stdlib only.
@@ -6,10 +6,13 @@ Edit it HERE, then roll it out with sync_vendored.py. Stdlib only.
 What it does
 ------------
 * Groq first (its OpenAI-compatible REST endpoint), then Gemini's free
-  OpenAI-compatible endpoint when GOOGLE_API_KEY is set.
+  OpenAI-compatible endpoint when GOOGLE_API_KEY is set, then OpenRouter's free
+  models (OPENROUTER_API_KEY), then Cloudflare Workers AI (CLOUDFLARE_AI_TOKEN +
+  CLOUDFLARE_AI_ACCOUNT_ID). Every backend is optional.
 * Fall through to the NEXT model straight away on 404 (retired model), 429,
-  5xx, a timeout, a dropped connection or an empty reply. Raise LLMFatal at once
-  on 400/401/403: switching model will not fix a bad request or a bad key.
+  5xx, a timeout, a dropped connection or an empty reply. On 400/401/403 skip the
+  rest of that PROVIDER (another model there won't fix a bad key) and go on to the
+  next provider; raise LLMFatal only when no other provider is left.
 * At most ONE back-off: when a pass ends with nothing answered and at least one
   model failed for a passing reason (per-minute 429, 5xx, timeout), sleep once
   (Retry-After when the server sent one, else 25 s, capped by `max_wait`) and
@@ -67,6 +70,16 @@ GEMINI_MODELS = ("gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.1-
 # max_tokens. Added on top of the caller's budget so the answer keeps its own room
 # (a 600-token writer budget capped at 1024 left BCF scripts at ~25 words on 2026-10-27).
 GEMINI_THINKING_TOKENS = 1024
+
+# Last-resort backups (2026-11-21, Max: "have fallbacks because we seem to be limited by the amount of
+# tokens"). Each joins the chain only when its key is set. Free limits checked 2026-11-21:
+# OpenRouter ":free" models share 50 requests/day per account (20/min); Cloudflare Workers AI gives
+# 10,000 neurons/day per account (Gary and The Why Shop use the same allowance, so it goes last).
+# GitHub Models was retired on 2026-07-30 and Cerebras has no standing free tier any more: not used.
+OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_MODELS = ("nvidia/nemotron-3-ultra-550b-a55b:free", "google/gemma-4-31b-it:free")
+CLOUDFLARE_URL = "https://api.cloudflare.com/client/v4/accounts/{account}/ai/v1/chat/completions"
+CLOUDFLARE_MODELS = ("@cf/openai/gpt-oss-120b",)
 
 # Tokens per day, per model, per organisation (Groq free plan base limits).
 GROQ_TPD = {
@@ -316,32 +329,68 @@ def _wrap(text, provider, model, usage, headers, finish_reason=None):
                               completion_tokens=int((usage or {}).get("completion_tokens") or 0)))
 
 
+def _plain_body(model, messages, kw):
+    """OpenRouter / Cloudflare: the standard OpenAI fields; low reasoning on gpt-oss."""
+    body = {"model": model, "messages": messages}
+    for k in ("max_tokens", "temperature", "top_p", "stop", "seed"):
+        if kw.get(k) is not None:
+            body[k] = kw[k]
+    if "gpt-oss" in model:
+        body["reasoning_effort"] = kw.get("reasoning_effort") or "low"
+    return body
+
+
+def _backends():
+    """{provider: (url, key)} for every backend whose key is set."""
+    out = {}
+    if os.environ.get("GROQ_API_KEY"):
+        out["groq"] = (GROQ_URL, os.environ["GROQ_API_KEY"])
+    if os.environ.get("GOOGLE_API_KEY"):
+        out["gemini"] = (GEMINI_URL, os.environ["GOOGLE_API_KEY"])
+    if os.environ.get("OPENROUTER_API_KEY"):
+        out["openrouter"] = (OPENROUTER_URL, os.environ["OPENROUTER_API_KEY"])
+    cf_acct, cf_key = os.environ.get("CLOUDFLARE_AI_ACCOUNT_ID"), os.environ.get("CLOUDFLARE_AI_TOKEN")
+    if cf_acct and cf_key:
+        out["cloudflare"] = (CLOUDFLARE_URL.format(account=cf_acct), cf_key)
+    return out
+
+
+_BODY = {"groq": _groq_body, "gemini": _gemini_body, "openrouter": _plain_body, "cloudflare": _plain_body}
+
+
 def chat(messages, groq_models=None, gemini_models=None, budget=None, exclude_models=(),
-         max_wait=30.0, timeout=TIMEOUT, sleep=time.sleep, log=print, **kw):
-    """Send one chat request through the fall-through chain. Returns an object
-    shaped like the groq/openai SDK reply (resp.choices[0].message.content),
-    plus .provider, .model, .usage and .headers. Raises LLMFatal / LLMUnavailable."""
-    groq_key = os.environ.get("GROQ_API_KEY", "")
-    gem_key = os.environ.get("GOOGLE_API_KEY", "")
+         max_wait=30.0, timeout=TIMEOUT, sleep=time.sleep, log=print, openrouter_models=None,
+         cloudflare_models=None, **kw):
+    """Send one chat request through the fall-through chain (Groq, Gemini, OpenRouter, Cloudflare;
+    each only when its key is set). Returns an object shaped like the groq/openai SDK reply
+    (resp.choices[0].message.content), plus .provider, .model, .usage and .headers.
+    A 400/401/403 retires that PROVIDER (a bad key or a request it can't take) and the chain
+    moves on to the next one; LLMFatal is raised only when no other provider is left.
+    Raises LLMFatal / LLMUnavailable."""
+    backends = _backends()
     excluded = set(exclude_models or ())
-    cands = []
-    if groq_key:
-        cands += [("groq", m) for m in (groq_models or GROQ_MODELS) if m not in excluded]
-    if gem_key:
-        cands += [("gemini", m) for m in (gemini_models or GEMINI_MODELS) if m not in excluded]
+    lists = {"groq": groq_models or GROQ_MODELS, "gemini": gemini_models or GEMINI_MODELS,
+             "openrouter": openrouter_models or OPENROUTER_MODELS,
+             "cloudflare": cloudflare_models or CLOUDFLARE_MODELS}
+    cands = [(p, m) for p in ("groq", "gemini", "openrouter", "cloudflare") if p in backends
+             for m in lists[p] if m not in excluded]
     if not cands:
-        raise LLMUnavailable("no LLM backend configured (GROQ_API_KEY / GOOGLE_API_KEY)")
+        raise LLMUnavailable("no LLM backend configured (GROQ_API_KEY / GOOGLE_API_KEY / "
+                             "OPENROUTER_API_KEY / CLOUDFLARE_AI_TOKEN)")
 
     attempts = []
+    dead = set()                                  # providers that answered 400/401/403
     todo = cands
     for pass_no in (1, 2):
         transient, waits = [], []
-        for provider, model in todo:
+        for idx, (provider, model) in enumerate(todo):
+            if provider in dead:
+                continue
             if provider == "groq" and budget is not None and budget.remaining(model) <= 0:
                 attempts.append((model, "skipped: budget spent today"))
                 continue
-            url, key = (GROQ_URL, groq_key) if provider == "groq" else (GEMINI_URL, gem_key)
-            body = (_groq_body if provider == "groq" else _gemini_body)(model, messages, kw)
+            url, key = backends[provider]
+            body = _BODY[provider](model, messages, kw)
             try:
                 status, headers, text = _http_post(url, body, {"Authorization": f"Bearer {key}"},
                                                    timeout)
@@ -375,8 +424,12 @@ def chat(messages, groq_models=None, gemini_models=None, budget=None, exclude_mo
             short = (text or "")[:160]
             attempts.append((model, f"HTTP {status}: {short[:80]}"))
             if status in FATAL:
-                _save(budget, log)
-                raise LLMFatal(f"{provider} {model} HTTP {status}: {short}", status, model)
+                dead.add(provider)
+                if not any(p not in dead for p, _ in todo[idx + 1:]):
+                    _save(budget, log)
+                    raise LLMFatal(f"{provider} {model} HTTP {status}: {short}", status, model)
+                log(f"[llm] {provider} {model}: HTTP {status} - skipping {provider}, next provider")
+                continue
             if status == 429 and _is_daily(text):
                 log(f"[llm] {provider} {model}: daily cap reached - next model")
                 if provider == "groq" and budget is not None:
