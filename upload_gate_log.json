@@ -7502,6 +7502,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-21T19:04:34+00:00",
+   "platform": "tiktok",
+   "file": "Her_mysterious_final_police_encounter_20261121_190420.mp4",
+   "sha256": "8e9b6a4828058b52a62eecd3a6e583aed6e6e0881f2925abc1d0b04212753873",
+   "head": "Inside the Gresham cat hostage taking incident case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.494,
+   "report": {
+    "seconds": 28.1,
+    "lufs": -15.2,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3563,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7075,
+     "predicted_tokens": 5015,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
