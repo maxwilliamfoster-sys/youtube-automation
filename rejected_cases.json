@@ -1,592 +1,4 @@
 {
- "Murder of Aw Teck Boon": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Solange Grabenheimer": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Disappearance of Relisha Rudd": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Death of Lamduan Armitage": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Clare Morrison": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Geylang Bahru family murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Soham murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Countess of Chester Hospital baby murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Zara Aleena": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Jacob Wetterling": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Killing of Corryn Rayney": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Ashlynne Mike": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Karin Grech": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Robert McCartney": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Dini Haryati": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Killing of Damilola Taylor": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Ashikaga murder case": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Disappearance of Krystal Fraser": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Victoria Climbié": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Elizabeth Parravicini": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Paul Quinn": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murders of Helen and Margaret Lynch": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Disappearance of Cédrika Provencher": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Death of Chan Yin-lam": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Ang May Hong": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Jimmy Mizen": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Killing of Louise Jensen": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Murder of Helen Fleet": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-28",
-  "strikes": 1
- },
- "Pimlico Mystery": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Jessica Lunsford": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Killing of Amy Joyner-Francis": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Shana Grice": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 2
- },
- "Lambeth Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Disappearance of Amy Lynn Bradley": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Death of Sonja Engelbrecht": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Logan Mwangi": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Olivia Pratt-Korbel": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Jean McConville": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Preston Davey": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Janie Perrin": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murders of John and Lois McCullough": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Disappearance of Rahul Raju": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of the Lowe family": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Death of Luis Andres Colmenares": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Mandy Lemaire": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Simon Dale": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Grégory Villemin": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Hena Akhter": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Killing of Marian Beattie": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murders of Lorraine McNab and Peter Sopow": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Bernadette Walker": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Patsy Morris": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Murder of Mona Tinsley": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Disappearance of Mona Blades": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-29",
-  "strikes": 1
- },
- "Whitehall Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murders of Channon Christian and Christopher Newsom": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Tia Rigg": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Jean Townsend": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Helen McCourt": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Ratcliff Highway murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Rachael Anderson": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Gatton murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-30",
-  "strikes": 2
- },
- "Murder of Peter Weinberger": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Jennifer Fairgate case": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Bedford Square Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "White House Farm murders": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Vizconde murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Lillelid murders": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Anne Noblett": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Renee and Andrew MacRae": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Cannock Chase murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Death of Paulette Gebara Farah": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Disappearance of Etan Patz": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Lake Bodom murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Kidnapping of Elizabeth Smart": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Jeanine Nicarico": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Jaclyn Dowaliby": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Clement De La Haye": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Disappearance of Damien Nettles": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Killing of Gianfranco Cuccuini": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Shafilea Ahmed": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Amber Hagerman": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Killing of Lyhanna Rameau Bernard": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Arlene Fraser": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Leanne Tiernan": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Disappearance of Crystal Rogers": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Murder of Brian McDermott": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Paraquat murders": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-10-30",
-  "strikes": 1
- },
- "Disappearance of Lee Boxell": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Matthew Kitandwe": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Kayleigh Haywood": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Danielle Jones": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Disappearance of Ruth Wilson": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-31",
-  "strikes": 2
- },
- "Disappearance of Mary Flanagan": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Milly Dowler": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Disappearance of Patrick Warren and David Spencer": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Great Basin Murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Alexis Murphy": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-31",
-  "strikes": 1
- },
  "Killing of Chris Kaba": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -3005,12 +2417,6 @@
   "date": "2026-11-19",
   "strikes": 1
  },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-11-19",
-  "strikes": 52
- },
  "Death of Katrien De Cuyper": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -3578,12 +2984,6 @@
  "House of Blood murders": {
   "stage": "prefilter",
   "code": "minor_victim",
-  "date": "2026-11-20",
-  "strikes": 1
- },
- "Murder of Raja Ahmed": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-20",
   "strikes": 1
  },
@@ -4535,12 +3935,6 @@
   "date": "2026-11-21",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-21",
-  "strikes": 15
- },
  "Cheltenham torso mystery": {
   "stage": "prefilter",
   "code": "gore",
@@ -4628,12 +4022,6 @@
  "Murder of Richard Everitt": {
   "stage": "prefilter",
   "code": "minor_victim",
-  "date": "2026-11-21",
-  "strikes": 1
- },
- "Redhead murders": {
-  "stage": "quality",
-  "code": "low_accuracy",
   "date": "2026-11-21",
   "strikes": 1
  },
@@ -4797,6 +4185,618 @@
   "stage": "prefilter",
   "code": "gore",
   "date": "2026-11-21",
+  "strikes": 1
+ },
+ "Murder of Mary Theresa Simpson": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Tulay Goren": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Assassination of Benazir Bhutto": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Ames Glover": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Sasha Marsden": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Death of Lamduan Armitage": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Inokashira Park dismemberment incident": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Timothy Wiltsey": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-22",
+  "strikes": 53
+ },
+ "Murder of Muriel Drinkwater": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "2012 Alps killings": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Rajan case": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Relisha Rudd": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Jacob Wetterling": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Barbara Tucker": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Geeta and Sanjay Chopra kidnapping case": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Countess of Chester Hospital baby murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Clare Morrison": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Corryn Rayney": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Palmira Silva": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Aamir Siddiqi": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Dini Haryati": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Elizabeth Parravicini": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Redhead murders": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-22",
+  "strikes": 2
+ },
+ "Ashikaga murder case": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Krystal Fraser": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Chohan family murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Robert McCartney": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Karin Grech": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Hello Kitty murder case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Ang May Hong": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Abduction and killing of Nissim Toledano": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Ashlynne Mike": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Jessica Lunsford": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murders of Katherine and Sheila Lyon": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Damilola Taylor": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Geylang Bahru family murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Louise Jensen": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murders of Helen and Margaret Lynch": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Mary Speir Gunn": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Shana Grice": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Preston Davey": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Amy Joyner-Francis": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Aw Teck Boon": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Shanquella Robinson": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Solange Grabenheimer": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Amy Lynn Bradley": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Soham murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Raja Ahmed": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-22",
+  "strikes": 2
+ },
+ "The Noid": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 16
+ },
+ "Disappearance of Rahul Raju": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Paul Quinn": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Zara Aleena": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Simon Dale": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Francis Imbard affair": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Anuj Bidve": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Gitchie Manitou murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Marian Beattie": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Hena Akhter": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Peng Shuai": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Whitehall Mystery": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Tracie McBride": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Mona Blades": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murders of Channon Christian and Christopher Newsom": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "2013 Kamduni gang rape and murder case": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Patsy Morris": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Death of Sonja Engelbrecht": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Lambeth Mystery": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Kidnapping of Elliot Eastman": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Jane Thurgood-Dove": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Death of Chan Yin-lam": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Mona Tinsley": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Bedford Square Mystery": {
+  "stage": "prefilter",
+  "code": "gore",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Death of Luis Andres Colmenares": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Suzanne Bombardier": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Arenc affair": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Pimlico Mystery": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Bernadette Walker": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Death of Paulette Gebara Farah": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Tia Rigg": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Lake Bodom murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Renee and Andrew MacRae": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Sandeep Kothari": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Jaclyn Dowaliby": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Grégory Villemin": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Linda Goldstone": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Cédrika Provencher": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Jeanine Nicarico": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Helen McCourt": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Amber Hagerman": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Peter Weinberger": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Mandy Lemaire": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Damien Nettles": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Logan Mwangi": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Crystal Rogers": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Lee Boxell": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Lyhanna Rameau Bernard": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Jean McConville": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "White House Farm murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Arlene Fraser": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Jimmy Mizen": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Franciscan University murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
   "strikes": 1
  }
 }

@@ -7544,6 +7544,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-22T18:02:18+00:00",
+   "platform": "tiktok",
+   "file": "Mysterious_playground_disappearance_20261122_180152.mp4",
+   "sha256": "815efe0cd55736d1b97378865aca45b0631b0088a681e79b2071e32cc45a2b0d",
+   "head": "Lina Khil case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.658,
+   "report": {
+    "seconds": 34.0,
+    "lufs": -14.8,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3562,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7116,
+     "predicted_tokens": 5041,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
