@@ -7586,6 +7586,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-22T18:29:15+00:00",
+   "platform": "tiktok",
+   "file": "Fairgates_Oslo_Hotel_Mystery_20261122_182852.mp4",
+   "sha256": "63f034780e61791f040beee58630d540e2b711bd0431e790b595384a8e49200e",
+   "head": "The Jennifer Fairgate case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.694,
+   "report": {
+    "seconds": 31.2,
+    "lufs": -15.0,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3563,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7115,
+     "predicted_tokens": 5055,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

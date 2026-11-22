@@ -1,82 +1,4 @@
 {
- "Killing of Chris Kaba": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Tottenham Court Road Mystery": {
-  "stage": "prefilter",
-  "code": "gore",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Judith Roberts": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Münsterland murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-10-31",
-  "strikes": 2
- },
- "Murder of Caroline Glachan": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Death of Kuang Zhijun": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Killing of Paul Byrne": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Daniel Pełka": {
-  "stage": "prefilter",
-  "code": "sexual_violence",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Linda Cook": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Ellie Butler": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Mariam Peters": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Murder of Andrea Scherpf and Bernd Göricke": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-10-31",
-  "strikes": 1
- },
- "Kidnapping of Katie Beers": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-10-31",
-  "strikes": 1
- },
  "Disappearance of Charlene Downes": {
   "stage": "prefilter",
   "code": "sexual_violence",
@@ -4796,6 +4718,84 @@
  "Franciscan University murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Janie Perrin": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Gatton murders": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Anne Noblett": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Rachael Anderson": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Lillelid murders": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Münsterland murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Vizconde murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Death of Kuang Zhijun": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murders of Lorraine McNab and Peter Sopow": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Killing of Chris Kaba": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of the Lowe family": {
+  "stage": "prefilter",
+  "code": "sexual_violence",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Murder of Linda Cook": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Kidnapping of Hossein Alikhani": {
+  "stage": "compliance",
+  "code": "age_restricted",
   "date": "2026-11-22",
   "strikes": 1
  }
