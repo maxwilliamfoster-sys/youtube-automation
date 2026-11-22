@@ -1,16 +1,4 @@
 {
- "Death of Brian Egg": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "Murder of Claire Holland": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
  "Kidnapping of Heinrich Kreipe": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4794,6 +4782,18 @@
   "strikes": 1
  },
  "Liland affair": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Disappearance of Russell Bohling": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-22",
+  "strikes": 1
+ },
+ "Great Basin Murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-22",

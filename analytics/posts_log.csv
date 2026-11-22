@@ -86,3 +86,4 @@ posted_utc,video_id,format,narrator_ref,exaggeration,cfg_weight,grade,duration_s
 2026-11-21T19:07,7710703018538290465,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,28.1,Gresham cat hostage taking incident,,False,True,,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
 2026-11-22T18:06,7711058404290104609,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,34.0,Disappearance of Lina Khil,,False,True,,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
 2026-11-22T18:31,7711064961207831841,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,31.2,Jennifer Fairgate case,,False,True,,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
+2026-11-22T20:29,7711095323355008289,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,20.3,Murder of Sheila Anderson,,True,False,Her watch stopped at 11:54 that night.,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox

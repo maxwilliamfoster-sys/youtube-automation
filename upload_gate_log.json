@@ -7848,6 +7848,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-22T20:27:05+00:00",
+   "platform": "tiktok",
+   "file": "The_Watch_Stopped_When_She_Died_20261122_202650.mp4",
+   "sha256": "2f82bb2beeaec237f819b4b3c5c227f1a163a15623dcb650cd133a38791eb143",
+   "head": "Sheila Anderson: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.679,
+   "report": {
+    "seconds": 20.3,
+    "lufs": -14.7,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3596,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7082,
+     "predicted_tokens": 5054,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
