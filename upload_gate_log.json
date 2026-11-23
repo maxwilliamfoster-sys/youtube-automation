@@ -7890,6 +7890,92 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-23T21:48:56+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "98301d9a3283e2900cdbb33bbab214921a255525621c171ffd8af370a6da8088",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.606,
+   "report": {
+    "seconds": 34.43,
+    "lufs": -14.9,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 9,
+    "tokens": 3600,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7105,
+     "predicted_tokens": 5029,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-23T22:00:05+00:00",
+   "platform": "tiktok",
+   "file": "Highway_16_Disappearance_20261123_215948.mp4",
+   "sha256": "7efd9244560f67e57ca9a12d558719130be87679f467163dc058167793dab5e5",
+   "head": "True crime: the Jean Virginia Sampare case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.658,
+   "report": {
+    "seconds": 33.23,
+    "lufs": -15.2,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3571,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7102,
+     "predicted_tokens": 5024,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
