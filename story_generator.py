@@ -1056,7 +1056,31 @@ def _cold_open(client, case: dict, script: str):
     if not line.endswith((".", "!", "?")):
         line += "."
     print(f"[ColdOpen] {line}")
+    if _near_copy(line, first):
+        # 2026-11-23 (autopilot): the rewrite often restates the first sentence, and the video then
+        # says it twice ("Three men died inside a Rettendon Range Rover. Three men died inside a
+        # Blue Range Rover..."). The cold open takes that sentence's place instead.
+        body = script.strip()
+        at = body.find(first)
+        rest = body[at + len(first):].lstrip(' "\'') if at >= 0 else body
+        print("[ColdOpen] first sentence repeats the cold open - replaced, not repeated")
+        return line, f"{line} {rest}".strip()
     return line, f"{line} {script}"
+
+
+_COPY_STOP = {"the", "and", "was", "were", "her", "his", "their", "that", "this", "with", "from",
+              "into", "inside", "after", "before", "when", "then", "had", "has", "for", "who"}
+
+
+def _near_copy(a: str, b: str) -> bool:
+    """True when two sentences say the same thing: at least 60% of the shorter one's content words
+    are in the other."""
+    def words(s):
+        return {w for w in re.findall(r"[a-z0-9']+", (s or "").lower()) if len(w) > 2 and w not in _COPY_STOP}
+    wa, wb = words(a), words(b)
+    if len(wa) < 3 or len(wb) < 3:
+        return False
+    return len(wa & wb) / min(len(wa), len(wb)) >= 0.6
 
 
 def _extract_json(text: str) -> dict:

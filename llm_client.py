@@ -1,4 +1,4 @@
-# vendored from growth-lab/llm_client.py @ f5f6c46
+# vendored from growth-lab/llm_client.py @ fb33b75
 """llm_client: one free-tier LLM router for every bot (growth-lab S2, master copy).
 
 Edit it HERE, then roll it out with sync_vendored.py. Stdlib only.
@@ -69,7 +69,10 @@ GEMINI_MODELS = ("gemini-flash-latest", "gemini-flash-lite-latest", "gemini-3.1-
 # reasoning_effort "low" lets Gemini think for up to 1024 tokens, and those count against
 # max_tokens. Added on top of the caller's budget so the answer keeps its own room
 # (a 600-token writer budget capped at 1024 left BCF scripts at ~25 words on 2026-10-27).
-GEMINI_THINKING_TOKENS = 1024
+# 2026-11-23 (autopilot): on Gemini 3.x "low" is a dynamic thinking_level, not a 1024 cap, so
+# 1024 of headroom still cut BCF scripts at 29-55 words (run 45063736445 posted a 20 s video).
+# Unused tokens cost nothing; the reasoning depth (and so the gates' judgement) is unchanged.
+GEMINI_THINKING_TOKENS = 4096
 
 # Last-resort backups (2026-11-21, Max: "have fallbacks because we seem to be limited by the amount of
 # tokens"). Each joins the chain only when its key is set. Free limits checked 2026-11-21:

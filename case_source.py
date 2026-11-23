@@ -160,7 +160,7 @@ _OFF_TOPIC_SUBJECT = re.compile(
 # relatives still alive to wonder about them.
 _TOO_OLD = re.compile(
     r"\b\d{1,4}\s?(BC|BCE|B\.C\.)\b"
-    r"|\b1[0-7]\d{2}\b"
+    r"|\b1[0-8]\d{2}\b"     # 2026-11-23: 1800s too ('1848 Stanfield Hall' got through at 1[0-7])
     r"|\b\d{1,2}(st|nd|rd|th)\s+century\b",
     re.I,
 )

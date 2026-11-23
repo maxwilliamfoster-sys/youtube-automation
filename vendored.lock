@@ -24,8 +24,8 @@
       "local_patch": true
     },
     "llm_client.py": {
-      "sha256": "e373c3d871b870c868c0e3f30bbb422355d2c18e7c0cecbf52d72d4cc6b58f69",
-      "master_sha": "812c5a3aca35303d6e7aa6d1c263c17b499e517e936accb10515be55383f9e16",
+      "sha256": "df8084a79f8acf8ddccad3b12aed9fce52f11f5623f4c24b7263887ea6face01",
+      "master_sha": "c61d1cc444924db6f2af98c7a245515064cc4d781f433c098ce34e0c7abc7680",
       "local_patch": true
     },
     "media_qc.py": {

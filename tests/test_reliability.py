@@ -469,6 +469,17 @@ class GeminiBackupReviewer(unittest.TestCase):
         self.assertGreaterEqual(seen["max_tokens"], 1024)
         self.assertEqual(seen["reasoning_effort"], "low")
 
+    def test_gemini_3_thinking_cannot_eat_a_600_token_script(self):
+        """2026-11-23 (autopilot): on Gemini 3.x 'low' thinking is dynamic, not capped at 1024. A 600-token
+        writer call came back cut at 43, 29, 46 and 55 words (run 45063736445, a 20 s video posted)."""
+        import story_generator as sg
+        seen = {}
+        with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "k", create=True), \
+                self._post(lambda u, body, h, t: seen.update(body) or self._reply("ok")):
+            sg._fallback_call(model="m", messages=[], max_tokens=600)
+        self.assertGreaterEqual(seen["max_tokens"], 600 + 4000)
+        self.assertEqual(seen["reasoning_effort"], "low")  # gates keep the same reasoning depth
+
     def test_not_used_without_a_key_so_the_run_still_fails_closed(self):
         import story_generator as sg
         with self._groq_dead(sg), mock.patch.object(sg, "GOOGLE_API_KEY", "", create=True), \

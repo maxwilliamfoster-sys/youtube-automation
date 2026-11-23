@@ -67,6 +67,25 @@ class ColdOpenLine(unittest.TestCase):
         self.assertEqual(line, safe)
         self.assertTrue(out.startswith(safe))
 
+    def test_a_near_copy_first_sentence_is_replaced_not_repeated(self):
+        """2026-11-23 (autopilot): the Rettendon video said 'Three men died inside a Rettendon Range
+        Rover. Three men died inside a Blue Range Rover on a lonely farm lane.'"""
+        script = ("Three men died inside a Blue Range Rover on a lonely farm lane in Rettendon. "
+                  "They were shot at close range. Nobody saw the gunman. Who pulled the trigger?")
+        new = "Three men died inside a Rettendon Range Rover."
+        with mock.patch.object(sg, "_cold_open_issues", side_effect=[["too long"], []]), \
+                mock.patch.object(sg, "_groq_call", return_value=_reply(new)):
+            line, out = sg._cold_open(None, CASE, script)
+        self.assertEqual(line, new)
+        self.assertEqual(out, new + " They were shot at close range. Nobody saw the gunman. "
+                                    "Who pulled the trigger?")
+
+    def test_a_different_first_sentence_is_kept_after_the_cold_open(self):
+        script = ("When the estate agent left her office that afternoon nobody imagined it would be "
+                  "the last time she was seen. " + BODY)
+        new = "A Fulham estate agent went to a viewing in 1986."
+        self.assertFalse(sg._near_copy(new, sg._first_sentence(script)))
+
     def test_writer_failure_means_no_hook_not_a_crash(self):
         script = ("When the estate agent left her office that afternoon nobody imagined it would be "
                   "the last time she was seen. " + BODY)
