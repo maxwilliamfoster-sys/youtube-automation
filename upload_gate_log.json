@@ -8368,6 +8368,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-24T23:04:09+00:00",
+   "platform": "tiktok",
+   "file": "The_Mystery_Of_The_Missing_Birthday_Boy_20261124_230351.mp4",
+   "sha256": "8ba67286b5e3ea60242edc1b83469dfe8941623f7417924b38df4727c30a0454",
+   "head": "The Alex Sloley case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.721,
+   "report": {
+    "seconds": 33.47,
+    "lufs": -15.1,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3577,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7098,
+     "predicted_tokens": 5022,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

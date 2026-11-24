@@ -1,10 +1,4 @@
 {
- "Murders of Kate Bushell and Lyn Bryant": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-08",
-  "strikes": 2
- },
  "Killing of Harry Stanley": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -4796,6 +4790,12 @@
  "Disappearance of Lisa Marie Young": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Alta View Hospital hostage incident": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
   "date": "2026-11-24",
   "strikes": 1
  }
