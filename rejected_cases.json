@@ -1,76 +1,4 @@
 {
- "Asama-Sansō incident": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-07",
-  "strikes": 1
- },
- "Disappearance of Sarah MacDiarmid": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-07",
-  "strikes": 2
- },
- "2006 Noida serial murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-07",
-  "strikes": 1
- },
- "Disappearance of Lisa Marie Young": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-07",
-  "strikes": 1
- },
- "Murder of Sian O'Callaghan": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-07",
-  "strikes": 2
- },
- "Murder of Carole Packman": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-07",
-  "strikes": 1
- },
- "Disappearance of Subramaniam Ramachandran": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-07",
-  "strikes": 2
- },
- "Kidnapping of Melissa Brannen": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-07",
-  "strikes": 1
- },
- "Kidnapping of Sharon Commins and Hilda Kawuki": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-08",
-  "strikes": 2
- },
- "Murder of Mushin Ahmed": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-08",
-  "strikes": 2
- },
- "Castration serial murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-08",
-  "strikes": 1
- },
- "Kidnapping of Joshua Boyle and Caitlan Coleman": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-11-08",
-  "strikes": 1
- },
  "Best Bakery case": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4794,6 +4722,78 @@
   "strikes": 1
  },
  "Sandyford murder case": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Luigia Borrelli": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Renukaswamy": {
+  "stage": "prescreen",
+  "code": "prescreen_other",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Libby Squire": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Marie Wilks": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Disappearance of Sarah MacDiarmid": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "2008 Noida double murder case": {
+  "stage": "prefilter",
+  "code": "minor_victim",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Death of Jean Perera Sinnappa": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "2006 Noida serial murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Reagan Simmons-Hancock": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "SOS incident": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Carole Packman": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Carol Wardell": {
   "stage": "legal",
   "code": "unconvicted_suspect",
   "date": "2026-11-24",
