@@ -166,6 +166,29 @@ class TestHostingAndGate(unittest.TestCase):
         self.assertTrue(p["ai_realistic"])
         self.assertIsNone(md._gate_profile(sample=True)["ledger"])
 
+    def test_ai_label_only_when_ai_pictures_can_be_in_it(self):
+        # Max, 2026-11-24: cartoons drawn by code + a generic TTS narrator aren't realistic
+        # AI content, so no label; the stock path can use Pollinations AI photos, so it keeps it
+        self.assertFalse(md.needs_ai_label({"visual": "cartoon"}))
+        self.assertTrue(md.needs_ai_label({"visual": "stock"}))
+        self.assertTrue(md.needs_ai_label({}))
+        self.assertFalse(md._gate_profile(ai_realistic=False)["ai_realistic"])
+
+    def test_post_video_sends_the_label_it_is_given(self):
+        sent = {}
+        with mock.patch.object(tiktok_buffer, "find_channel", return_value={"id": "c"}),                 mock.patch.object(tiktok_buffer, "host_video", return_value="https://x/v.mp4"),                 mock.patch.object(tiktok_buffer, "post_time", return_value=None),                 mock.patch.object(tiktok_buffer, "_create_post",
+                                  side_effect=lambda q, v: sent.update(v) or {"message": "stop"}):
+            for label in (False, True):
+                sent.clear()
+                with tempfile.NamedTemporaryFile(suffix=".mp4", delete=False) as fh:
+                    fh.write(b"x")
+                try:
+                    with mock.patch("upload_gate.require", return_value=None):
+                        tiktok_buffer.post_video(fh.name, "caption", ai_label=label)
+                finally:
+                    os.remove(fh.name)
+                self.assertIs(sent["i"]["metadata"]["tiktok"]["isAiGenerated"], label)
+
 
 if __name__ == "__main__":
     unittest.main()

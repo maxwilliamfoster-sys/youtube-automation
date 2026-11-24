@@ -308,7 +308,7 @@ def _create_post(query, variables):
         time.sleep(CREATE_RETRY_WAITS[attempt])
 
 
-def post_video(video_path, caption, timeout=900):
+def post_video(video_path, caption, timeout=900, ai_label=True):
     """
     Host the MP4 and share it to TikTok: now if it's a sensible UK hour (then wait for
     TikTok to take it), otherwise scheduled in Buffer for the next morning.
@@ -333,9 +333,11 @@ def post_video(video_path, caption, timeout=900):
             "mode": "customScheduled" if due else "shareNow",
             "needsApproval": False,
             "assets": [{"video": {"url": url, "metadata": {"thumbnailOffset": 1500}}}],
-            # The narration is an AI voice and the script is LLM-written, so the
-            # AIGC label goes on. Undisclosed AI content is what TikTok penalises.
-            "metadata": {"tiktok": {"isAiGenerated": True}},
+            # TikTok's AIGC label is for REALISTIC AI images, audio or video. The cartoon
+            # videos (drawn by code) with a generic text-to-speech narrator aren't that, so
+            # they go out unlabelled (Max, 2026-11-24: the label was costing views). Callers
+            # pass ai_label=True whenever AI-generated pictures are in the video.
+            "metadata": {"tiktok": {"isAiGenerated": bool(ai_label)}},
         }
         if due:
             inp["dueAt"] = due.isoformat().replace("+00:00", "Z")

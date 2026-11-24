@@ -549,7 +549,11 @@ def _autopost_tiktok(video_path: str, caption: str, story: dict, send_alert, esc
         return False
 
     print(f"[TikTok] Auto-posting to TikTok via {via}...")
-    ok, detail = tp.post_video(video_path, caption)
+    # AI label only when AI pictures could be in it: the stock path can fall back to
+    # Pollinations (flux) images. Cartoon videos are drawn by code, so no label.
+    ai_label = needs_ai_label(story)
+    print(f"[TikTok] AI-generated label: {'on' if ai_label else 'off'} (visual: {story.get('visual', '?')})")
+    ok, detail = tp.post_video(video_path, caption, ai_label=ai_label)
     if ok:
         print(f"[TikTok] Posted: {detail}")
         _log_post(detail, story, video_path)
@@ -627,7 +631,15 @@ def _visual_context() -> str:
             "card opens the video and a closing card asks viewers what they think.")
 
 
-def _gate_profile(sample=False):
+def needs_ai_label(story) -> bool:
+    """TikTok's AI label is for REALISTIC AI images, audio or video. Cartoon videos (drawn
+    by code, generic text-to-speech narrator) don't need it; the stock path can fall back
+    to Pollinations AI photos, so it keeps the label (Max, 2026-11-24: the label was
+    costing views on content that doesn't need it)."""
+    return (story or {}).get("visual") != "cartoon"
+
+
+def _gate_profile(sample=False, ai_realistic=True):
     """Upload-gate settings for the documentaries (see upload_gate.DEFAULT_PROFILE)."""
     return {
         "bot": "bcf",                    # media_qc's rules for this bot; the gate's own window stays the default
@@ -638,7 +650,7 @@ def _gate_profile(sample=False):
         "whisper_model": "tiny",
         "ai_review": "required",         # no coherence review = no post
         "ai_daily_cap": AI_DAILY_CAP,
-        "ai_realistic": True,            # AI narrator over real places -> TikTok AI label
+        "ai_realistic": ai_realistic,    # realistic AI pictures in the video -> TikTok AI label
         "ai_context": _visual_context(),
         "ledger": None if sample else os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                                    "upload_gate_log.json"),
@@ -904,8 +916,8 @@ def run_cloud_deliver(count: int = 2, sample: bool = False) -> None:
 
             def _gate():
                 v = upload_gate.check(
-                    video_path, "tiktok", profile=_gate_profile(sample), caption=caption,
-                    script=story.get("script", ""), ai_label=True)
+                    video_path, "tiktok", profile=_gate_profile(sample, needs_ai_label(story)),
+                    caption=caption, script=story.get("script", ""), ai_label=needs_ai_label(story))
                 try:
                     story_generator.record_review(v)
                 except Exception as e:           # bookkeeping must never block a verdict
