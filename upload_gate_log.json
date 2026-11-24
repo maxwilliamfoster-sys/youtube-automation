@@ -7976,6 +7976,136 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-24T00:36:06+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "654ac55d29dfaabb1c36964f227095563882b64ce68d25b7a5ca9b6489618362",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.731,
+   "report": {
+    "seconds": 32.2,
+    "lufs": -14.8,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 8,
+    "quality": 9,
+    "tokens": 3645,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7108,
+     "predicted_tokens": 5033,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-24T01:00:14+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "98d820bca06c9697b191a99da64a5e954adae0ffdb3f1c429fd9f14f4e2f7d1f",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.632,
+   "report": {
+    "seconds": 24.4,
+    "lufs": -15.3,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3705,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7078,
+     "predicted_tokens": 5027,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-24T01:11:28+00:00",
+   "platform": "tiktok",
+   "file": "Vanished_Teen_on_Box_Hill_Taxi_Ride_20261124_011108.mp4",
+   "sha256": "a2dc0c881af620845f23c37b10208b10560a46aedf26122b71a104ae93d34572",
+   "head": "Inside the Ruth Wilson case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.679,
+   "report": {
+    "seconds": 28.03,
+    "lufs": -15.1,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3566,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7085,
+     "predicted_tokens": 5015,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

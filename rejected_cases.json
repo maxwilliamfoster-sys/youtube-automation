@@ -1,70 +1,4 @@
 {
- "Murder of Lauren Burk": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "Sandyford murder case": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "Murder of Carol Wardell": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "Death of Alberto Nisman": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-11-04",
-  "strikes": 2
- },
- "Murder of George Harry Storrs": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "Murder of Yingying Zhang": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 1
- },
- "The Disappeared (Northern Ireland)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-04",
-  "strikes": 42
- },
- "Death of Jean Perera Sinnappa": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-05",
-  "strikes": 1
- },
- "Shark Arm case": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-05",
-  "strikes": 1
- },
- "Murder of Libby Squire": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-11-05",
-  "strikes": 1
- },
- "2008 Noida double murder case": {
-  "stage": "prefilter",
-  "code": "minor_victim",
-  "date": "2026-11-05",
-  "strikes": 1
- },
  "Asama-Sansō incident": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -110,12 +44,6 @@
  "Kidnapping of Melissa Brannen": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
-  "date": "2026-11-07",
-  "strikes": 1
- },
- "Murder of Sophie Lancaster": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-07",
   "strikes": 1
  },
@@ -2024,12 +1952,6 @@
  "Murder of Kirsty Jones": {
   "stage": "prefilter",
   "code": "sexual_violence",
-  "date": "2026-11-20",
-  "strikes": 1
- },
- "2003 Case Western Reserve University shooting": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-20",
   "strikes": 1
  },
@@ -4797,6 +4719,84 @@
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-23",
+  "strikes": 1
+ },
+ "Disappearance of Kristen Modafferi": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Michelle O'Keefe": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Surjit Singh Chhokar": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Sophie Lancaster": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-24",
+  "strikes": 2
+ },
+ "2003 Case Western Reserve University shooting": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-24",
+  "strikes": 2
+ },
+ "2012 Karlsruhe murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Hawker Hunter Tower Bridge incident": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Disappearance of Amber Cates": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murders of William Redmond and Helen Phelps": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murder of Yingying Zhang": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murders of Margaret and Seana Tapp": {
+  "stage": "prescreen",
+  "code": "prescreen_other",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Murders of Koby Mandell and Yosef Ishran": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-24",
+  "strikes": 1
+ },
+ "Sandyford murder case": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-24",
   "strikes": 1
  }
 }
