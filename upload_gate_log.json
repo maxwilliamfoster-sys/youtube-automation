@@ -8194,6 +8194,180 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-24T20:42:05+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "23d67557b6010c0a31371184b5c5f5ab4070c016316fd6c8a721c0f5305af255",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.721,
+   "report": {
+    "seconds": 33.07,
+    "lufs": -15.0,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3748,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7106,
+     "predicted_tokens": 5031,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-24T20:57:14+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "361cb133184ffb7c37b6edb3a845d5a11f21b0821d29342db5b37dae83e11d4e",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.677,
+   "report": {
+    "seconds": 35.5,
+    "lufs": -14.8,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 6,
+    "tokens": 3719,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7105,
+     "predicted_tokens": 5025,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-24T21:35:25+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "3d33786417da15ac2c5af67ca243c4e70e1fc9181f2036e7e5256923b8ea3d98",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.641,
+   "report": {
+    "seconds": 39.53,
+    "lufs": -15.1,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3795,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7136,
+     "predicted_tokens": 5054,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-24T21:49:18+00:00",
+   "platform": "tiktok",
+   "file": "She_Covered_a_Shift_He_Took_the_Evidence_20261124_214853.mp4",
+   "sha256": "645993399c0b37df49e62a663d15d6916515d98fb239a9429750ac7ccae23e56",
+   "head": "Blue Ridge Savings Bank murders case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.643,
+   "report": {
+    "seconds": 33.67,
+    "lufs": -15.0,
+    "speech_match": 0.96,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3585,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7110,
+     "predicted_tokens": 5032,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
