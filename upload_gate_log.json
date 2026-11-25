@@ -8410,6 +8410,122 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-25T00:33:47+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "35b53d24db654cb60ba5498aec4e8d8e8304407043f62967dc0f43f946fc968b",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "same first caption line as a recent post (…)"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.69,
+   "report": {
+    "seconds": 32.87,
+    "lufs": -15.2,
+    "speech_match": 0.91,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-11-25T01:07:37+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "a4be88dbf7fc8751f1b5f9264309aee87187bd818470c408870acacfa01bda40",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.495,
+   "report": {
+    "seconds": 36.8,
+    "lufs": -15.1,
+    "speech_match": 0.84,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3743,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7135,
+     "predicted_tokens": 5056,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-25T01:38:46+00:00",
+   "platform": "tiktok",
+   "file": "Fifteen-Foot_Shots_No_Charges_20261125_013819.mp4",
+   "sha256": "b703ae573b2fca1e225c206e9fbbb0b4f715610a6cc80e0c1eb8eb0ee12a806a",
+   "head": "Harry Stanley: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.724,
+   "report": {
+    "seconds": 39.97,
+    "lufs": -15.1,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3584,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7127,
+     "predicted_tokens": 5040,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
