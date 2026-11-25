@@ -1,22 +1,4 @@
 {
- "Murder of Olive Balchin": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Disappearance of Michaela Garecht": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Dyatlov Pass incident": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 2
- },
  "Murder of Lynette White": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -928,12 +910,6 @@
   "code": "sexual_violence",
   "date": "2026-11-16",
   "strikes": 1
- },
- "Michael Stone (criminal)": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-16",
-  "strikes": 4
  },
  "Murder of the Kumari-Baker sisters": {
   "stage": "prescreen",
@@ -4685,12 +4661,6 @@
   "date": "2026-11-25",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-25",
-  "strikes": 17
- },
  "Peter Bergmann case": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -4796,6 +4766,36 @@
  "Kidnapping of Sharon Commins and Hilda Kawuki": {
   "stage": "quality",
   "code": "low_accuracy",
+  "date": "2026-11-25",
+  "strikes": 1
+ },
+ "The Noid": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-25",
+  "strikes": 18
+ },
+ "Murder of Banaz Mahmod": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
+  "date": "2026-11-25",
+  "strikes": 1
+ },
+ "Michael Stone (criminal)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-25",
+  "strikes": 5
+ },
+ "Murder of Andrew Cunningham": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-25",
+  "strikes": 1
+ },
+ "Kidnapping of Joshua Boyle and Caitlan Coleman": {
+  "stage": "prescreen",
+  "code": "sexual_violence",
   "date": "2026-11-25",
   "strikes": 1
  }

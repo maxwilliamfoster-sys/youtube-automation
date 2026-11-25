@@ -8612,6 +8612,136 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-25T20:30:41+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "06b49420d086e4c76368996f4175433de62c9228200db2ebda08dd15c24b29e0",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.537,
+   "report": {
+    "seconds": 38.47,
+    "lufs": -15.1,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3920,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7123,
+     "predicted_tokens": 5040,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-25T20:54:04+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "e729212583404bab761a4ceb4ad163a0ca991a9374049bf4ee6cc75ef028ef3b",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.506,
+   "report": {
+    "seconds": 38.27,
+    "lufs": -15.1,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 5,
+    "quality": 8,
+    "tokens": 3726,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7120,
+     "predicted_tokens": 5043,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-25T21:06:20+00:00",
+   "platform": "tiktok",
+   "file": "Trapped_by_her_scooter_The_Michaela_Gare_20261125_210559.mp4",
+   "sha256": "c27a286d9a1ba4ad85819b03808dbab49f899fbf9398cb9acd3053a60301ecd3",
+   "head": "Inside the Michaela Garecht case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.61,
+   "report": {
+    "seconds": 31.47,
+    "lufs": -15.1,
+    "speech_match": 0.87,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3566,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7094,
+     "predicted_tokens": 5016,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
