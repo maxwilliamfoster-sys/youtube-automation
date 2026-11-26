@@ -95,3 +95,4 @@ posted_utc,video_id,format,narrator_ref,exaggeration,cfg_weight,grade,duration_s
 2026-11-25T20:09,7712203436191730977,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,35.4,Peter Bergmann case,,False,False,He cut every clothing label out in 2009.,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
 2026-11-25T21:09,7712218772748242215,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,31.5,Disappearance of Michaela Garecht,,False,False,Her scooter was moved to trap her in Hayward.,"{""buriedcasefiles-hook_card-1"": ""variant""}",chatterbox
 2026-11-26T19:22,7712562214099488033,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,36.3,Disappearance of Carlos Ornelas Puga,,False,True,,"{""buriedcasefiles-hook_card-1"": ""variant""}",chatterbox
+2026-11-26T19:41,7712567222933212449,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,29.1,Dyatlov Pass incident,,False,True,,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox

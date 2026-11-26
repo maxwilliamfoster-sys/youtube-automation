@@ -8784,6 +8784,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-26T19:38:51+00:00",
+   "platform": "tiktok",
+   "file": "Hikers_Vanish_Mystery_in_the_Snow_20261126_193835.mp4",
+   "sha256": "6000cb17b80a21f9973341e711955e01b6ab79083c6b386530b76f3d6b837f71",
+   "head": "The Dyatlov Pass incident case, explained.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.657,
+   "report": {
+    "seconds": 29.13,
+    "lufs": -14.9,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3592,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7112,
+     "predicted_tokens": 5036,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
