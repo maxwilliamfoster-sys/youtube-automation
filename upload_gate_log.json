@@ -8742,6 +8742,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-26T19:19:19+00:00",
+   "platform": "tiktok",
+   "file": "Priest_Abducted_at_Mass_Authorities_Dela_20261126_191854.mp4",
+   "sha256": "9c8e6cd68e37ee9c3a91c0ecb890fcbb40e038f405a9dd0474ad0d3dadd300b1",
+   "head": "Carlos Ornelas Puga case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.667,
+   "report": {
+    "seconds": 36.27,
+    "lufs": -15.2,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3587,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7117,
+     "predicted_tokens": 5033,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
