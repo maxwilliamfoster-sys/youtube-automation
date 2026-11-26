@@ -98,7 +98,10 @@ def get_random_start_time(video_path: str, clip_duration: float) -> float:
 
 
 def escape_ffmpeg_text(text: str) -> str:
-    # Strip EVERY character that can break FFmpeg drawtext parsing
+    # Strip EVERY character that can break FFmpeg drawtext parsing.
+    # A clock time keeps a separator: "11:54" -> "11.54" (UK style) instead of "11 54"
+    # (autopilot 2026-11-26, hook card watched 2026-11-23).
+    text = re.sub(r"(?<=\d):(?=\d{2}\b)", ".", text)
     bad_chars = [
         (chr(0x2018), ''),  # left curly apostrophe  -> remove
         (chr(0x2019), ''),  # right curly apostrophe -> remove
