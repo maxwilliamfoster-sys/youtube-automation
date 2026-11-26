@@ -8826,6 +8826,78 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-26T20:24:12+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "653bb83eceb3844f868d12f33dc2adb86f70275caee5df706aef084a87c8ac8d",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "same first caption line as a recent post (…)"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.712,
+   "report": {
+    "seconds": 36.7,
+    "lufs": -15.1,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-11-26T20:34:47+00:00",
+   "platform": "tiktok",
+   "file": "Abilio_Diniz_The_Election_Day_Mystery_20261126_203425.mp4",
+   "sha256": "7264565466e67aa0afa0f3d10de3c9c2e663dd45353d34f2b7956ee152cc912f",
+   "head": "Kidnapping of Abilio Diniz: the full story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.592,
+   "report": {
+    "seconds": 28.57,
+    "lufs": -14.9,
+    "speech_match": 0.97,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3562,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7081,
+     "predicted_tokens": 5018,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
