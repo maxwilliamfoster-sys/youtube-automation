@@ -8898,6 +8898,92 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-27T19:19:01+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "0538d0381847172d8e24af76c25c053b1f92e1032e27b2150aac4fafa0159310",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.676,
+   "report": {
+    "seconds": 37.8,
+    "lufs": -15.0,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3788,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7122,
+     "predicted_tokens": 5044,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-27T19:37:50+00:00",
+   "platform": "tiktok",
+   "file": "Replica_Gun_Turns_Live_Duggan_Killed_in__20261127_193737.mp4",
+   "sha256": "2d9ebdf5811f2e833bea575de7dbaab28d2c9a6e62bad33c966ff62edf156fc0",
+   "head": "UK crime: the Mark Duggan case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.635,
+   "report": {
+    "seconds": 33.1,
+    "lufs": -15.1,
+    "speech_match": 0.88,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3599,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7118,
+     "predicted_tokens": 5043,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

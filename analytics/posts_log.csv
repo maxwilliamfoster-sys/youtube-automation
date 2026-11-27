@@ -97,3 +97,4 @@ posted_utc,video_id,format,narrator_ref,exaggeration,cfg_weight,grade,duration_s
 2026-11-26T19:22,7712562214099488033,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,36.3,Disappearance of Carlos Ornelas Puga,,False,True,,"{""buriedcasefiles-hook_card-1"": ""variant""}",chatterbox
 2026-11-26T19:41,7712567222933212449,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,29.1,Dyatlov Pass incident,,False,True,,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
 2026-11-26T20:37,7712581660616707367,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,28.6,Kidnapping of Abilio Diniz,,False,True,,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox
+2026-11-27T19:40,7712938063911046439,v6-cartoon,narrator_ref_sombre_ryan.wav,0.45,0.5,overcast,33.1,Killing of Mark Duggan,,True,False,A replica gun became live‑fire minutes before Duggan’s death.,"{""buriedcasefiles-hook_card-1"": ""control""}",chatterbox

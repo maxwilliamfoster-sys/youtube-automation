@@ -1,10 +1,4 @@
 {
- "Murder of Luis Espinoza": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-11-09",
-  "strikes": 1
- },
  "Murder of Christopher Alaneme": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -1198,12 +1192,6 @@
   "code": "sexual_violence",
   "date": "2026-11-18",
   "strikes": 1
- },
- "Robert Brown case": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-18",
-  "strikes": 5
  },
  "Murders of John Greenwood and Gary Miller": {
   "stage": "prefilter",
@@ -4798,5 +4786,17 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-26",
   "strikes": 1
+ },
+ "Disappearance of Isabella Skelton": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Robert Brown case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 6
  }
 }
