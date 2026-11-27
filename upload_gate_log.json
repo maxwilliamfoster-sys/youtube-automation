@@ -8984,6 +8984,212 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-27T20:10:32+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "17fc262438700a0040db5de1a5fc2205765a9fefc9c6a9b7ab0189591829d621",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.622,
+   "report": {
+    "seconds": 34.8,
+    "lufs": -14.9,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 3,
+    "tokens": 3726,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7123,
+     "predicted_tokens": 5047,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-27T20:32:15+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "0d93a5b06022ec7c873d7120ce4aae4b3aa4d329136a74680906a4b6da9a666c",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.543,
+   "report": {
+    "seconds": 39.27,
+    "lufs": -15.2,
+    "speech_match": 0.92,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 2,
+    "quality": 3,
+    "tokens": 3741,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7140,
+     "predicted_tokens": 5056,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-27T20:40:18+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "714f57615396cb781ef7d4d153ca1cbf70c7526cf08c3b1d6d573f7310cd8435",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.689,
+   "report": {
+    "seconds": 33.57,
+    "lufs": -15.1,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3731,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7102,
+     "predicted_tokens": 5025,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-27T20:51:26+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "880d610350494f4ff8daddca3c334301ba77f29a62865bb2bf87b45b4677e821",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.792,
+   "report": {
+    "seconds": 36.63,
+    "lufs": -15.2,
+    "speech_match": 0.93,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 5,
+    "quality": 8,
+    "tokens": 3692,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7139,
+     "predicted_tokens": 5059,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-27T21:26:04+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "593578a274c34b4bdcd0c1c10ef35967b8cb61001ff6c731966fc4bfdb899910",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "same first caption line as a recent post (…)"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.69,
+   "report": {
+    "seconds": 39.17,
+    "lufs": -15.1,
+    "speech_match": 0.98,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
   }
  ]
 }

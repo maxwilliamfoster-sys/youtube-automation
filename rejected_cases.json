@@ -1,184 +1,4 @@
 {
- "Murder of Christopher Alaneme": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Killing of Fausto and Iaio": {
-  "stage": "prescreen",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Disappearance of Vadivel Nimalarajah": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Kidnapping of Maria Àngels Feliu": {
-  "stage": "compliance",
-  "code": "age_restricted",
-  "date": "2026-11-09",
-  "strikes": 2
- },
- "Murder of Octavio Rojas Hernández": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Murders of Nicola Hughes and Fiona Bone": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Murder of Matt Ratana": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-09",
-  "strikes": 2
- },
- "Ardlamont mystery": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Murder of Jenny Nicholl": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Kidnapping and murder of Lesley Whittle": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Death of Brian Murphy": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Disappearance of Genette Tate": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Disappearance of Myra Lewis": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-09",
-  "strikes": 1
- },
- "Murder of Urban Höglin and Heidi Paakkonen": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Murder of Nikki Allan": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Murder of Sharon Beshenivsky": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Murder of Anni Dewani": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Murder of Jonathan Henry": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Murder of Charlotte Dymond": {
-  "stage": "legal",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 2
- },
- "Murder of Hanifa Abubakar": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Akiyoshi Umekawa": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-11-10",
-  "strikes": 10
- },
- "Dacer–Corbito double murder case": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Disappearance of Dulce Maria Alavez": {
-  "stage": "compliance",
-  "code": "fyf_ineligible",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Hungerford police murders": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 2
- },
- "Killing of Peggy Knobloch": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Kidnapping of Shahbaz Taseer": {
-  "stage": "factcheck_unsafe",
-  "code": "factcheck_unsafe",
-  "date": "2026-11-10",
-  "strikes": 2
- },
- "Killing of Azelle Rodney": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Murders of Christine and Lucy Lee": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-10",
-  "strikes": 2
- },
- "Shooting of Brian Stack": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-11-10",
-  "strikes": 1
- },
- "Murder of Nurin Jazlin": {
-  "stage": "prescreen",
-  "code": "sexual_violence",
-  "date": "2026-11-11",
-  "strikes": 1
- },
  "Murder of Lyn Bryant": {
   "stage": "empty_script",
   "code": "script_unusable",
@@ -335,12 +155,6 @@
   "date": "2026-11-12",
   "strikes": 2
  },
- "Killing of Abraham Grünbaum": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-12",
-  "strikes": 1
- },
  "Death of Ayakannu Marithamuthu": {
   "stage": "prescreen",
   "code": "unconvicted_suspect",
@@ -419,12 +233,6 @@
   "date": "2026-11-14",
   "strikes": 2
  },
- "Shepherd's Bush murders": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-14",
-  "strikes": 1
- },
  "Murder of Breck Bednar": {
   "stage": "prescreen",
   "code": "minor_victim",
@@ -488,12 +296,6 @@
  "Caligula case": {
   "stage": "prescreen",
   "code": "sexual_violence",
-  "date": "2026-11-14",
-  "strikes": 1
- },
- "Murder of Zarema Sadulayeva and Alik Dzhabrailov": {
-  "stage": "empty_script",
-  "code": "script_unusable",
   "date": "2026-11-14",
   "strikes": 1
  },
@@ -2446,12 +2248,6 @@
   "code": "minor_victim",
   "date": "2026-11-21",
   "strikes": 1
- },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-21",
-  "strikes": 26
  },
  "Murder of Jodi Jones": {
   "stage": "prefilter",
@@ -4709,12 +4505,6 @@
   "date": "2026-11-25",
   "strikes": 1
  },
- "The Noid": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-25",
-  "strikes": 18
- },
  "Murder of Banaz Mahmod": {
   "stage": "prescreen",
   "code": "sexual_violence",
@@ -4757,12 +4547,6 @@
   "date": "2026-11-26",
   "strikes": 1
  },
- "Michael Stone (criminal)": {
-  "stage": "prescreen",
-  "code": "minor_victim",
-  "date": "2026-11-26",
-  "strikes": 6
- },
  "Tynong North and Frankston murders": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4787,16 +4571,232 @@
   "date": "2026-11-26",
   "strikes": 1
  },
- "Disappearance of Isabella Skelton": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-27",
-  "strikes": 1
- },
  "Robert Brown case": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
   "date": "2026-11-27",
   "strikes": 6
+ },
+ "Ann Arbor Hospital murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Sarah Payne": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Bluestone family murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Zarema Sadulayeva and Alik Dzhabrailov": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 2
+ },
+ "Murder of Sally Ann McGrath": {
+  "stage": "empty_script",
+  "code": "script_unusable",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Abduction of Yusuf and Zahra Shikder": {
+  "stage": "compliance",
+  "code": "fyf_ineligible",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Pesseghini family murders": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Killing of David Black": {
+  "stage": "prescreen",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Octavio Rojas Hernández": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Michael Stone (criminal)": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 7
+ },
+ "Murder of Christopher Alaneme": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Gilles Andruet": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Matt Ratana": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Stephen Tibble": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Lynette White": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "The Noid": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 19
+ },
+ "Qiandao Lake incident": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Death and funeral of Buenaventura Durruti": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 27
+ },
+ "Death of Brian Murphy": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Death of Brian Egg": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Jenny Nicholl": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Patricia Jeschke": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Disappearance of Isabella Skelton": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-27",
+  "strikes": 2
+ },
+ "Disappearance of Genette Tate": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Death of Nina Mackay": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murders of Nicola Hughes and Fiona Bone": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Killing of Abraham Grünbaum": {
+  "stage": "legal",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 2
+ },
+ "Murder of Tina Baker": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Kidnapping of Angelo dela Cruz": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Shepherd's Bush murders": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-27",
+  "strikes": 2
+ },
+ "Akiyoshi Umekawa": {
+  "stage": "compliance",
+  "code": "age_restricted",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Disappearance of Dulce Maria Alavez": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Abduction of Jakub Fiszman": {
+  "stage": "quality",
+  "code": "low_accuracy",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Dacer–Corbito double murder case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murders of Christine and Lucy Lee": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Kidnapping of Shahbaz Taseer": {
+  "stage": "prescreen",
+  "code": "gore",
+  "date": "2026-11-27",
+  "strikes": 1
  }
 }
