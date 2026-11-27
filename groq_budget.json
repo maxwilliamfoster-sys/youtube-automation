@@ -6,12 +6,12 @@
    "tokens": 200800
   },
   "openai/gpt-oss-20b": {
-   "requests": 182,
-   "tokens": 198648
+   "requests": 183,
+   "tokens": 200287
   },
   "qwen/qwen3.8-27b": {
-   "requests": 6,
-   "tokens": 22277
+   "requests": 8,
+   "tokens": 29663
   }
  }
 }

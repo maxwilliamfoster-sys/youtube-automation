@@ -9190,6 +9190,122 @@
     "reason": null,
     "skipped": "earlier failures"
    }
+  },
+  {
+   "checked_at": "2026-11-27T21:48:54+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "4176bdd87c53b4f9a45a29bed097f4a1fb5ac622693c9571e42c545ecda3d3f9",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "same first caption line as a recent post (…)"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.679,
+   "report": {
+    "seconds": 34.53,
+    "lufs": -14.8,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "reason": null,
+    "skipped": "earlier failures"
+   }
+  },
+  {
+   "checked_at": "2026-11-27T22:16:56+00:00",
+   "platform": "tiktok",
+   "file": null,
+   "sha256": "3080cceb5141c680ba9bc7d460f7da24af88b5456f2143983f431cc6e6541cb3",
+   "head": null,
+   "ok": false,
+   "failures": [
+    "AI review: [ai_block] withheld from the public log"
+   ],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.719,
+   "report": {
+    "seconds": 35.67,
+    "lufs": -15.0,
+    "speech_match": 0.95,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": false,
+    "coherence": 4,
+    "quality": 5,
+    "tokens": 3814,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_block] withheld from the public log",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7106,
+     "predicted_tokens": 5028,
+     "stage": "fewer frames"
+    }
+   }
+  },
+  {
+   "checked_at": "2026-11-27T22:40:15+00:00",
+   "platform": "tiktok",
+   "file": "Six_hikers_died_on_a_Siberian_peak_20261127_223952.mp4",
+   "sha256": "29c269bd78f6751841c67cb84430c828bc46717ab407eeb4156b355fc3331a26",
+   "head": "Inside the Khamar-Daban incident case.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.638,
+   "report": {
+    "seconds": 32.63,
+    "lufs": -15.0,
+    "speech_match": 0.94,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3572,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7099,
+     "predicted_tokens": 5024,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }

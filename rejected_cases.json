@@ -1,34 +1,4 @@
 {
- "Murder of Lyn Bryant": {
-  "stage": "empty_script",
-  "code": "script_unusable",
-  "date": "2026-11-11",
-  "strikes": 1
- },
- "Murder of Michael Causer": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-11",
-  "strikes": 1
- },
- "Death of Kevin Hjalmarsson": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-11",
-  "strikes": 1
- },
- "Murder of Carol Lannen": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-11",
-  "strikes": 1
- },
- "Khamar-Daban incident": {
-  "stage": "prescreen",
-  "code": "gore",
-  "date": "2026-11-11",
-  "strikes": 1
- },
  "Disappearance of Carlos Ornelas Puga": {
   "stage": "quality",
   "code": "low_accuracy",
@@ -700,12 +670,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-17",
   "strikes": 1
- },
- "Operation Synytsia": {
-  "stage": "prescreen",
-  "code": "other",
-  "date": "2026-11-17",
-  "strikes": 14
  },
  "Abduction and killing of Nachshon Wachsman": {
   "stage": "prescreen",
@@ -2873,12 +2837,6 @@
   "date": "2026-11-22",
   "strikes": 1
  },
- "Murder of Janet Brown": {
-  "stage": "prescreen",
-  "code": "active_proceedings",
-  "date": "2026-11-22",
-  "strikes": 53
- },
  "Murder of Muriel Drinkwater": {
   "stage": "prefilter",
   "code": "sexual_violence",
@@ -4343,12 +4301,6 @@
   "date": "2026-11-24",
   "strikes": 1
  },
- "Kenneth Noye": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-24",
-  "strikes": 13
- },
  "Disappearance of Lisa Marie Young": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4655,12 +4607,6 @@
   "date": "2026-11-27",
   "strikes": 1
  },
- "Murder of Stephen Tibble": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-27",
-  "strikes": 1
- },
  "Murder of Lynette White": {
   "stage": "prefilter",
   "code": "unconvicted_suspect",
@@ -4684,12 +4630,6 @@
   "code": "unconvicted_suspect",
   "date": "2026-11-27",
   "strikes": 1
- },
- "Babes in the Wood murders (Brighton)": {
-  "stage": "prefilter",
-  "code": "unconvicted_suspect",
-  "date": "2026-11-27",
-  "strikes": 27
  },
  "Death of Brian Murphy": {
   "stage": "prefilter",
@@ -4751,12 +4691,6 @@
   "date": "2026-11-27",
   "strikes": 1
  },
- "Kidnapping of Angelo dela Cruz": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-27",
-  "strikes": 1
- },
  "Shepherd's Bush murders": {
   "stage": "compliance",
   "code": "age_restricted",
@@ -4796,6 +4730,72 @@
  "Kidnapping of Shahbaz Taseer": {
   "stage": "prescreen",
   "code": "gore",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Death of Alberto Nisman": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Castration serial murders": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Hanifa Abubakar": {
+  "stage": "prescreen",
+  "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Stephen Tibble": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-27",
+  "strikes": 2
+ },
+ "Kidnapping of Angelo dela Cruz": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-27",
+  "strikes": 2
+ },
+ "Babes in the Wood murders (Brighton)": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 28
+ },
+ "Kenneth Noye": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 14
+ },
+ "Shafqat Emmanuel and Shagufta Kausar blasphemy case": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Janet Brown": {
+  "stage": "prescreen",
+  "code": "active_proceedings",
+  "date": "2026-11-27",
+  "strikes": 54
+ },
+ "Operation Synytsia": {
+  "stage": "prescreen",
+  "code": "other",
+  "date": "2026-11-27",
+  "strikes": 15
+ },
+ "Kidnapping and murder of Lesley Whittle": {
+  "stage": "prescreen",
+  "code": "minor_victim",
   "date": "2026-11-27",
   "strikes": 1
  }
