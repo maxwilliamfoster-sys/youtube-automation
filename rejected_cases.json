@@ -1,10 +1,4 @@
 {
- "Disappearance of Carlos Ornelas Puga": {
-  "stage": "quality",
-  "code": "low_accuracy",
-  "date": "2026-11-11",
-  "strikes": 1
- },
  "Disappearance of Alfredo Jiménez Mota": {
   "stage": "legal",
   "code": "unconvicted_suspect",
@@ -4796,6 +4790,12 @@
  "Kidnapping and murder of Lesley Whittle": {
   "stage": "prescreen",
   "code": "minor_victim",
+  "date": "2026-11-27",
+  "strikes": 1
+ },
+ "Murder of Michael Causer": {
+  "stage": "prefilter",
+  "code": "unconvicted_suspect",
   "date": "2026-11-27",
   "strikes": 1
  }

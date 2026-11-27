@@ -9306,6 +9306,48 @@
      "stage": "fewer frames"
     }
    }
+  },
+  {
+   "checked_at": "2026-11-27T23:00:47+00:00",
+   "platform": "tiktok",
+   "file": "The_Dublin_schoolboy_who_vanished_withou_20261127_230025.mp4",
+   "sha256": "415e20180eea65e6de9701b08abd3484e1871667dd0abc90a78212742891ce95",
+   "head": "Philip Cairns case. | True crime story.",
+   "ok": true,
+   "failures": [],
+   "warnings": [],
+   "gate_version": "2026-11-17",
+   "head_similarity": 0.711,
+   "report": {
+    "seconds": 30.8,
+    "lufs": -15.0,
+    "speech_match": 0.99,
+    "longest_freeze": 0.0,
+    "true_peak": null,
+    "qc_flash_est": null,
+    "qc_sample_rate": null,
+    "qc_audio_short": null,
+    "qc_clipped_runs": null,
+    "qc_seconds": null
+   },
+   "ai": {
+    "available": true,
+    "ok": true,
+    "coherence": 9,
+    "quality": 9,
+    "tokens": 3572,
+    "retryable": false,
+    "reason": null,
+    "model": "qwen/qwen3.8-27b",
+    "summary": "[ai_pass]",
+    "shrunk": {
+     "images": 2,
+     "limit": 7000,
+     "requested": 7102,
+     "predicted_tokens": 5026,
+     "stage": "fewer frames"
+    }
+   }
   }
  ]
 }
