@@ -156,8 +156,10 @@ def check_content(plan):
     return failures
 
 
-def transcribe(video_path, model="tiny"):
-    """Words heard in the finished video, with start times (faster-whisper)."""
+def transcribe(video_path, model="small"):
+    """Words heard in the finished video, with start times (faster-whisper).
+    "small", the model tts_generator times the plan with (2026-11-27). With "tiny" the gate's clock drifted up
+    to ~1 s from the plan's, so in-step videos failed ('pop-up comes 0.7 s before', 'only 22% heard')."""
     from faster_whisper import WhisperModel
     m = WhisperModel(model, device="cpu", compute_type="int8")
     segments, _ = m.transcribe(video_path, language="en", word_timestamps=True, vad_filter=False)

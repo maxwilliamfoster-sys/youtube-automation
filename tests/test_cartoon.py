@@ -124,6 +124,23 @@ class TestLegalGuards(unittest.TestCase):
 
 
 class TestRender(unittest.TestCase):
+    def test_shadow_figures_have_no_expression(self):
+        # 27 Nov 2026: the AI review blocked a video for "the face of the convicted killer, smiling". Shadow
+        # and convict figures must look the same whatever their mood: no brows, no mouth, just the eyes.
+        import cairo
+        from cartoon.kit import SafeCtx, person
+
+        def drawn(role, mood):
+            surf = cairo.ImageSurface(cairo.FORMAT_ARGB32, 400, 700)
+            person(SafeCtx(surf), 200, 650, role=role, mood=mood, t=0.0)
+            surf.flush()
+            return bytes(surf.get_data())
+
+        for role in ("shadow", "convict"):
+            self.assertEqual(drawn(role, "neutral"), drawn(role, "smug"), role)
+            self.assertEqual(drawn(role, "neutral"), drawn(role, "shocked"), role)
+        self.assertNotEqual(drawn("man", "neutral"), drawn("man", "smug"), "ordinary people keep expressions")
+
     def test_every_set_and_role_draws(self):
         import cairo
         from cartoon.kit import SafeCtx, person
@@ -225,6 +242,13 @@ class TestCartoonGate(unittest.TestCase):
         self.assertFalse(any("starts" in f for f in qc.check_sync(pl, early)[0]))
         late = [{**w, "start": w["start"] - 0.9, "end": w["end"] - 0.9} for w in words]    # scene 0.9 s late
         self.assertTrue(any("after its first word" in f for f in qc.check_sync(pl, late)[0]))
+
+    def test_gate_listens_with_the_same_model_that_timed_the_plan(self):
+        # 2026-11-27: the plan is timed with Whisper "small" (tts_generator) but the gate listened with "tiny",
+        # whose timings drift up to ~1 s, so in-step videos failed ('pop-up comes 0.7 s before', '22% heard').
+        import inspect
+        from cartoon import qc
+        self.assertEqual(inspect.signature(qc.transcribe).parameters["model"].default, "small")
 
     def test_sync_fails_closed_without_a_transcript(self):
         from cartoon import qc

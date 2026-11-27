@@ -346,39 +346,43 @@ def person(ctx, x, y, s=1.0, role="man", face=1, mood="neutral", talk=0.0, look=
         ctx.move_to(ex[0] + 20, ey)
         ctx.line_to(ex[1] - 20, ey)
         stroke(ctx, 4, INK)
-    by = -40
-    bc = "#d9d3ff" if shadow else INK
-    for i, e in enumerate(ex):
-        inner = 1 if i == 0 else -1
-        d_in, d_out = {"n": (0, 0), "angry": (9, -7), "worry": (-9, 5), "up": (-12, -12),
-                       "smug": ((0, 0) if i == 0 else (-14, -4)), "sad": (-6, 6)}[brow]
-        ctx.move_to(e - inner * 13, by + d_out)
-        ctx.line_to(e + inner * 13, by + d_in)
-    stroke(ctx, 7, bc)
-    mx, my = 10 + lx * 8, 38
-    mc = "#f4f1ff" if shadow else INK
-    if talk > 0:
-        o = 0.25 + 0.75 * abs(math.sin(t * 19))
-        ellipse(ctx, mx, my, 13, 4 + 14 * o * talk)
-        fill(ctx, "#3a1e2a", ow=4, oc=oc)
-    elif mouth == "smile":
-        ctx.arc(mx, my - 14, 22, math.radians(30), math.radians(150))
-        stroke(ctx, 6, mc)
-    elif mouth == "grin":
-        ctx.move_to(mx - 34, my - 6)
-        ctx.curve_to(mx - 20, my + 26, mx + 20, my + 26, mx + 34, my - 6)
-        ctx.close_path()
-        fill(ctx, "#f4f1ff", ow=4, oc=oc)
-    elif mouth == "frown":
-        ctx.arc(mx, my + 18, 18, math.radians(210), math.radians(330))
-        stroke(ctx, 6, mc)
-    elif mouth == "o":
-        ellipse(ctx, mx, my + 4, 12, 16)
-        fill(ctx, "#3a1e2a", ow=4, oc=oc)
-    else:
-        ctx.move_to(mx - 16, my)
-        ctx.line_to(mx + 16, my)
-        stroke(ctx, 6, mc)
+    # A shadow figure (an unidentified culprit, or a convicted person) is FACELESS: only its glowing eyes.
+    # 27 Nov 2026: shadows had brows and a mouth (even a smile), so the AI review blocked videos for
+    # 'showing the face of the convicted killer', against the channel's own faceless-shadow rule.
+    if not shadow:
+        by = -40
+        bc = "#d9d3ff" if shadow else INK
+        for i, e in enumerate(ex):
+            inner = 1 if i == 0 else -1
+            d_in, d_out = {"n": (0, 0), "angry": (9, -7), "worry": (-9, 5), "up": (-12, -12),
+                           "smug": ((0, 0) if i == 0 else (-14, -4)), "sad": (-6, 6)}[brow]
+            ctx.move_to(e - inner * 13, by + d_out)
+            ctx.line_to(e + inner * 13, by + d_in)
+        stroke(ctx, 7, bc)
+        mx, my = 10 + lx * 8, 38
+        mc = "#f4f1ff" if shadow else INK
+        if talk > 0:
+            o = 0.25 + 0.75 * abs(math.sin(t * 19))
+            ellipse(ctx, mx, my, 13, 4 + 14 * o * talk)
+            fill(ctx, "#3a1e2a", ow=4, oc=oc)
+        elif mouth == "smile":
+            ctx.arc(mx, my - 14, 22, math.radians(30), math.radians(150))
+            stroke(ctx, 6, mc)
+        elif mouth == "grin":
+            ctx.move_to(mx - 34, my - 6)
+            ctx.curve_to(mx - 20, my + 26, mx + 20, my + 26, mx + 34, my - 6)
+            ctx.close_path()
+            fill(ctx, "#f4f1ff", ow=4, oc=oc)
+        elif mouth == "frown":
+            ctx.arc(mx, my + 18, 18, math.radians(210), math.radians(330))
+            stroke(ctx, 6, mc)
+        elif mouth == "o":
+            ellipse(ctx, mx, my + 4, 12, 16)
+            fill(ctx, "#3a1e2a", ow=4, oc=oc)
+        else:
+            ctx.move_to(mx - 16, my)
+            ctx.line_to(mx + 16, my)
+            stroke(ctx, 6, mc)
 
     hat = spec.get("hat")
     if hat == "cap":
